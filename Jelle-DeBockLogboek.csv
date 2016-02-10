@@ -1,4 +1,4 @@
-Datum;Start;Einde;Plaats;Omschrijving;Issue #;Opmerkingen
-09/02/16;08:15;12:15;School;Uitlegsessie VOP;;
-09/02/16;19:00;20:10;Thuis;GIT in orde brengen op pc;;
-09/02/16;20:15;20:40;Thuis;Doornemen en samenvatten van de basisrequirements;;
+Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
+09/02/16,08:15,12:15,School,Uitlegsessie VOP,,
+09/02/16,19:00,20:10,Thuis,GIT in orde brengen op pc,,
+09/02/16,20:15,20:40,Thuis,Doornemen en samenvatten van de basisrequirements,,

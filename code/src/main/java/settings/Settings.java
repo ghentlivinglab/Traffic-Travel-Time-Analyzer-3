@@ -61,7 +61,6 @@ public class Settings {
                 }
             }
         }
-
-    }
+        return "niets";
     }
 }

@@ -1,7 +1,3 @@
-verkeer3-code/src/main/java/config/*.java
-verkeer3-code/target/*
-verkeer3-code/.idea/workspace.xml
-verkeer3-code/.idea/tasks.xml
-
-code/.idea/workspace.xml
-
+code/target/*
+code/.idea/*
+code/config.properties

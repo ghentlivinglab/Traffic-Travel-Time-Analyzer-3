@@ -1,13 +1,14 @@
 package be.ugent.tiwi;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import be.ugent.tiwi.domein.ScheduleController;
+
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        ScheduleController scheduleC = new ScheduleController();
+        scheduleC.startSchedule();
+
     }
+
 }

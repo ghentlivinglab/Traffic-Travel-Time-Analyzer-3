@@ -1,5 +1,5 @@
-Datum;Start;Einde;Plaats;Omschrijving;Issue #;Opmerkingen
-9/02/2016;8:15;12:15;School;Uitlegsessie VOP;;
-10/02/2016;22:00;22:30;Thuis;Doornemen documentatie, in orde zetten git;;
-11/02/16;14:00;15:30;School;Opstellen van product backlog en eerste iteratie ERD;;
-12/02/16;11:00;11:20;School;User stories in product backlog vertalen naar issues;;
+Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
+9/02/2016,8:15,12:15,School,Uitlegsessie VOP,,
+10/02/2016,22:00,22:30,Thuis,Doornemen documentatie en in orde zetten git,,
+11/02/16,14:00,15:30;School,Opstellen van product backlog en eerste iteratie ERD,,
+12/02/16,11:00,11:20,School,User stories in product backlog vertalen naar issues,,

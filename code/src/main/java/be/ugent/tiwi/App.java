@@ -1,5 +1,7 @@
 package be.ugent.tiwi;
 
+import settings.Settings;
+
 /**
  * Hello world!
  *
@@ -8,6 +10,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Settings.createSettings();
+        System.out.println("Settings created!");
     }
 }

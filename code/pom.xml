@@ -2,26 +2,26 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>be.ugent.tiwi</groupId>
-  <artifactId>be.ugent.tiwi</artifactId>
-  <version>0.1</version>
-  <packaging>jar</packaging>
+    <groupId>be.ugent.tiwi</groupId>
+    <artifactId>be.ugent.tiwi</artifactId>
+    <version>0.1</version>
+    <packaging>jar</packaging>
 
-  <name>be.ugent.tiwi</name>
-  <url>http://maven.apache.org</url>
+    <name>be.ugent.tiwi</name>
+    <url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
     </dependency>
-  </dependencies>
+    </dependencies>
 
     <build>
         <plugins>

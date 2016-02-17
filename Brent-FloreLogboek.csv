@@ -1,7 +1,8 @@
 Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
-9/02/2016,8:15,12:15,School,Uitlegsessie VOP,,
-10/02/2016,22:00,22:30,Thuis,Doornemen documentatie en in orde zetten git,,
+09/02/16,08:15,12:15,School,Uitlegsessie VOP,,
+10/02/16,22:00,22:30,Thuis,Doornemen documentatie en in orde zetten git,,
 11/02/16,14:00,15:30,School,Opstellen van product backlog en eerste iteratie ERD,,
 12/02/16,11:00,11:20,School,User stories in product backlog vertalen naar issues,,
 16/02/16,08:15,12:00,School,Project opzetten eenvoudige schedule-app opzetten. Planning en werkverdeling opstellen,,
 16/02/16,20:30,21:00,Thuis,Project opruimen en klaar zetten voor start,,
+17/02/16,15:00,15:20,School,Project voorzien van Logging framework,,

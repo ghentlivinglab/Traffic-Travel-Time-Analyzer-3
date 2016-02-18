@@ -1,0 +1,124 @@
+ID
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+Name
+E40 (Oostende) > centrum
+E40 (Oostende) > centrum via Drongen
+E40 (Brussel) > centrum
+E17 (Kortrijk) > centrum
+E17 (Antwerpen) > centrum
+R4 Noordwest tegenwijzerzin
+R4 Noordwest wijzerzin
+R4 West tegenwijzerzin
+R4 West wijzerzin
+R4 Noordoost wijzerzin
+R4 Noordoost tegenwijzerzin
+R4 Oost wijzerzin
+R4 Oost tegenwijzerzin
+R40 Zuid-West wijzerzin
+R40 Zuid-West tegenwijzerzin
+R40 Noord-West wijzerzin
+R40 Noord-West tegenwijzerzin
+R40 Noord-Oost wijzerzin
+R40 Noord-Oost tegenwijzerzin
+R40 Zuid-Oost wijzerzin
+R40 Zuid-Oost tegenwijzerzin
+E40 (Oostende) > B402 via E40
+E40 (Oostende) > B402 via Drongen
+E40 (Brussel) > B402
+E17 (Antwerpen) > B402 via E40
+E17 (Antwerpen) > B402 via E17/R4
+E17 (Antwerpen) > B402 via R4
+E17 (Kortrijk) > B402
+E17 (Antwerpen) > P+R Gentbrugge
+E17 (Kortrijk) > P+R Gentbrugge
+Length
+12176
+6677
+8027
+10479
+8689
+14966
+15310
+10508
+10131
+12597
+12682
+17530
+19149
+3719
+3824
+1080
+1104
+1424
+1447
+2112
+2246
+6997
+12264
+11493
+12994
+13675
+16948
+11294
+6096
+10473
+Letter
+A
+B
+C
+D
+E
+F
+F'
+G
+G'
+H
+H'
+I
+I'
+J
+J'
+K
+K'
+L
+L'
+M
+M'
+N
+N'
+O
+P
+Q
+R
+S
+T
+U

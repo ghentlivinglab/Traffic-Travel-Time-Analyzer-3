@@ -1,4 +1,4 @@
-package be.ugent.tiwi.domein;
+package be.ugent.tiwi.controller;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

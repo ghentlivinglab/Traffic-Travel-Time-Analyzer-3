@@ -11,6 +11,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
+<<<<<<< HEAD
     <orderEntry type="library" name="Maven: org.mariadb.jdbc:mariadb-java-client:1.3.5" level="project" />
+=======
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.5" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.5" level="project" />
+>>>>>>> 30c18078e0f609d2ff77440d10790a71c8db9ca0
   </component>
 </module>

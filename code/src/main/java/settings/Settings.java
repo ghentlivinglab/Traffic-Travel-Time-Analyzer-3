@@ -14,9 +14,10 @@ public class Settings {
             output = new FileOutputStream("config.properties");
 
             // set the properties value
-            prop.setProperty("dburl", "localhost");
-            prop.setProperty("dbuser", "vop");
-            prop.setProperty("dbpassword", "vop");
+            prop.setProperty("db_url", "10.20.0.2");
+            prop.setProperty("db_user", "vop");
+            prop.setProperty("db_password", "vop");
+            prop.setProperty("db_name", "vop");
 
             // save properties to project root folder
             prop.store(output, null);
@@ -47,20 +48,18 @@ public class Settings {
             // load a properties file
             prop.load(input);
 
-            // get the property value and print it out
-            return prop.getProperty(key);
-
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
             if (input != null) {
                 try {
                     input.close();
+                    return prop.getProperty(key);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+            return "null";
         }
-        return "niets";
     }
 }

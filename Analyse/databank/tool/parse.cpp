@@ -50,7 +50,7 @@ int main()
     myfile.close();
     //Loop through vector
     for(auto const& value: trajecten) {
-        cout<<"('"<<value.letter<<"','"<<
+        cout<<"(\""<<value.letter<<"\",'"<<
             value.naam<<"',"<<value.lengte<<","<<value.is_active<<"),"<<endl;
     }
 }

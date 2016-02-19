@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/be.ugent.tiwi.iml" filepath="$PROJECT_DIR$/be.ugent.tiwi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/be.ugent.tiwi.iml" filepath="$PROJECT_DIR$/be.ugent.tiwi.iml" />
       <module fileurl="file://$PROJECT_DIR$/code.iml" filepath="$PROJECT_DIR$/code.iml" />
     </modules>
   </component>

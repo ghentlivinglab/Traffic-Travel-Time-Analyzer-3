@@ -1,7 +1,7 @@
 #Maak tabel 'Provider' leeg en vul ze op met de providers uit de databronnen file
 use vop;
-delete from vop.Provider;
-insert into vop.Provider(naam,is_active) values
+delete from vop.providers;
+insert into vop.providers(naam,is_active) values
 	('Waze',1),
     ('TomTom',1),
     ('Here',1),
@@ -11,8 +11,8 @@ insert into vop.Provider(naam,is_active) values
 ;
 
 #Maak de tabel 'Traject' leeg en vul ze op met de trajecten uit de file Analyse_van_reistijdinfo_in_en_rond_Gent_PM_v2.pdf
-delete from vop.Traject;
-insert into vop.Traject(letter,naam,lengte,is_active) values
+delete from vop.trajecten;
+insert into vop.trajecten(letter,naam,lengte,is_active) values
 	("A",'E40 (Oostende) > centrum',12176,1),
 	("B",'E40 (Oostende) > centrum via Drongen',6677,1),
 	("C",'E40 (Brussel) > centrum',8027,1),

@@ -18,6 +18,8 @@ public class Settings {
             prop.setProperty("db_user", "vop");
             prop.setProperty("db_password", "vop");
             prop.setProperty("db_name", "vop");
+            prop.setProperty("here_appid","tsliJF6nV8gV1CCk7yK8");
+            prop.setProperty("here_appcode","o8KURFHJC02Zzlv8HTifkg");
 
             // save properties to project root folder
             prop.store(output, null);

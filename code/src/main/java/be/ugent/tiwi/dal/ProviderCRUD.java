@@ -18,7 +18,7 @@ public class ProviderCRUD {
 
     public Provider getProvider(String naam)
     {
-        String query = "select * from providers";
+        String query = "select * from providers where naam ='"+naam+"'";
         try {
             Statement stmt = connector.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(query);

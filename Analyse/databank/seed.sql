@@ -12,12 +12,13 @@ insert into vop.providers(naam,is_active) values
 
 #Maak de tabel 'Traject' leeg en vul ze op met de trajecten uit de file Analyse_van_reistijdinfo_in_en_rond_Gent_PM_v2.pdf
 delete from vop.trajecten;
-insert into vop.trajecten(letter,naam,lengte,is_active) values
-	("A",'E40 (Oostende) > centrum',12176,1),
-	("B",'E40 (Oostende) > centrum via Drongen',6677,1),
-	("C",'E40 (Brussel) > centrum',8027,1),
-	("D",'E17 (Kortrijk) > centrum',10479,1),
-	("E",'E17 (Antwerpen) > centrum',8689,1),
+insert into vop.trajecten(letter,naam,lengte,is_active,start_latitude,start_longitude, end_latitude, end_longitude) values
+	("A",'E40 (Oostende) > centrum',12176,1,"51.040800","3.614126","51.038736","3.736503"),
+	("B",'E40 (Oostende) > centrum via Drongen',6677,1,"51.040800","3.614126","51.056190","3.694913"),
+	("C",'E40 (Brussel) > centrum',8027,1,"50.990332","3.798873","51.038736","3.736503"),
+	("D",'E17 (Kortrijk) > centrum',10479,1,"50.979661","3.647235","51.038736","3.736503"),
+	("E",'E17 (Antwerpen) > centrum',8689,1,"51.053116","3.835141","51.038736","3.736503");
+insert into vop.trajecten(letter,naam,lengte,is_active) values	
 	("F",'R4 Noordwest tegenwijzerzin',14966,1),
 	("F'",'R4 Noordwest wijzerzin',15310,1),
 	("G",'R4 West tegenwijzerzin',10508,1),

@@ -1,8 +1,16 @@
 package be.ugent.tiwi.controller;
 
-import com.sun.deploy.net.HttpResponse;
-
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import com.google.gson.Gson;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.*;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 /**
  * Created by Jan on 23/02/2016.
@@ -13,16 +21,15 @@ public class JsonController {
     String json = "";
 
     // constructor
-    public JSONParser() {
-
+    public JsonController() {
     }
 
     // function get json from url
     // by making HTTP POST or GET method
     public Gson makeHttpRequest(String url, String method) {
         // Making HTTP request
-        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
-
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        try {
             // check for request method
             if(method == "POST"){
                 // request method is POST
@@ -42,8 +49,6 @@ public class JsonController {
             }
 
             try {
-                //jObj.fromJson(new InputStreamReader(is));
-
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(is));
                 StringBuilder str = new StringBuilder();
@@ -54,25 +59,22 @@ public class JsonController {
                     str.append(line + "\n");
                 }
                 json = str.toString();
+
+                // Create jObj
+                jObj.toJson(json);
             } catch (Exception e) {
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-
-
-        // try parse the string to a JSON object
-         /*   try {
-
-                    jObj = new JSONObject(json);
-            } catch (JSONException ex) {
-                    //Logger.log(Level.FINE, "Error parsing data", ex);
-            }*/
-
-        // return JSON String
+        // return jObj
         return jObj;
 
     }

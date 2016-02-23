@@ -1,6 +1,9 @@
 package be.ugent.tiwi.scraper;
 
 import be.ugent.tiwi.controller.JsonController;
+import be.ugent.tiwi.dal.MetingCRUD;
+import be.ugent.tiwi.dal.ProviderCRUD;
+import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.RequestType;
 import be.ugent.tiwi.dal.TrajectCRUD;
 import be.ugent.tiwi.domein.here.*;
@@ -38,7 +41,7 @@ public class HereScraper extends TrafficScraper{
     @Override
     public void scrape()
     {
-
+        makeCall();
     }
 
     /**
@@ -48,8 +51,11 @@ public class HereScraper extends TrafficScraper{
     {
         //Get all trajectories which have coordinates in it
         TrajectCRUD tcrud = new TrajectCRUD();
+        ProviderCRUD pcrud = new ProviderCRUD();
         List<Traject> trajectList = tcrud.getTrajectenMetCoordinaten();
+        MetingCRUD metingCRUD = new MetingCRUD();
 
+        Provider here = pcrud.getProvider("Here");
         JsonController jc = new JsonController();
         for(Traject traject:trajectList)
         {
@@ -59,13 +65,12 @@ public class HereScraper extends TrafficScraper{
                     "&waypoint0=geo!"+traject.getStart_latitude()+"%2C"+traject.getStart_longitude()+
                     "&waypoint1=geo!"+traject.getEnd_latitude()+"%2C"+traject.getEnd_longitude()+
                     "&mode=fastest%3Bcar%3Btraffic%3Aenabled";
-            System.out.println("Calling here api at: "+url+"\n");
             Here here_obj = jc.makeHereCall(url, RequestType.GET);
             int traveltime = here_obj.getResponse().getRoute().get(0).getSummary().getTravelTime();
             int basetime = here_obj.getResponse().getRoute().get(0).getSummary().getBaseTime();
             int distance = here_obj.getResponse().getRoute().get(0).getSummary().getDistance();
-            System.out.println("Traveltime of "+traject.getNaam()+"(nummer "+traject.getLetter()+") is "+
-                                traveltime+", normal situations are "+basetime+" and the trajectory is "+distance+" long.");
+
+            metingCRUD.addMeting(here,traject,traveltime,basetime);
         }
     }
 }

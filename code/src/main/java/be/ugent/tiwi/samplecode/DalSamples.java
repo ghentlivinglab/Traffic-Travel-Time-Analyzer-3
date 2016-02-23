@@ -1,7 +1,9 @@
 package be.ugent.tiwi.samplecode;
 
+import be.ugent.tiwi.dal.MetingCRUD;
 import be.ugent.tiwi.dal.ProviderCRUD;
 import be.ugent.tiwi.dal.TrajectCRUD;
+import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.scraper.HereScraper;
@@ -36,6 +38,12 @@ public class DalSamples {
     public static void scrapeHere()
     {
         HereScraper hs = new HereScraper();
+        MetingCRUD mcrud = new MetingCRUD();
         hs.makeCall();
+        List<Meting> metingen = mcrud.getMetingen();
+        for(Meting meting : metingen)
+        {
+            System.out.println(meting.toString());
+        }
     }
 }

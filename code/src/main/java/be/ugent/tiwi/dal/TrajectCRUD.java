@@ -57,6 +57,41 @@ public class TrajectCRUD
         }
         return trajecten;
     }
+    public Traject getTraject(int id)
+    {
+        String query = "select * from trajecten where id='"+id+"'";
+
+        try {
+            Statement stmt = connector.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while(rs.next())
+            {
+                String letter = rs.getString("letter");
+                String naam = rs.getString("naam");
+                int lengte = rs.getInt("lengte");
+                int optimale_reistijd = rs.getInt("optimale_reistijd");
+                boolean is_active = rs.getBoolean("is_active");
+                String start_latitude = rs.getString("start_latitude");
+                if(rs.wasNull())
+                    start_latitude = null;
+                String start_longitude = rs.getString("start_longitude");
+                if(rs.wasNull())
+                    start_longitude = null;
+                String end_latitude = rs.getString("end_latitude");
+                if(rs.wasNull())
+                    end_latitude = null;
+                String end_longitude = rs.getString("end_longitude");
+                if(rs.wasNull())
+                    end_longitude = null;
+
+                return new Traject(id,letter,naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public List<Traject> getTrajectenMetCoordinaten()
     {

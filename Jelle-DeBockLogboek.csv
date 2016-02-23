@@ -6,12 +6,9 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 12/02/16,11:00,11:20,School,Opstellen van de user stories,,
 15/02/16,19:30,20:40,Thuis,"Aanmaken startproject met Maven, VM met MariaDB configureren",,
 16/02/16,08:15,12:00,School,"Configfiles met applicatie settings aanmaken, planning en werkverdeling",,
-18/02/16,08:00,12:00,Thuis,"Databank sql tabel initialisatie en seed script;
-connector implementatie in Java; structuur scrapers opzetten",,
+18/02/16,08:00,12:00,Thuis,"Databank sql tabel initialisatie en seed script;connector implementatie in Java; structuur scrapers opzetten",,
 19/02/16,18:30,20:45,Thuis,Opzoeken coördinaten van de trajecten; DAL Trajecten in Java en Databank aanpassen naar coordinaatondersteuning; onderzoek en registratie API here,,
 22/02/16,18:30,20:45,Thuis,Opzetten van voorbeeldproject in Spring in combinatie met Maven,,
-23/02/16,08:15,12:30,School,Scraper Here verder afwerken en VM bij anderen
-helpen opzetten,,
-23/02/16,14:30,15:30,Thuis,Metingen in CRUD en CRUD methodes bij provider en
-traject aanvullen,,
+23/02/16,08:15,12:30,School,Scraper Here verder afwerken en VM bij anderen helpen opzetten,,
+23/02/16,14:30,15:30,Thuis,Metingen in CRUD en CRUD methodes bij provider en traject aanvullen,,
 23/02/16,19:00,21:15,Thuis,Verder onderzoek naar de Spring webapplicatie met oa een poging tot integratie met de source code,,

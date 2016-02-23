@@ -38,10 +38,10 @@ public class Traject {
                 ", lengte=" + lengte +
                 ", optimale_reistijd=" + optimale_reistijd +
                 ", is_active=" + is_active +
-                ", start_latitude='" + start_latitude + '\'' +
-                ", start_longitude='" + start_longitude + '\'' +
-                ", end_latitude='" + end_latitude + '\'' +
-                ", end_longitude='" + end_longitude + '\'' +
+                ", start_latitude='" + (start_latitude==null?"niet bekend":start_latitude) + '\'' +
+                ", start_longitude='" + (start_longitude==null?"niet bekend":start_longitude) + '\'' +
+                ", end_latitude='" + (end_latitude==null?"niet bekend":end_latitude) + '\'' +
+                ", end_longitude='" + (end_longitude==null?"niet bekend":end_longitude) + '\'' +
                 '}';
     }
 

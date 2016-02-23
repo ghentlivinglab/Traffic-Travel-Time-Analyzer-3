@@ -4,6 +4,7 @@ import be.ugent.tiwi.dal.ProviderCRUD;
 import be.ugent.tiwi.dal.TrajectCRUD;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.scraper.HereScraper;
 import settings.Settings;
 
 import java.util.List;
@@ -30,5 +31,11 @@ public class DalSamples {
         {
             System.out.printf("%s\n",traject.toString());
         }
+    }
+
+    public static void scrapeHere()
+    {
+        HereScraper hs = new HereScraper();
+        hs.makeCall();
     }
 }

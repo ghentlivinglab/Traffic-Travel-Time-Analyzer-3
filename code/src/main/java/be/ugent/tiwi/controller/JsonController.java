@@ -1,27 +1,34 @@
 package be.ugent.tiwi.controller;
 
+import be.ugent.tiwi.domein.here.*;
+import be.ugent.tiwi.domein.RequestType;
+import com.google.gson.Gson;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.google.gson.Gson;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.*;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-
 /**
  * Created by Jan on 23/02/2016.
  */
 public class JsonController {
-    InputStream is = null;
-    Gson jObj = null;
-    String json = "";
+    private InputStream is = null;
+    private Gson jObj = null;
+    private String json = "";
 
     // constructor
     public JsonController() {
+    }
+
+    public String getJson() {
+        return json;
     }
 
     // function get json from url
@@ -78,4 +85,15 @@ public class JsonController {
         return jObj;
 
     }
+
+    public Here makeHereCall(String url, RequestType type)
+    {
+        makeHttpRequest(url,type.toString());
+        Gson obj = new Gson();
+
+        Here here_obj = obj.fromJson(this.json,Here.class);
+
+        return here_obj;
+    }
 }
+

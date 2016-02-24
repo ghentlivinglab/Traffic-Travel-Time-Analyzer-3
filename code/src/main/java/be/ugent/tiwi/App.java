@@ -9,6 +9,7 @@ public class App {
     public static void main(String[] args) {
         DalSamples.getProviderWithName("Waze");
         DalSamples.getTrajecten();
+        DalSamples.scrapeHere();
         ScheduleController scheduleC = new ScheduleController();
         scheduleC.startSchedule();
     }

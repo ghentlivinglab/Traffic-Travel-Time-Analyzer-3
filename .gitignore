@@ -3,3 +3,4 @@ code/.idea/*
 code/config.properties
 code/build/*
 *.iml
+code/config.properties

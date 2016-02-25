@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="verkeer3gui:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="verkeer3gui.war">
+      <element id="artifact" artifact-name="verkeer3gui:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -5,7 +5,7 @@
   <artifactId>verkeer3gui</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>verkeer3gui Maven Webapp</name>
+  <name>Webapplicatie vop vekeer groep 3</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>

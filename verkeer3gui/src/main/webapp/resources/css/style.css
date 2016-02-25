@@ -26,6 +26,11 @@ header
     height: 250px;
     clear: both;
 }
+nav.navbar
+{
+    clear: both;
+    display: block;
+}
 #content
 {
     display: block;

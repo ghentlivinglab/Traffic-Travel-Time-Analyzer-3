@@ -9,6 +9,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,18 +19,20 @@ import java.io.InputStreamReader;
 
 /**
  * Created by Jan on 23/02/2016.
+ *
+ * Update Jelle:
+ * Deze klasse is generiek gemaakt zodat de controller met alle type providers overweg kan. Je moet nu wel de JSONController
+ * genereen met type hinting. Bijvoorbeeld jc = new JsonController<Here>();
  */
-public class JsonController {
+public class JsonController<T extends Object> {
     private InputStream is = null;
     private Gson jObj = null;
     private String json = "";
+    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+
 
     // constructor
     public JsonController() {
-    }
-
-    public String getJson() {
-        return json;
     }
 
     // function get json from url
@@ -86,14 +90,33 @@ public class JsonController {
 
     }
 
-    public Here makeHereCall(String url, RequestType type)
+    public String getJsonResponse()
     {
-        makeHttpRequest(url,type.toString());
-        Gson obj = new Gson();
+        if(!this.json.isEmpty())
+        {
+            return this.json;
+        }
+        else
+        {
+            logger.error("No JSON received from server!");
+        }
+        return null;
+    }
 
-        Here here_obj = obj.fromJson(this.json,Here.class);
+    /**
+     * Deze methode kan je gebruiken voor de scrapers. Het geeft een object terug van het gewenste type (paramter klass)
+     * @param url   de **volledige** url waar je de gegevens moet ophalen
+     * @param klasse de **klasse** waarin de json string in kan geparsed worden
+     * @param method een methode van de Enum RequestType, mogelijke waarden zijn bijvoorbeeld RequestType.GET en RequestType.POST
+     * @return Een object van de klasse zoals meegeven aan de JsonController (gebruik van generieke klasses)
+     */
+    public T getObject(String url, Class<T> klasse, RequestType method)
+    {
+        makeHttpRequest(url,method.toString());
+        Gson gson_obj = new Gson();
+        T obj = gson_obj.fromJson(this.json,klasse);
 
-        return here_obj;
+        return obj;
     }
 }
 

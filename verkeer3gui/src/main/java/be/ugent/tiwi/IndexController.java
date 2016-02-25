@@ -6,10 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import settings.Settings;
 
 import java.util.List;
-
 
 @Controller
 public class IndexController {
@@ -26,13 +24,10 @@ public class IndexController {
 
     }
 
-    @RequestMapping(value = "/reset", method = RequestMethod.GET)
+    @RequestMapping(value = "/about", method = RequestMethod.GET)
     public String reset(ModelMap model)
     {
-        model.addAttribute("message", "Welcome");
-        counter=0;
-        model.addAttribute("counter", ++counter);
-        return VIEW_INDEX;
+        return "home/about";
     }
 
 }

@@ -6,11 +6,9 @@ package be.ugent.tiwi.scraper;
 
 
 import be.ugent.tiwi.controller.ScheduleController;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -32,15 +30,44 @@ public class CoyoteScaper extends TrafficScraper {
     public void scrape() {
         try {
             sendPost();
-        }catch (IOException ex){
+        } catch (IOException ex) {
             logger.error("Oei, sendpost ging mis");
             logger.error(ex);
         }
     }
 
+    /**
+     * Vraag routegegevens op van de coyote site.
+     * @throws IOException
+     */
     private void sendPost() throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        String cookie="";
+        String cookie = getSession(httpclient);
+
+        HttpPost httpPost2 = new HttpPost("https://maps.coyotesystems.com/traffic/ajax/get_perturbation_list.ajax.php");
+        httpPost2.addHeader("Cookie", cookie);
+        httpPost2.addHeader("Connection", "close");
+        CloseableHttpResponse Dataresponse = httpclient.execute(httpPost2);
+
+        try {
+            HttpEntity entity2 = Dataresponse.getEntity();
+            try {entity2.writeTo(System.out);}catch (ConnectionClosedException ex){}
+            EntityUtils.consume(entity2);
+        } finally {
+            Dataresponse.close();
+        }
+
+    }
+
+
+    /**
+     *  Post login en password naar de server om een sesionId te verkrijgen.
+     * @param httpclient client die instaat voor communicatie met de server.
+     * @return sessionID van de server.
+     * @throws IOException
+     */
+    private String getSession(CloseableHttpClient httpclient) throws IOException {
+        String cookie = "";
         HttpPost httpPost = new HttpPost("https://maps.coyotesystems.com/traffic/index.php");
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
         nvps.add(new BasicNameValuePair("login", "110971610"));
@@ -50,39 +77,20 @@ public class CoyoteScaper extends TrafficScraper {
         CloseableHttpResponse LogInresponse = httpclient.execute(httpPost);
 
         try {
-            System.out.println(LogInresponse.getStatusLine());
             HttpEntity entity2 = LogInresponse.getEntity();
-            for (Header h:LogInresponse.getAllHeaders()) {
-                if(h.getName().equals("Set-Cookie")){
+            for (Header h : LogInresponse.getAllHeaders()) {
+                if (h.getName().equals("Set-Cookie")) {
                     cookie = h.getValue();
                 }
-                System.out.printf("%s:%s\n", h.getName(), h.getValue());
-            };
-            entity2.writeTo(System.out);
+            }
             EntityUtils.consume(entity2);
+        }catch (Exception ex){
+            logger.error("Probleem bij het aanmelden bij coyote");
+            logger.error(ex);
         } finally {
             LogInresponse.close();
         }
-
-
-        HttpPost httpPost2 = new HttpPost("https://maps.coyotesystems.com/traffic/ajax/get_perturbation_list.ajax.php");
-        httpPost2.addHeader("Cookie",cookie);
-        httpPost2.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
-
-        CloseableHttpResponse LogInresponse2 = httpclient.execute(httpPost2);
-
-        try {
-            System.out.println(LogInresponse2.getStatusLine());
-            HttpEntity entity2 = LogInresponse2.getEntity();
-            for (Header h:LogInresponse2.getAllHeaders()) {
-                System.out.printf("%s:%s\n", h.getName(), h.getValue());
-            };
-            entity2.writeTo(System.out);
-            EntityUtils.consume(entity2);
-        } finally {
-            LogInresponse2.close();
-        }
-
+        return cookie;
     }
 
 }

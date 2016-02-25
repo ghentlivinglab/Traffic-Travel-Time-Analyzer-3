@@ -1,5 +1,4 @@
-code/target/*
-code/.idea/*
+.idea/
 code/config.properties
 code/build/*
 *.iml

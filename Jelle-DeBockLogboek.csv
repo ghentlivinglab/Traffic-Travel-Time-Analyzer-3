@@ -12,3 +12,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 23/02/16,08:15,12:30,School,Scraper Here verder afwerken en VM bij anderen helpen opzetten,,
 23/02/16,14:30,15:30,Thuis,Metingen in CRUD en CRUD methodes bij provider en traject aanvullen,,
 23/02/16,19:00,21:15,Thuis,Verder onderzoek naar de Spring webapplicatie met oa een poging tot integratie met de source code,,
+25/02/16,11:00,12:00,Thuis,Webapplicatie integreren met domeinlogica en uploaden naar onze repo,,
+25/02/16,12:30,14:00,Thuis,Herschrijven van enkele klassen in ons domein,,

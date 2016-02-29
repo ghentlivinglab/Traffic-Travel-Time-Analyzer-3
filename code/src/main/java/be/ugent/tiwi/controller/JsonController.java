@@ -1,5 +1,6 @@
 package be.ugent.tiwi.controller;
 
+import be.ugent.tiwi.domein.google.*;
 import be.ugent.tiwi.domein.here.*;
 import be.ugent.tiwi.domein.RequestType;
 import com.google.gson.Gson;
@@ -94,6 +95,15 @@ public class JsonController {
         Here here_obj = obj.fromJson(this.json,Here.class);
 
         return here_obj;
+    }
+
+    public Google makeGoogleCall(String url, RequestType type) {
+        makeHttpRequest(url, type.toString());
+        Gson obj = new Gson();
+
+        Google google_obj = obj.fromJson(this.json, Google.class);
+
+        return google_obj;
     }
 }
 

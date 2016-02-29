@@ -10,6 +10,7 @@ public class App {
         DalSamples.getProviderWithName("Waze");
         DalSamples.getTrajecten();
         DalSamples.scrapeHere();
+        DalSamples.scrapeGoogle();
         ScheduleController scheduleC = new ScheduleController();
         scheduleC.startSchedule();
     }

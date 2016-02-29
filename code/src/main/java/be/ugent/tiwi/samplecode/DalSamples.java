@@ -6,6 +6,7 @@ import be.ugent.tiwi.dal.TrajectCRUD;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.scraper.GoogleScraper;
 import be.ugent.tiwi.scraper.HereScraper;
 import settings.Settings;
 
@@ -40,6 +41,17 @@ public class DalSamples {
         HereScraper hs = new HereScraper();
         MetingCRUD mcrud = new MetingCRUD();
         hs.makeCall();
+        List<Meting> metingen = mcrud.getMetingen();
+        for(Meting meting : metingen)
+        {
+            System.out.println(meting.toString());
+        }
+    }
+
+    public static void scrapeGoogle() {
+        GoogleScraper gs = new GoogleScraper();
+        MetingCRUD mcrud = new MetingCRUD();
+        gs.makeCall();
         List<Meting> metingen = mcrud.getMetingen();
         for(Meting meting : metingen)
         {

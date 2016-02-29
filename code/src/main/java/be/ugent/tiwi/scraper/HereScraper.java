@@ -1,6 +1,7 @@
 package be.ugent.tiwi.scraper;
 
 import be.ugent.tiwi.controller.JsonController;
+import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.MetingCRUD;
 import be.ugent.tiwi.dal.ProviderCRUD;
 import be.ugent.tiwi.domein.Provider;
@@ -8,6 +9,8 @@ import be.ugent.tiwi.domein.RequestType;
 import be.ugent.tiwi.dal.TrajectCRUD;
 import be.ugent.tiwi.domein.here.*;
 import be.ugent.tiwi.domein.Traject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import settings.Settings;
 import java.util.List;
 
@@ -31,11 +34,15 @@ public class HereScraper extends TrafficScraper{
     private String appId;
     private String appCode;
     private String url;
+    private JsonController<Here> jc;
+    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+
 
     public HereScraper()
     {
         this.appId = Settings.getSetting("here_appid");
         this.appCode = Settings.getSetting("here_appcode");
+        this.jc = new JsonController<Here>();
     }
 
     @Override
@@ -65,7 +72,7 @@ public class HereScraper extends TrafficScraper{
                     "&waypoint0=geo!"+traject.getStart_latitude()+"%2C"+traject.getStart_longitude()+
                     "&waypoint1=geo!"+traject.getEnd_latitude()+"%2C"+traject.getEnd_longitude()+
                     "&mode=fastest%3Bcar%3Btraffic%3Aenabled";
-            Here here_obj = jc.makeHereCall(url, RequestType.GET);
+            Here here_obj = (Here) jc.getObject(url, Here.class, RequestType.GET);
             int traveltime = here_obj.getResponse().getRoute().get(0).getSummary().getTravelTime();
             int basetime = here_obj.getResponse().getRoute().get(0).getSummary().getBaseTime();
             int distance = here_obj.getResponse().getRoute().get(0).getSummary().getDistance();

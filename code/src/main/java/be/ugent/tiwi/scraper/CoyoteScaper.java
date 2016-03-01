@@ -6,6 +6,13 @@ package be.ugent.tiwi.scraper;
 
 
 import be.ugent.tiwi.controller.ScheduleController;
+import be.ugent.tiwi.dal.DatabaseController;
+import be.ugent.tiwi.domein.Meting;
+
+import be.ugent.tiwi.domein.Provider;
+import be.ugent.tiwi.domein.Traject;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,9 +24,15 @@ import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CoyoteScaper extends TrafficScraper {
 
@@ -27,23 +40,27 @@ public class CoyoteScaper extends TrafficScraper {
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
 
     @Override
+    /**
+     * Aanspreekpunt voor klassen,
+     */
     public void scrape() {
         try {
-            sendPost();
+            JsonToPojo(sendPost());
         } catch (IOException ex) {
-            logger.error("Oei, sendpost ging mis");
+            logger.error("Ophalen gegevens Coyote is mislukt.");
             logger.error(ex);
         }
     }
 
     /**
      * Vraag routegegevens op van de coyote site.
+     * @return JsonString
      * @throws IOException
      */
-    private void sendPost() throws IOException {
+    private String sendPost() throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String cookie = getSession(httpclient);
-
+        StringBuilder JsonString=new StringBuilder();
         HttpPost httpPost2 = new HttpPost("https://maps.coyotesystems.com/traffic/ajax/get_perturbation_list.ajax.php");
         httpPost2.addHeader("Cookie", cookie);
         httpPost2.addHeader("Connection", "close");
@@ -51,12 +68,25 @@ public class CoyoteScaper extends TrafficScraper {
 
         try {
             HttpEntity entity2 = Dataresponse.getEntity();
-            try {entity2.writeTo(System.out);}catch (ConnectionClosedException ex){}
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(entity2.getContent()));
+                try {
+                    String temp;
+                    while ((temp = br.readLine()) != null) {
+                        JsonString.append(temp);
+                    }
+                    br.close();
+
+            }catch (ConnectionClosedException ex){
+                }
+            } catch (IOException e) {
+                    e.printStackTrace();
+                }
             EntityUtils.consume(entity2);
         } finally {
             Dataresponse.close();
         }
-
+        return JsonString.toString();
     }
 
 
@@ -91,6 +121,44 @@ public class CoyoteScaper extends TrafficScraper {
             LogInresponse.close();
         }
         return cookie;
+    }
+
+    private List<Meting> JsonToPojo(String JsonString){
+        List<Meting> metingen = new ArrayList<Meting>();
+        Gson gson = new Gson();
+
+        JsonObject jsonObject = gson.fromJson(JsonString, JsonObject.class);
+        JsonObject e = jsonObject.getAsJsonObject("Gand");
+        Set<Map.Entry<String,JsonElement>> trajecten = e.entrySet();
+        DatabaseController dbController = new DatabaseController();
+        for (Map.Entry<String,JsonElement> traject  : trajecten) {
+            Traject trajectObj = new Traject();
+            Meting metingObj = new Meting();
+            metingObj.setProvider(dbController.haalProviderOp("Coyote"));
+            trajectObj.setNaam(traject.getKey());
+            metingObj.setTimestamp(LocalDateTime.now());
+
+
+            Set<Map.Entry<String,JsonElement>> trajectData = traject.getValue().getAsJsonObject().entrySet();
+            for (Map.Entry<String,JsonElement> data  : trajectData) {
+                switch (data.getKey()){
+                    case "normal_time":
+                        metingObj.setOptimale_reistijd(data.getValue().getAsInt());
+                        break;
+                    case "real_time":
+                        metingObj.setReistijd(data.getValue().getAsInt());
+                        break;
+                }
+            }
+
+
+        }
+
+
+
+
+
+        return metingen;
     }
 
 }

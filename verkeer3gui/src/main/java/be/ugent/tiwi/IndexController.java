@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import settings.Settings;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class IndexController {
     private static final String VIEW_INDEX = "home/index";
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap model) {
+        //Config.properties file in jetty home zetten voor testing...
         MetingCRUD mcrud = new MetingCRUD();
         List<Meting> metingen = mcrud.getMetingen();
         model.addAttribute("metingen", metingen);

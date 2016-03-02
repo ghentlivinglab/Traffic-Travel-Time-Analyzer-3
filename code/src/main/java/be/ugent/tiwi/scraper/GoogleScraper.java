@@ -50,7 +50,7 @@ public class GoogleScraper extends TrafficScraper {
         List<Traject> trajectList = tcrud.getTrajectenMetCoordinaten();
         MetingCRUD metingCRUD = new MetingCRUD();
 
-        Provider google = pcrud.getProvider("Google");
+        Provider google = pcrud.getProvider("Google Maps");
         JsonController jc = new JsonController();
         for(Traject traject:trajectList)
         {

@@ -9,6 +9,7 @@
                 <th>Traject</th>
                 <th>Reistijd</th>
                 <th>Normale tijd</th>
+                <th>+-</th>
             </tr>
         </thead>
         <tbody>
@@ -18,6 +19,7 @@
                     <td><c:out value="${meting.traject.naam}"/></td>
                     <td><c:out value="${meting.reistijd}"/></td>
                     <td><c:out value="${meting.optimale_reistijd}"/></td>
+                    <td class="<c:out value="${meting.reistijd-meting.optimale_reistijd>120?'btn btn-danger':'btn btn-success'}"/>"><c:out value="${meting.reistijd-meting.optimale_reistijd}"/></td>
                 </tr>
             </c:forEach>
         </tbody>

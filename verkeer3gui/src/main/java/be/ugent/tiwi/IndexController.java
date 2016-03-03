@@ -26,6 +26,12 @@ public class IndexController {
 
     }
 
+    @RequestMapping(value = "/trajecten", method = RequestMethod.GET)
+    public String trajecten(ModelMap model) {
+        // Spring uses InternalResourceViewResolver and return back index.jsp
+        return "home/trajecten";
+    }
+
     @RequestMapping(value = "/about", method = RequestMethod.GET)
     public String reset(ModelMap model)
     {

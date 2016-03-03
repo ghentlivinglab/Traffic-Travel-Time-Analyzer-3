@@ -6,6 +6,7 @@
     <title>Verkeer 3 GUI</title>
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet"  type="text/css" />
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet"  type="text/css" />
+    <script src="<c:url value="/resources/js/jquery.min.js"/>"></script>
 </head>
 <body>
 <header class="col-md-12">

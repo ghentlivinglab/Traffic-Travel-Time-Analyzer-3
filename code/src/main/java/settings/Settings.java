@@ -47,8 +47,8 @@ public class Settings {
 
         try {
 
+            // Zo moet het in glassfish input = new FileInputStream("/etc/tiwi/config.properties");
             input = new FileInputStream("config.properties");
-
             // load a properties file
             prop.load(input);
 

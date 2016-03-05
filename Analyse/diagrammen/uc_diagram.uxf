@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.3">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>312</x>
+      <y>192</y>
+      <w>112</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>Controleer data
+bg=blue
+style=autoresize
+group=1
+halign=center
+valign=center</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>312</x>
+      <y>264</y>
+      <w>112</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>Bekijk reistijden
+bg=blue
+style=autoresize
+group=1
+halign=center
+valign=center</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>296</x>
+      <y>136</y>
+      <w>136</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Meld abnormaliteiten
+bg=blue
+halign=center
+valign=center
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>304</x>
+      <y>336</y>
+      <w>136</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Vergelijk 
+verkeersinformatie
+bg=blue
+style=autoresize
+group=1
+halign=center
+valign=center</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>296</x>
+      <y>424</y>
+      <w>136</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Bekijk actuele
+verkeersinformatie
+bg=blue
+style=autoresize
+group=1
+halign=center
+valign=center</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>568</x>
+      <y>160</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>De operator</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>200</x>
+      <y>88</y>
+      <w>320</w>
+      <h>424</h>
+    </coordinates>
+    <panel_attributes>systeem
+halign=center
+bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>80</x>
+      <y>248</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>De gebruiker</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>552</x>
+      <y>312</y>
+      <w>112</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>"Andere kanalen"</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>32</x>
+      <y>24</y>
+      <w>672</w>
+      <h>504</h>
+    </coordinates>
+    <panel_attributes>Use cases
+--
+symbol=component</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>432</x>
+      <y>152</y>
+      <w>160</w>
+      <h>184</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;180.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>144</x>
+      <y>152</y>
+      <w>160</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;170.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>144</x>
+      <y>264</y>
+      <w>176</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;30.0;200.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>424</x>
+      <y>200</y>
+      <w>160</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;100.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>200</y>
+      <w>144</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;190.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>144</x>
+      <y>280</y>
+      <w>160</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;180.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>432</x>
+      <y>200</y>
+      <w>152</w>
+      <h>256</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>170.0;10.0;10.0;300.0</additional_attributes>
+  </element>
+</diagram>

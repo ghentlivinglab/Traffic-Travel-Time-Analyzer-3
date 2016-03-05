@@ -8,13 +8,13 @@ import settings.Settings;
 
 public class App {
     public static void main(String[] args) {
-        CoyoteScaper sc = new CoyoteScaper();
-        sc.scrape();
-       /* DalSamples.getProviderWithName("Waze");
+        //CoyoteScaper sc = new CoyoteScaper();
+        //sc.scrape();
+        DalSamples.getProviderWithName("Waze");
         DalSamples.getTrajecten();
         DalSamples.scrapeHere();
         DalSamples.scrapeGoogle();
         ScheduleController scheduleC = new ScheduleController();
-        scheduleC.startSchedule();*/
+        scheduleC.startSchedule();
     }
 }

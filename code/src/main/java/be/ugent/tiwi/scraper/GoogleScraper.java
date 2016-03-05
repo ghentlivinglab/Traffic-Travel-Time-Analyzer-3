@@ -17,7 +17,7 @@ import java.util.List;
  *
  * Account settings
  * email:           vopverkeer3@gmail.com
- * password:        vopverk31
+ * password:        vopverk3
  * API key:         AIzaSyAcbAEzORRjLqSP6I4ZcUzB6YKaNr6X7Fg
  * Sample call:
  * https://maps.googleapis.com/maps/api/directions/json?origin=Brugge&destination=Gent
@@ -50,7 +50,7 @@ public class GoogleScraper extends TrafficScraper {
         List<Traject> trajectList = tcrud.getTrajectenMetCoordinaten();
         MetingCRUD metingCRUD = new MetingCRUD();
 
-        Provider google = pcrud.getProvider("Google");
+        Provider google = pcrud.getProvider("Google Maps");
         JsonController jc = new JsonController();
         for(Traject traject:trajectList)
         {

@@ -101,9 +101,10 @@ public class TomTomScraper extends TrafficScraper {
                     "key=" + this.apiKey;
 
             TomTom tomtom = (TomTom) jc.getObject(url, TomTom.class, RequestType.GET);
-            int traveltime = tomtom.getResponse().getRoute().get(0).getSummary().getTravelTime();
-            int basetime = tomtom.getResponse().getRoute().get(0).getSummary().getBaseTime();
-            int distance = tomtom.getResponse().getRoute().get(0).getSummary().getDistance();
+
+            int traveltime = tomtom.getRoutes().get(0).getSummary().getTravelTimeInSeconds();
+            int basetime = traveltime-tomtom.getRoutes().get(0).getSummary().getTrafficDelayInSeconds();
+            int distance = tomtom.getRoutes().get(0).getSummary().getLengthInMeters();
 
             Meting meting = new Meting(tomtomProv, traject, traveltime, basetime, LocalDateTime.now());
 

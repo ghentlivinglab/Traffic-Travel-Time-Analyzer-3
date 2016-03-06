@@ -1,21 +1,17 @@
 
 package be.ugent.tiwi.domein.tomtom;
 
+import com.fasterxml.jackson.annotation.*;
+
+import javax.annotation.Generated;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "latitude",
-    "longitude"
+        "latitude",
+        "longitude"
 })
 public class Point {
 
@@ -27,9 +23,7 @@ public class Point {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The latitude
+     * @return The latitude
      */
     @JsonProperty("latitude")
     public Double getLatitude() {
@@ -37,9 +31,7 @@ public class Point {
     }
 
     /**
-     * 
-     * @param latitude
-     *     The latitude
+     * @param latitude The latitude
      */
     @JsonProperty("latitude")
     public void setLatitude(Double latitude) {
@@ -47,9 +39,7 @@ public class Point {
     }
 
     /**
-     * 
-     * @return
-     *     The longitude
+     * @return The longitude
      */
     @JsonProperty("longitude")
     public Double getLongitude() {
@@ -57,9 +47,7 @@ public class Point {
     }
 
     /**
-     * 
-     * @param longitude
-     *     The longitude
+     * @param longitude The longitude
      */
     @JsonProperty("longitude")
     public void setLongitude(Double longitude) {

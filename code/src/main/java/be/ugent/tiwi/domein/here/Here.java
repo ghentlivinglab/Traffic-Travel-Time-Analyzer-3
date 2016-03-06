@@ -1,9 +1,10 @@
 
 package be.ugent.tiwi.domein.here;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class Here {
@@ -13,18 +14,14 @@ public class Here {
     private Response response;
 
     /**
-     * 
-     * @return
-     *     The response
+     * @return The response
      */
     public Response getResponse() {
         return response;
     }
 
     /**
-     * 
-     * @param response
-     *     The response
+     * @param response The response
      */
     public void setResponse(Response response) {
         this.response = response;

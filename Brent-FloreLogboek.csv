@@ -14,3 +14,6 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 25/02/16,13:00,13:30,School,Code refactoreren en logging toevoegen; eerste test gson,19 , 
 01/03/16,08:15,12:20,School,DAL refactoreren deel1; Omzetten json naar Pojo,19,
 01/03/16,14:45,15:15,School,DAL refactoreren,,
+06/03/16,14:45,15:30,Thuis,Scapers herwerken volgens OO-principe,32,
+06/03/16,15:30,16:30,Thuis,Toevoegen databankcontroller en klassen aanpassen om hiervan gebruik te maken,29,
+06/03/16,16:30,17:00,Thuis,Nodige aanpassingen databank bekijken,20,

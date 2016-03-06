@@ -1,6 +1,7 @@
 package be.ugent.tiwi.dal;
 
 import settings.Settings;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,11 +12,10 @@ import java.sql.SQLException;
 public class DBConnector {
     private Connection connection;
 
-    public Connection getConnection()
-    {
+    public Connection getConnection() {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
-            if (connection==null || connection.isClosed()) {
+            if (connection == null || connection.isClosed()) {
                 String db_url = Settings.getSetting("db_url");
                 String db_username = Settings.getSetting("db_user");
                 String db_password = Settings.getSetting("db_password");
@@ -23,7 +23,7 @@ public class DBConnector {
                 connection = DriverManager.getConnection("jdbc:mysql://" + db_url + ":3306/" + db_name, db_username, db_password);
             }
         } catch (SQLException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

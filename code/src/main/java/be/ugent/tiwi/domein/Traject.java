@@ -15,8 +15,10 @@ public class Traject {
     private String end_latitude;
     private String end_longitude;
 
-    public Traject(int id, String letter, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude)
-    {
+    public Traject() {
+    }
+
+    public Traject(int id, String letter, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude) {
         this.id = id;
         this.letter = letter;
         this.naam = naam;
@@ -38,10 +40,10 @@ public class Traject {
                 ", lengte=" + lengte +
                 ", optimale_reistijd=" + optimale_reistijd +
                 ", is_active=" + is_active +
-                ", start_latitude='" + (start_latitude==null?"niet bekend":start_latitude) + '\'' +
-                ", start_longitude='" + (start_longitude==null?"niet bekend":start_longitude) + '\'' +
-                ", end_latitude='" + (end_latitude==null?"niet bekend":end_latitude) + '\'' +
-                ", end_longitude='" + (end_longitude==null?"niet bekend":end_longitude) + '\'' +
+                ", start_latitude='" + (start_latitude == null ? "niet bekend" : start_latitude) + '\'' +
+                ", start_longitude='" + (start_longitude == null ? "niet bekend" : start_longitude) + '\'' +
+                ", end_latitude='" + (end_latitude == null ? "niet bekend" : end_latitude) + '\'' +
+                ", end_longitude='" + (end_longitude == null ? "niet bekend" : end_longitude) + '\'' +
                 '}';
     }
 

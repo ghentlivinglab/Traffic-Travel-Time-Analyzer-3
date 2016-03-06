@@ -1,9 +1,10 @@
 
 package be.ugent.tiwi.domein.google;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class Bounds {
@@ -16,36 +17,28 @@ public class Bounds {
     private Southwest southwest;
 
     /**
-     * 
-     * @return
-     *     The northeast
+     * @return The northeast
      */
     public Northeast getNortheast() {
         return northeast;
     }
 
     /**
-     * 
-     * @param northeast
-     *     The northeast
+     * @param northeast The northeast
      */
     public void setNortheast(Northeast northeast) {
         this.northeast = northeast;
     }
 
     /**
-     * 
-     * @return
-     *     The southwest
+     * @return The southwest
      */
     public Southwest getSouthwest() {
         return southwest;
     }
 
     /**
-     * 
-     * @param southwest
-     *     The southwest
+     * @param southwest The southwest
      */
     public void setSouthwest(Southwest southwest) {
         this.southwest = southwest;

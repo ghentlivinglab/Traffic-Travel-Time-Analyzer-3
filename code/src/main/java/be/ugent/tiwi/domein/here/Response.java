@@ -1,11 +1,12 @@
 
 package be.ugent.tiwi.domein.here;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
+import java.util.ArrayList;
+import java.util.List;
 
 @Generated("org.jsonschema2pojo")
 public class Response {
@@ -21,54 +22,42 @@ public class Response {
     private String language;
 
     /**
-     * 
-     * @return
-     *     The metaInfo
+     * @return The metaInfo
      */
     public MetaInfo getMetaInfo() {
         return metaInfo;
     }
 
     /**
-     * 
-     * @param metaInfo
-     *     The metaInfo
+     * @param metaInfo The metaInfo
      */
     public void setMetaInfo(MetaInfo metaInfo) {
         this.metaInfo = metaInfo;
     }
 
     /**
-     * 
-     * @return
-     *     The route
+     * @return The route
      */
     public List<Route> getRoute() {
         return route;
     }
 
     /**
-     * 
-     * @param route
-     *     The route
+     * @param route The route
      */
     public void setRoute(List<Route> route) {
         this.route = route;
     }
 
     /**
-     * 
-     * @return
-     *     The language
+     * @return The language
      */
     public String getLanguage() {
         return language;
     }
 
     /**
-     * 
-     * @param language
-     *     The language
+     * @param language The language
      */
     public void setLanguage(String language) {
         this.language = language;

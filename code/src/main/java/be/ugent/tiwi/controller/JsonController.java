@@ -1,8 +1,7 @@
 package be.ugent.tiwi.controller;
 
-import be.ugent.tiwi.domein.google.*;
-import be.ugent.tiwi.domein.here.*;
 import be.ugent.tiwi.domein.RequestType;
+import be.ugent.tiwi.domein.google.Google;
 import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,7 +19,7 @@ import java.io.InputStreamReader;
 
 /**
  * Created by Jan on 23/02/2016.
- *
+ * <p>
  * Update Jelle:
  * Deze klasse is generiek gemaakt zodat de controller met alle type providers overweg kan. Je moet nu wel de JSONController
  * genereen met type hinting. Bijvoorbeeld jc = new JsonController<Here>();
@@ -43,7 +42,7 @@ public class JsonController<T extends Object> {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         try {
             // check for request method
-            if(method == "POST"){
+            if (method == "POST") {
                 // request method is POST
                 // defaultHttpClient
                 HttpPost httpPost = new HttpPost(url);
@@ -51,7 +50,7 @@ public class JsonController<T extends Object> {
                 HttpResponse httpResponse = httpClient.execute(httpPost);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
-            } else if(method == "GET"){
+            } else if (method == "GET") {
                 // request method is GET
                 HttpGet httpGet = new HttpGet(url);
 
@@ -91,14 +90,10 @@ public class JsonController<T extends Object> {
 
     }
 
-    public String getJsonResponse()
-    {
-        if(!this.json.isEmpty())
-        {
+    public String getJsonResponse() {
+        if (!this.json.isEmpty()) {
             return this.json;
-        }
-        else
-        {
+        } else {
             logger.error("No JSON received from server!");
         }
         return null;
@@ -106,16 +101,16 @@ public class JsonController<T extends Object> {
 
     /**
      * Deze methode kan je gebruiken voor de scrapers. Het geeft een object terug van het gewenste type (paramter klass)
-     * @param url   de **volledige** url waar je de gegevens moet ophalen
+     *
+     * @param url    de **volledige** url waar je de gegevens moet ophalen
      * @param klasse de **klasse** waarin de json string in kan geparsed worden
      * @param method een methode van de Enum RequestType, mogelijke waarden zijn bijvoorbeeld RequestType.GET en RequestType.POST
      * @return Een object van de klasse zoals meegeven aan de JsonController (gebruik van generieke klasses)
      */
-    public T getObject(String url, Class<T> klasse, RequestType method)
-    {
-        makeHttpRequest(url,method.toString());
+    public T getObject(String url, Class<T> klasse, RequestType method) {
+        makeHttpRequest(url, method.toString());
         Gson gson_obj = new Gson();
-        T obj = gson_obj.fromJson(this.json,klasse);
+        T obj = gson_obj.fromJson(this.json, klasse);
 
         return obj;
     }

@@ -9,6 +9,9 @@ public class Provider
     private String naam;
     private boolean is_active;
 
+    public Provider() {
+    }
+
     public Provider(int id, String naam, boolean is_active) {
         this.id = id;
         this.naam = naam;

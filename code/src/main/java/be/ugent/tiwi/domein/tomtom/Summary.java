@@ -1,124 +1,117 @@
 
 package be.ugent.tiwi.domein.tomtom;
 
-import com.fasterxml.jackson.annotation.*;
-
 import javax.annotation.Generated;
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-        "lengthInMeters",
-        "travelTimeInSeconds",
-        "trafficDelayInSeconds",
-        "departureTime",
-        "arrivalTime"
-})
 public class Summary {
 
-    @JsonProperty("lengthInMeters")
+    @SerializedName("lengthInMeters")
+    @Expose
     private Integer lengthInMeters;
-    @JsonProperty("travelTimeInSeconds")
+    @SerializedName("travelTimeInSeconds")
+    @Expose
     private Integer travelTimeInSeconds;
-    @JsonProperty("trafficDelayInSeconds")
+    @SerializedName("trafficDelayInSeconds")
+    @Expose
     private Integer trafficDelayInSeconds;
-    @JsonProperty("departureTime")
+    @SerializedName("departureTime")
+    @Expose
     private String departureTime;
-    @JsonProperty("arrivalTime")
+    @SerializedName("arrivalTime")
+    @Expose
     private String arrivalTime;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * @return The lengthInMeters
+     * 
+     * @return
+     *     The lengthInMeters
      */
-    @JsonProperty("lengthInMeters")
     public Integer getLengthInMeters() {
         return lengthInMeters;
     }
 
     /**
-     * @param lengthInMeters The lengthInMeters
+     * 
+     * @param lengthInMeters
+     *     The lengthInMeters
      */
-    @JsonProperty("lengthInMeters")
     public void setLengthInMeters(Integer lengthInMeters) {
         this.lengthInMeters = lengthInMeters;
     }
 
     /**
-     * @return The travelTimeInSeconds
+     * 
+     * @return
+     *     The travelTimeInSeconds
      */
-    @JsonProperty("travelTimeInSeconds")
     public Integer getTravelTimeInSeconds() {
         return travelTimeInSeconds;
     }
 
     /**
-     * @param travelTimeInSeconds The travelTimeInSeconds
+     * 
+     * @param travelTimeInSeconds
+     *     The travelTimeInSeconds
      */
-    @JsonProperty("travelTimeInSeconds")
     public void setTravelTimeInSeconds(Integer travelTimeInSeconds) {
         this.travelTimeInSeconds = travelTimeInSeconds;
     }
 
     /**
-     * @return The trafficDelayInSeconds
+     * 
+     * @return
+     *     The trafficDelayInSeconds
      */
-    @JsonProperty("trafficDelayInSeconds")
     public Integer getTrafficDelayInSeconds() {
         return trafficDelayInSeconds;
     }
 
     /**
-     * @param trafficDelayInSeconds The trafficDelayInSeconds
+     * 
+     * @param trafficDelayInSeconds
+     *     The trafficDelayInSeconds
      */
-    @JsonProperty("trafficDelayInSeconds")
     public void setTrafficDelayInSeconds(Integer trafficDelayInSeconds) {
         this.trafficDelayInSeconds = trafficDelayInSeconds;
     }
 
     /**
-     * @return The departureTime
+     * 
+     * @return
+     *     The departureTime
      */
-    @JsonProperty("departureTime")
     public String getDepartureTime() {
         return departureTime;
     }
 
     /**
-     * @param departureTime The departureTime
+     * 
+     * @param departureTime
+     *     The departureTime
      */
-    @JsonProperty("departureTime")
     public void setDepartureTime(String departureTime) {
         this.departureTime = departureTime;
     }
 
     /**
-     * @return The arrivalTime
+     * 
+     * @return
+     *     The arrivalTime
      */
-    @JsonProperty("arrivalTime")
     public String getArrivalTime() {
         return arrivalTime;
     }
 
     /**
-     * @param arrivalTime The arrivalTime
+     * 
+     * @param arrivalTime
+     *     The arrivalTime
      */
-    @JsonProperty("arrivalTime")
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

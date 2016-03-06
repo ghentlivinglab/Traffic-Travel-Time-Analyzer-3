@@ -1,15 +1,19 @@
 package be.ugent.tiwi.scraper;
 
 import be.ugent.tiwi.controller.JsonController;
-import be.ugent.tiwi.dal.MetingCRUD;
-import be.ugent.tiwi.dal.ProviderCRUD;
-import be.ugent.tiwi.dal.TrajectCRUD;
+import be.ugent.tiwi.dal.DatabaseController;
+import be.ugent.tiwi.dal.MetingRepository;
+import be.ugent.tiwi.dal.ProviderRepository;
+import be.ugent.tiwi.dal.TrajectRepository;
+import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.RequestType;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.google.Google;
 import settings.Settings;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,23 +38,22 @@ public class GoogleScraper extends TrafficScraper {
     }
 
     @Override
-    public void scrape()
+    public List<Meting> scrape()
     {
-        makeCall();
+        return makeCall();
     }
 
     /**
      * here the actual rest call is made
      */
-    public void makeCall()
+    public List<Meting> makeCall()
     {
+        List<Meting> metingen = new ArrayList<>();
         //Get all trajectories which have coordinates in it
-        TrajectCRUD tcrud = new TrajectCRUD();
-        ProviderCRUD pcrud = new ProviderCRUD();
-        List<Traject> trajectList = tcrud.getTrajectenMetCoordinaten();
-        MetingCRUD metingCRUD = new MetingCRUD();
+        DatabaseController databaseController = new DatabaseController();
+        List<Traject> trajectList = databaseController.getTrajectenMetCoordinaten();
 
-        Provider google = pcrud.getProvider("Google Maps");
+        Provider google = databaseController.haalProviderOp("Google Maps");
         JsonController jc = new JsonController();
         for(Traject traject:trajectList)
         {
@@ -63,7 +66,10 @@ public class GoogleScraper extends TrafficScraper {
             int basetime = google_obj.getRoutes().get(0).getLegs().get(0).getDuration().getValue();
             int distance = google_obj.getRoutes().get(0).getLegs().get(0).getDistance().getValue();
 
-            metingCRUD.addMeting(google, traject, traveltime, basetime);
+            Meting meting = new Meting(google, traject, traveltime, basetime, LocalDateTime.now());
+
+            metingen.add(meting);
         }
+        return metingen;
     }
 }

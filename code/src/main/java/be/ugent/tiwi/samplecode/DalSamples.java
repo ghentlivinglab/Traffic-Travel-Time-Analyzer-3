@@ -1,8 +1,8 @@
 package be.ugent.tiwi.samplecode;
 
-import be.ugent.tiwi.dal.MetingCRUD;
-import be.ugent.tiwi.dal.ProviderCRUD;
-import be.ugent.tiwi.dal.TrajectCRUD;
+import be.ugent.tiwi.dal.MetingRepository;
+import be.ugent.tiwi.dal.ProviderRepository;
+import be.ugent.tiwi.dal.TrajectRepository;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
@@ -20,7 +20,7 @@ public class DalSamples {
     {
         Settings.createSettings();
         Provider test;
-        ProviderCRUD providerdb = new ProviderCRUD();
+        ProviderRepository providerdb = new ProviderRepository();
         test=providerdb.getProvider(name);
         System.out.printf("%s",test.to_string());
     }
@@ -28,8 +28,8 @@ public class DalSamples {
     public static void getTrajecten()
     {
         List<Traject> trajecten;
-        TrajectCRUD trajectCrud = new TrajectCRUD();
-        trajecten=trajectCrud.getTrajecten();
+        TrajectRepository trajectRepository = new TrajectRepository();
+        trajecten= trajectRepository.getTrajecten();
         for(Traject traject : trajecten)
         {
             System.out.printf("%s\n",traject.toString());
@@ -39,7 +39,7 @@ public class DalSamples {
     public static void scrapeHere()
     {
         HereScraper hs = new HereScraper();
-        MetingCRUD mcrud = new MetingCRUD();
+        MetingRepository mcrud = new MetingRepository();
         hs.makeCall();
         List<Meting> metingen = mcrud.getMetingen();
         for(Meting meting : metingen)
@@ -50,7 +50,7 @@ public class DalSamples {
 
     public static void scrapeGoogle() {
         GoogleScraper gs = new GoogleScraper();
-        MetingCRUD mcrud = new MetingCRUD();
+        MetingRepository mcrud = new MetingRepository();
         gs.makeCall();
         List<Meting> metingen = mcrud.getMetingen();
         for(Meting meting : metingen)
@@ -58,4 +58,5 @@ public class DalSamples {
             System.out.println(meting.toString());
         }
     }
+
 }

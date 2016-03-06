@@ -34,7 +34,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CoyoteScaper extends TrafficScraper {
+/**
+ * Haalt gegevens op van de Coyote webservice en zet deze om naar objecten
+ */
+public class CoyoteScraper extends TrafficScraper {
 
     private final String USER_AGENT = "Mozilla/5.0";
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
@@ -43,13 +46,14 @@ public class CoyoteScaper extends TrafficScraper {
     /**
      * Aanspreekpunt voor klassen,
      */
-    public void scrape() {
+    public List<Meting> scrape() {
         try {
-            JsonToPojo(sendPost());
+            return JsonToPojo(sendPost());
         } catch (IOException ex) {
             logger.error("Ophalen gegevens Coyote is mislukt.");
             logger.error(ex);
         }
+        return null;
     }
 
     /**
@@ -123,6 +127,11 @@ public class CoyoteScaper extends TrafficScraper {
         return cookie;
     }
 
+    /**
+     * Parset Json die binnen komt van Coyote en zet deze om naar Java-objecten. Parset de gegevens handmatig omdat Coyote dynamische keys gebruikt, waarmee Gson niet eenvoudig mee overweg kan.
+     * @param JsonString Geldige Json afkomstig van Coyote.
+     * @return Een lijst van Opgehaalde metingen.
+     */
     private List<Meting> JsonToPojo(String JsonString){
         List<Meting> metingen = new ArrayList<Meting>();
         Gson gson = new Gson();
@@ -131,10 +140,12 @@ public class CoyoteScaper extends TrafficScraper {
         JsonObject e = jsonObject.getAsJsonObject("Gand");
         Set<Map.Entry<String,JsonElement>> trajecten = e.entrySet();
         DatabaseController dbController = new DatabaseController();
+
+        Provider coyote = dbController.haalProviderOp("Coyote");
         for (Map.Entry<String,JsonElement> traject  : trajecten) {
             Traject trajectObj = new Traject();
             Meting metingObj = new Meting();
-            metingObj.setProvider(dbController.haalProviderOp("Coyote"));
+            metingObj.setProvider(coyote);
             trajectObj.setNaam(traject.getKey());
             metingObj.setTimestamp(LocalDateTime.now());
 
@@ -151,7 +162,7 @@ public class CoyoteScaper extends TrafficScraper {
                 }
             }
 
-
+            metingen.add(metingObj);
         }
 
 

@@ -7,7 +7,6 @@ import be.ugent.tiwi.domein.Traject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +14,10 @@ import java.util.List;
 /**
  * Created by JelleDeBock on 23/02/16.
  */
-public class MetingCRUD {
+public class MetingRepository {
     private DBConnector connector;
 
-    public MetingCRUD() {
+    public MetingRepository() {
         connector = new DBConnector();
     }
 
@@ -26,8 +25,8 @@ public class MetingCRUD {
         String query = "select * from metingen where traject_id ='" + traject.getId() + "' and provider_id = '" +
                 provider.getId() + "'";
         List<Meting> metingen = new ArrayList<Meting>();
-        ProviderCRUD providerCRUD = new ProviderCRUD();
-        TrajectCRUD trajectCRUD = new TrajectCRUD();
+        ProviderRepository providerRepository = new ProviderRepository();
+        TrajectRepository trajectRepository = new TrajectRepository();
 
         try {
             Statement stmt = connector.getConnection().createStatement();
@@ -51,8 +50,8 @@ public class MetingCRUD {
 
     public List<Meting> getMetingen() {
         String query = "select * from metingen";
-        ProviderCRUD pcrud = new ProviderCRUD();
-        TrajectCRUD tcrud = new TrajectCRUD();
+        ProviderRepository pcrud = new ProviderRepository();
+        TrajectRepository tcrud = new TrajectRepository();
         List<Meting> metingen = new ArrayList<Meting>();
 
         try {
@@ -77,12 +76,12 @@ public class MetingCRUD {
         return null;
     }
 
-    public void addMeting(Provider provider, Traject traject, int reistijd, int optimal) {
+    public void addMeting(Meting meting) {
         String query = "insert into metingen(provider_id,traject_id,reistijd,optimal) values ("
-                + provider.getId() + ","
-                + traject.getId() + ","
-                + reistijd + ","
-                + optimal
+                + meting.getProvider().getId() + ","
+                + meting.getTraject().getId() + ","
+                + meting.getReistijd() + ","
+                + meting.getOptimale_reistijd()
                 + ")";
 
         try {

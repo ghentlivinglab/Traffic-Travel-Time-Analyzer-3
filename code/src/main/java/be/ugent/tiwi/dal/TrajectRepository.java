@@ -11,11 +11,11 @@ import java.util.*;
 /**
  * Created by jelle on 19.02.16.
  */
-public class TrajectCRUD
+public class TrajectRepository
 {
     private DBConnector connector;
 
-    public TrajectCRUD() {
+    public TrajectRepository() {
         connector = new DBConnector();
     }
 

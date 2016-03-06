@@ -38,7 +38,6 @@ import java.util.Set;
  */
 public class CoyoteScraper extends TrafficScraper {
 
-    private final String USER_AGENT = "Mozilla/5.0";
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
 
     @Override

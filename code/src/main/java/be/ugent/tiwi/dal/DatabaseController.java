@@ -14,14 +14,15 @@ public class DatabaseController {
     private TrajectRepository trajectenRepository = new TrajectRepository();
     private MetingRepository metingRepository = new MetingRepository();
 
-    public Provider haalProviderOp(int id){
+    public Provider haalProviderOp(int id) {
         return providerRepository.getProvider(id);
     }
-    public Provider haalProviderOp(String naam){
+
+    public Provider haalProviderOp(String naam) {
         return providerRepository.getProvider(naam);
     }
 
-    public List<Traject> haalTrajectenOp(){
+    public List<Traject> haalTrajectenOp() {
         return trajectenRepository.getTrajectenMetCoordinaten();
     }
 
@@ -30,13 +31,13 @@ public class DatabaseController {
     }
 
     public void voegMetingenToe(List<Meting> metingenLijst) {
-        for (Meting meting: metingenLijst) {
+        for (Meting meting : metingenLijst) {
             metingRepository.addMeting(meting);
         }
 
     }
 
-    public List<Traject> getTrajectenMetCoordinaten(){
+    public List<Traject> getTrajectenMetCoordinaten() {
         return trajectenRepository.getTrajectenMetCoordinaten();
     }
 

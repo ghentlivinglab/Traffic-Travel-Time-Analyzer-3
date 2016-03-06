@@ -1,11 +1,12 @@
 
 package be.ugent.tiwi.domein.google;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
+import java.util.ArrayList;
+import java.util.List;
 
 @Generated("org.jsonschema2pojo")
 public class GeocodedWaypoint {
@@ -24,72 +25,56 @@ public class GeocodedWaypoint {
     private Boolean partialMatch;
 
     /**
-     * 
-     * @return
-     *     The geocoderStatus
+     * @return The geocoderStatus
      */
     public String getGeocoderStatus() {
         return geocoderStatus;
     }
 
     /**
-     * 
-     * @param geocoderStatus
-     *     The geocoder_status
+     * @param geocoderStatus The geocoder_status
      */
     public void setGeocoderStatus(String geocoderStatus) {
         this.geocoderStatus = geocoderStatus;
     }
 
     /**
-     * 
-     * @return
-     *     The placeId
+     * @return The placeId
      */
     public String getPlaceId() {
         return placeId;
     }
 
     /**
-     * 
-     * @param placeId
-     *     The place_id
+     * @param placeId The place_id
      */
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
     }
 
     /**
-     * 
-     * @return
-     *     The types
+     * @return The types
      */
     public List<String> getTypes() {
         return types;
     }
 
     /**
-     * 
-     * @param types
-     *     The types
+     * @param types The types
      */
     public void setTypes(List<String> types) {
         this.types = types;
     }
 
     /**
-     * 
-     * @return
-     *     The partialMatch
+     * @return The partialMatch
      */
     public Boolean getPartialMatch() {
         return partialMatch;
     }
 
     /**
-     * 
-     * @param partialMatch
-     *     The partial_match
+     * @param partialMatch The partial_match
      */
     public void setPartialMatch(Boolean partialMatch) {
         this.partialMatch = partialMatch;

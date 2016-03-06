@@ -1,22 +1,18 @@
 
 package be.ugent.tiwi.domein.tomtom;
 
+import com.fasterxml.jackson.annotation.*;
+
+import javax.annotation.Generated;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "startPointIndex",
-    "endPointIndex",
-    "travelMode"
+        "startPointIndex",
+        "endPointIndex",
+        "travelMode"
 })
 public class Section {
 
@@ -30,9 +26,7 @@ public class Section {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The startPointIndex
+     * @return The startPointIndex
      */
     @JsonProperty("startPointIndex")
     public Integer getStartPointIndex() {
@@ -40,9 +34,7 @@ public class Section {
     }
 
     /**
-     * 
-     * @param startPointIndex
-     *     The startPointIndex
+     * @param startPointIndex The startPointIndex
      */
     @JsonProperty("startPointIndex")
     public void setStartPointIndex(Integer startPointIndex) {
@@ -50,9 +42,7 @@ public class Section {
     }
 
     /**
-     * 
-     * @return
-     *     The endPointIndex
+     * @return The endPointIndex
      */
     @JsonProperty("endPointIndex")
     public Integer getEndPointIndex() {
@@ -60,9 +50,7 @@ public class Section {
     }
 
     /**
-     * 
-     * @param endPointIndex
-     *     The endPointIndex
+     * @param endPointIndex The endPointIndex
      */
     @JsonProperty("endPointIndex")
     public void setEndPointIndex(Integer endPointIndex) {
@@ -70,9 +58,7 @@ public class Section {
     }
 
     /**
-     * 
-     * @return
-     *     The travelMode
+     * @return The travelMode
      */
     @JsonProperty("travelMode")
     public String getTravelMode() {
@@ -80,9 +66,7 @@ public class Section {
     }
 
     /**
-     * 
-     * @param travelMode
-     *     The travelMode
+     * @param travelMode The travelMode
      */
     @JsonProperty("travelMode")
     public void setTravelMode(String travelMode) {

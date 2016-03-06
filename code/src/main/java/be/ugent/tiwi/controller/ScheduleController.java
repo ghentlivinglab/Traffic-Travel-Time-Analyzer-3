@@ -17,33 +17,35 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 public class ScheduleController {
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
-    private DatabaseController dbController ;
-    public void startSchedule(){
+    private DatabaseController dbController;
 
-            ScheduledExecutorService scheduler =
-                    Executors.newScheduledThreadPool(1);
+    public void startSchedule() {
 
-            final Runnable schema = new Runnable() {
-                public void run() {
-                    logger.trace("Schedule opgestart.");
-                    haalDataOp();
-                }
-            };
-            final ScheduledFuture<?> schemaHandle = scheduler.scheduleAtFixedRate(schema, 0, 5, MINUTES);
+        ScheduledExecutorService scheduler =
+                Executors.newScheduledThreadPool(1);
+
+        final Runnable schema = new Runnable() {
+            public void run() {
+                logger.trace("Schedule opgestart.");
+                haalDataOp();
+            }
+        };
+        final ScheduledFuture<?> schemaHandle = scheduler.scheduleAtFixedRate(schema, 0, 5, MINUTES);
     }
-    private void haalDataOp() throws RuntimeException
-    {
-        try{
+
+    private void haalDataOp() throws RuntimeException {
+        try {
             dbController = new DatabaseController();
+            new CoyoteScraper().scrape();
             List<Provider> providers = dbController.haalActieveProvidersOp();
-            for(Provider provider :providers){
+            for (Provider provider : providers) {
                 haalDataVanProvider(provider.getNaam());
             }
             /*DalSamples.getProviderWithName("Waze");
             DalSamples.getTrajecten();
             DalSamples.scrapeHere();
             DalSamples.scrapeGoogle();*/
-        }catch (RuntimeException ex){
+        } catch (RuntimeException ex) {
             logger.error("Schedule gestopt door exception");
             ex.printStackTrace();
             throw ex;

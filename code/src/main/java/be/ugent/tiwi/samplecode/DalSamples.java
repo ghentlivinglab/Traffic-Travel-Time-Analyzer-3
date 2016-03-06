@@ -16,34 +16,29 @@ import java.util.List;
  * Created by jelle on 19.02.16.
  */
 public class DalSamples {
-    public static void getProviderWithName(String name)
-    {
+    public static void getProviderWithName(String name) {
         Settings.createSettings();
         Provider test;
         ProviderRepository providerdb = new ProviderRepository();
-        test=providerdb.getProvider(name);
-        System.out.printf("%s",test.to_string());
+        test = providerdb.getProvider(name);
+        System.out.printf("%s", test.to_string());
     }
 
-    public static void getTrajecten()
-    {
+    public static void getTrajecten() {
         List<Traject> trajecten;
         TrajectRepository trajectRepository = new TrajectRepository();
-        trajecten= trajectRepository.getTrajecten();
-        for(Traject traject : trajecten)
-        {
-            System.out.printf("%s\n",traject.toString());
+        trajecten = trajectRepository.getTrajecten();
+        for (Traject traject : trajecten) {
+            System.out.printf("%s\n", traject.toString());
         }
     }
 
-    public static void scrapeHere()
-    {
+    public static void scrapeHere() {
         HereScraper hs = new HereScraper();
         MetingRepository mcrud = new MetingRepository();
         hs.makeCall();
         List<Meting> metingen = mcrud.getMetingen();
-        for(Meting meting : metingen)
-        {
+        for (Meting meting : metingen) {
             System.out.println(meting.toString());
         }
     }
@@ -53,8 +48,7 @@ public class DalSamples {
         MetingRepository mcrud = new MetingRepository();
         gs.makeCall();
         List<Meting> metingen = mcrud.getMetingen();
-        for(Meting meting : metingen)
-        {
+        for (Meting meting : metingen) {
             System.out.println(meting.toString());
         }
     }

@@ -21,6 +21,7 @@ public class Settings {
             prop.setProperty("here_appid","tsliJF6nV8gV1CCk7yK8");
             prop.setProperty("here_appcode","o8KURFHJC02Zzlv8HTifkg");
             prop.setProperty("google_apikey", "AIzaSyAcbAEzORRjLqSP6I4ZcUzB6YKaNr6X7Fg");
+            prop.setProperty("tomtom_apikey", "8yafwthpctekty68x3kbae4h");
 
             // save properties to project root folder
             prop.store(output, null);

@@ -8,11 +8,11 @@ package be.ugent.tiwi.scraper;
 import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Meting;
-
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -27,14 +27,16 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CoyoteScaper extends TrafficScraper {
+/**
+ * Haalt gegevens op van de Coyote webservice en zet deze om naar objecten
+ */
+public class CoyoteScraper extends TrafficScraper {
 
     private final String USER_AGENT = "Mozilla/5.0";
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
@@ -43,24 +45,26 @@ public class CoyoteScaper extends TrafficScraper {
     /**
      * Aanspreekpunt voor klassen,
      */
-    public void scrape() {
+    public List<Meting> scrape() {
         try {
-            JsonToPojo(sendPost());
+            return JsonToPojo(sendPost());
         } catch (IOException ex) {
             logger.error("Ophalen gegevens Coyote is mislukt.");
             logger.error(ex);
         }
+        return null;
     }
 
     /**
      * Vraag routegegevens op van de coyote site.
+     *
      * @return JsonString
      * @throws IOException
      */
     private String sendPost() throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String cookie = getSession(httpclient);
-        StringBuilder JsonString=new StringBuilder();
+        StringBuilder JsonString = new StringBuilder();
         HttpPost httpPost2 = new HttpPost("https://maps.coyotesystems.com/traffic/ajax/get_perturbation_list.ajax.php");
         httpPost2.addHeader("Cookie", cookie);
         httpPost2.addHeader("Connection", "close");
@@ -77,11 +81,11 @@ public class CoyoteScaper extends TrafficScraper {
                     }
                     br.close();
 
-            }catch (ConnectionClosedException ex){
+                } catch (ConnectionClosedException ex) {
                 }
             } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                e.printStackTrace();
+            }
             EntityUtils.consume(entity2);
         } finally {
             Dataresponse.close();
@@ -91,7 +95,8 @@ public class CoyoteScaper extends TrafficScraper {
 
 
     /**
-     *  Post login en password naar de server om een sesionId te verkrijgen.
+     * Post login en password naar de server om een sesionId te verkrijgen.
+     *
      * @param httpclient client die instaat voor communicatie met de server.
      * @return sessionID van de server.
      * @throws IOException
@@ -114,7 +119,7 @@ public class CoyoteScaper extends TrafficScraper {
                 }
             }
             EntityUtils.consume(entity2);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logger.error("Probleem bij het aanmelden bij coyote");
             logger.error(ex);
         } finally {
@@ -123,25 +128,33 @@ public class CoyoteScaper extends TrafficScraper {
         return cookie;
     }
 
-    private List<Meting> JsonToPojo(String JsonString){
-        List<Meting> metingen = new ArrayList<Meting>();
+    /**
+     * Parset Json die binnen komt van Coyote en zet deze om naar Java-objecten. Parset de gegevens handmatig omdat Coyote dynamische keys gebruikt, waarmee Gson niet eenvoudig mee overweg kan.
+     *
+     * @param JsonString Geldige Json afkomstig van Coyote.
+     * @return Een lijst van Opgehaalde metingen.
+     */
+    private List<Meting> JsonToPojo(String JsonString) {
+        List<Meting> metingen = new ArrayList<>();
         Gson gson = new Gson();
 
         JsonObject jsonObject = gson.fromJson(JsonString, JsonObject.class);
         JsonObject e = jsonObject.getAsJsonObject("Gand");
-        Set<Map.Entry<String,JsonElement>> trajecten = e.entrySet();
+        Set<Map.Entry<String, JsonElement>> trajecten = e.entrySet();
         DatabaseController dbController = new DatabaseController();
-        for (Map.Entry<String,JsonElement> traject  : trajecten) {
+
+        Provider coyote = dbController.haalProviderOp("Coyote");
+        for (Map.Entry<String, JsonElement> traject : trajecten) {
             Traject trajectObj = new Traject();
             Meting metingObj = new Meting();
-            metingObj.setProvider(dbController.haalProviderOp("Coyote"));
+            metingObj.setProvider(coyote);
             trajectObj.setNaam(traject.getKey());
             metingObj.setTimestamp(LocalDateTime.now());
 
 
-            Set<Map.Entry<String,JsonElement>> trajectData = traject.getValue().getAsJsonObject().entrySet();
-            for (Map.Entry<String,JsonElement> data  : trajectData) {
-                switch (data.getKey()){
+            Set<Map.Entry<String, JsonElement>> trajectData = traject.getValue().getAsJsonObject().entrySet();
+            for (Map.Entry<String, JsonElement> data : trajectData) {
+                switch (data.getKey()) {
                     case "normal_time":
                         metingObj.setOptimale_reistijd(data.getValue().getAsInt());
                         break;
@@ -151,11 +164,8 @@ public class CoyoteScaper extends TrafficScraper {
                 }
             }
 
-
+            metingen.add(metingObj);
         }
-
-
-
 
 
         return metingen;

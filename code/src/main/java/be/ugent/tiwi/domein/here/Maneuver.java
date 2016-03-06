@@ -1,9 +1,10 @@
 
 package be.ugent.tiwi.domein.here;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class Maneuver {
@@ -28,108 +29,84 @@ public class Maneuver {
     private String Type;
 
     /**
-     * 
-     * @return
-     *     The position
+     * @return The position
      */
     public Position getPosition() {
         return position;
     }
 
     /**
-     * 
-     * @param position
-     *     The position
+     * @param position The position
      */
     public void setPosition(Position position) {
         this.position = position;
     }
 
     /**
-     * 
-     * @return
-     *     The instruction
+     * @return The instruction
      */
     public String getInstruction() {
         return instruction;
     }
 
     /**
-     * 
-     * @param instruction
-     *     The instruction
+     * @param instruction The instruction
      */
     public void setInstruction(String instruction) {
         this.instruction = instruction;
     }
 
     /**
-     * 
-     * @return
-     *     The travelTime
+     * @return The travelTime
      */
     public Integer getTravelTime() {
         return travelTime;
     }
 
     /**
-     * 
-     * @param travelTime
-     *     The travelTime
+     * @param travelTime The travelTime
      */
     public void setTravelTime(Integer travelTime) {
         this.travelTime = travelTime;
     }
 
     /**
-     * 
-     * @return
-     *     The length
+     * @return The length
      */
     public Integer getLength() {
         return length;
     }
 
     /**
-     * 
-     * @param length
-     *     The length
+     * @param length The length
      */
     public void setLength(Integer length) {
         this.length = length;
     }
 
     /**
-     * 
-     * @return
-     *     The id
+     * @return The id
      */
     public String getId() {
         return id;
     }
 
     /**
-     * 
-     * @param id
-     *     The id
+     * @param id The id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * 
-     * @return
-     *     The Type
+     * @return The Type
      */
     public String getType() {
         return Type;
     }
 
     /**
-     * 
-     * @param Type
-     *     The _type
+     * @param Type The _type
      */
     public void setType(String Type) {
         this.Type = Type;

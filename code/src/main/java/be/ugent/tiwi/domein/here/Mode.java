@@ -1,11 +1,12 @@
 
 package be.ugent.tiwi.domein.here;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
+import java.util.ArrayList;
+import java.util.List;
 
 @Generated("org.jsonschema2pojo")
 public class Mode {
@@ -24,72 +25,56 @@ public class Mode {
     private List<Object> feature = new ArrayList<Object>();
 
     /**
-     * 
-     * @return
-     *     The type
+     * @return The type
      */
     public String getType() {
         return type;
     }
 
     /**
-     * 
-     * @param type
-     *     The type
+     * @param type The type
      */
     public void setType(String type) {
         this.type = type;
     }
 
     /**
-     * 
-     * @return
-     *     The transportModes
+     * @return The transportModes
      */
     public List<String> getTransportModes() {
         return transportModes;
     }
 
     /**
-     * 
-     * @param transportModes
-     *     The transportModes
+     * @param transportModes The transportModes
      */
     public void setTransportModes(List<String> transportModes) {
         this.transportModes = transportModes;
     }
 
     /**
-     * 
-     * @return
-     *     The trafficMode
+     * @return The trafficMode
      */
     public String getTrafficMode() {
         return trafficMode;
     }
 
     /**
-     * 
-     * @param trafficMode
-     *     The trafficMode
+     * @param trafficMode The trafficMode
      */
     public void setTrafficMode(String trafficMode) {
         this.trafficMode = trafficMode;
     }
 
     /**
-     * 
-     * @return
-     *     The feature
+     * @return The feature
      */
     public List<Object> getFeature() {
         return feature;
     }
 
     /**
-     * 
-     * @param feature
-     *     The feature
+     * @param feature The feature
      */
     public void setFeature(List<Object> feature) {
         this.feature = feature;

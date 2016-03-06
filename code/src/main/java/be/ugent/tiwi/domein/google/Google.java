@@ -1,11 +1,12 @@
 
 package be.ugent.tiwi.domein.google;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
+import java.util.ArrayList;
+import java.util.List;
 
 @Generated("org.jsonschema2pojo")
 public class Google {
@@ -21,54 +22,42 @@ public class Google {
     private String status;
 
     /**
-     * 
-     * @return
-     *     The geocodedWaypoints
+     * @return The geocodedWaypoints
      */
     public List<GeocodedWaypoint> getGeocodedWaypoints() {
         return geocodedWaypoints;
     }
 
     /**
-     * 
-     * @param geocodedWaypoints
-     *     The geocoded_waypoints
+     * @param geocodedWaypoints The geocoded_waypoints
      */
     public void setGeocodedWaypoints(List<GeocodedWaypoint> geocodedWaypoints) {
         this.geocodedWaypoints = geocodedWaypoints;
     }
 
     /**
-     * 
-     * @return
-     *     The routes
+     * @return The routes
      */
     public List<Route> getRoutes() {
         return routes;
     }
 
     /**
-     * 
-     * @param routes
-     *     The routes
+     * @param routes The routes
      */
     public void setRoutes(List<Route> routes) {
         this.routes = routes;
     }
 
     /**
-     * 
-     * @return
-     *     The status
+     * @return The status
      */
     public String getStatus() {
         return status;
     }
 
     /**
-     * 
-     * @param status
-     *     The status
+     * @param status The status
      */
     public void setStatus(String status) {
         this.status = status;

@@ -1,11 +1,12 @@
 
 package be.ugent.tiwi.domein.here;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
+import java.util.ArrayList;
+import java.util.List;
 
 @Generated("org.jsonschema2pojo")
 public class Leg {
@@ -27,90 +28,70 @@ public class Leg {
     private List<Maneuver> maneuver = new ArrayList<Maneuver>();
 
     /**
-     * 
-     * @return
-     *     The start
+     * @return The start
      */
     public Start getStart() {
         return start;
     }
 
     /**
-     * 
-     * @param start
-     *     The start
+     * @param start The start
      */
     public void setStart(Start start) {
         this.start = start;
     }
 
     /**
-     * 
-     * @return
-     *     The end
+     * @return The end
      */
     public End getEnd() {
         return end;
     }
 
     /**
-     * 
-     * @param end
-     *     The end
+     * @param end The end
      */
     public void setEnd(End end) {
         this.end = end;
     }
 
     /**
-     * 
-     * @return
-     *     The length
+     * @return The length
      */
     public Integer getLength() {
         return length;
     }
 
     /**
-     * 
-     * @param length
-     *     The length
+     * @param length The length
      */
     public void setLength(Integer length) {
         this.length = length;
     }
 
     /**
-     * 
-     * @return
-     *     The travelTime
+     * @return The travelTime
      */
     public Integer getTravelTime() {
         return travelTime;
     }
 
     /**
-     * 
-     * @param travelTime
-     *     The travelTime
+     * @param travelTime The travelTime
      */
     public void setTravelTime(Integer travelTime) {
         this.travelTime = travelTime;
     }
 
     /**
-     * 
-     * @return
-     *     The maneuver
+     * @return The maneuver
      */
     public List<Maneuver> getManeuver() {
         return maneuver;
     }
 
     /**
-     * 
-     * @param maneuver
-     *     The maneuver
+     * @param maneuver The maneuver
      */
     public void setManeuver(List<Maneuver> maneuver) {
         this.maneuver = maneuver;

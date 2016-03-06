@@ -1,4 +1,5 @@
 package be.ugent.tiwi;
+
 import be.ugent.tiwi.controller.ScheduleController;
 
 public class App {

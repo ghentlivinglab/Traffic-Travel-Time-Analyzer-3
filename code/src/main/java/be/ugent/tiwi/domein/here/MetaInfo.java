@@ -1,9 +1,10 @@
 
 package be.ugent.tiwi.domein.here;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class MetaInfo {
@@ -22,72 +23,56 @@ public class MetaInfo {
     private String interfaceVersion;
 
     /**
-     * 
-     * @return
-     *     The timestamp
+     * @return The timestamp
      */
     public String getTimestamp() {
         return timestamp;
     }
 
     /**
-     * 
-     * @param timestamp
-     *     The timestamp
+     * @param timestamp The timestamp
      */
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
     /**
-     * 
-     * @return
-     *     The mapVersion
+     * @return The mapVersion
      */
     public String getMapVersion() {
         return mapVersion;
     }
 
     /**
-     * 
-     * @param mapVersion
-     *     The mapVersion
+     * @param mapVersion The mapVersion
      */
     public void setMapVersion(String mapVersion) {
         this.mapVersion = mapVersion;
     }
 
     /**
-     * 
-     * @return
-     *     The moduleVersion
+     * @return The moduleVersion
      */
     public String getModuleVersion() {
         return moduleVersion;
     }
 
     /**
-     * 
-     * @param moduleVersion
-     *     The moduleVersion
+     * @param moduleVersion The moduleVersion
      */
     public void setModuleVersion(String moduleVersion) {
         this.moduleVersion = moduleVersion;
     }
 
     /**
-     * 
-     * @return
-     *     The interfaceVersion
+     * @return The interfaceVersion
      */
     public String getInterfaceVersion() {
         return interfaceVersion;
     }
 
     /**
-     * 
-     * @param interfaceVersion
-     *     The interfaceVersion
+     * @param interfaceVersion The interfaceVersion
      */
     public void setInterfaceVersion(String interfaceVersion) {
         this.interfaceVersion = interfaceVersion;

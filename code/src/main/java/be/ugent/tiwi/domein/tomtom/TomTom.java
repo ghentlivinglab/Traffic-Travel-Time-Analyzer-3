@@ -1,25 +1,21 @@
 
 package be.ugent.tiwi.domein.tomtom;
 
+import com.fasterxml.jackson.annotation.*;
+
+import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "formatVersion",
-    "copyright",
-    "privacy",
-    "routes"
+        "formatVersion",
+        "copyright",
+        "privacy",
+        "routes"
 })
 public class TomTom {
 
@@ -35,9 +31,7 @@ public class TomTom {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The formatVersion
+     * @return The formatVersion
      */
     @JsonProperty("formatVersion")
     public String getFormatVersion() {
@@ -45,9 +39,7 @@ public class TomTom {
     }
 
     /**
-     * 
-     * @param formatVersion
-     *     The formatVersion
+     * @param formatVersion The formatVersion
      */
     @JsonProperty("formatVersion")
     public void setFormatVersion(String formatVersion) {
@@ -55,9 +47,7 @@ public class TomTom {
     }
 
     /**
-     * 
-     * @return
-     *     The copyright
+     * @return The copyright
      */
     @JsonProperty("copyright")
     public String getCopyright() {
@@ -65,9 +55,7 @@ public class TomTom {
     }
 
     /**
-     * 
-     * @param copyright
-     *     The copyright
+     * @param copyright The copyright
      */
     @JsonProperty("copyright")
     public void setCopyright(String copyright) {
@@ -75,9 +63,7 @@ public class TomTom {
     }
 
     /**
-     * 
-     * @return
-     *     The privacy
+     * @return The privacy
      */
     @JsonProperty("privacy")
     public String getPrivacy() {
@@ -85,9 +71,7 @@ public class TomTom {
     }
 
     /**
-     * 
-     * @param privacy
-     *     The privacy
+     * @param privacy The privacy
      */
     @JsonProperty("privacy")
     public void setPrivacy(String privacy) {
@@ -95,9 +79,7 @@ public class TomTom {
     }
 
     /**
-     * 
-     * @return
-     *     The routes
+     * @return The routes
      */
     @JsonProperty("routes")
     public List<Route> getRoutes() {
@@ -105,9 +87,7 @@ public class TomTom {
     }
 
     /**
-     * 
-     * @param routes
-     *     The routes
+     * @param routes The routes
      */
     @JsonProperty("routes")
     public void setRoutes(List<Route> routes) {

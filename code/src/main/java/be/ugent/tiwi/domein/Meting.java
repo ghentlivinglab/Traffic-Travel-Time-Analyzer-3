@@ -11,9 +11,11 @@ public class Meting {
     private int reistijd;
     private int optimale_reistijd;
     private LocalDateTime timestamp;
+
     public Meting() {
 
     }
+
     public Meting(Provider provider, Traject traject, int reistijd, int optimale_reistijd, LocalDateTime timestamp) {
         this.provider = provider;
         this.traject = traject;

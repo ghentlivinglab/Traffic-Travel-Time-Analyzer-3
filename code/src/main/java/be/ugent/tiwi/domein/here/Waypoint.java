@@ -1,9 +1,10 @@
 
 package be.ugent.tiwi.domein.here;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class Waypoint {
@@ -37,162 +38,126 @@ public class Waypoint {
     private Integer shapeIndex;
 
     /**
-     * 
-     * @return
-     *     The linkId
+     * @return The linkId
      */
     public String getLinkId() {
         return linkId;
     }
 
     /**
-     * 
-     * @param linkId
-     *     The linkId
+     * @param linkId The linkId
      */
     public void setLinkId(String linkId) {
         this.linkId = linkId;
     }
 
     /**
-     * 
-     * @return
-     *     The mappedPosition
+     * @return The mappedPosition
      */
     public MappedPosition getMappedPosition() {
         return mappedPosition;
     }
 
     /**
-     * 
-     * @param mappedPosition
-     *     The mappedPosition
+     * @param mappedPosition The mappedPosition
      */
     public void setMappedPosition(MappedPosition mappedPosition) {
         this.mappedPosition = mappedPosition;
     }
 
     /**
-     * 
-     * @return
-     *     The originalPosition
+     * @return The originalPosition
      */
     public OriginalPosition getOriginalPosition() {
         return originalPosition;
     }
 
     /**
-     * 
-     * @param originalPosition
-     *     The originalPosition
+     * @param originalPosition The originalPosition
      */
     public void setOriginalPosition(OriginalPosition originalPosition) {
         this.originalPosition = originalPosition;
     }
 
     /**
-     * 
-     * @return
-     *     The type
+     * @return The type
      */
     public String getType() {
         return type;
     }
 
     /**
-     * 
-     * @param type
-     *     The type
+     * @param type The type
      */
     public void setType(String type) {
         this.type = type;
     }
 
     /**
-     * 
-     * @return
-     *     The spot
+     * @return The spot
      */
     public Double getSpot() {
         return spot;
     }
 
     /**
-     * 
-     * @param spot
-     *     The spot
+     * @param spot The spot
      */
     public void setSpot(Double spot) {
         this.spot = spot;
     }
 
     /**
-     * 
-     * @return
-     *     The sideOfStreet
+     * @return The sideOfStreet
      */
     public String getSideOfStreet() {
         return sideOfStreet;
     }
 
     /**
-     * 
-     * @param sideOfStreet
-     *     The sideOfStreet
+     * @param sideOfStreet The sideOfStreet
      */
     public void setSideOfStreet(String sideOfStreet) {
         this.sideOfStreet = sideOfStreet;
     }
 
     /**
-     * 
-     * @return
-     *     The mappedRoadName
+     * @return The mappedRoadName
      */
     public String getMappedRoadName() {
         return mappedRoadName;
     }
 
     /**
-     * 
-     * @param mappedRoadName
-     *     The mappedRoadName
+     * @param mappedRoadName The mappedRoadName
      */
     public void setMappedRoadName(String mappedRoadName) {
         this.mappedRoadName = mappedRoadName;
     }
 
     /**
-     * 
-     * @return
-     *     The label
+     * @return The label
      */
     public String getLabel() {
         return label;
     }
 
     /**
-     * 
-     * @param label
-     *     The label
+     * @param label The label
      */
     public void setLabel(String label) {
         this.label = label;
     }
 
     /**
-     * 
-     * @return
-     *     The shapeIndex
+     * @return The shapeIndex
      */
     public Integer getShapeIndex() {
         return shapeIndex;
     }
 
     /**
-     * 
-     * @param shapeIndex
-     *     The shapeIndex
+     * @param shapeIndex The shapeIndex
      */
     public void setShapeIndex(Integer shapeIndex) {
         this.shapeIndex = shapeIndex;

@@ -1,24 +1,20 @@
 
 package be.ugent.tiwi.domein.tomtom;
 
+import com.fasterxml.jackson.annotation.*;
+
+import javax.annotation.Generated;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "lengthInMeters",
-    "travelTimeInSeconds",
-    "trafficDelayInSeconds",
-    "departureTime",
-    "arrivalTime"
+        "lengthInMeters",
+        "travelTimeInSeconds",
+        "trafficDelayInSeconds",
+        "departureTime",
+        "arrivalTime"
 })
 public class Summary_ {
 
@@ -36,9 +32,7 @@ public class Summary_ {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
-     * @return
-     *     The lengthInMeters
+     * @return The lengthInMeters
      */
     @JsonProperty("lengthInMeters")
     public Integer getLengthInMeters() {
@@ -46,9 +40,7 @@ public class Summary_ {
     }
 
     /**
-     * 
-     * @param lengthInMeters
-     *     The lengthInMeters
+     * @param lengthInMeters The lengthInMeters
      */
     @JsonProperty("lengthInMeters")
     public void setLengthInMeters(Integer lengthInMeters) {
@@ -56,9 +48,7 @@ public class Summary_ {
     }
 
     /**
-     * 
-     * @return
-     *     The travelTimeInSeconds
+     * @return The travelTimeInSeconds
      */
     @JsonProperty("travelTimeInSeconds")
     public Integer getTravelTimeInSeconds() {
@@ -66,9 +56,7 @@ public class Summary_ {
     }
 
     /**
-     * 
-     * @param travelTimeInSeconds
-     *     The travelTimeInSeconds
+     * @param travelTimeInSeconds The travelTimeInSeconds
      */
     @JsonProperty("travelTimeInSeconds")
     public void setTravelTimeInSeconds(Integer travelTimeInSeconds) {
@@ -76,9 +64,7 @@ public class Summary_ {
     }
 
     /**
-     * 
-     * @return
-     *     The trafficDelayInSeconds
+     * @return The trafficDelayInSeconds
      */
     @JsonProperty("trafficDelayInSeconds")
     public Integer getTrafficDelayInSeconds() {
@@ -86,9 +72,7 @@ public class Summary_ {
     }
 
     /**
-     * 
-     * @param trafficDelayInSeconds
-     *     The trafficDelayInSeconds
+     * @param trafficDelayInSeconds The trafficDelayInSeconds
      */
     @JsonProperty("trafficDelayInSeconds")
     public void setTrafficDelayInSeconds(Integer trafficDelayInSeconds) {
@@ -96,9 +80,7 @@ public class Summary_ {
     }
 
     /**
-     * 
-     * @return
-     *     The departureTime
+     * @return The departureTime
      */
     @JsonProperty("departureTime")
     public String getDepartureTime() {
@@ -106,9 +88,7 @@ public class Summary_ {
     }
 
     /**
-     * 
-     * @param departureTime
-     *     The departureTime
+     * @param departureTime The departureTime
      */
     @JsonProperty("departureTime")
     public void setDepartureTime(String departureTime) {
@@ -116,9 +96,7 @@ public class Summary_ {
     }
 
     /**
-     * 
-     * @return
-     *     The arrivalTime
+     * @return The arrivalTime
      */
     @JsonProperty("arrivalTime")
     public String getArrivalTime() {
@@ -126,9 +104,7 @@ public class Summary_ {
     }
 
     /**
-     * 
-     * @param arrivalTime
-     *     The arrivalTime
+     * @param arrivalTime The arrivalTime
      */
     @JsonProperty("arrivalTime")
     public void setArrivalTime(String arrivalTime) {

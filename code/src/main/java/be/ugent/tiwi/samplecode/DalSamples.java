@@ -6,6 +6,7 @@ import be.ugent.tiwi.dal.TrajectRepository;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.scraper.CoyoteScraper;
 import be.ugent.tiwi.scraper.GoogleScraper;
 import be.ugent.tiwi.scraper.HereScraper;
 import settings.Settings;
@@ -48,6 +49,14 @@ public class DalSamples {
         MetingRepository mcrud = new MetingRepository();
         gs.makeCall();
         List<Meting> metingen = mcrud.getMetingen();
+        for (Meting meting : metingen) {
+            System.out.println(meting.toString());
+        }
+    }
+
+    public static void scrapeCoyote() {
+        CoyoteScraper cs = new CoyoteScraper();
+        List<Meting> metingen = cs.scrape();
         for (Meting meting : metingen) {
             System.out.println(meting.toString());
         }

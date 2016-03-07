@@ -2,6 +2,7 @@ package be.ugent.tiwi.controller;
 
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Provider;
+import be.ugent.tiwi.samplecode.DalSamples;
 import be.ugent.tiwi.scraper.CoyoteScraper;
 import be.ugent.tiwi.scraper.GoogleScraper;
 import be.ugent.tiwi.scraper.HereScraper;
@@ -41,9 +42,11 @@ public class ScheduleController {
             for (Provider provider : providers) {
                 haalDataVanProvider(provider.getNaam());
             }
+
             /*DalSamples.getProviderWithName("Waze");
             DalSamples.getTrajecten();
             DalSamples.scrapeHere();
+            DalSamples.scrapeCoyote();
             DalSamples.scrapeGoogle();*/
         } catch (RuntimeException ex) {
             logger.error("Schedule gestopt door exception");

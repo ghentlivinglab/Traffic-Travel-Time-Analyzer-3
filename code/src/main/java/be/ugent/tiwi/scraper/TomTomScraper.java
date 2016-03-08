@@ -8,6 +8,7 @@ import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.RequestType;
 import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.tomtom.Route;
 import be.ugent.tiwi.domein.tomtom.TomTom;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,7 +66,6 @@ import java.util.List;
 public class TomTomScraper extends TrafficScraper {
 
     private String apiKey;
-    private String url;
     private JsonController<TomTom> jc;
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
 
@@ -91,23 +91,41 @@ public class TomTomScraper extends TrafficScraper {
 
         Provider tomtomProv = databaseController.haalProviderOp("TomTom");
         JsonController jc = new JsonController();
+
         for (Traject traject : trajectList) {
-            String url = "https://api.tomtom.com/routing/1/calculateRoute/" +
-                    traject.getStart_latitude() + "," +
-                    traject.getStart_longitude() +
-                    traject.getEnd_latitude() + "," +
-                    traject.getEnd_longitude() +
-                    "/json?" +
-                    "key=" + this.apiKey;
+             /* https://<baseURL>/routing/<versionNumber>/calculateRoute/<locations>[/<contentType>]?key=<apiKey>
+              * [&routeType=<routeType>][&traffic=<boolean>][&avoid=<avoidType>][&instructionsType=<instructionsType>]
+              * [&departAt=<time>][&maxAlternatives=<alternativeRoutes>][&computeBestOrder=<boolean>]
+              * [&routeRepresentation=<routeRepresentation>][&travelMode=<travelMode>][&callback=<callback>]
+              * More info: http://developer.tomtom.com/products/onlinenavigation/onlinerouting/Documentation#Request
+             */
+            StringBuilder urlBuilder = new StringBuilder();
+            urlBuilder.append("https://api.tomtom.com/routing/1/calculateRoute/");
+            urlBuilder.append(traject.getStart_latitude());
+            urlBuilder.append(",");
+            urlBuilder.append(traject.getStart_longitude());
+            urlBuilder.append(":");
+            urlBuilder.append(traject.getEnd_latitude());
+            urlBuilder.append(",");
+            urlBuilder.append(traject.getEnd_longitude());
+            urlBuilder.append("/json?");
+            urlBuilder.append("key=");
+            urlBuilder.append(this.apiKey);
 
-            TomTom tomtom = (TomTom) jc.getObject(url, TomTom.class, RequestType.GET);
-            int traveltime = tomtom.getResponse().getRoute().get(0).getSummary().getTravelTime();
-            int basetime = tomtom.getResponse().getRoute().get(0).getSummary().getBaseTime();
-            int distance = tomtom.getResponse().getRoute().get(0).getSummary().getDistance();
+            TomTom tomtom = (TomTom) jc.getObject(urlBuilder.toString(), TomTom.class, RequestType.GET);
+            LocalDateTime now = LocalDateTime.now();
+            for(Route r : tomtom.getRoutes()) {
+                if(r.getSummary().getLengthInMeters() == traject.getLengte()) {
+                    int traveltime = r.getSummary().getTravelTimeInSeconds();
+                    int basetime = r.getSummary().getTravelTimeInSeconds() - r.getSummary().getTrafficDelayInSeconds();
+                    Meting meting = new Meting(tomtomProv, traject, traveltime, basetime, now);
 
-            Meting meting = new Meting(tomtomProv, traject, traveltime, basetime, LocalDateTime.now());
-
-            metingen.add(meting);
+                    metingen.add(meting);
+                    logger.info("[TomTom] Meting van traject " + traject.toString() + " om " + now.toString() + " toegevoegd");
+                    break;
+                }else
+                    logger.warn("[TomTom] Meting van traject " + traject.toString() + " NIET toegevoegd! Gezochte afstand: " + traject.getLengte() + "; gevonden afstand: " + r.getSummary().getLengthInMeters());
+            }
         }
         return metingen;
     }

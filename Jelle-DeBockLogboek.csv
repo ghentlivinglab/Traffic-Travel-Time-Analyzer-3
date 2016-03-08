@@ -21,3 +21,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 03/03/16,07:45,12:00,Thuis,Poging tot implementatie van Leaflet maps met routing,,
 03/03/16,12:30,13:15,Thuis,Poging tot implementatie van Leaflet maps met routing,,
 07/03/16,19:00,20:30,Thuis,GUI herschreven naar herwerkte domeinlaag; extra tabel aan db toegevoegd en seeds aangepast,,
+08/03/16,08:15,12:00,School,Trajecten op kaart tekenen databankschemascript aanpassen en sprintreviewmeeting,,

@@ -22,7 +22,7 @@ with open(sys.argv[1]) as csvfile:
             else:
                 print "insert into "+\
                 "waypoints(traject_id,volgnr,latitude,longitude) values"+ \
-                "((select ID from trajecten where letter='"+str(trajectnr)+"'),"+ \
+                '((select ID from trajecten where letter="'+str(trajectnr)+'"),'+ \
                 str(volgnr)+","+row[0]+","+row[1]+");";
                 volgnr=volgnr+1
         rownum=rownum+1

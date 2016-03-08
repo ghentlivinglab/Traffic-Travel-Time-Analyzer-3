@@ -1,6 +1,7 @@
 package be.ugent.tiwi.dal;
 
 import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.Waypoint;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -99,5 +100,32 @@ public class TrajectRepository {
         }
 
         return trajectList;
+    }
+
+    public List<Waypoint> getWaypoints(int trajectid)
+    {
+        String query = "select * from waypoints where traject_id='" + trajectid + "'";
+        List<Waypoint> wpts = new ArrayList<>();
+        try {
+            Statement stmt = connector.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            Traject traj = getTraject(trajectid);
+
+            while (rs.next())
+            {
+                int volgnr = rs.getInt("volgnr");
+                String lat = rs.getString("latitude");
+                if (rs.wasNull())
+                    lat = null;
+                String lon = rs.getString("longitude");
+                if (rs.wasNull())
+                    lon = null;
+                wpts.add(new Waypoint(traj,volgnr,lat,lon));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return wpts;
     }
 }

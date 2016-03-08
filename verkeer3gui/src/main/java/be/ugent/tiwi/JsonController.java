@@ -1,11 +1,10 @@
 package be.ugent.tiwi;
 
-import be.ugent.tiwi.dal.MetingCRUD;
-import be.ugent.tiwi.dal.TrajectCRUD;
-import be.ugent.tiwi.domein.Meting;
 import com.google.gson.Gson;
+import be.ugent.tiwi.dal.TrajectRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,12 +14,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/json")
 public class JsonController {
-    @RequestMapping(value = "/trajecten", method = RequestMethod.GET)
+    @RequestMapping(value = "/trajecten/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    String getJsonTrajecten(ModelMap model)
+    String getJsonTrajecten(@PathVariable("id") int id, ModelMap model)
     {
-        TrajectCRUD tc = new TrajectCRUD();
+        TrajectRepository tr = new TrajectRepository();
 
-        return new Gson().toJson(tc.getTrajecten());
+        return new Gson().toJson(tr.getWaypoints(id));
     }
 }

@@ -65,6 +65,6 @@ public class ProviderRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return providers;
     }
 }

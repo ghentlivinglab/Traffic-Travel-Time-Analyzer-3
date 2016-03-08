@@ -2,12 +2,11 @@
 use vop;
 delete from vop.providers;
 insert into vop.providers(naam,is_active) values
-	('Waze',1),
-    ('TomTom',1),
+	('Waze',0),
+    ('TomTom',0),
     ('Here',1),
-    ('Coyote',1),
-    ('Google Maps',1),
-    ('Here',1)
+    ('Coyote',0),
+    ('Google Maps',1)
 ;
 
 #Maak de tabel 'Traject' leeg en vul ze op met de trajecten uit de file Analyse_van_reistijdinfo_in_en_rond_Gent_PM_v2.pdf

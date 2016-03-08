@@ -33,6 +33,7 @@ public class JsonController<T extends Object> {
 
     // constructor
     public JsonController() {
+
     }
 
     // function get json from url
@@ -85,7 +86,6 @@ public class JsonController<T extends Object> {
             }
         }
 
-        // return jObj
         return jObj;
 
     }

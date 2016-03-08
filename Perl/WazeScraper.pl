@@ -5,9 +5,9 @@ use Encode;
 # Scraper blok aanmaken
 my $route = scraper {
 	# In welk blok gekeken moet worden
-	process "body", "routes[]" => scraper {
+	process ".map-controls", "routes[]" => scraper {
 		# Haal info op van elementen uit het blok
-		process "a", name => 'TEXT';
+		process "option", name => 'TEXT';
 	};
 };
 
@@ -23,5 +23,6 @@ my $res = $route->scrape( URI->new($uri) );
 
 # Overloop de routes
 for my $route (@{$res->{routes}}) {
-	print Encode::encode("utf8", "$route->{name}\n");
+	my $test = "nothing" unless $route->{name};
+	print Encode::encode("utf8", "$test\n");
 }

@@ -17,7 +17,7 @@
                     <td><c:out value="${traject.naam}"/></td>
                     <td><c:out value="${traject.lengte/1000}"/></td>
                     <td><c:out value="${traject.optimale_reistijd}"/></td>
-                    <td><a class="btn btn-default view-traject-onmap" data-id="<c:out value="${traject.id}"/>">Show</a></td>
+                    <td><a class="btn btn-success" id="view-traject-onmap" data-id="<c:out value="${traject.id}"/>">Show</a></td>
                 </tr>
             </c:forEach>
         </tbody>
@@ -28,5 +28,8 @@
 <link href="<c:url value="/resources/leaflet/leaflet-routing-machine.css"/>" rel="stylesheet"  type="text/css" />
 <script src="<c:url value="/resources/leaflet/leaflet.js"/>"></script>
 <script src="<c:url value="/resources/leaflet/leaflet-routing-machine.min.js"/>"></script>
+<script type="application/javascript">
+
+</script>
 <script src="<c:url value="/resources/js/trajecten.js"/>"></script>
 <jsp:include page="/WEB-INF/views/partial/footer.jsp" />

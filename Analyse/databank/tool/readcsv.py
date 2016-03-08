@@ -20,9 +20,10 @@ with open(sys.argv[1]) as csvfile:
                 trajectnr = trajectnr.strip()
                 aantal_ptn = row[1][-1:]
             else:
-                print "insert into "+\
-                "waypoints(traject_id,volgnr,latitude,longitude) values"+ \
-                '((select ID from trajecten where letter="'+str(trajectnr)+'"),'+ \
-                str(volgnr)+","+row[0]+","+row[1]+");";
+                if(str(trajectnr)!="V"):
+                    print "insert into "+\
+                        "waypoints(traject_id,volgnr,longitude,latitude) values"+ \
+                        '((select ID from trajecten where letter="'+str(trajectnr)+'"),'+ \
+                        str(volgnr)+","+row[0]+","+row[1]+");";
                 volgnr=volgnr+1
         rownum=rownum+1

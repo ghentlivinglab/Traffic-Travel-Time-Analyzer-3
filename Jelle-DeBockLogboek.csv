@@ -22,3 +22,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 03/03/16,12:30,13:15,Thuis,Poging tot implementatie van Leaflet maps met routing,,
 07/03/16,19:00,20:30,Thuis,GUI herschreven naar herwerkte domeinlaag; extra tabel aan db toegevoegd en seeds aangepast,,
 08/03/16,08:15,12:00,School,Trajecten op kaart tekenen databankschemascript aanpassen en sprintreviewmeeting,,
+10/03/16,09:15,12:15,Thuis,Trajecten editeerbaar maken door middel van een opensource routeringsengine die tevens ideale reistijd en lengte zoekt,,
+10/03/16,12:45,14:15,School,Afwerken editeerbare trajecten en aanmaken van admin overzichtspagina,,

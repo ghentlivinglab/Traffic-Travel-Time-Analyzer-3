@@ -37,6 +37,27 @@ public class DatabaseController {
 
     }
 
+    public Traject haalTraject(int id)
+    {
+        return trajectenRepository.getTraject(id);
+    }
+
+    public void wijzigTraject(Traject traject)
+    {
+        trajectenRepository.wijzigTraject(
+                traject.getId(),
+                traject.getNaam(),
+                traject.getLetter(),
+                traject.getLengte(),
+                traject.getOptimale_reistijd(),
+                traject.is_active(),
+                traject.getStart_latitude(),
+                traject.getStart_longitude(),
+                traject.getEnd_latitude(),
+                traject.getEnd_longitude()
+        );
+    }
+
     public List<Traject> getTrajectenMetCoordinaten() {
         return trajectenRepository.getTrajectenMetCoordinaten();
     }

@@ -25,7 +25,6 @@ function getTraject(id)
         $.each( data, function( key, val ) {
             addPointToArray(id,val["latitude"],val["longitude"]);
         });
-        console.log(wpts);
         updateLeaflet();
     });
 }
@@ -35,7 +34,7 @@ $('body').on('click','#view-traject-onmap',function () {
     $(this).removeClass("btn-success");
     $(this).addClass("btn-danger");
     $(this).attr("id","delete-traject-onmap");
-    $(this).html("hide");
+    $(this).html("Verberg");
     getTraject(id);
 });
 
@@ -44,7 +43,7 @@ $('body').on('click','#delete-traject-onmap',function () {
     $(this).removeClass("btn-danger");
     $(this).addClass("btn-success");
     $(this).attr("id","view-traject-onmap");
-    $(this).html("Show");
+    $(this).html("Toon");
     removeTraject(id);
 });
 function removeTraject(id)

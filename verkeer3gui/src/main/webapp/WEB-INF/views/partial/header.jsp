@@ -7,6 +7,7 @@
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet"  type="text/css" />
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet"  type="text/css" />
     <script src="<c:url value="/resources/js/jquery.min.js"/>"></script>
+    <script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js"/>"></script>
 </head>
 <body>
 <header class="col-md-12">
@@ -22,8 +23,17 @@
                 <li><a href="<c:url value="/"/>">Home</a></li>
                 <li><a href="<c:url value="/trajecten"/>">Trajecten</a></li>
                 <li><a href="<c:url value="/about"/>">Over</a></li>
+                <li><a href="<c:url value="/admin"/>">Admin</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
 <div id="content">
+    <c:if test="${param.message!=null}">
+        <div id="messagebox" class="alert alert-success">
+            <strong>Melding:</strong> <c:out value="${param.message}"/>
+        </div>
+        <script>
+            $("#messagebox").show().delay(5000).fadeOut();
+        </script>
+    </c:if>

@@ -33,6 +33,7 @@ public class JsonController<T extends Object> {
 
     // constructor
     public JsonController() {
+
     }
 
     // function get json from url
@@ -85,7 +86,6 @@ public class JsonController<T extends Object> {
             }
         }
 
-        // return jObj
         return jObj;
 
     }
@@ -100,7 +100,7 @@ public class JsonController<T extends Object> {
     }
 
     /**
-     * Deze methode kan je gebruiken voor de scrapers. Het geeft een object terug van het gewenste type (paramter klass)
+     * Deze methode kan je gebruiken voor de scrapers. Het geeft een object terug van het gewenste type (parameter klasse)
      *
      * @param url    de **volledige** url waar je de gegevens moet ophalen
      * @param klasse de **klasse** waarin de json string in kan geparsed worden

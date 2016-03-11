@@ -24,9 +24,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,12 +142,11 @@ public class CoyoteScraper extends TrafficScraper {
 
         Provider coyote = dbController.haalProviderOp("Coyote");
         for (Map.Entry<String, JsonElement> traject : trajecten) {
-            Traject trajectObj = new Traject();
+            Traject trajectObj = dbController.haalTrajectOp(traject.getKey());
             Meting metingObj = new Meting();
             metingObj.setProvider(coyote);
-            trajectObj.setNaam(traject.getKey());
             metingObj.setTimestamp(LocalDateTime.now());
-
+            metingObj.setTraject(trajectObj);
 
             Set<Map.Entry<String, JsonElement>> trajectData = traject.getValue().getAsJsonObject().entrySet();
             for (Map.Entry<String, JsonElement> data : trajectData) {
@@ -169,5 +166,4 @@ public class CoyoteScraper extends TrafficScraper {
 
         return metingen;
     }
-
 }

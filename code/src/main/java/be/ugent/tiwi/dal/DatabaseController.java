@@ -44,4 +44,8 @@ public class DatabaseController {
     public List<Provider> haalActieveProvidersOp() {
         return providerRepository.getActieveProviders();
     }
+
+    public Traject haalTrajectOp(String naam) {
+        return trajectenRepository.getTraject(naam);
+    }
 }

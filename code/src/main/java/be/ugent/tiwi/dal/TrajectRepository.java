@@ -1,19 +1,23 @@
 package be.ugent.tiwi.dal;
 
+import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;
+import org.apache.logging.log4j.LogManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by jelle on 19.02.16.
  */
 public class TrajectRepository {
     private DBConnector connector;
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(ScheduleController.class);
 
     public TrajectRepository() {
         connector = new DBConnector();
@@ -86,6 +90,27 @@ public class TrajectRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void wijzigTraject(int id, String naam, String letter, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude)
+    {
+        String query = "update trajecten set naam=\""+naam+"\","+
+                                            "letter=\""+letter+"\","+
+                                            "start_latitude=\""+start_latitude+"\","+
+                                            "start_longitude=\""+start_longitude+"\","+
+                                            "end_latitude=\""+end_latitude+"\","+
+                                            "end_longitude=\""+end_longitude+"\","+
+                                            "is_active="+is_active+","+
+                                            "optimale_reistijd="+optimale_reistijd+
+                     " where id="+id;
+
+        try {
+            Statement stmt = connector.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+        }catch (SQLException e) {
+            logger.error("Wijzigen van traject met id "+id+" is mislukt...");
+            logger.error(e);
+        }
     }
 
     public List<Traject> getTrajectenMetCoordinaten() {

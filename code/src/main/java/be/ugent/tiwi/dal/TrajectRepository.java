@@ -33,7 +33,6 @@ public class TrajectRepository {
 
             while (rs.next()) {
                 int id = rs.getInt("ID");
-                String letter = rs.getString("letter");
                 String naam = rs.getString("naam");
                 int lengte = rs.getInt("lengte");
                 int optimale_reistijd = rs.getInt("optimale_reistijd");
@@ -51,7 +50,7 @@ public class TrajectRepository {
                 if (rs.wasNull())
                     end_longitude = null;
 
-                trajecten.add(new Traject(id, letter, naam, lengte, optimale_reistijd, is_active, start_latitude,
+                trajecten.add(new Traject(id, naam, lengte, optimale_reistijd, is_active, start_latitude,
                         start_longitude, end_latitude, end_longitude));
             }
         } catch (SQLException e) {
@@ -68,7 +67,6 @@ public class TrajectRepository {
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                String letter = rs.getString("letter");
                 String naam = rs.getString("naam");
                 int lengte = rs.getInt("lengte");
                 int optimale_reistijd = rs.getInt("optimale_reistijd");
@@ -86,7 +84,7 @@ public class TrajectRepository {
                 if (rs.wasNull())
                     end_longitude = null;
 
-                return new Traject(id, letter, naam, lengte, optimale_reistijd, is_active, start_latitude, start_longitude, end_latitude, end_longitude);
+                return new Traject(id, naam, lengte, optimale_reistijd, is_active, start_latitude, start_longitude, end_latitude, end_longitude);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,10 +92,9 @@ public class TrajectRepository {
         return null;
     }
 
-    public void wijzigTraject(int id, String naam, String letter, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude)
+    public void wijzigTraject(int id, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude)
     {
         String query = "update trajecten set naam=\""+naam+"\","+
-                                            "letter=\""+letter+"\","+
                                             "start_latitude=\""+start_latitude+"\","+
                                             "start_longitude=\""+start_longitude+"\","+
                                             "end_latitude=\""+end_latitude+"\","+
@@ -152,5 +149,39 @@ public class TrajectRepository {
             e.printStackTrace();
         }
         return wpts;
+    }
+
+    public Traject getTraject(String naam) {
+        String query = "select * from trajecten where naam='" + naam + "'";
+
+        try {
+            Statement stmt = connector.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                naam = rs.getString("naam");
+                int id = rs.getInt("id");
+                int lengte = rs.getInt("lengte");
+                int optimale_reistijd = rs.getInt("optimale_reistijd");
+                boolean is_active = rs.getBoolean("is_active");
+                String start_latitude = rs.getString("start_latitude");
+                if (rs.wasNull())
+                    start_latitude = null;
+                String start_longitude = rs.getString("start_longitude");
+                if (rs.wasNull())
+                    start_longitude = null;
+                String end_latitude = rs.getString("end_latitude");
+                if (rs.wasNull())
+                    end_latitude = null;
+                String end_longitude = rs.getString("end_longitude");
+                if (rs.wasNull())
+                    end_longitude = null;
+
+                return new Traject(id, naam, lengte, optimale_reistijd, is_active, start_latitude, start_longitude, end_latitude, end_longitude);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -47,7 +47,6 @@ public class DatabaseController {
         trajectenRepository.wijzigTraject(
                 traject.getId(),
                 traject.getNaam(),
-                traject.getLetter(),
                 traject.getLengte(),
                 traject.getOptimale_reistijd(),
                 traject.is_active(),
@@ -64,5 +63,9 @@ public class DatabaseController {
 
     public List<Provider> haalActieveProvidersOp() {
         return providerRepository.getActieveProviders();
+    }
+
+    public Traject haalTrajectOp(String naam) {
+        return trajectenRepository.getTraject(naam);
     }
 }

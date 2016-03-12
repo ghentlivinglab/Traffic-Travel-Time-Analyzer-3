@@ -5,7 +5,6 @@ package be.ugent.tiwi.domein;
  */
 public class Traject {
     private int id;
-    private String letter;
     private String naam;
     private int lengte;
     private int optimale_reistijd;      //in seconden
@@ -18,9 +17,8 @@ public class Traject {
     public Traject() {
     }
 
-    public Traject(int id, String letter, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude) {
+    public Traject(int id, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude) {
         this.id = id;
-        this.letter = letter;
         this.naam = naam;
         this.lengte = lengte;
         this.optimale_reistijd = optimale_reistijd;
@@ -35,7 +33,6 @@ public class Traject {
     public String toString() {
         return "Traject{" +
                 "id=" + id +
-                ", letter='" + letter + '\'' +
                 ", naam='" + naam + '\'' +
                 ", lengte=" + lengte +
                 ", optimale_reistijd=" + optimale_reistijd +
@@ -49,10 +46,6 @@ public class Traject {
 
     public int getId() {
         return id;
-    }
-
-    public String getLetter() {
-        return letter;
     }
 
     public String getNaam() {
@@ -89,10 +82,6 @@ public class Traject {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setLetter(String letter) {
-        this.letter = letter;
     }
 
     public void setNaam(String naam) {

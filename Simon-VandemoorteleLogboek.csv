@@ -8,3 +8,8 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 22/02/16,23:00,23:59,Thuis,"Bing- en Google Maps providers geformatteerd",13,
 23/02/16,08:30,12:15,School,"Waze en Coyote providers toegevoegd, HERE provider merged",13,
 01/03/16,08:15,12:15,School,"Afwerken analyse-document",,
+08/03/16,08:15,11:30,School,"TomTomScraper gefixed, performantie verhoogd dmv gebruik van StringBuilders",27,
+08/03/16,11:30,12:00,School,"Sprint Planning meeting",,
+13/03/16,12:00,16:15,Thuis,"Nieuwe trajecten en coordinaten opgezocht en toegevoegd aan een nieuw bestand",43,
+13/03/16,16:30,16:45,Thuis,"Structuur database aangepast",43,
+13/03/16,17:00,18:45,Thuis,"Database aangepast adhv Sprint Review meeting",43,

@@ -2,10 +2,7 @@ package be.ugent.tiwi.scraper;
 
 import be.ugent.tiwi.controller.JsonController;
 import be.ugent.tiwi.dal.DatabaseController;
-import be.ugent.tiwi.domein.Meting;
-import be.ugent.tiwi.domein.Provider;
-import be.ugent.tiwi.domein.RequestType;
-import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.*;
 import be.ugent.tiwi.domein.google.Google;
 import settings.Settings;
 
@@ -49,9 +46,10 @@ public class GoogleScraper extends TrafficScraper {
         Provider google = databaseController.haalProviderOp("Google Maps");
         JsonController jc = new JsonController();
         for (Traject traject : trajectList) {
+            List<Waypoint> waypoints = traject.getWaypoints();
             String url = "https://maps.googleapis.com/maps/api/directions/json?" +
-                    "&origin=" + traject.getStart_latitude() + "%2C" + traject.getStart_longitude() +
-                    "&destination=" + traject.getEnd_latitude() + "%2C" + traject.getEnd_longitude() +
+                    "&origin=" + waypoints.get(0).getLatitude() + "%2C" + waypoints.get(0).getLatitude() +
+                    "&destination=" + waypoints.get(waypoints.size()-1).getLatitude() + "%2C" + waypoints.get(waypoints.size()-1).getLongitude() +
                     "&key=" + this.apiKey;
             Google google_obj = jc.makeGoogleCall(url, RequestType.GET);
             int traveltime = google_obj.getRoutes().get(0).getLegs().get(0).getDuration().getValue();

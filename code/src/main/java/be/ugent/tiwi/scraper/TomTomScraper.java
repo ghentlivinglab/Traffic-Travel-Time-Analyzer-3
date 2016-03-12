@@ -4,10 +4,7 @@ package be.ugent.tiwi.scraper;
 import be.ugent.tiwi.controller.JsonController;
 import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.DatabaseController;
-import be.ugent.tiwi.domein.Meting;
-import be.ugent.tiwi.domein.Provider;
-import be.ugent.tiwi.domein.RequestType;
-import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.*;
 import be.ugent.tiwi.domein.tomtom.Route;
 import be.ugent.tiwi.domein.tomtom.TomTom;
 import org.apache.logging.log4j.LogManager;
@@ -99,15 +96,16 @@ public class TomTomScraper extends TrafficScraper {
               * [&routeRepresentation=<routeRepresentation>][&travelMode=<travelMode>][&callback=<callback>]
               * More info: http://developer.tomtom.com/products/onlinenavigation/onlinerouting/Documentation#Request
              */
+            List<Waypoint> waypoints = traject.getWaypoints();
             StringBuilder urlBuilder = new StringBuilder();
             urlBuilder.append("https://api.tomtom.com/routing/1/calculateRoute/");
-            urlBuilder.append(traject.getStart_latitude());
+            urlBuilder.append(waypoints.get(0).getLatitude());
             urlBuilder.append(",");
-            urlBuilder.append(traject.getStart_longitude());
+            urlBuilder.append(waypoints.get(0).getLongitude());
             urlBuilder.append(":");
-            urlBuilder.append(traject.getEnd_latitude());
+            urlBuilder.append(waypoints.get(waypoints.size()-1).getLatitude());
             urlBuilder.append(",");
-            urlBuilder.append(traject.getEnd_longitude());
+            urlBuilder.append(waypoints.get(waypoints.size()-1).getLongitude());
             urlBuilder.append("/json?");
             urlBuilder.append("key=");
             urlBuilder.append(this.apiKey);

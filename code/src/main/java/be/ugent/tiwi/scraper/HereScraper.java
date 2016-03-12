@@ -3,10 +3,7 @@ package be.ugent.tiwi.scraper;
 import be.ugent.tiwi.controller.JsonController;
 import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.DatabaseController;
-import be.ugent.tiwi.domein.Meting;
-import be.ugent.tiwi.domein.Provider;
-import be.ugent.tiwi.domein.RequestType;
-import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.*;
 import be.ugent.tiwi.domein.here.Here;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,11 +59,12 @@ public class HereScraper extends TrafficScraper {
         Provider here = databaseController.haalProviderOp("Here");
         JsonController jc = new JsonController();
         for (Traject traject : trajectList) {
+            List<Waypoint> waypoints = traject.getWaypoints();
             String url = "https://route.cit.api.here.com/routing/7.2/calculateroute.json?" +
                     "app_id=" + this.appId +
                     "&app_code=" + this.appCode +
-                    "&waypoint0=geo!" + traject.getStart_latitude() + "%2C" + traject.getStart_longitude() +
-                    "&waypoint1=geo!" + traject.getEnd_latitude() + "%2C" + traject.getEnd_longitude() +
+                    "&waypoint0=geo!" + waypoints.get(0).getLatitude() + "%2C" + waypoints.get(0).getLongitude() +
+                    "&waypoint1=geo!" + waypoints.get(waypoints.size()-1).getLatitude() + "%2C" + waypoints.get(waypoints.size()-1).getLongitude() +
                     "&mode=fastest%3Bcar%3Btraffic%3Aenabled";
             Here here_obj = (Here) jc.getObject(url, Here.class, RequestType.GET);
             int traveltime = here_obj.getResponse().getRoute().get(0).getSummary().getTravelTime();

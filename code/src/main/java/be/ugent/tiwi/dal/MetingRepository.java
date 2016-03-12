@@ -62,7 +62,7 @@ public class MetingRepository {
                 int reistijd = rs.getInt("reistijd");
                 int optimal = rs.getInt("optimal");
                 Provider provider = pcrud.getProvider(rs.getInt("provider_id"));
-                Traject traject = tcrud.getTraject(rs.getInt("traject_id"));
+                Traject traject = tcrud.getTraject(rs.getInt("traject_id"), rs.getBoolean("omgekeerd"));
                 LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
 
                 metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
@@ -77,9 +77,10 @@ public class MetingRepository {
     }
 
     public void addMeting(Meting meting) {
-        String query = "insert into metingen(provider_id,traject_id,reistijd,optimal) values ("
+        String query = "insert into metingen(provider_id,traject_id,omgekeerd,reistijd,optimal) values ("
                 + meting.getProvider().getId() + ","
                 + meting.getTraject().getId() + ","
+                + meting.getTraject().is_omgekeerd() + ","
                 + meting.getReistijd() + ","
                 + meting.getOptimale_reistijd()
                 + ")";

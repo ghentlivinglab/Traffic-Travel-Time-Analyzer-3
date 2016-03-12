@@ -14,24 +14,24 @@ INSERT INTO `providers` (`id`, `naam`, `is_active`) VALUES
 (4, 'Coyote', 0),
 (5, 'Google Maps', 1);
 
-INSERT INTO `trajecten` (`id`, `letter`, `naam`, `omgekeerde_naam`, `van`, `naar`, `lengte`, `omgekeerde_lengte`, `optimale_reistijd`, `omgekeerde_optimale_reistijd`, `is_active`) VALUES
-(1, 'A', 'Rooigemlaan (R40) northbound', 'Rooigemlaan (R40) southbound', 'Drongensesteenweg', 'Palinghuizen', NULL, NULL, NULL, NULL, 1),
-(2, 'B', 'Gasmeterlaan (R40) eastbound', 'Nieuwevaart (R40) westbound', 'Palinghuizen', 'Neuseplein', NULL, NULL, NULL, NULL, 1),
-(3, 'C', 'Dok-Noord (R40) southbound', 'Dok-Noord (R40) northbound', 'Neuseplein', 'Dampoort', NULL, NULL, NULL, NULL, 1),
-(4, 'D', 'Heernislaan (R40) southbound', 'Heernislaan (R40) northbound', 'Dampoort', 'Zuidparklaan', NULL, NULL, NULL, NULL, 1),
-(5, 'E', 'Martelaarslaan (R40) northbound', 'Martelaarslaan (R40) southbound', 'Zuidparklaan', 'Drongensesteenweg', NULL, NULL, NULL, NULL, 1),
-(6, 'F', 'Blaisantvest (N430) eastbound', 'Blaisantvest (N430) westbound', 'Einde Were', 'Neuseplein', NULL, NULL, NULL, NULL, 1),
-(7, 'G', 'Keizer Karelstraat northbound', 'Keizer Karelstraat southbound', 'Sint-Lievenslaan', 'Neuseplein', NULL, NULL, NULL, NULL, 1),
-(8, 'H', 'Kennedylaan (R4) southbound', 'Kennedylaan (R4) northbound', 'E34', 'Port Arthurlaan', NULL, NULL, NULL, NULL, 1),
-(9, 'I', 'Eisenhowerlaan (R4) southbound', 'Eisenhowerlaan (R4) northbound', 'Kennedylaan', 'E17', NULL, NULL, NULL, NULL, 1),
-(10, 'J', 'Binnenring-Drongen (R4) northbound', 'Buitenring-Drongen (R4) southbound', 'Sluisweg', 'Industrieweg', NULL, NULL, NULL, NULL, 1),
-(11, 'K', 'Paryslaan (R4) northbound', 'Paryslaan (R4) southbound', 'Industrieweg', 'E34', NULL, NULL, NULL, NULL, 1),
-(12, 'L', 'Drongensesteenweg (N466) eastbound', 'Drongensesteenweg (N466) westbound', 'E40', 'Rooigemlaan', NULL, NULL, NULL, NULL, 1),
-(13, 'M', 'Antwerpsesteenweg (N70) westbound', 'Antwerpsesteenweg (N70) eastbound', 'R4', 'Dampoort', NULL, NULL, NULL, NULL, 1),
-(14, 'N', 'B401 (northbound)', 'B401 (southbound)', 'E17', 'Vlaanderenstraat', NULL, NULL, NULL, NULL, 1),
-(15, 'O', 'Brusselsesteenweg (N9) westbound', 'Brusselsesteenweg (N9) eastbound', 'R4', 'Scheldekaai', NULL, NULL, NULL, NULL, 1),
-(16, 'P', 'Oudenaardsesteenweg (N60) northbound', 'Oudenaardsesteenweg (N60) southbound', 'E17', 'R40', NULL, NULL, NULL, NULL, 1),
-(17, 'Q', 'Brugsevaart (N9) southbound', 'Brugsevaart (N9) northbound', 'R4', 'Gebroeders de Smetstraat', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `trajecten` (`id`, `naam`, `omgekeerde_naam`, `van`, `naar`, `lengte`, `omgekeerde_lengte`, `optimale_reistijd`, `omgekeerde_optimale_reistijd`, `is_active`) VALUES
+(1, 'Rooigemlaan (R40) northbound', 'Rooigemlaan (R40) southbound', 'Drongensesteenweg', 'Palinghuizen', NULL, NULL, NULL, NULL, 1),
+(2, 'Gasmeterlaan (R40) eastbound', 'Nieuwevaart (R40) westbound', 'Palinghuizen', 'Neuseplein', NULL, NULL, NULL, NULL, 1),
+(3, 'Dok-Noord (R40) southbound', 'Dok-Noord (R40) northbound', 'Neuseplein', 'Dampoort', NULL, NULL, NULL, NULL, 1),
+(4, 'Heernislaan (R40) southbound', 'Heernislaan (R40) northbound', 'Dampoort', 'Zuidparklaan', NULL, NULL, NULL, NULL, 1),
+(5, 'Martelaarslaan (R40) northbound', 'Martelaarslaan (R40) southbound', 'Zuidparklaan', 'Drongensesteenweg', NULL, NULL, NULL, NULL, 1),
+(6, 'Blaisantvest (N430) eastbound', 'Blaisantvest (N430) westbound', 'Einde Were', 'Neuseplein', NULL, NULL, NULL, NULL, 1),
+(7, 'Keizer Karelstraat northbound', 'Keizer Karelstraat southbound', 'Sint-Lievenslaan', 'Neuseplein', NULL, NULL, NULL, NULL, 1),
+(8, 'Kennedylaan (R4) southbound', 'Kennedylaan (R4) northbound', 'E34', 'Port Arthurlaan', NULL, NULL, NULL, NULL, 1),
+(9, 'Eisenhowerlaan (R4) southbound', 'Eisenhowerlaan (R4) northbound', 'Kennedylaan', 'E17', NULL, NULL, NULL, NULL, 1),
+(10, 'Binnenring-Drongen (R4) northbound', 'Buitenring-Drongen (R4) southbound', 'Sluisweg', 'Industrieweg', NULL, NULL, NULL, NULL, 1),
+(11, 'Paryslaan (R4) northbound', 'Paryslaan (R4) southbound', 'Industrieweg', 'E34', NULL, NULL, NULL, NULL, 1),
+(12, 'Drongensesteenweg (N466) eastbound', 'Drongensesteenweg (N466) westbound', 'E40', 'Rooigemlaan', NULL, NULL, NULL, NULL, 1),
+(13, 'Antwerpsesteenweg (N70) westbound', 'Antwerpsesteenweg (N70) eastbound', 'R4', 'Dampoort', NULL, NULL, NULL, NULL, 1),
+(14, 'B401 (northbound)', 'B401 (southbound)', 'E17', 'Vlaanderenstraat', NULL, NULL, NULL, NULL, 1),
+(15, 'Brusselsesteenweg (N9) westbound', 'Brusselsesteenweg (N9) eastbound', 'R4', 'Scheldekaai', NULL, NULL, NULL, NULL, 1),
+(16, 'Oudenaardsesteenweg (N60) northbound', 'Oudenaardsesteenweg (N60) southbound', 'E17', 'R40', NULL, NULL, NULL, NULL, 1),
+(17, 'Brugsevaart (N9) southbound', 'Brugsevaart (N9) northbound', 'R4', 'Gebroeders de Smetstraat', NULL, NULL, NULL, NULL, 1);
 
 INSERT INTO `waypoints` (`volgnr`, `traject_id`, `omgekeerd`, `latitude`, `longitude`) VALUES
 (0, 1, 0, '51.056122973468177', '3.6950215164678575'),

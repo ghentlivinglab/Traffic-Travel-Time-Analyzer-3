@@ -20,11 +20,10 @@ CREATE TABLE IF NOT EXISTS `providers` (
 `id` int(11) NOT NULL,
   `naam` varchar(100) NOT NULL,
   `is_active` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 CREATE TABLE IF NOT EXISTS `trajecten` (
 `id` int(11) NOT NULL,
-  `letter` varchar(2) NOT NULL,
   `naam` varchar(100) NOT NULL,
   `omgekeerde_naam` varchar(100) NOT NULL,
   `van` varchar(50) NOT NULL,
@@ -34,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `trajecten` (
   `optimale_reistijd` int(11) DEFAULT NULL,
   `omgekeerde_optimale_reistijd` int(11) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 CREATE TABLE IF NOT EXISTS `waypoints` (
   `volgnr` int(11) NOT NULL,
@@ -59,9 +58,9 @@ ALTER TABLE `waypoints`
 
 
 ALTER TABLE `providers`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 ALTER TABLE `trajecten`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 
 ALTER TABLE `metingen`
 ADD CONSTRAINT `fk_Meting_Provider1` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,

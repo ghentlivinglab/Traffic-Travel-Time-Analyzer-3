@@ -10,3 +10,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 01/03/16,08:15,12:15,School,"Afwerken analyse-document",,
 08/03/16,08:15,11:30,School,"TomTomScraper gefixed, performantie verhoogd dmv gebruik van StringBuilders",27,
 08/03/16,11:30,12:00,School,"Sprint Planning meeting",,
+13/03/16,12:00,16:15,Thuis,"Nieuwe trajecten en coordinaten opgezocht en toegevoegd aan een nieuw bestand",43,
+13/03/16,16:30,16:45,Thuis,"Structuur database aangepast",43,

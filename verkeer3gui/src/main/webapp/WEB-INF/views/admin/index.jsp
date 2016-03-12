@@ -15,7 +15,6 @@
                 <tr>
                     <th>id</th>
                     <th>Naam traject</th>
-                    <th>letter</th>
                     <th>is actief</th>
                     <th>ideale reistijd</th>
                     <th>afstand (km)</th>
@@ -32,7 +31,6 @@
                     <tr>
                         <td><c:out value="${traject.id}"/></td>
                         <td><c:out value="${traject.naam}"/></td>
-                        <td><c:out value="${traject.letter}"/></td>
                         <td><span class="glyphicon <c:out value="${traject.is_active()?'glyphicon-ok':'glyphicon-remove'}"/>" aria-hidden="true"></span></td>
                         <td><c:out value="${traject.optimale_reistijd}"/></td>
                         <td><c:out value="${traject.lengte/1000}"/></td>

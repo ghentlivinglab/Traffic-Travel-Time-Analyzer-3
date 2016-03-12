@@ -12,10 +12,6 @@
                 <input class="form-control" id="naam" type="text" name="naam" value="<c:out value="${traject.naam}"/>">
             </div>
             <div class="form-group">
-                <label for="letter">Letter</label>
-                <input class="form-control" id="letter" type="text" name="letter" value="<c:out value="${traject.letter}"/>">
-            </div>
-            <div class="form-group">
                 <label for="lengte">Lengte</label>
                 <input class="form-control" id="lengte" type="number" name="lengte" value="<c:out value="${traject.lengte}"/>">
             </div>

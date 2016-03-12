@@ -47,7 +47,6 @@ public class DatabaseController {
         trajectenRepository.wijzigTraject(
                 traject.getId(),
                 traject.getNaam(),
-                traject.getLetter(),
                 traject.getLengte(),
                 traject.getOptimale_reistijd(),
                 traject.is_active(),

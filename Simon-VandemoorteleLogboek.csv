@@ -16,3 +16,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 13/03/16,20:00,22:45,Thuis,"Core-project en database aangepast",,
 13/03/16,23:25,23:35,Thuis,"Alle connections sluiten",45,
 14/03/16,00:00,01:00,Thuis,"Logging aangepast",47,"De TomTomScraper is gefixed; er is een log4j2 configuratiebestand aangemaakt dat door iedereen kan gebruikt worden."
+14/03/16,19:20,19:50,Thuis,"Terugkeren naar het oude domein",49,
+

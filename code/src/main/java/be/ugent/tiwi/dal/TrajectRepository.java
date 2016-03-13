@@ -39,12 +39,11 @@ public class TrajectRepository {
                 int lengte = rs.getInt("lengte");
                 int optimale_reistijd = rs.getInt("optimale_reistijd");
                 boolean is_active = rs.getBoolean("is_active");
-                trajecten.add(new Traject(id, false, naam, van, naar, lengte, optimale_reistijd, is_active));
-
-                naam = rs.getString("omgekeerde_naam");
-                lengte = rs.getInt("omgekeerde_lengte");
-                optimale_reistijd = rs.getInt("omgekeerde_optimale_reistijd");
-                trajecten.add(new Traject(id, true, naam, naar, van, lengte, optimale_reistijd, is_active));
+                String start_latitude = rs.getString("start_latitude");
+                String start_longitude = rs.getString("start_longitude");
+                String end_latitude = rs.getString("end_latitude");
+                String end_longitude = rs.getString("end_longitude");
+                trajecten.add(new Traject(id, naam, lengte, optimale_reistijd, is_active, start_latitude, start_longitude, end_latitude, end_longitude));
             }
             connector.closeConnection();
         } catch (SQLException e) {
@@ -53,7 +52,7 @@ public class TrajectRepository {
         return trajecten;
     }
 
-    public Traject getTraject(int id, boolean omgekeerd) {
+    public Traject getTraject(int id) {
         String query = "select * from trajecten where id='" + id + "'";
 
         try {
@@ -61,25 +60,15 @@ public class TrajectRepository {
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                String naam;
-                String van, naar;
-                int lengte, optimale_reistijd;
-                if(omgekeerd) {
-                    naam = rs.getString("omgekeerde_naam");
-                    van = rs.getString("naar");
-                    naar = rs.getString("van");
-                    lengte = rs.getInt("omgekeerde_lengte");
-                    optimale_reistijd = rs.getInt("omgekeerde_optimale_reistijd");
-                }else {
-                    naam = rs.getString("naam");
-                    van = rs.getString("van");
-                    naar = rs.getString("naar");
-                    lengte = rs.getInt("lengte");
-                    optimale_reistijd = rs.getInt("optimale_reistijd");
-                }
+
+                String naam = rs.getString("naam");
+                int lengte = rs.getInt("lengte");
+                int optimale_reistijd = rs.getInt("optimale_reistijd");
+                String start_latitude = rs.getString("start_latitude"), start_longitude = rs.getString("start_longitude");
+                String end_latitude = rs.getString("end_latitude"), end_longitude = rs.getString("end_longitude");
                 boolean is_active = rs.getBoolean("is_active");
                 connector.closeConnection();
-                return new Traject(id, omgekeerd, naam, van, naar, lengte, optimale_reistijd, is_active);
+                return new Traject(id, naam, lengte, optimale_reistijd, is_active, start_latitude, start_longitude, end_latitude, end_longitude);
             }
             connector.closeConnection();
         } catch (SQLException e) {
@@ -88,17 +77,16 @@ public class TrajectRepository {
         return null;
     }
 
-    public void wijzigTraject(int id, String naam, String omgekeerde_naam, String van, String naar, int lengte, int omgekeerde_lengte, int optimale_reistijd, int omgekeerde_optimale_reistijd, boolean is_active)
+    public void wijzigTraject(int id, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude)
     {
         String query = "update trajecten set naam=\""+naam+"\","+
-                "omgekeerde_naam=\""+omgekeerde_naam+"\","+
-                "van=\""+van+"\","+
-                "naar=\""+naar+"\","+
                 "lengte="+lengte+","+
-                "omgekeerde_lengte="+omgekeerde_lengte+","+
                 "optimale_reistijd="+optimale_reistijd+","+
-                "omgekeerde_optimale_reistijd=\""+optimale_reistijd+","+
                 "is_active="+is_active+
+                "start_latitude=\""+start_latitude+"\","+
+                "start_longitude=\""+start_longitude+"\","+
+                "end_latitude=\""+end_latitude+"\","+
+                "end_longitude=\""+end_longitude+"\","+
              " where id="+id;
 
         try {
@@ -111,20 +99,15 @@ public class TrajectRepository {
         }
     }
 
-    public List<Waypoint> getWaypoints(int trajectid, boolean omgekeerd)
+    public List<Waypoint> getWaypoints(int trajectid)
     {
-        int i;
-        if(omgekeerd)
-            i = 1;
-        else
-            i = 0;
-        String query = "select * from waypoints where traject_id='" + trajectid + "' and omgekeerd = " + i;
+        String query = "select * from waypoints where traject_id='" + trajectid + "'";
         List<Waypoint> wpts = new ArrayList<>();
         try {
             Statement stmt = connector.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
-            Traject traj = getTraject(trajectid,omgekeerd);
+            Traject traj = getTraject(trajectid);
 
             while (rs.next())
             {
@@ -145,34 +128,21 @@ public class TrajectRepository {
     }
 
     public Traject getTraject(String naam) {
-        String query = "select * from trajecten where naam='" + naam + "' or omgekeerde_naam='"+naam+"'";
+        String query = "select * from trajecten where naam='" + naam + "'";
 
         try {
             Statement stmt = connector.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                int id, lengte, optimale_reistijd;
-                boolean omgekeerd;
-                String van, naar;
-                if(naam.equals(rs.getString("naam"))){
-                    lengte = rs.getInt("lengte");
-                    optimale_reistijd = rs.getInt("optimale_reistijd");
-                    van = rs.getString("van");
-                    naar = rs.getString("naar");
-                    omgekeerd = false;
-                }else{
-                    lengte = rs.getInt("omgekeerde_lengte");
-                    optimale_reistijd = rs.getInt("omgekeerde_optimale_reistijd");
-                    van = rs.getString("naar");
-                    naar = rs.getString("van");
-                    omgekeerd = true;
-                }
-
-                id = rs.getInt("id");
+                int id = rs.getInt("id");
+                int lengte = rs.getInt("lengte");
+                int optimale_reistijd = rs.getInt("optimale_reistijd");
                 boolean is_active = rs.getBoolean("is_active");
+                String start_latitude = rs.getString("start_latitude"), start_longitude = rs.getString("start_longitude");
+                String end_latitude = rs.getString("end_latitude"), end_longitude = rs.getString("end_longitude");
                 connector.closeConnection();
-                return new Traject(id, omgekeerd, naam, van, naar, lengte, optimale_reistijd, is_active);
+                return new Traject(id,  naam, lengte, optimale_reistijd, is_active, start_latitude,start_longitude,end_latitude,end_longitude);
             }
             connector.closeConnection();
         } catch (SQLException e) {
@@ -185,7 +155,7 @@ public class TrajectRepository {
     public List<Traject> getTrajectenMetCoordinaten() {
         List<Traject> trajecten = getTrajecten();
         for(Traject t : trajecten){
-            t.setWaypoints(getWaypoints(t.getId(), t.is_omgekeerd()));
+            t.setWaypoints(getWaypoints(t.getId()));
         }
         return trajecten;
     }

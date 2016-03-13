@@ -43,24 +43,23 @@ public class DatabaseController {
 
     }
 
-    public Traject haalTraject(int id, boolean omgekeerd)
+    public Traject haalTraject(int id)
     {
-        return trajectenRepository.getTraject(id, omgekeerd);
+        return trajectenRepository.getTraject(id);
     }
 
-    public void wijzigTraject(Traject traject, Traject trajectOmgekeerd)
+    public void wijzigTraject(Traject traject)
     {
         trajectenRepository.wijzigTraject(
                 traject.getId(),
                 traject.getNaam(),
-                trajectOmgekeerd.getNaam(),
-                traject.getVan(),
-                traject.getNaar(),
                 traject.getLengte(),
-                trajectOmgekeerd.getLengte(),
                 traject.getOptimale_reistijd(),
-                trajectOmgekeerd.getOptimale_reistijd(),
-                traject.is_active()
+                traject.is_active(),
+                traject.getStart_latitude(),
+                traject.getStart_longitude(),
+                traject.getEnd_latitude(),
+                traject.getEnd_longitude()
         );
     }
 

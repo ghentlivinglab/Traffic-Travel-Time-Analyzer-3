@@ -58,12 +58,11 @@ public class HereScraper implements TrafficScraper {
         Provider here = databaseController.haalProviderOp("Here");
         JsonController jc = new JsonController();
         for (Traject traject : trajects) {
-            List<Waypoint> waypoints = traject.getWaypoints();
             String url = "https://route.cit.api.here.com/routing/7.2/calculateroute.json?" +
                     "app_id=" + this.appId +
                     "&app_code=" + this.appCode +
-                    "&waypoint0=geo!" + waypoints.get(0).getLatitude() + "%2C" + waypoints.get(0).getLongitude() +
-                    "&waypoint1=geo!" + waypoints.get(waypoints.size()-1).getLatitude() + "%2C" + waypoints.get(waypoints.size()-1).getLongitude() +
+                    "&waypoint0=geo!" + traject.getStart_latitude() + "%2C" + traject.getStart_longitude() +
+                    "&waypoint1=geo!" + traject.getEnd_latitude() + "%2C" + traject.getEnd_longitude() +
                     "&mode=fastest%3Bcar%3Btraffic%3Aenabled";
             Here here_obj = (Here) jc.getObject(url, Here.class, RequestType.GET);
             int traveltime = here_obj.getResponse().getRoute().get(0).getSummary().getTravelTime();

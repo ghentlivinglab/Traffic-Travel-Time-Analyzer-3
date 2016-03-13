@@ -51,10 +51,9 @@ public class GoogleScraper implements TrafficScraper {
         Provider google = databaseController.haalProviderOp("Google Maps");
         JsonController jc = new JsonController();
         for (Traject traject : trajects) {
-            List<Waypoint> waypoints = traject.getWaypoints();
             String url = "https://maps.googleapis.com/maps/api/directions/json?" +
-                    "&origin=" + waypoints.get(0).getLatitude() + "%2C" + waypoints.get(0).getLongitude() +
-                    "&destination=" + waypoints.get(waypoints.size()-1).getLatitude() + "%2C" + waypoints.get(waypoints.size()-1).getLongitude() +
+                    "&origin=" + traject.getStart_latitude() + "%2C" + traject.getStart_longitude() +
+                    "&destination=" + traject.getEnd_latitude() + "%2C" + traject.getEnd_longitude() +
                     "&key=" + this.apiKey;
             Google google_obj = jc.makeGoogleCall(url, RequestType.GET);
             int traveltime = google_obj.getRoutes().get(0).getLegs().get(0).getDuration().getValue();

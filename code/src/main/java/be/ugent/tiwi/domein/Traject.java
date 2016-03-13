@@ -7,7 +7,6 @@ import java.util.List;
  */
 public class Traject {
     private int id;
-    private boolean is_omgekeerd;
     private String naam;
     private String van;
     private String naar;
@@ -15,19 +14,28 @@ public class Traject {
     private int optimale_reistijd;      //in seconden
     private boolean is_active;
 
+    private String start_latitude;
+    private String start_longitude;
+    private String end_latitude;
+    private String end_longitude;
+
     private List<Waypoint> waypoints;
 
     public Traject() {}
 
-    public Traject(int id, boolean is_omgekeerd, String naam, String van, String naar, int lengte, int optimale_reistijd, boolean is_active) {
+    public Traject(int id, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude) {
         this.id = id;
-        this.is_omgekeerd = is_omgekeerd;
         this.naam = naam;
         this.setVan(van);
         this.setNaar(naar);
         this.lengte = lengte;
         this.optimale_reistijd = optimale_reistijd;
         this.is_active = is_active;
+
+        this.setStart_latitude(start_latitude);
+        this.setStart_longitude(start_longitude);
+        this.setEnd_latitude(end_latitude);
+        this.setEnd_longitude(end_longitude);
     }
 
     @Override
@@ -37,16 +45,16 @@ public class Traject {
             ", naam='" + naam + '\'' +
             ", lengte=" + lengte +
             ", optimale_reistijd=" + optimale_reistijd +
-            ", is_active=" + is_active +
+                ", is_active=" + is_active +
+                ", start_latitude=" + getStart_latitude() +
+                ", start_longitude=" + getStart_longitude() +
+                ", end_latitude=" + getEnd_latitude() +
+                ", end_longitude=" + getEnd_longitude() +
             '}';
     }
 
     public int getId() {
         return id;
-    }
-
-    public boolean is_omgekeerd() {
-        return is_omgekeerd;
     }
 
     public String getNaam() {
@@ -67,10 +75,6 @@ public class Traject {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void set_omgekeerd (boolean is_omgekeerd){
-        this.is_omgekeerd = is_omgekeerd;
     }
 
     public void setNaam(String naam) {
@@ -111,5 +115,37 @@ public class Traject {
 
     public void setWaypoints(List<Waypoint> waypoints) {
         this.waypoints = waypoints;
+    }
+
+    public String getStart_latitude() {
+        return start_latitude;
+    }
+
+    public void setStart_latitude(String start_latitude) {
+        this.start_latitude = start_latitude;
+    }
+
+    public String getStart_longitude() {
+        return start_longitude;
+    }
+
+    public void setStart_longitude(String start_longitude) {
+        this.start_longitude = start_longitude;
+    }
+
+    public String getEnd_latitude() {
+        return end_latitude;
+    }
+
+    public void setEnd_latitude(String end_latitude) {
+        this.end_latitude = end_latitude;
+    }
+
+    public String getEnd_longitude() {
+        return end_longitude;
+    }
+
+    public void setEnd_longitude(String end_longitude) {
+        this.end_longitude = end_longitude;
     }
 }

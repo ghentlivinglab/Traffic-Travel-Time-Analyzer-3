@@ -95,16 +95,15 @@ public class TomTomScraper implements TrafficScraper {
               * [&routeRepresentation=<routeRepresentation>][&travelMode=<travelMode>][&callback=<callback>]
               * More info: http://developer.tomtom.com/products/onlinenavigation/onlinerouting/Documentation#Request
              */
-            List<Waypoint> waypoints = traject.getWaypoints();
             StringBuilder urlBuilder = new StringBuilder();
             urlBuilder.append("https://api.tomtom.com/routing/1/calculateRoute/");
-            urlBuilder.append(waypoints.get(0).getLatitude());
+            urlBuilder.append(traject.getStart_latitude());
             urlBuilder.append(",");
-            urlBuilder.append(waypoints.get(0).getLongitude());
+            urlBuilder.append(traject.getStart_longitude());
             urlBuilder.append(":");
-            urlBuilder.append(waypoints.get(waypoints.size()-1).getLatitude());
+            urlBuilder.append(traject.getEnd_latitude());
             urlBuilder.append(",");
-            urlBuilder.append(waypoints.get(waypoints.size()-1).getLongitude());
+            urlBuilder.append(traject.getEnd_longitude());
             urlBuilder.append("/json?");
             urlBuilder.append("key=");
             urlBuilder.append(this.apiKey);

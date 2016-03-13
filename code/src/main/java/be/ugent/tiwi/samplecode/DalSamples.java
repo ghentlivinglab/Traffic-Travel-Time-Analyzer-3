@@ -37,7 +37,9 @@ public class DalSamples {
     public static void scrapeHere() {
         HereScraper hs = new HereScraper();
         MetingRepository mcrud = new MetingRepository();
-        hs.makeCall();
+        TrajectRepository tcrud = new TrajectRepository();
+        List<Traject> trajects = tcrud.getTrajectenMetCoordinaten();
+        hs.makeCall(trajects);
         List<Meting> metingen = mcrud.getMetingen();
         for (Meting meting : metingen) {
             System.out.println(meting.toString());
@@ -47,7 +49,9 @@ public class DalSamples {
     public static void scrapeGoogle() {
         GoogleScraper gs = new GoogleScraper();
         MetingRepository mcrud = new MetingRepository();
-        gs.makeCall();
+        TrajectRepository tcrud = new TrajectRepository();
+        List<Traject> trajects = tcrud.getTrajectenMetCoordinaten();
+        gs.makeCall(trajects);
         List<Meting> metingen = mcrud.getMetingen();
         for (Meting meting : metingen) {
             System.out.println(meting.toString());
@@ -56,7 +60,9 @@ public class DalSamples {
 
     public static void scrapeCoyote() {
         CoyoteScraper cs = new CoyoteScraper();
-        List<Meting> metingen = cs.scrape();
+        TrajectRepository tcrud = new TrajectRepository();
+        List<Traject> trajects = tcrud.getTrajectenMetCoordinaten();
+        List<Meting> metingen = cs.scrape(trajects);
         for (Meting meting : metingen) {
             System.out.println(meting.toString());
         }

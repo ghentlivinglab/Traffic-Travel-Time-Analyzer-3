@@ -40,6 +40,8 @@ public class MetingRepository {
                 metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
             }
 
+            connector.closeConnection();
+
             return metingen;
 
         } catch (SQLException e) {
@@ -68,6 +70,7 @@ public class MetingRepository {
                 metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
             }
 
+            connector.closeConnection();
             return metingen;
 
         } catch (SQLException e) {
@@ -88,6 +91,7 @@ public class MetingRepository {
         try {
             Statement stmt = connector.getConnection().createStatement();
             stmt.executeUpdate(query);
+            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -46,6 +46,7 @@ public class TrajectRepository {
                 optimale_reistijd = rs.getInt("omgekeerde_optimale_reistijd");
                 trajecten.add(new Traject(id, true, naam, naar, van, lengte, optimale_reistijd, is_active));
             }
+            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,9 +78,10 @@ public class TrajectRepository {
                     optimale_reistijd = rs.getInt("optimale_reistijd");
                 }
                 boolean is_active = rs.getBoolean("is_active");
-
+                connector.closeConnection();
                 return new Traject(id, omgekeerd, naam, van, naar, lengte, optimale_reistijd, is_active);
             }
+            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -102,6 +104,7 @@ public class TrajectRepository {
         try {
             Statement stmt = connector.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(query);
+            connector.closeConnection();
         }catch (SQLException e) {
             logger.error("Wijzigen van traject met id "+id+" is mislukt...");
             logger.error(e);
@@ -134,6 +137,7 @@ public class TrajectRepository {
                     lon = null;
                 wpts.add(new Waypoint(traj,volgnr,lat,lon));
             }
+            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -167,10 +171,13 @@ public class TrajectRepository {
 
                 id = rs.getInt("id");
                 boolean is_active = rs.getBoolean("is_active");
+                connector.closeConnection();
                 return new Traject(id, omgekeerd, naam, van, naar, lengte, optimale_reistijd, is_active);
             }
+            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
         }
         return null;
     }

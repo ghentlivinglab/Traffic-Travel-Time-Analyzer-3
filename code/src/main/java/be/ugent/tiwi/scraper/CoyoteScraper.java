@@ -34,7 +34,7 @@ import java.util.Set;
 /**
  * Haalt gegevens op van de Coyote webservice en zet deze om naar objecten
  */
-public class CoyoteScraper extends TrafficScraper {
+public class CoyoteScraper implements TrafficScraper {
 
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
 
@@ -42,7 +42,7 @@ public class CoyoteScraper extends TrafficScraper {
     /**
      * Aanspreekpunt voor klassen,
      */
-    public List<Meting> scrape() {
+    public List<Meting> scrape(List<Traject> trajects) {
         try {
             return JsonToPojo(sendPost());
         } catch (IOException ex) {
@@ -65,6 +65,8 @@ public class CoyoteScraper extends TrafficScraper {
         HttpPost httpPost2 = new HttpPost("https://maps.coyotesystems.com/traffic/ajax/get_perturbation_list.ajax.php");
         httpPost2.addHeader("Cookie", cookie);
         httpPost2.addHeader("Connection", "close");
+
+        logger.trace("Sending Coyote-request...");
         CloseableHttpResponse Dataresponse = httpclient.execute(httpPost2);
 
         try {
@@ -81,9 +83,12 @@ public class CoyoteScraper extends TrafficScraper {
                 } catch (ConnectionClosedException ex) {
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Could not parse coyote-json file - Status: " + Dataresponse.getStatusLine().toString());
+                throw e;
             }
             EntityUtils.consume(entity2);
+        }catch(IOException ex){
+            throw ex;
         } finally {
             Dataresponse.close();
         }
@@ -109,6 +114,7 @@ public class CoyoteScraper extends TrafficScraper {
         CloseableHttpResponse LogInresponse = httpclient.execute(httpPost);
 
         try {
+            logger.trace("Trying to login...");
             HttpEntity entity2 = LogInresponse.getEntity();
             for (Header h : LogInresponse.getAllHeaders()) {
                 if (h.getName().equals("Set-Cookie")) {
@@ -116,9 +122,9 @@ public class CoyoteScraper extends TrafficScraper {
                 }
             }
             EntityUtils.consume(entity2);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             logger.error("Probleem bij het aanmelden bij coyote");
-            logger.error(ex);
+            throw ex;
         } finally {
             LogInresponse.close();
         }

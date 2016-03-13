@@ -60,7 +60,7 @@ import java.util.List;
  * 30	Calls per second
  * 5,000	Calls per day
  */
-public class TomTomScraper extends TrafficScraper {
+public class TomTomScraper implements TrafficScraper {
 
     private String apiKey;
     private JsonController<TomTom> jc;
@@ -68,28 +68,27 @@ public class TomTomScraper extends TrafficScraper {
 
 
     public TomTomScraper() {
-        this.apiKey = Settings.getSetting("tomtom_appid");
+        this.apiKey = Settings.getSetting("tomtom_apikey");
         this.jc = new JsonController<TomTom>();
     }
 
     @Override
-    public List<Meting> scrape() {
-        return makeCall();
+    public List<Meting> scrape(List<Traject> trajects) {
+        return makeCall(trajects);
     }
 
     /**
      * here the actual rest call is made
      */
-    public List<Meting> makeCall() {
+    public List<Meting> makeCall(List<Traject> trajects) {
         List<Meting> metingen = new ArrayList<>();
         //Get all trajectories which have coordinates in it
         DatabaseController databaseController = new DatabaseController();
-        List<Traject> trajectList = databaseController.getTrajectenMetCoordinaten();
 
         Provider tomtomProv = databaseController.haalProviderOp("TomTom");
         JsonController jc = new JsonController();
 
-        for (Traject traject : trajectList) {
+        for (Traject traject : trajects) {
              /* https://<baseURL>/routing/<versionNumber>/calculateRoute/<locations>[/<contentType>]?key=<apiKey>
               * [&routeType=<routeType>][&traffic=<boolean>][&avoid=<avoidType>][&instructionsType=<instructionsType>]
               * [&departAt=<time>][&maxAlternatives=<alternativeRoutes>][&computeBestOrder=<boolean>]
@@ -113,16 +112,15 @@ public class TomTomScraper extends TrafficScraper {
             TomTom tomtom = (TomTom) jc.getObject(urlBuilder.toString(), TomTom.class, RequestType.GET);
             LocalDateTime now = LocalDateTime.now();
             for(Route r : tomtom.getRoutes()) {
-                if(r.getSummary().getLengthInMeters() == traject.getLengte()) {
+                //if(r.getSummary().getLengthInMeters() == traject.getLengte()) {
                     int traveltime = r.getSummary().getTravelTimeInSeconds();
                     int basetime = r.getSummary().getTravelTimeInSeconds() - r.getSummary().getTrafficDelayInSeconds();
                     Meting meting = new Meting(tomtomProv, traject, traveltime, basetime, now);
 
                     metingen.add(meting);
-                    logger.info("[TomTom] Meting van traject " + traject.toString() + " om " + now.toString() + " toegevoegd");
                     break;
-                }else
-                    logger.warn("[TomTom] Meting van traject " + traject.toString() + " NIET toegevoegd! Gezochte afstand: " + traject.getLengte() + "; gevonden afstand: " + r.getSummary().getLengthInMeters());
+                //}else
+                //    logger.warn("[TomTom] Meting van traject " + traject.toString() + " NIET toegevoegd! Gezochte afstand: " + traject.getLengte() + "; gevonden afstand: " + r.getSummary().getLengthInMeters());
             }
         }
         return metingen;

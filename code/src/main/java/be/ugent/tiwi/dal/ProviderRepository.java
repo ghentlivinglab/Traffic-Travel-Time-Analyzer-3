@@ -19,10 +19,11 @@ public class ProviderRepository {
     private static final Logger logger = LogManager.getLogger(ProviderRepository.class);
 
     private PreparedStatement statActieveProviders = null;
-    private String stringActieveProviders = "select * from providers where is_active = 1";
     private PreparedStatement statProviderId = null;
-    private String stringProviderId = "select * from providers where id = ?";
     private PreparedStatement statProviderNaam = null;
+
+    private String stringActieveProviders = "select * from providers where is_active = 1";
+    private String stringProviderId = "select * from providers where id = ?";
     private String stringProviderNaam = "select * from providers where naam = ?";
 
     public ProviderRepository() {
@@ -57,7 +58,7 @@ public class ProviderRepository {
         try {
             statProviderId.setInt(1,id);
             ResultSet rs = statProviderId.executeQuery();
-            
+
             while (rs.next()) {
                 int id_in_tabel = rs.getInt("id");
                 if (id_in_tabel == id)

@@ -3,10 +3,7 @@ package be.ugent.tiwi.scraper;
 import be.ugent.tiwi.controller.JsonController;
 import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.DatabaseController;
-import be.ugent.tiwi.domein.Meting;
-import be.ugent.tiwi.domein.Provider;
-import be.ugent.tiwi.domein.RequestType;
-import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.*;
 import be.ugent.tiwi.domein.here.Here;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,7 +28,7 @@ import java.util.List;
  * &waypoint0=geo!51.040800%2C3.614126&waypoint1=geo!51.038736%2C3.736503
  * &mode=fastest%3Bcar%3Btraffic%3Aenabled
  */
-public class HereScraper extends TrafficScraper {
+public class HereScraper implements TrafficScraper {
     private String appId;
     private String appCode;
     private String url;
@@ -46,22 +43,21 @@ public class HereScraper extends TrafficScraper {
     }
 
     @Override
-    public List<Meting> scrape() {
-        return makeCall();
+    public List<Meting> scrape(List<Traject> trajects) {
+        return makeCall(trajects);
     }
 
     /**
      * here the actual rest call is made
      */
-    public List<Meting> makeCall() {
+    public List<Meting> makeCall(List<Traject> trajects) {
         List<Meting> metingen = new ArrayList<>();
         //Get all trajectories which have coordinates in it
         DatabaseController databaseController = new DatabaseController();
-        List<Traject> trajectList = databaseController.getTrajectenMetCoordinaten();
 
         Provider here = databaseController.haalProviderOp("Here");
         JsonController jc = new JsonController();
-        for (Traject traject : trajectList) {
+        for (Traject traject : trajects) {
             String url = "https://route.cit.api.here.com/routing/7.2/calculateroute.json?" +
                     "app_id=" + this.appId +
                     "&app_code=" + this.appCode +

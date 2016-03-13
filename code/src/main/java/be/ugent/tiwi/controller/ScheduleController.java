@@ -2,10 +2,12 @@ package be.ugent.tiwi.controller;
 
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Provider;
+import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.samplecode.DalSamples;
 import be.ugent.tiwi.scraper.CoyoteScraper;
 import be.ugent.tiwi.scraper.GoogleScraper;
 import be.ugent.tiwi.scraper.HereScraper;
+import be.ugent.tiwi.scraper.TomTomScraper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +29,7 @@ public class ScheduleController {
 
         final Runnable schema = new Runnable() {
             public void run() {
-                logger.trace("Schedule opgestart.");
+                logger.trace("Schedule run - Trying to scrape data");
                 haalDataOp();
             }
         };
@@ -37,10 +39,11 @@ public class ScheduleController {
     private void haalDataOp() throws RuntimeException {
         try {
             dbController = new DatabaseController();
-            new CoyoteScraper().scrape();
             List<Provider> providers = dbController.haalActieveProvidersOp();
+            List<Traject> trajects = dbController.getTrajectenMetCoordinaten();
             for (Provider provider : providers) {
-                haalDataVanProvider(provider.getNaam());
+                logger.trace(provider.getId() + ": Scraping provider " + provider.getNaam());
+                haalDataVanProvider(provider.getNaam(), trajects);
             }
 
             /*DalSamples.getProviderWithName("Waze");
@@ -56,16 +59,19 @@ public class ScheduleController {
 
     }
 
-    private void haalDataVanProvider(String naam) {
+    private void haalDataVanProvider(String naam, List<Traject> trajects) {
         switch (naam.toLowerCase()) {
             case "google maps":
-                dbController.voegMetingenToe(new GoogleScraper().scrape());
+                dbController.voegMetingenToe(new GoogleScraper().scrape(trajects));
                 break;
             case "here":
-                dbController.voegMetingenToe(new HereScraper().scrape());
+                dbController.voegMetingenToe(new HereScraper().scrape(trajects));
                 break;
             case "coyote":
-                dbController.voegMetingenToe(new CoyoteScraper().scrape());
+                dbController.voegMetingenToe(new CoyoteScraper().scrape(trajects));
+                break;
+            case "tomtom":
+                dbController.voegMetingenToe(new TomTomScraper().scrape(trajects));
                 break;
         }
     }

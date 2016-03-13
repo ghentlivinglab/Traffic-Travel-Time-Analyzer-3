@@ -45,9 +45,13 @@ public class ProviderRepository {
 
             while (rs.next()) {
                 String naam_in_tabel = rs.getString("naam");
-                if (naam_in_tabel.equals(naam))
-                    return new Provider(rs.getInt("id"), naam_in_tabel, rs.getBoolean("is_active"));
+                if (naam_in_tabel.equals(naam)){
+                    Provider p = new Provider(rs.getInt("id"), naam_in_tabel, rs.getBoolean("is_active"));
+                    connector.closeConnection();
+                    return p;
+                }
             }
+            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,9 +65,13 @@ public class ProviderRepository {
 
             while (rs.next()) {
                 int id_in_tabel = rs.getInt("id");
-                if (id_in_tabel == id)
-                    return new Provider(rs.getInt("id"), rs.getString("naam"), rs.getBoolean("is_active"));
+                if (id_in_tabel == id) {
+                    Provider p = new Provider(rs.getInt("id"), rs.getString("naam"), rs.getBoolean("is_active"));
+                    connector.closeConnection();
+                    return p;
+                }
             }
+            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,6 +86,8 @@ public class ProviderRepository {
             while (rs.next()) {
                 providers.add(new Provider(rs.getInt("id"), rs.getString("naam"), rs.getBoolean("is_active")));
             }
+
+            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -4,7 +4,9 @@ import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.util.StringBuilders;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,17 +21,37 @@ public class TrajectRepository {
     private DBConnector connector;
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(ScheduleController.class);
 
+    private PreparedStatement statTrajecten = null;
+    private PreparedStatement statTrajectId = null;
+    private PreparedStatement statUpdateTraject = null;
+    private PreparedStatement statWaypoints = null;
+    private PreparedStatement statTrajectNaam = null;
+
+    private String stringTrajecten = "select * from trajecten";
+    private String stringTrajectId = "select * from trajecten where id= ?";
+    private String stringUpdateTraject = "update trajecten set naam= ?, lengte=?, start_latitude= ?, start_longitude= ?, end_latitude= ?, end_longitude= ?, is_active= ?, optimale_reistijd= ? where id= ?";
+    private String stringWaypoints = "select * from waypoints where traject_id= ?";
+    private String stringTrajectNaam = "select * from trajecten where naam= ?";
+
     public TrajectRepository() {
         connector = new DBConnector();
+
+        try {
+            statTrajecten = connector.getConnection().prepareStatement(stringTrajecten);
+            statTrajectId = connector.getConnection().prepareStatement(stringTrajectId);
+            statUpdateTraject = connector.getConnection().prepareStatement(stringUpdateTraject);
+            statWaypoints = connector.getConnection().prepareStatement(stringWaypoints);
+            statTrajectNaam = connector.getConnection().prepareStatement(stringTrajectNaam);
+        } catch (SQLException e) {
+            logger.error("Verbinden met de databank is mislukt");
+        }
     }
 
     public List<Traject> getTrajecten() {
         List<Traject> trajecten = new ArrayList<Traject>();
-        String query = "select * from trajecten";
 
         try {
-            Statement stmt = connector.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            ResultSet rs = statTrajecten.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("ID");
@@ -60,11 +82,9 @@ public class TrajectRepository {
     }
 
     public Traject getTraject(int id) {
-        String query = "select * from trajecten where id='" + id + "'";
-
         try {
-            Statement stmt = connector.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            statTrajectId.setInt(1,id);
+            ResultSet rs = statTrajectId.executeQuery();
 
             while (rs.next()) {
                 String naam = rs.getString("naam");
@@ -94,18 +114,18 @@ public class TrajectRepository {
 
     public void wijzigTraject(int id, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude)
     {
-        String query = "update trajecten set naam=\""+naam+"\","+
-                                            "start_latitude=\""+start_latitude+"\","+
-                                            "start_longitude=\""+start_longitude+"\","+
-                                            "end_latitude=\""+end_latitude+"\","+
-                                            "end_longitude=\""+end_longitude+"\","+
-                                            "is_active="+is_active+","+
-                                            "optimale_reistijd="+optimale_reistijd+
-                     " where id="+id;
 
         try {
-            Statement stmt = connector.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            statUpdateTraject.setString(1,naam);
+            statUpdateTraject.setInt(2,lengte);
+            statUpdateTraject.setString(3,start_latitude);
+            statUpdateTraject.setString(4,start_longitude);
+            statUpdateTraject.setString(5,end_latitude);
+            statUpdateTraject.setString(6,end_longitude);
+            statUpdateTraject.setBoolean(7,is_active);
+            statUpdateTraject.setInt(8,optimale_reistijd);
+
+            ResultSet rs = statUpdateTraject.executeQuery();
         }catch (SQLException e) {
             logger.error("Wijzigen van traject met id "+id+" is mislukt...");
             logger.error(e);
@@ -124,15 +144,14 @@ public class TrajectRepository {
         return trajectList;
     }
 
-    public List<Waypoint> getWaypoints(int trajectid)
+    public List<Waypoint> getWaypoints(int trajectId)
     {
-        String query = "select * from waypoints where traject_id='" + trajectid + "'";
         List<Waypoint> wpts = new ArrayList<>();
         try {
-            Statement stmt = connector.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            statWaypoints.setInt(1, trajectId);
+            ResultSet rs = statWaypoints.executeQuery();
 
-            Traject traj = getTraject(trajectid);
+            Traject traj = getTraject(trajectId);
 
             while (rs.next())
             {
@@ -152,11 +171,9 @@ public class TrajectRepository {
     }
 
     public Traject getTraject(String naam) {
-        String query = "select * from trajecten where naam='" + naam + "'";
-
-        try {
-            Statement stmt = connector.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+       try {
+           statTrajectNaam.setString(1,naam);
+            ResultSet rs = statTrajectNaam.executeQuery();
 
             while (rs.next()) {
                 naam = rs.getString("naam");

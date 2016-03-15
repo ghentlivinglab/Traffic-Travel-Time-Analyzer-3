@@ -1,6 +1,7 @@
 package be.ugent.tiwi;
 
 import be.ugent.tiwi.controller.ScheduleController;
+import settings.Settings;
 
 public class App {
     public static void main(String[] args) {

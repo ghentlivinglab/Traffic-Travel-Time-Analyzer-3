@@ -31,7 +31,7 @@ public class DBConnector {
         return connection;
     }
 
-    public void closeConnection() throws SQLException {
+    public void close() throws SQLException {
         connection.close();
     }
 }

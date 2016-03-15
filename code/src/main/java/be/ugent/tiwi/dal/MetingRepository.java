@@ -31,23 +31,17 @@ public class MetingRepository {
 
     public MetingRepository() {
         connector = new DBConnector();
-        try {
-            statMetingenPerProvPerTraj = connector.getConnection().prepareStatement(stringMetingenPerProvPerTraj);
-            statMetingen = connector.getConnection().prepareStatement(stringMetingen);
-            statAddMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
-        } catch (SQLException e) {
-            logger.error("Verbinden met de databank is mislukt");
-        }
     }
 
     public List<Meting> getMetingen(Provider provider, Traject traject) {
         List<Meting> metingen = new ArrayList<>();
-
+        ResultSet rs = null;
         try {
+            statMetingenPerProvPerTraj = connector.getConnection().prepareStatement(stringMetingenPerProvPerTraj);
             statMetingenPerProvPerTraj.setInt(1,traject.getId());
             statMetingenPerProvPerTraj.setInt(2,provider.getId());
 
-            ResultSet rs = statMetingenPerProvPerTraj.executeQuery();
+            rs = statMetingenPerProvPerTraj.executeQuery();
 
             while (rs.next()) {
                 int reistijd = rs.getInt("reistijd");
@@ -57,13 +51,16 @@ public class MetingRepository {
                 metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
             }
 
-            connector.closeConnection();
-
             return metingen;
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { statMetingenPerProvPerTraj.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
+
         return null;
     }
 
@@ -71,9 +68,10 @@ public class MetingRepository {
         ProviderRepository pcrud = new ProviderRepository();
         TrajectRepository tcrud = new TrajectRepository();
         List<Meting> metingen = new ArrayList<Meting>();
-
+        ResultSet rs = null;
         try {
-            ResultSet rs = statMetingen.executeQuery();
+            statMetingen = connector.getConnection().prepareStatement(stringMetingen);
+            rs = statMetingen.executeQuery();
 
             while (rs.next()) {
                 int reistijd = rs.getInt("reistijd");
@@ -84,27 +82,33 @@ public class MetingRepository {
 
                 metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
             }
-
-            connector.closeConnection();
             return metingen;
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { statMetingen.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
+
         return null;
     }
 
     public void addMeting(Meting meting) {
          try {
-            statAddMetingen.setInt(1, meting.getProvider().getId());
-            statAddMetingen.setInt(2, meting.getTraject().getId());
-            statAddMetingen.setInt(3, meting.getReistijd());
-            statAddMetingen.setInt(4, meting.getOptimale_reistijd());
-            statAddMetingen.executeUpdate();
-            connector.closeConnection();
+             statAddMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
+             statAddMetingen.setInt(1, meting.getProvider().getId());
+             statAddMetingen.setInt(2, meting.getTraject().getId());
+             statAddMetingen.setInt(3, meting.getReistijd());
+             statAddMetingen.setInt(4, meting.getOptimale_reistijd());
+             statAddMetingen.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }finally{
+             try { statAddMetingen.close(); } catch (Exception e) { /* ignored */ }
+             try {  connector.close(); } catch (Exception e) { /* ignored */ }
+         }
     }
 }

@@ -28,68 +28,73 @@ public class ProviderRepository {
 
     public ProviderRepository() {
         connector = new DBConnector();
-        try {
-            statActieveProviders = connector.getConnection().prepareStatement(stringActieveProviders);
-            statProviderId = connector.getConnection().prepareStatement(stringProviderId);
-            statProviderNaam = connector.getConnection().prepareStatement(stringProviderNaam);
-        } catch (SQLException e) {
-            logger.error("Verbinden met de databank is mislukt");
-        }
     }
 
     public Provider getProvider(String naam) {
-
+        ResultSet rs = null;
         try {
-            statProviderId.setString(1,naam);
-            ResultSet rs = statProviderNaam.executeQuery();
+            statProviderNaam = connector.getConnection().prepareStatement(stringProviderNaam);
+            statProviderNaam.setString(1,naam);
+            rs = statProviderNaam.executeQuery();
 
             while (rs.next()) {
                 String naam_in_tabel = rs.getString("naam");
                 if (naam_in_tabel.equals(naam)){
                     Provider p = new Provider(rs.getInt("id"), naam_in_tabel, rs.getBoolean("is_active"));
-                    connector.closeConnection();
                     return p;
                 }
             }
-            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { statProviderNaam.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
         return null;
     }
 
     public Provider getProvider(int id) {
+        ResultSet rs = null;
         try {
+            statProviderId = connector.getConnection().prepareStatement(stringProviderId);
             statProviderId.setInt(1,id);
-            ResultSet rs = statProviderId.executeQuery();
+            rs = statProviderId.executeQuery();
 
             while (rs.next()) {
                 int id_in_tabel = rs.getInt("id");
                 if (id_in_tabel == id) {
                     Provider p = new Provider(rs.getInt("id"), rs.getString("naam"), rs.getBoolean("is_active"));
-                    connector.closeConnection();
                     return p;
                 }
             }
-            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { statProviderId.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
         return null;
     }
 
     public List<Provider> getActieveProviders() {
         List<Provider> providers = new ArrayList<>();
+        ResultSet rs = null;
         try {
-            ResultSet rs = statActieveProviders.executeQuery();
+            statActieveProviders = connector.getConnection().prepareStatement(stringActieveProviders);
+            rs = statActieveProviders.executeQuery();
 
             while (rs.next()) {
                 providers.add(new Provider(rs.getInt("id"), rs.getString("naam"), rs.getBoolean("is_active")));
             }
 
-            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { statActieveProviders.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
         return providers;
     }

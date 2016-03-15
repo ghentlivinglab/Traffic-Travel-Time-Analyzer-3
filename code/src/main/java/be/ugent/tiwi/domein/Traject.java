@@ -8,8 +8,6 @@ import java.util.List;
 public class Traject {
     private int id;
     private String naam;
-    private String van;
-    private String naar;
     private int lengte;
     private int optimale_reistijd;      //in seconden
     private boolean is_active;
@@ -26,8 +24,6 @@ public class Traject {
     public Traject(int id, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude) {
         this.id = id;
         this.naam = naam;
-        this.setVan(van);
-        this.setNaar(naar);
         this.lengte = lengte;
         this.optimale_reistijd = optimale_reistijd;
         this.is_active = is_active;
@@ -91,22 +87,6 @@ public class Traject {
 
     public void setIs_active(boolean is_active) {
         this.is_active = is_active;
-    }
-
-    public String getVan() {
-        return van;
-    }
-
-    public void setVan(String van) {
-        this.van = van;
-    }
-
-    public String getNaar() {
-        return naar;
-    }
-
-    public void setNaar(String naar) {
-        this.naar = naar;
     }
 
     public List<Waypoint> getWaypoints() {

@@ -3,7 +3,10 @@ package be.ugent.tiwi.dal;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,21 +19,29 @@ import java.util.List;
  */
 public class MetingRepository {
     private DBConnector connector;
+    private static final Logger logger = LogManager.getLogger(MetingRepository.class);
+
+    private PreparedStatement statMetingenPerProvPerTraj = null;
+    private PreparedStatement statMetingen = null;
+    private PreparedStatement statAddMetingen = null;
+
+    private String stringMetingenPerProvPerTraj = "select * from metingen where traject_id = ? and provider_id = ?";
+    private String stringMetingen = "select * from metingen";
+    private String stringAddMetingen = "insert into metingen(provider_id,traject_id,reistijd,optimal) values (?, ?, ?, ?)";
 
     public MetingRepository() {
         connector = new DBConnector();
     }
 
     public List<Meting> getMetingen(Provider provider, Traject traject) {
-        String query = "select * from metingen where traject_id ='" + traject.getId() + "' and provider_id = '" +
-                provider.getId() + "'";
-        List<Meting> metingen = new ArrayList<Meting>();
-        ProviderRepository providerRepository = new ProviderRepository();
-        TrajectRepository trajectRepository = new TrajectRepository();
-
+        List<Meting> metingen = new ArrayList<>();
+        ResultSet rs = null;
         try {
-            Statement stmt = connector.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            statMetingenPerProvPerTraj = connector.getConnection().prepareStatement(stringMetingenPerProvPerTraj);
+            statMetingenPerProvPerTraj.setInt(1,traject.getId());
+            statMetingenPerProvPerTraj.setInt(2,provider.getId());
+
+            rs = statMetingenPerProvPerTraj.executeQuery();
 
             while (rs.next()) {
                 int reistijd = rs.getInt("reistijd");
@@ -40,25 +51,27 @@ public class MetingRepository {
                 metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
             }
 
-            connector.closeConnection();
-
             return metingen;
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { statMetingenPerProvPerTraj.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
+
         return null;
     }
 
     public List<Meting> getMetingen() {
-        String query = "select * from metingen";
         ProviderRepository pcrud = new ProviderRepository();
         TrajectRepository tcrud = new TrajectRepository();
         List<Meting> metingen = new ArrayList<Meting>();
-
+        ResultSet rs = null;
         try {
-            Statement stmt = connector.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            statMetingen = connector.getConnection().prepareStatement(stringMetingen);
+            rs = statMetingen.executeQuery();
 
             while (rs.next()) {
                 int reistijd = rs.getInt("reistijd");
@@ -69,30 +82,33 @@ public class MetingRepository {
 
                 metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
             }
-
-            connector.closeConnection();
             return metingen;
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { statMetingen.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
+
         return null;
     }
 
     public void addMeting(Meting meting) {
-        String query = "insert into metingen(provider_id,traject_id,reistijd,optimal) values ("
-                + meting.getProvider().getId() + ","
-                + meting.getTraject().getId() + ","
-                + meting.getReistijd() + ","
-                + meting.getOptimale_reistijd()
-                + ")";
+         try {
+             statAddMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
+             statAddMetingen.setInt(1, meting.getProvider().getId());
+             statAddMetingen.setInt(2, meting.getTraject().getId());
+             statAddMetingen.setInt(3, meting.getReistijd());
+             statAddMetingen.setInt(4, meting.getOptimale_reistijd());
+             statAddMetingen.executeUpdate();
 
-        try {
-            Statement stmt = connector.getConnection().createStatement();
-            stmt.executeUpdate(query);
-            connector.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }finally{
+             try { statAddMetingen.close(); } catch (Exception e) { /* ignored */ }
+             try {  connector.close(); } catch (Exception e) { /* ignored */ }
+         }
     }
 }

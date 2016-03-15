@@ -98,7 +98,7 @@ public class TrajectRepository {
 
     public List<Waypoint> getWaypoints(int trajectid)
     {
-        String query = "select * from waypoints where traject_id='" + trajectid + "'";
+        String query = "select * from waypoints where traject_id=" + trajectid;
         List<Waypoint> wpts = new ArrayList<>();
         try {
             Statement stmt = connector.getConnection().createStatement();

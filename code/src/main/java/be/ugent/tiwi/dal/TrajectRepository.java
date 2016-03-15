@@ -33,8 +33,6 @@ public class TrajectRepository {
             while (rs.next()) {
                 int id = rs.getInt("ID");
                 String naam = rs.getString("naam");
-                String van = rs.getString("van");
-                String naar = rs.getString("naar");
                 int lengte = rs.getInt("lengte");
                 int optimale_reistijd = rs.getInt("optimale_reistijd");
                 boolean is_active = rs.getBoolean("is_active");

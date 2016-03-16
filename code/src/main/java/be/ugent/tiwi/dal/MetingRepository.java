@@ -79,6 +79,35 @@ public class MetingRepository {
         return null;
     }
 
+    public List<Meting> getMetingenFromTraject(int traject_id)
+    {
+        String query = "select * from metingen where traject_id ='" + traject_id + "'";
+        List<Meting> metingen = new ArrayList<>();
+
+        try {
+            Statement stmt = connector.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            Traject traject = new TrajectRepository().getTraject(traject_id);
+
+            while (rs.next()) {
+                int provider_id = rs.getInt("provider_id");
+                Provider provider = new ProviderRepository().getProvider(provider_id);
+                int reistijd = rs.getInt("reistijd");
+                int optimal = rs.getInt("optimal");
+                LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
+
+                metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
+            }
+
+            connector.closeConnection();
+            return metingen;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void addMeting(Meting meting) {
         String query = "insert into metingen(provider_id,traject_id,reistijd,optimal) values ("
                 + meting.getProvider().getId() + ","

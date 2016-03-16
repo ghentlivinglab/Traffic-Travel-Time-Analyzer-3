@@ -1,6 +1,8 @@
 package be.ugent.tiwi;
 
+import be.ugent.tiwi.dal.MetingRepository;
 import be.ugent.tiwi.dal.TrajectRepository;
+import be.ugent.tiwi.domein.Meting;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,5 +23,13 @@ public class JsonController {
         TrajectRepository tr = new TrajectRepository();
 
         return new Gson().toJson(tr.getWaypoints(id));
+    }
+
+    @RequestMapping(value = "/metingen/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    String getJsonMetingen(@PathVariable("id") int id, ModelMap model)
+    {
+        MetingRepository mr = new MetingRepository();
+        return new Gson().toJson( mr.getMetingenFromTraject(id));
     }
 }

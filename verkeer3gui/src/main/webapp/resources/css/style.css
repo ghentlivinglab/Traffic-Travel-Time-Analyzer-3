@@ -87,3 +87,23 @@ nav.navbar
 .panel-heading a.collapsed:after {
     content:"\e080";
 }
+li.traject-dropdown-item
+{
+    cursor: hand;
+}
+#traject-dropdown
+{
+    display: inline;
+    width: 100%;
+}
+#traject-dropdown p
+{
+    display: inline;
+    float: left;
+}
+#traject-dropdown span
+{
+    display: inline;
+    float: right;
+    margin-top: 5;
+}

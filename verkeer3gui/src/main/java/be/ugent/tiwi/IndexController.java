@@ -45,7 +45,7 @@ public class IndexController {
 
         model.addAttribute("trajecten",trajecten);
         model.addAttribute("totale_vertraging_min",10);
-        model.addAttribute("drukste_plaats","het toilet");
+        model.addAttribute("drukste_plaats","centrum");
         return "home/status";
     }
 

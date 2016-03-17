@@ -7,6 +7,34 @@
     <li>Het is momenteel het meest druk in <c:out value="${drukste_plaats}"/>.</li>
 </ul>
 <h2>Reistijdinformatie</h2>
+<div id="timepickers">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <label>Start datum</label>
+                <div class='input-group date' id='startdate'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <label>Eind datum</label>
+                <div class='input-group date' id='enddate'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="selecteer-dropdown-traject">
     <div id="dropdown-select-traject" class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="traject-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -20,10 +48,12 @@
         </ul>
     </div>
 </div>
-<div id="chart">
+<div id="container">
 
 </div>
-<link href="<c:url value="/resources/c3/c3.min.css"/>" rel="stylesheet"  type="text/css" />
-<script src="<c:url value="/resources/c3/c3.min.js"/>"></script>
+<script src="<c:url value="/resources/highcharts/js/highcharts.src.js"/>"></script>
+<script src="<c:url value="/resources/momentjs/min/moment.min.js"/>"></script>
+<script src="<c:url value="/resources/datetimepicker/js/bootstrap-datetimepicker.min.js"/>"></script>
 <script src="<c:url value="/resources/js/status.js"/>"></script>
+
 <jsp:include page="/WEB-INF/views/partial/footer.jsp" />

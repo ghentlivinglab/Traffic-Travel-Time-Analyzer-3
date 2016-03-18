@@ -12,7 +12,7 @@ public class AdminController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(ModelMap model) {
         TrajectRepository trajectRepository = new TrajectRepository();
-        model.addAttribute("trajecten", trajectRepository.getTrajecten());
+        model.addAttribute("trajecten", trajectRepository.getTrajectenMetWayPoints());
         return "admin/index";
 
     }

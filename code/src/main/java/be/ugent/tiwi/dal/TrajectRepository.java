@@ -29,7 +29,7 @@ public class TrajectRepository {
     private String stringTrajecten = "select * from trajecten";
     private String stringTrajectId = "select * from trajecten where id= ?";
     private String stringUpdateTraject = "update trajecten set naam= ?, lengte=?, start_latitude= ?, start_longitude= ?, end_latitude= ?, end_longitude= ?, is_active= ?, optimale_reistijd= ? where id= ?";
-    private String stringWaypoints = "select * from waypoints where traject_id= ?";
+    private String stringWaypoints = "select * from waypoints where traject_id= ? order by volgnr asc";
     private String stringTrajectNaam = "select * from trajecten where naam= ?";
 
     public TrajectRepository() {
@@ -54,6 +54,38 @@ public class TrajectRepository {
                 String end_latitude = rs.getString("end_latitude");
                 String end_longitude = rs.getString("end_longitude");
                 trajecten.add(new Traject(id, naam, lengte, optimale_reistijd, is_active, start_latitude, start_longitude, end_latitude, end_longitude));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { statTrajecten.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
+
+        }
+        return trajecten;
+    }
+
+    public List<Traject> getTrajectenMetWayPoints() {
+        List<Traject> trajecten = new ArrayList<Traject>();
+        ResultSet rs = null;
+        try {
+            statTrajecten = connector.getConnection().prepareStatement(stringTrajecten);
+            rs = statTrajecten.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String naam = rs.getString("naam");
+                int lengte = rs.getInt("lengte");
+                int optimale_reistijd = rs.getInt("optimale_reistijd");
+                boolean is_active = rs.getBoolean("is_active");
+                String start_latitude = rs.getString("start_latitude");
+                String start_longitude = rs.getString("start_longitude");
+                String end_latitude = rs.getString("end_latitude");
+                String end_longitude = rs.getString("end_longitude");
+                Traject traject = new Traject(id, naam, lengte, optimale_reistijd, is_active, start_latitude, start_longitude, end_latitude, end_longitude);
+                traject.setWaypoints(getWaypoints(id));
+                trajecten.add(traject);
             }
         } catch (SQLException e) {
             e.printStackTrace();

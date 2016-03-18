@@ -28,6 +28,7 @@ function getCoordinatesFromForm()
     afstand = $("#edit-traject input:text[id=lengte]").val();
     ideale_reistijd = $("#edit-traject input:text[id=ideale_reistijd]").val();
 
+
     //console.log("From form: start_latitude="+start_latitude+",start_longitude="+start_longitude+",end_latitude="+end_latitude+",end_longitude="+end_longitude);
 }
 

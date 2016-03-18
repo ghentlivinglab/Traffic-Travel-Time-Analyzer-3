@@ -6,6 +6,7 @@
     <title>Verkeer 3 GUI</title>
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet"  type="text/css" />
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet"  type="text/css" />
+    <link href="<c:url value="/resources/datetimepicker/css/bootstrap-datetimepicker.min.css"/>" rel="stylesheet"  type="text/css" />
     <script src="<c:url value="/resources/js/jquery.min.js"/>"></script>
     <script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js"/>"></script>
 </head>

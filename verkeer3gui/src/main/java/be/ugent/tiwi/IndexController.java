@@ -38,6 +38,17 @@ public class IndexController {
         return "home/trajecten";
     }
 
+    @RequestMapping(value = "/status", method = RequestMethod.GET)
+    public String status(ModelMap model) {
+        TrajectRepository tr = new TrajectRepository();
+        List<Traject> trajecten = tr.getTrajecten();
+
+        model.addAttribute("trajecten",trajecten);
+        model.addAttribute("totale_vertraging_min",10);
+        model.addAttribute("drukste_plaats","centrum");
+        return "home/status";
+    }
+
     @RequestMapping(value = "/about", method = RequestMethod.GET)
     public String reset(ModelMap model)
     {

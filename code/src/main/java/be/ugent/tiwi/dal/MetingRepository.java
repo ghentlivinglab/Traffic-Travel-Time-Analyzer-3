@@ -6,10 +6,7 @@ import be.ugent.tiwi.domein.Traject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +89,91 @@ public class MetingRepository {
             try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
 
+        return null;
+    }
+
+    public List<Meting> getMetingenFromTraject(int traject_id)
+    {
+        String query = "select * from metingen where traject_id ='" + traject_id + "'";
+        List<Meting> metingen = getMetingenFromQuery(query, traject_id);
+
+        return metingen;
+    }
+
+    public List<Meting> getMetingenFromTraject(int traject_id, LocalDateTime start, LocalDateTime end)
+    {
+        String query = "select * from metingen where traject_id ='" + traject_id + "' and timestamp between '"+
+                Timestamp.valueOf(start)+"' and '"+Timestamp.valueOf(end)+"'";
+        List<Meting> metingen =getMetingenFromQuery(query,traject_id);
+
+        return metingen;
+    }
+
+    private List<Meting> getMetingenFromQuery(String query, int traject_id)
+    {
+        List<Meting> metingen = new ArrayList<>();
+        try {
+            Statement stmt = connector.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            Traject traject = new TrajectRepository().getTraject(traject_id);
+
+            while (rs.next()) {
+                int provider_id = rs.getInt("provider_id");
+                Provider provider = new ProviderRepository().getProvider(provider_id);
+                int reistijd = rs.getInt("reistijd");
+                int optimal = rs.getInt("optimal");
+                LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
+
+                metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
+            }
+
+            connector.close();
+            return metingen;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public List<Provider> getMetingenFromTrajectByProvider(int traject_id)
+    {
+        List<Provider> providers = new ProviderRepository().getActieveProviders();
+
+        for(Provider provider : providers)
+        {
+            List<Meting> metingen = getMetingenByProvider(provider.getId());
+            provider.setMetingen(metingen);
+        }
+
+        return providers;
+    }
+
+    public List<Meting> getMetingenByProvider(int id) {
+        List<Meting> provider_metingen = new ArrayList<>();
+        Provider provider = new ProviderRepository().getProvider(id);
+
+        String query = "select * from metingen where provider_id = "+id;
+
+        try {
+            Statement stmt = connector.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+
+            while (rs.next()) {
+                Traject traject = new TrajectRepository().getTraject(rs.getInt("traject_id"));
+                int reistijd = rs.getInt("reistijd");
+                int optimal = rs.getInt("optimal");
+                LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
+
+                provider_metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
+            }
+
+            connector.close();
+            return provider_metingen;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

@@ -6,7 +6,7 @@
     <div class="panel-heading">Wijzig traject</div>
     <div class="panel-body">
         <form class="form-horizontal" id="edit-traject" role="form" method="post">
-            <input type="hidden" name="id" value="<c:out value="${traject.id}"/>">
+            <input type="hidden" id="id" name="id" value="<c:out value="${traject.id}"/>">
             <div class="form-group">
                 <label for="naam">Traject naam</label>
                 <input class="form-control" id="naam" type="text" name="naam" value="<c:out value="${traject.naam}"/>">

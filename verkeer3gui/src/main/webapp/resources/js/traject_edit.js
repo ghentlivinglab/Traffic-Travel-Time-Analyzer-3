@@ -1,5 +1,5 @@
 var start_latitude,start_longitude,end_latitude,end_longitude;
-var ideale_reistijd,afstand;
+var ideale_reistijd,afstand, id;
 var route;
 var map = L.map('map').setView([51.106596, 3.740759],11);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
@@ -16,7 +16,7 @@ $(document).ready(function() {
 function laadRoute()
 {
     getCoordinatesFromForm();
-    addRoute();
+    getWaypoints();
 }
 
 function getCoordinatesFromForm()
@@ -32,18 +32,36 @@ function getCoordinatesFromForm()
     //console.log("From form: start_latitude="+start_latitude+",start_longitude="+start_longitude+",end_latitude="+end_latitude+",end_longitude="+end_longitude);
 }
 
+function getWaypoints(){
+    id = $("#id").val();
+    $.get("waypoints",
+        function(data){
+            var waypoints = JSON.parse(data);
+            addRoute(convertWaypoints(waypoints));
+        }
+    )
+}
+
+function convertWaypoints(waypoints){
+    var resultArray = new Array();
+    resultArray[0] = L.latLng(start_latitude,start_longitude);
+    for(var i = 0;i<waypoints.length;i++)
+    {
+        resultArray[i+1]=L.latLng(waypoints[i].latitude,waypoints[i].longitude);
+    }
+    resultArray[waypoints.length+1] = L.latLng(end_latitude,end_longitude);
+    return resultArray;
+}
+
 var changedWaypoints = function (result) {
     console.log("Waypoints changed!")
     console.log(result);
 };
 
-function addRoute()
+function addRoute(wegpunten)
 {
     route = L.Routing.control({
-        waypoints: [
-            L.latLng(start_latitude,start_longitude),
-            L.latLng(end_latitude,end_longitude)
-        ],
+        waypoints: wegpunten,
         routeLine: function(route) {
             var line = L.Routing.line(route, {
                 addWaypoints: false,

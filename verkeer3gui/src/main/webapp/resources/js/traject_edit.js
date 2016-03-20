@@ -44,12 +44,12 @@ function getWaypoints(){
 
 function convertWaypoints(waypoints){
     var resultArray = new Array();
-    resultArray[0] = L.latLng(start_latitude,start_longitude);
+    resultArray[0] = new L.Routing.Waypoint(L.latLng(start_latitude,start_longitude),0);
     for(var i = 0;i<waypoints.length;i++)
     {
-        resultArray[i+1]=L.latLng(waypoints[i].latitude,waypoints[i].longitude);
+        resultArray[i+1]= new L.Routing.Waypoint(L.latLng(waypoints[i].latitude,waypoints[i].longitude),i+1);
     }
-    resultArray[waypoints.length+1] = L.latLng(end_latitude,end_longitude);
+    resultArray[waypoints.length+1] =new L.Routing.Waypoint(L.latLng(end_latitude,end_longitude),waypoints.length+1);
     return resultArray;
 }
 
@@ -60,7 +60,7 @@ var changedWaypoints = function (result) {
 
 function addRoute(wegpunten)
 {
-    /*route = L.Routing.control({
+    route = L.Routing.control({
         waypoints: wegpunten,
         routeLine: function(route) {
             var line = L.Routing.line(route, {
@@ -81,10 +81,6 @@ function addRoute(wegpunten)
         routeWhileDragging: true,
         fitSelectedRoutes: 'smart',
         show:false
-    }).addTo(map);*/
-    L.polyline(wegpunten,{
-        opacity: 0.8,
-        color: "#0073ff"
     }).addTo(map);
 }
 

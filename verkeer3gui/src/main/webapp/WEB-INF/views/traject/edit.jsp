@@ -53,6 +53,8 @@
 
 <link href="<c:url value="/resources/leaflet/leaflet.css"/>" rel="stylesheet"  type="text/css" />
 <script src="<c:url value="/resources/leaflet/leaflet.js"/>"></script>
+<link href="<c:url value="/resources/leaflet/leaflet.label.css"/>" rel="stylesheet"  type="text/css" />
+<script src="<c:url value="/resources/leaflet/leaflet.label.js"/>"></script>
 <link href="<c:url value="/resources/leaflet/leaflet-routing-machine.css"/>" rel="stylesheet"  type="text/css" />
 <script src="<c:url value="/resources/leaflet/leaflet-routing-machine.js"/>"></script>
 <script src="<c:url value="/resources/js/traject_edit.js"/>"></script>

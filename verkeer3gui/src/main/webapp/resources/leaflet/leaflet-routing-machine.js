@@ -2353,7 +2353,7 @@ if (typeof module !== undefined) module.exports = polyline;
 				var options = {
 						draggable: this.draggableWaypoints
 					},
-				    marker = L.marker(wp.latLng, options);
+				    marker = L.marker(wp.latLng, options).bindLabel(""+ wp.name);
 
 				return marker;
 			},

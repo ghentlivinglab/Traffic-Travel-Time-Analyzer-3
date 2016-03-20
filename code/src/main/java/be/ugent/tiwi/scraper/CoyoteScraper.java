@@ -168,6 +168,7 @@ public class CoyoteScraper implements TrafficScraper {
         Set<Map.Entry<String, JsonElement>> trajecten = e.entrySet();
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tempsql.txt"), "utf-8"))) {
+            //Dit bestand staat onder de databank/tool map
             BufferedReader reader = new BufferedReader(new FileReader("C:\\users\\eigenaar\\desktop\\Waypoints order coyote.txt"));
             int trajectIndex = 0;
             for (Map.Entry<String, JsonElement> traject : trajecten) {

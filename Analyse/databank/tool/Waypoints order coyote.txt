@@ -93,10 +93,10 @@ https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.01
 CDABGHEFIJUVYZWXKLSTQR //MN en OP zijn volledige tours rond een rotonde (nutteloos dus)
 32 - Oudenaardsesteenweg (N60) Southbound - R40 - E17
 https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=50.98494,3.67285&markers=label:A%7C51.01382,3.72823%7C&markers=label:B%7C50.98494,3.67285%7C&markers=label:C%7C51.02171,3.73314%7C&markers=label:D%7C51.01382,3.72823%7C&markers=label:E%7C51.02349,3.73199%7C&markers=label:F%7C51.02171,3.73314%7C&markers=label:G%7C51.03843,3.72626%7C&markers=label:H%7C51.03042,3.72994%7C&markers=label:I%7C51.03028,3.73%7C&markers=label:J%7C51.02909,3.73214%7C&markers=label:K%7C51.02874,3.7319%7C&markers=label:L%7C51.02383,3.73161%7C&markers=label:M%7C51.02921,3.73197%7C&markers=label:N%7C51.02887,3.73175&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
- //todo
+GHIJMNKLEFCDAB 
 33 - Brugsevaart (N9) Southbound - R4 - Gebroeders de Smetstraat
 https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.06431,3.70237&markers=label:A%7C51.08552,3.66315%7C&markers=label:B%7C51.06431,3.70237&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
- //todo
+AB
 34 - Brugsevaart (N9) Northbound - Gebroeders de Smetstraat - R4
 https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.08552,3.66315&markers=label:A%7C51.0666,3.69936%7C&markers=label:B%7C51.08552,3.66315%7C&markers=label:C%7C51.0666,3.69936%7C&markers=label:D%7C51.06634,3.69966%7C&markers=label:E%7C51.06428,3.70242%7C&markers=label:F%7C51.06634,3.69966&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
- //todo
+EFDCAB

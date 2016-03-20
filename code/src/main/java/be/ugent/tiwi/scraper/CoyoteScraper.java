@@ -168,11 +168,17 @@ public class CoyoteScraper implements TrafficScraper {
         Set<Map.Entry<String, JsonElement>> trajecten = e.entrySet();
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tempsql.txt"), "utf-8"))) {
+            BufferedReader reader = new BufferedReader(new FileReader("C:\\users\\eigenaar\\desktop\\Waypoints order coyote.txt"));
             int trajectIndex = 0;
             for (Map.Entry<String, JsonElement> traject : trajecten) {
                 trajectIndex++;
-                int optReistijd = 0, afstand = 0;
-                String startlat = "", startlong = "", stoplat = "", stoplong = "";
+                int optReistijd = 0;
+
+                double prevLat = 0, prevLong = 0;
+                double startLat = 0, startLong = 0;
+                StringBuilder waypoints = new StringBuilder();
+                double totalDistance = 0;
+                int afstand = 0;
 
                 Set<Map.Entry<String, JsonElement>> coordinatendataStart = null;
                 Set<Map.Entry<String, JsonElement>> coordinatendataStop = null;
@@ -189,131 +195,118 @@ public class CoyoteScraper implements TrafficScraper {
                             break;
                         case "geometries":
                             jsonArray = data.getValue().getAsJsonArray().get(0).getAsJsonArray();
-
-                            int iIndex = 0, jIndex = 0;
-                            double prevLat = 0, prevLong = 0;
-
+                            int index1 = 0, index2 = 0;
+                            prevLat = 0; prevLong = 0;
+                            startLat = 0; startLong = 0;
+                            waypoints = new StringBuilder();
                             double maxDist = 0;
-
-                            JsonArray array = data.getValue().getAsJsonArray();
-                            for(int i = 0; i < array.size(); ++i){
-                                JsonArray elem = array.get(i).getAsJsonArray();
-                                for(int j = 0; j < elem.size(); j++){
-                                    JsonElement elem2 = elem.get(j);
-                                    double lat = elem2.getAsJsonObject().get("lat").getAsDouble();
-                                    double lon = elem2.getAsJsonObject().get("lng").getAsDouble();
-                                    if(i != 0 || j != 0){
-                                        double dist = CoyoteScraper.distance(prevLat, lat, prevLong, lon, 0, 0);
-                                        if(dist > maxDist){
-                                            iIndex = i;
-                                            jIndex = j;
-                                            maxDist = dist;
-                                        }
-                                    }
-                                    prevLat = lat;
-                                    prevLong = lon;
+                            reader.readLine();
+                            reader.readLine();
+                            String volgorde = reader.readLine();
+                            if(volgorde.contains(" "))
+                                volgorde = volgorde.split(" ")[0];
+                            int vIndex = 0;
+                            int volgnummer = 1;
+                            waypoints.append("insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(");
+                            if(traject.getKey().contains("Dok-Noord (R40) Northboun"))
+                                System.out.print("");
+                            while(vIndex < volgorde.length()) {
+                                char a = volgorde.charAt(vIndex);
+                                char b = volgorde.charAt(vIndex + 1);
+                                int arrayIndex = ((int)(a - 'A'))/2;
+                                JsonArray array = data.getValue().getAsJsonArray().get(arrayIndex).getAsJsonArray();
+                                int startI, maxI, incr;
+                                if(a < b) {
+                                    startI = 0;
+                                    maxI = array.size();
+                                    incr = 1;
+                                }else{
+                                    startI = array.size()-1;
+                                    maxI = -1;
+                                    incr = -1;
                                 }
-                            }
+                                for(int i = startI; i != maxI; i += incr){
+                                    JsonObject pos = array.get(i).getAsJsonObject();
+                                    double lat = pos.get("lat").getAsDouble();
+                                    double lng = pos.get("lng").getAsDouble();
+                                    if(vIndex != 0 || i != startI){
+                                        waypoints.append(",").append(System.getProperty("line.separator")).append("(");
+                                        double distance = distance(lat, prevLat, lng, prevLong, 0, 0);
+                                        totalDistance += distance;
+                                        if(maxDist < distance){
+                                            maxDist = distance;
+                                            index1 = vIndex;
+                                            index2 = i;
+                                        }
+                                    }else{
+                                        startLat = lat;
+                                        startLong = lng;
+                                    }
+                                    waypoints.append(volgnummer++).append(",").append(trajectIndex).append(",\"").append(lat).append("\",\"").append(lng).append("\")");
+                                    prevLat = lat;
+                                    prevLong = lng;
+                                }
 
-                            JsonArray array1 = array.get(0).getAsJsonArray();
-                            JsonObject obj1 = array1.get(array1.size()-1).getAsJsonObject();
-                            String url = "https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center="+obj1.get("lat").getAsString() + ","+obj1.get("lng").getAsString();
+                                vIndex += 2;
+                            }
+                            waypoints.append(System.getProperty("line.separator"));
+
+                            System.out.println(trajectIndex + " - " + traject.getKey());
+                            System.out.println("diff: " + (totalDistance - afstand));
+
+                            break;
+                            /*JsonArray array1 = array.get(0).getAsJsonArray();
+                            JsonObject obj1 = array1.get(array1.size() - 1).getAsJsonObject();
+                            String url = "https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=" + obj1.get("lat").getAsString() + "," + obj1.get("lng").getAsString();
                             char c = 'A';
-                            for(int i = 0; i < array.size(); ++i){
+                            for (int i = 0; i < array.size(); ++i) {
                                 array1 = array.get(i).getAsJsonArray();
                                 obj1 = array1.get(0).getAsJsonObject();
-                                url += "&markers=label:" + c + "%7C" + obj1.get("lat").getAsString() + ","+obj1.get("lng").getAsString() + "%7C";
+                                url += "&markers=label:" + c + "%7C" + obj1.get("lat").getAsString() + "," + obj1.get("lng").getAsString() + "%7C";
                                 c++;
                                 array1 = array.get(i).getAsJsonArray();
                                 obj1 = array1.get(array1.size() - 1).getAsJsonObject();
-                                url += "&markers=label:" + c + "%7C" + obj1.get("lat").getAsString() + ","+obj1.get("lng").getAsString();
+                                url += "&markers=label:" + c + "%7C" + obj1.get("lat").getAsString() + "," + obj1.get("lng").getAsString();
                                 c++;
-                                if(i != array.size() -1)
+                                if (i != array.size() - 1)
                                     url += "%7C";
                             }
-                            url+="&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ";
+                            url += "&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ";
                             System.out.println(trajectIndex + " - " + traject.getKey());
                             System.out.println(url);
 
                             coordinatendataStart = data.getValue().getAsJsonArray().get(0).getAsJsonArray().get(0).getAsJsonObject().entrySet();
                             coordinatendataStop = data.getValue().getAsJsonArray().get(0).getAsJsonArray().get(data.getValue().getAsJsonArray().get(0).getAsJsonArray().size() - 1).getAsJsonObject().entrySet();
-                            break;
-                    }
-                }
-
-                for (Map.Entry<String, JsonElement> data : coordinatendataStart) {
-                    switch (data.getKey()) {
-                        case "lng":
-                            startlong = data.getValue().getAsString();
-                            break;
-                        case "lat":
-                            startlat = data.getValue().getAsString();
-                            break;
-
-                    }
-                }
-                for (Map.Entry<String, JsonElement> data : coordinatendataStop) {
-                    switch (data.getKey()) {
-                        case "lng":
-                            stoplong = data.getValue().getAsString();
-                            break;
-                        case "lat":
-                            stoplat = data.getValue().getAsString();
-                            break;
+                            break;*/
                     }
                 }
 
                 writer.write("insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values(\"");
                 writer.write(traject.getKey());
                 writer.write("\",");
-                writer.write(String.valueOf(afstand));
+                writer.write(String.valueOf((int)Math.round(totalDistance)));
                 writer.write(",");
                 writer.write(String.valueOf(optReistijd));
                 writer.write(",");
                 writer.write(String.valueOf(1));
                 writer.write(",\"");
-                writer.write(startlat);
+                writer.write(String.valueOf(startLat));
                 writer.write("\",\"");
-                writer.write(startlong);
+                writer.write(String.valueOf(startLong));
                 writer.write("\",\"");
-                writer.write(stoplat);
+                writer.write(String.valueOf(prevLat));
                 writer.write("\",\"");
-                writer.write(stoplong);
+                writer.write(String.valueOf(prevLong));
                 writer.write("\"");
                 writer.write(");");
                 writer.write(System.getProperty("line.separator"));
-
-                for (int i = 1; i < jsonArray.size() - 1; i++) {
-                    String lng = "", lat = "";
-
-                    writer.write("insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(");
-                    writer.write(String.valueOf(i));
-                    writer.write(",");
-                    writer.write("(select id from vop.trajecten where naam = \"");
-                    writer.write(traject.getKey());
-                    writer.write("\"),");
-
-                    for (Map.Entry<String, JsonElement> data : jsonArray.get(i).getAsJsonObject().entrySet()) {
-                        switch (data.getKey()) {
-                            case "lng":
-                                lng = data.getValue().getAsString();
-                                break;
-                            case "lat":
-                                lat = data.getValue().getAsString();
-                        }
-                    }
-                    writer.write(lat);
-                    writer.write(",");
-                    writer.write(lng);
-                    writer.write(");");
-                    writer.write(System.getProperty("line.separator"));
-                }
+                writer.write(waypoints.toString());
+                writer.write(";");
                 writer.write(System.getProperty("line.separator"));
             }
 
-
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
     }
 

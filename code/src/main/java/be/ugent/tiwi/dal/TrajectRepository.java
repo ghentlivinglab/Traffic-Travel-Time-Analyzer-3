@@ -6,12 +6,15 @@ import be.ugent.tiwi.domein.Waypoint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.util.StringBuilders;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by jelle on 19.02.16.

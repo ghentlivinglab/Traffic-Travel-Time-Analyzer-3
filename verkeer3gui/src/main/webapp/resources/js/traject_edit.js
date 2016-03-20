@@ -60,7 +60,7 @@ var changedWaypoints = function (result) {
 
 function addRoute(wegpunten)
 {
-    route = L.Routing.control({
+    /*route = L.Routing.control({
         waypoints: wegpunten,
         routeLine: function(route) {
             var line = L.Routing.line(route, {
@@ -81,6 +81,10 @@ function addRoute(wegpunten)
         routeWhileDragging: true,
         fitSelectedRoutes: 'smart',
         show:false
+    }).addTo(map);*/
+    L.polyline(wegpunten,{
+        opacity: 0.8,
+        color: "#0073ff"
     }).addTo(map);
 }
 

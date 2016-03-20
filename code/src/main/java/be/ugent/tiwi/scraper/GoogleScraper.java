@@ -29,7 +29,6 @@ public class GoogleScraper implements TrafficScraper {
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
 
     private String apiKey;
-    private String url;
 
     public GoogleScraper() {
         this.apiKey = Settings.getSetting("google_apikey");
@@ -56,7 +55,7 @@ public class GoogleScraper implements TrafficScraper {
                     "&destination=" + traject.getEnd_latitude() + "%2C" + traject.getEnd_longitude() +
                     "&departure_time=now";
             List<Waypoint> wpts = traject.getWaypoints();
-            /*if(wpts.size()>0) {
+            if(wpts.size()>0) {
                 url += "&waypoints=via:" + wpts.get(0).getLatitude() + "," + wpts.get(0).getLongitude();
                 double size = wpts.size();
                 size /= 23; //Maximum toegelaten waypoints voor google
@@ -69,7 +68,7 @@ public class GoogleScraper implements TrafficScraper {
                     for (int i = 1; i < wpts.size(); ++i) {
                         url += "%7Cvia:" + wpts.get(i).getLatitude() + "," + wpts.get(i).getLongitude();
                     }
-            }*/
+            }
             url += "&key=" + this.apiKey;
 
             System.out.println(url);

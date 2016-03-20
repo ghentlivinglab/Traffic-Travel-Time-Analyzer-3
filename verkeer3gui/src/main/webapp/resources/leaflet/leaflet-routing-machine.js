@@ -2354,7 +2354,9 @@ if (typeof module !== undefined) module.exports = polyline;
 						draggable: this.draggableWaypoints
 					},
 				    marker = L.marker(wp.latLng, options).bindLabel(""+ wp.name);
-
+					marker.on('dblclick', function(e) {
+						deleteWaypoint(wp.name);
+					});
 				return marker;
 			},
 			geocodersClassName: ''

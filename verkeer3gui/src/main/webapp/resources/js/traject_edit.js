@@ -2,6 +2,7 @@ var start_latitude,start_longitude,end_latitude,end_longitude;
 var ideale_reistijd,afstand, id;
 var route;
 var map = L.map('map').setView([51.106596, 3.740759],11);
+var resultArray;
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
@@ -43,7 +44,7 @@ function getWaypoints(){
 }
 
 function convertWaypoints(waypoints){
-    var resultArray = new Array();
+    resultArray = new Array();
     resultArray[0] = new L.Routing.Waypoint(L.latLng(start_latitude,start_longitude),0);
     for(var i = 0;i<waypoints.length;i++)
     {
@@ -64,7 +65,7 @@ function addRoute(wegpunten)
         waypoints: wegpunten,
         routeLine: function(route) {
             var line = L.Routing.line(route, {
-                addWaypoints: false,
+                addWaypoints: true,
                 extendToWaypoints: false,
                 routeWhileDragging: true,
                 autoRoute: true,
@@ -95,4 +96,10 @@ function wijzigFormulier()
     $("#edit-traject input:text[id=end_longitude]").val(end_longitude);
     $("#edit-traject input[id=optimale_reistijd]").val(ideale_reistijd);
     $("#edit-traject input[id=lengte]").val(afstand);
+}
+
+function deleteWaypoint(id){
+    route.spliceWaypoints(0, resultArray.length);
+    resultArray.splice(id,1);
+    addRoute(resultArray);
 }

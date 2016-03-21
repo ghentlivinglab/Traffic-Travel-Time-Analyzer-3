@@ -25,39 +25,43 @@ while (my $ref = $sth->fetchrow_hashref()) {
 
 $sth->finish();
 
-# Disconnect from the database
-$dbh->disconnect();
-
 # Selenium for javascript added html
-my $sel = WWW::Selenium->new( host => "169.254.65.215",
+my $sel = WWW::Selenium->new( host => "192.168.0.100",
 								port => 5555,
 								browser => "*firefox",
 								browser_url => "http://www.google.be"
 							);
 
 $sel->start;
-$sel->open(URI->new($uri));
-$sel->wait_for_page_to_load(3000);
 
-# Scraper blok aanmaken
-my $route = scraper {
-	# In welk blok gekeken moet worden
-	process ".route-info.route_0", "routes[]" => scraper {
-		# Haal info op van elementen uit het blok
-		process ".route-name", name => 'TEXT';
-		process ".route-stats .route-length", length => 'TEXT';
-		process ".route-stats .route-time", time => 'TEXT';
+$i = 1;
+foreach my $x (@uri) {
+	$sel->open(URI->new($x));
+	$sel->wait_for_page_to_load(5000);
+
+	# Scraper blok aanmaken
+	my $route = scraper {
+		# In welk blok gekeken moet worden
+		process ".route-info.route_0", "routes[]" => scraper {
+			# Haal info op van elementen uit het blok
+			process ".route-name", name => 'TEXT';
+			process ".route-stats .route-length", length => 'TEXT';
+			process ".route-stats .route-time", time => 'TEXT';
+		};
 	};
-};
 
-# Route scrapen
-my $res = $route->scrape( $sel->get_html_source() );
+	# Route scrapen
+	my $res = $route->scrape( $sel->get_html_source() );
 
-$sel->stop;
+	$sel->stop;
 
-# Overloop de routes
-for my $route (@{$res->{routes}}) {
-	print Encode::encode("utf8", "$route->{name}\n");
-	print Encode::encode("utf8", "$route->{length}\n");
-	print Encode::encode("utf8", "$route->{time}\n");
+	$sth = $dbh->prepare(qq{
+		INSERT INTO metingen (reistijd, traject_id, provider_id) VALUES (?, ?, ?)
+	});
+
+	$sth->execute($res->{routes,time}, $i, 7);
+	$i++;
 }
+
+# Disconnect from the database
+$dbh->disconnect();

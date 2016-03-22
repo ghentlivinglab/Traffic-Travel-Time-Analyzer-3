@@ -178,7 +178,10 @@ public class MetingRepository {
              statAddMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
              statAddMetingen.setInt(1, meting.getProvider().getId());
              statAddMetingen.setInt(2, meting.getTraject().getId());
-             statAddMetingen.setInt(3, meting.getReistijd());
+             if(meting.getReistijd() >= 0)
+                statAddMetingen.setInt(3, meting.getReistijd());
+             else
+                statAddMetingen.setNull(3, Types.INTEGER);
              statAddMetingen.executeUpdate();
 
         } catch (SQLException e) {

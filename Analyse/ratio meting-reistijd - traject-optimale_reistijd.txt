@@ -1,0 +1,6 @@
+select traject_id, provider_id, providers.naam, trajecten.optimale_reistijd, avg(reistijd), avg(reistijd)/trajecten.optimale_reistijd as ratio from metingen
+inner join providers on providers.id = metingen.provider_id
+inner join trajecten on trajecten.id = metingen.traject_id
+where reistijd is not null and reistijd >= 0
+group by provider_id, traject_id
+ORDER BY `ratio`  DESC

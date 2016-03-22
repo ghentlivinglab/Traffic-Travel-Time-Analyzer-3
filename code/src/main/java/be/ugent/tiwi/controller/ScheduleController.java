@@ -3,11 +3,7 @@ package be.ugent.tiwi.controller;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
-import be.ugent.tiwi.samplecode.DalSamples;
-import be.ugent.tiwi.scraper.CoyoteScraper;
-import be.ugent.tiwi.scraper.GoogleScraper;
-import be.ugent.tiwi.scraper.HereScraper;
-import be.ugent.tiwi.scraper.TomTomScraper;
+import be.ugent.tiwi.scraper.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,6 +68,9 @@ public class ScheduleController {
                 break;
             case "tomtom":
                 dbController.voegMetingenToe(new TomTomScraper().scrape(trajects));
+                break;
+            case "bing maps":
+                dbController.voegMetingenToe(new BingScraper().scrape(trajects));
                 break;
         }
     }

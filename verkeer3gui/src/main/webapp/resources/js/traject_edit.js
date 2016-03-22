@@ -99,7 +99,15 @@ function wijzigFormulier()
 }
 
 function deleteWaypoint(id){
-    route.spliceWaypoints(0, resultArray.length);
     resultArray.splice(id,1);
-    addRoute(resultArray);
+    var plan = route.getPlan();
+    updateWaypointsNamen();
+    plan.setWaypoints(resultArray);
+}
+
+function updateWaypointsNamen(){
+    for(var i = 0;i<resultArray.length;i++)
+    {
+        resultArray[i].name = i+"";
+    }
 }

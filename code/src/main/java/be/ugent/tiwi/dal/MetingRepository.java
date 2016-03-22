@@ -24,7 +24,7 @@ public class MetingRepository {
 
     private String stringMetingenPerProvPerTraj = "select * from metingen where traject_id = ? and provider_id = ?";
     private String stringMetingen = "select * from metingen";
-    private String stringAddMetingen = "insert into metingen(provider_id,traject_id,reistijd,optimal) values (?, ?, ?, ?)";
+    private String stringAddMetingen = "insert into metingen(provider_id,traject_id,reistijd) values (?, ?, ?)";
 
     public MetingRepository() {
         connector = new DBConnector();
@@ -42,10 +42,9 @@ public class MetingRepository {
 
             while (rs.next()) {
                 int reistijd = rs.getInt("reistijd");
-                int optimal = rs.getInt("optimal");
                 LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
 
-                metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
+                metingen.add(new Meting(provider, traject, reistijd, timestamp));
             }
 
             return metingen;
@@ -72,12 +71,11 @@ public class MetingRepository {
 
             while (rs.next()) {
                 int reistijd = rs.getInt("reistijd");
-                int optimal = rs.getInt("optimal");
                 Provider provider = pcrud.getProvider(rs.getInt("provider_id"));
                 Traject traject = tcrud.getTraject(rs.getInt("traject_id"));
                 LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
 
-                metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
+                metingen.add(new Meting(provider, traject, reistijd, timestamp));
             }
             return metingen;
 
@@ -121,10 +119,9 @@ public class MetingRepository {
                 int provider_id = rs.getInt("provider_id");
                 Provider provider = new ProviderRepository().getProvider(provider_id);
                 int reistijd = rs.getInt("reistijd");
-                int optimal = rs.getInt("optimal");
                 LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
 
-                metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
+                metingen.add(new Meting(provider, traject, reistijd, timestamp));
             }
 
             connector.close();
@@ -162,10 +159,9 @@ public class MetingRepository {
             while (rs.next()) {
                 Traject traject = new TrajectRepository().getTraject(rs.getInt("traject_id"));
                 int reistijd = rs.getInt("reistijd");
-                int optimal = rs.getInt("optimal");
                 LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
 
-                provider_metingen.add(new Meting(provider, traject, reistijd, optimal, timestamp));
+                provider_metingen.add(new Meting(provider, traject, reistijd, timestamp));
             }
 
             connector.close();
@@ -182,8 +178,10 @@ public class MetingRepository {
              statAddMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
              statAddMetingen.setInt(1, meting.getProvider().getId());
              statAddMetingen.setInt(2, meting.getTraject().getId());
-             statAddMetingen.setInt(3, meting.getReistijd());
-             statAddMetingen.setInt(4, meting.getOptimale_reistijd());
+             if(meting.getReistijd() >= 0)
+                statAddMetingen.setInt(3, meting.getReistijd());
+             else
+                statAddMetingen.setNull(3, Types.INTEGER);
              statAddMetingen.executeUpdate();
 
         } catch (SQLException e) {

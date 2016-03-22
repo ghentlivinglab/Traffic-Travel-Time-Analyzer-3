@@ -21,7 +21,7 @@ import java.util.*;
  */
 public class TrajectRepository {
     private DBConnector connector;
-    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(TrajectRepository.class);
 
     private PreparedStatement statTrajecten = null;
     private PreparedStatement statTrajectId = null;

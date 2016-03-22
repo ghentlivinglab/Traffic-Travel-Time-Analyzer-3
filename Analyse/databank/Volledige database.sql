@@ -10,7 +10,6 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `metingen` (
   `timestamp` datetime DEFAULT CURRENT_TIMESTAMP,
   `reistijd` int(11) DEFAULT NULL,
-  `optimal` int(11) DEFAULT NULL,
   `traject_id` int(11) DEFAULT NULL,
   `provider_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

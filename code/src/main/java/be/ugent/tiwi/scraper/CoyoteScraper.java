@@ -40,7 +40,7 @@ import java.util.Set;
  */
 public class CoyoteScraper implements TrafficScraper {
 
-    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final Logger logger = LogManager.getLogger(CoyoteScraper.class);
 
     @Override
     /**
@@ -70,7 +70,7 @@ public class CoyoteScraper implements TrafficScraper {
         httpPost2.addHeader("Cookie", cookie);
         httpPost2.addHeader("Connection", "close");
 
-        logger.trace("Sending Coyote-request...");
+        logger.info("Sending Coyote-request...");
         CloseableHttpResponse Dataresponse = httpclient.execute(httpPost2);
 
         try {
@@ -118,7 +118,7 @@ public class CoyoteScraper implements TrafficScraper {
         CloseableHttpResponse LogInresponse = httpclient.execute(httpPost);
 
         try {
-            logger.trace("Trying to login...");
+            logger.info("Trying to login...");
             HttpEntity entity2 = LogInresponse.getEntity();
             for (Header h : LogInresponse.getAllHeaders()) {
                 if (h.getName().equals("Set-Cookie")) {
@@ -162,9 +162,6 @@ public class CoyoteScraper implements TrafficScraper {
             Set<Map.Entry<String, JsonElement>> trajectData = traject.getValue().getAsJsonObject().entrySet();
             for (Map.Entry<String, JsonElement> data : trajectData) {
                 switch (data.getKey()) {
-                    case "normal_time":
-                        metingObj.setOptimale_reistijd(data.getValue().getAsInt());
-                        break;
                     case "real_time":
                         metingObj.setReistijd(data.getValue().getAsInt());
                         break;

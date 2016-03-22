@@ -25,8 +25,9 @@ public class ScheduleController {
 
         final Runnable schema = new Runnable() {
             public void run() {
-                logger.trace("Schedule run - Trying to scrape data");
+                logger.info("Schedule STARTING - Trying to scrape data");
                 haalDataOp();
+                logger.info("Schedule DONE     - Waiting for next call");
             }
         };
         final ScheduledFuture<?> schemaHandle = scheduler.scheduleAtFixedRate(schema, 0, 5, MINUTES);
@@ -38,8 +39,9 @@ public class ScheduleController {
             List<Provider> providers = dbController.haalActieveProvidersOp();
             List<Traject> trajects = dbController.getTrajectenMetCoordinaten();
             for (Provider provider : providers) {
-                logger.trace(provider.getId() + ": Scraping provider " + provider.getNaam());
+                logger.info("[" + provider.getNaam() + "] Scraping provider...");
                 haalDataVanProvider(provider.getNaam(), trajects);
+                logger.info("[" + provider.getNaam() + "] Done!");
             }
 
             /*DalSamples.getProviderWithName("Waze");

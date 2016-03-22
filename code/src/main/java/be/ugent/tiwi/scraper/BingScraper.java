@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class BingScraper implements TrafficScraper {
 
-    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final Logger logger = LogManager.getLogger(BingScraper.class);
 
     private String apiKey;
 
@@ -57,21 +57,20 @@ public class BingScraper implements TrafficScraper {
             url += "&wp."+ i+"=" + traject.getEnd_latitude() + "," + traject.getEnd_longitude();
             url += "&optimize=timeWithTraffic&maxSolutions=1&mfa=1&key=" + apiKey;
 
-            System.out.println(url);
             Bing bing_obj = (Bing)jc.getObject(url, Bing.class, RequestType.GET);
             if(bing_obj.getResourceSets().size() > 0){
                 ResourceSet set = bing_obj.getResourceSets().get(0);
                 if(set.getResources().size() > 0){
                     Resource resource = set.getResources().get(0);
-                    Meting m = new Meting(bing, traject, resource.getTravelDurationTraffic(), resource.getTravelDuration(), LocalDateTime.now());
+                    Meting m = new Meting(bing, traject, resource.getTravelDurationTraffic(), LocalDateTime.now());
                     metingen.add(m);
                 }else{
                     logger.warn("Provider Bing: Could not scrape traject " + traject.getId() + ", adding an empty measurement [1]");
-                    metingen.add(new Meting(bing, traject, -1, -1, LocalDateTime.now()));
+                    metingen.add(new Meting(bing, traject, -1, LocalDateTime.now()));
                 }
             }else{
                 logger.warn("Provider Bing: Could not scrape traject " + traject.getId() + ", adding an empty measurement [2]");
-                metingen.add(new Meting(bing, traject, -1, -1, LocalDateTime.now()));
+                metingen.add(new Meting(bing, traject, -1, LocalDateTime.now()));
             }
 
         }

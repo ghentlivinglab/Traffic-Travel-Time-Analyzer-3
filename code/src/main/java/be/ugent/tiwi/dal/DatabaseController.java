@@ -7,13 +7,14 @@ import be.ugent.tiwi.domein.Traject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by brent on 1/03/2016.
  */
 public class DatabaseController {
-    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final Logger logger = LogManager.getLogger(DatabaseController.class);
 
     private ProviderRepository providerRepository = new ProviderRepository();
     private TrajectRepository trajectenRepository = new TrajectRepository();
@@ -36,10 +37,22 @@ public class DatabaseController {
     }
 
     public void voegMetingenToe(List<Meting> metingenLijst) {
+        List<Integer> missing = new ArrayList<>();
         for (Meting meting : metingenLijst) {
             metingRepository.addMeting(meting);
+            if(meting.getReistijd() < 0)
+                missing.add(meting.getTraject().getId());
         }
-        logger.trace("Added " + metingenLijst.size() + " measurements!");
+        logger.info("Added " + (metingenLijst.size() - missing.size()) + " good measurements!");
+        if(missing.size() > 0){
+            StringBuilder b = new StringBuilder();
+            b.append("Added ").append(missing.size()).append(" empty measurements - trajects: [").append(missing.get(0));
+
+            for(int i = 1; i < missing.size(); ++i)
+                b.append(",").append(missing.get(i));
+            b.append("]");
+            logger.warn(b.toString());
+        }
 
     }
 

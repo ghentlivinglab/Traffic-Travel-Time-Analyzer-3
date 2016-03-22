@@ -7,7 +7,6 @@ import be.ugent.tiwi.domein.*;
 import be.ugent.tiwi.domein.bing.Bing;
 import be.ugent.tiwi.domein.bing.Resource;
 import be.ugent.tiwi.domein.bing.ResourceSet;
-import be.ugent.tiwi.domein.tomtom.TomTom;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import settings.Settings;

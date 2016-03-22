@@ -28,12 +28,16 @@ public class TrajectRepository {
     private PreparedStatement statUpdateTraject = null;
     private PreparedStatement statWaypoints = null;
     private PreparedStatement statTrajectNaam = null;
+    private PreparedStatement statUpdateWaypoints = null;
+    private PreparedStatement statDeleteWaypoints = null;
 
     private String stringTrajecten = "select * from trajecten";
     private String stringTrajectId = "select * from trajecten where id= ?";
     private String stringUpdateTraject = "update trajecten set naam= ?, lengte=?, start_latitude= ?, start_longitude= ?, end_latitude= ?, end_longitude= ?, is_active= ?, optimale_reistijd= ? where id= ?";
     private String stringWaypoints = "select * from waypoints where traject_id= ? order by volgnr asc";
     private String stringTrajectNaam = "select * from trajecten where naam= ?";
+    private String stringUpdateWaypoints = "insert into waypoints(traject_id, volgnr, latitude, longitude) values(?,?,?,?) on duplicate key update latitude = values(latitude), longitude = values(longitude);";
+    private String stringDeleteWaypoints = "delete from waypoints where traject_id = ? and volgnr>?";
 
     public TrajectRepository() {
         connector = new DBConnector();
@@ -128,7 +132,7 @@ public class TrajectRepository {
         return null;
     }
 
-    public void wijzigTraject(int id, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude)
+    public void wijzigTraject(int id, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude, List<Waypoint> waypoints)
     {
         ResultSet rs = null;
         try {
@@ -141,8 +145,8 @@ public class TrajectRepository {
             statUpdateTraject.setString(6,end_longitude);
             statUpdateTraject.setBoolean(7,is_active);
             statUpdateTraject.setInt(8,optimale_reistijd);
-
             rs = statUpdateTraject.executeQuery();
+            wijzigWaypoints(id, waypoints);
         }catch (SQLException e) {
             logger.error("Wijzigen van traject met id "+id+" is mislukt...");
             logger.error(e);
@@ -151,6 +155,43 @@ public class TrajectRepository {
             try { statUpdateTraject.close(); } catch (Exception e) { /* ignored */ }
             try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
+    }
+
+    public void wijzigWaypoints(int id, List<Waypoint> waypoints)
+    {
+        try {
+            statUpdateWaypoints = connector.getConnection().prepareStatement(stringUpdateWaypoints);
+            for(Waypoint waypoint: waypoints) {
+                statUpdateWaypoints.setInt(1, id);
+                statUpdateWaypoints.setInt(2, waypoint.getVolgnummer());
+                statUpdateWaypoints.setString(3, waypoint.getLatitude());
+                statUpdateWaypoints.setString(4, waypoint.getLongitude());
+                statUpdateTraject.executeQuery();
+            }
+        }catch (SQLException e) {
+            logger.error("Wijzigen van de waypoints van traject met id "+id+" is mislukt...");
+            logger.error(e);
+        }finally{
+            try { statUpdateTraject.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
+        }
+        try {
+            statDeleteWaypoints = connector.getConnection().prepareStatement(stringDeleteWaypoints);
+
+            statUpdateWaypoints.setInt(1, id);
+            statUpdateWaypoints.setInt(2, waypoints.size());
+            statUpdateTraject.executeQuery();
+
+        }catch (SQLException e) {
+            logger.error("Verwijderen van deleted waypoints mislukt");
+            logger.error(e);
+        }finally{
+            try { statDeleteWaypoints.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
+        }
+
+
+
     }
 
     public List<Waypoint> getWaypoints(int trajectId)

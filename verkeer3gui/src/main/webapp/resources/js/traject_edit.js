@@ -118,3 +118,19 @@ function updateWaypointsNamen(array){
     }
 }
 
+function formSubmit(){
+    var backendWaypoints = new Array(resultArray.length);
+    for(var i = 1; i<resultArray.length-1;i++){
+        var obj={};
+        obj.volgnummer = i;
+        obj.latitude = resultArray[i].latLng.lat;
+        obj.longitude = resultArray[i].latLng.lng;
+        backendWaypoints[i] = obj;
+        /*
+        backendWaypoints[i].volgnummer = i;
+        backendWaypoints[i].latitude = resultArray[i].latLng.lat;
+        backendWaypoints[i].longitude = resultArray[i].latLng.lng;*/
+    }
+    $("#edit-traject input[id=wayPoints]").val(JSON.stringify(backendWaypoints));
+    $( "#edit-traject" ).submit();
+}

@@ -59,7 +59,8 @@ public class DatabaseController {
                 traject.getStart_latitude(),
                 traject.getStart_longitude(),
                 traject.getEnd_latitude(),
-                traject.getEnd_longitude()
+                traject.getEnd_longitude(),
+                traject.getWaypoints()
         );
     }
 

@@ -7,6 +7,7 @@
     <div class="panel-body">
         <form class="form-horizontal" id="edit-traject" role="form" method="post">
             <input type="hidden" id="id" name="id" value="<c:out value="${traject.id}"/>">
+            <input type="hidden" id="wayPoints" name="wayPoints" />
             <div class="form-group">
                 <label for="naam">Traject naam</label>
                 <input class="form-control" id="naam" type="text" name="naam" value="<c:out value="${traject.naam}"/>">
@@ -40,7 +41,7 @@
                 <input type="hidden" name="_is_active"/>
                 <input type="checkbox" id="is_active" name="is_active" value="true"  <c:if test="${traject.is_active()}">checked</c:if>>
             </div>
-            <button type="submit" class="btn btn-success">Wijzig traject</button>
+            <button onclick="formSubmit()" class="btn btn-success">Wijzig traject</button>
         </form>
     </div>
 </div>

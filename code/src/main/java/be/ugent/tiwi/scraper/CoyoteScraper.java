@@ -162,9 +162,6 @@ public class CoyoteScraper implements TrafficScraper {
             Set<Map.Entry<String, JsonElement>> trajectData = traject.getValue().getAsJsonObject().entrySet();
             for (Map.Entry<String, JsonElement> data : trajectData) {
                 switch (data.getKey()) {
-                    case "normal_time":
-                        metingObj.setOptimale_reistijd(data.getValue().getAsInt());
-                        break;
                     case "real_time":
                         metingObj.setReistijd(data.getValue().getAsInt());
                         break;

@@ -4,3 +4,4 @@ code/build/*
 *.iml
 target/
 code/config.properties
+*.class

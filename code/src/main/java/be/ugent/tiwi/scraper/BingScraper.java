@@ -63,15 +63,15 @@ public class BingScraper implements TrafficScraper {
                 ResourceSet set = bing_obj.getResourceSets().get(0);
                 if(set.getResources().size() > 0){
                     Resource resource = set.getResources().get(0);
-                    Meting m = new Meting(bing, traject, resource.getTravelDurationTraffic(), resource.getTravelDuration(), LocalDateTime.now());
+                    Meting m = new Meting(bing, traject, resource.getTravelDurationTraffic(), LocalDateTime.now());
                     metingen.add(m);
                 }else{
                     logger.warn("Provider Bing: Could not scrape traject " + traject.getId() + ", adding an empty measurement [1]");
-                    metingen.add(new Meting(bing, traject, -1, -1, LocalDateTime.now()));
+                    metingen.add(new Meting(bing, traject, -1, LocalDateTime.now()));
                 }
             }else{
                 logger.warn("Provider Bing: Could not scrape traject " + traject.getId() + ", adding an empty measurement [2]");
-                metingen.add(new Meting(bing, traject, -1, -1, LocalDateTime.now()));
+                metingen.add(new Meting(bing, traject, -1, LocalDateTime.now()));
             }
 
         }

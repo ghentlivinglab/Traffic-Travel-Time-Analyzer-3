@@ -69,10 +69,9 @@ public class HereScraper implements TrafficScraper {
                     "&mode=fastest%3Bcar%3Btraffic%3Aenabled";
             Here here_obj = (Here) jc.getObject(url, Here.class, RequestType.GET);
             int traveltime = here_obj.getResponse().getRoute().get(0).getSummary().getTravelTime();
-            int basetime = here_obj.getResponse().getRoute().get(0).getSummary().getBaseTime();
             int distance = here_obj.getResponse().getRoute().get(0).getSummary().getDistance();
 
-            Meting meting = new Meting(here, traject, traveltime, basetime, LocalDateTime.now());
+            Meting meting = new Meting(here, traject, traveltime,  LocalDateTime.now());
 
             metingen.add(meting);
         }

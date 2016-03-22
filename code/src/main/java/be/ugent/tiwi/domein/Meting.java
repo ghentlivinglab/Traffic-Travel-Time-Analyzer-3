@@ -9,18 +9,16 @@ public class Meting {
     private Provider provider;
     private Traject traject;
     private int reistijd;
-    private int optimale_reistijd;
     private LocalDateTime timestamp;
 
     public Meting() {
 
     }
 
-    public Meting(Provider provider, Traject traject, int reistijd, int optimale_reistijd, LocalDateTime timestamp) {
+    public Meting(Provider provider, Traject traject, int reistijd, LocalDateTime timestamp) {
         this.provider = provider;
         this.traject = traject;
         this.reistijd = reistijd;
-        this.optimale_reistijd = optimale_reistijd;
         this.timestamp = timestamp;
     }
 
@@ -44,10 +42,6 @@ public class Meting {
         return reistijd;
     }
 
-    public int getOptimale_reistijd() {
-        return optimale_reistijd;
-    }
-
     public void setProvider(Provider provider) {
         this.provider = provider;
     }
@@ -60,17 +54,12 @@ public class Meting {
         this.reistijd = reistijd;
     }
 
-    public void setOptimale_reistijd(int optimale_reistijd) {
-        this.optimale_reistijd = optimale_reistijd;
-    }
-
     @Override
     public String toString() {
         return "Meting{" +
                 "provider=" + provider +
                 ", traject=" + traject +
                 ", reistijd=" + reistijd +
-                ", optimale_reistijd=" + optimale_reistijd +
                 ", timestamp=" + timestamp +
                 '}';
     }

@@ -118,10 +118,9 @@ public class TomTomScraper implements TrafficScraper {
             for(Route r : tomtom.getRoutes()) {
                 //if(r.getSummary().getLengthInMeters() == traject.getLengte()) {
                     int traveltime = r.getSummary().getTravelTimeInSeconds();
-                    int basetime = r.getSummary().getTravelTimeInSeconds() - r.getSummary().getTrafficDelayInSeconds();
 
-                    System.out.println(traject.getId() + " travel: " + traveltime + "; basetime: " + basetime + "; lastscrape="+lastScrape);
-                    Meting meting = new Meting(tomtomProv, traject, traveltime, basetime, now);
+                    System.out.println(traject.getId() + " travel: " + traveltime + "; lastscrape="+lastScrape);
+                    Meting meting = new Meting(tomtomProv, traject, traveltime, now);
 
                     metingen.add(meting);
                     try {

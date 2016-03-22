@@ -80,8 +80,12 @@ public class GoogleScraper implements TrafficScraper {
 
                 System.out.println(traject.getId() + " distance: " + distance + "; travel: " + traveltime + "; basetime: " + basetime);
 
-                Meting meting = new Meting(google, traject, traveltime, basetime, LocalDateTime.now());
+                Meting meting = new Meting(google, traject, traveltime, LocalDateTime.now());
 
+                metingen.add(meting);
+            }else{
+                System.out.println(traject.getId() + " LEGE METING");
+                Meting meting = new Meting(google, traject, -1, LocalDateTime.now());
                 metingen.add(meting);
             }
         }

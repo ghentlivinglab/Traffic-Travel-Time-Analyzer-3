@@ -83,6 +83,12 @@ function addRoute(wegpunten)
         fitSelectedRoutes: 'smart',
         show:false
     }).addTo(map);
+
+    route.getPlan().on('waypointschanged', function(e) {
+        var plan= route.getPlan();
+        resultArray =  plan.getWaypoints();
+        updateWaypointsNamen(resultArray);
+    });
 }
 
 function wijzigFormulier()
@@ -101,13 +107,14 @@ function wijzigFormulier()
 function deleteWaypoint(id){
     resultArray.splice(id,1);
     var plan = route.getPlan();
-    updateWaypointsNamen();
+    updateWaypointsNamen(resultArray);
     plan.setWaypoints(resultArray);
 }
 
-function updateWaypointsNamen(){
-    for(var i = 0;i<resultArray.length;i++)
+function updateWaypointsNamen(array){
+    for(var i = 0;i<array.length;i++)
     {
-        resultArray[i].name = i+"";
+        array[i].name = i+"";
     }
 }
+

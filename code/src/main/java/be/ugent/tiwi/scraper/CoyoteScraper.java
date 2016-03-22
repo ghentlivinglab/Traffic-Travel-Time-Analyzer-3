@@ -26,7 +26,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import settings.Settings;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,7 @@ public class CoyoteScraper implements TrafficScraper {
      * @return JsonString
      * @throws IOException
      */
-    private String sendPost() throws IOException {
+    protected String sendPost() throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String cookie = getSession(httpclient);
         StringBuilder JsonString = new StringBuilder();
@@ -105,7 +107,7 @@ public class CoyoteScraper implements TrafficScraper {
      * @return sessionID van de server.
      * @throws IOException
      */
-    private String getSession(CloseableHttpClient httpclient) throws IOException {
+    protected String getSession(CloseableHttpClient httpclient) throws IOException {
         String cookie = "";
         HttpPost httpPost = new HttpPost("https://maps.coyotesystems.com/traffic/index.php");
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
@@ -132,6 +134,7 @@ public class CoyoteScraper implements TrafficScraper {
         }
         return cookie;
     }
+
 
     /**
      * Parset Json die binnen komt van Coyote en zet deze om naar Java-objecten. Parset de gegevens handmatig omdat Coyote dynamische keys gebruikt, waarmee Gson niet eenvoudig mee overweg kan.

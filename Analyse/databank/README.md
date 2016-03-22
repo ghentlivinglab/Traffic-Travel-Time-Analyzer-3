@@ -8,4 +8,4 @@ De database kan op 2 manieren ingeladen worden:
 		Importeer "Volledige database.sql"
 		
 Merk op: 
-het bestand "Trajecten en Waypoints.sql" kan dynamisch opgemaakt worden door in de klasse CoyoteScraper de functie genereerSQL te runnen. Daarna komt een bestand "tempsql.txt" in de map "code" terecht. Dit bestand bevat alle trajecten en waypoints.
+het bestand "Trajecten en Waypoints.sql" kan dynamisch opgemaakt worden door in de klasse WaypointsTest de functie genereerSQL te runnen. Daarna komt een bestand "tempsql.txt" in de map "code" terecht. Dit bestand bevat alle trajecten en waypoints.

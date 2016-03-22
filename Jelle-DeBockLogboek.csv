@@ -24,3 +24,6 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 08/03/16,08:15,12:00,School,Trajecten op kaart tekenen databankschemascript aanpassen en sprintreviewmeeting,,
 10/03/16,09:15,12:15,Thuis,Trajecten editeerbaar maken door middel van een opensource routeringsengine die tevens ideale reistijd en lengte zoekt,,
 10/03/16,12:45,14:15,Thuis,Afwerken editeerbare trajecten en aanmaken van admin overzichtspagina,,
+15/03/16,12:45,14:15,School,GUI code naar vernieuwd domein en zoektocht naar charting engine in JS,,
+17/03/16,07:45,12:15,Thuis,Charting engine implementatie en zoekfuncties op basis van start en eindtijdstip naar metingen in de metingrepository,,
+17/03/16,12:45,13:45,Thuis,Herschrijven charting code om grafiek correcter en sneller te laten tekenen,,

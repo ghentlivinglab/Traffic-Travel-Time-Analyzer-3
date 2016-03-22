@@ -23,7 +23,8 @@ public class Settings {
             prop.setProperty("google_apikey", "AIzaSyAcbAEzORRjLqSP6I4ZcUzB6YKaNr6X7Fg");
             prop.setProperty("tomtom_apikey", "8yafwthpctekty68x3kbae4h");
             prop.setProperty("bing_apikey", "AuHLFNcYkzCC1--LUCVw62rrAUtQC9-lQfqhQfPCyEiZs0pWGWQKWDmte9MZqaSQ");
-
+            prop.setProperty("coyote_user", "110971610");
+            prop.setProperty("coyote_password", "50c20b94");
             // save properties to project root folder
             prop.store(output, null);
 

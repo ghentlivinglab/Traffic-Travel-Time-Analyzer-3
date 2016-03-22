@@ -1,5 +1,7 @@
 package be.ugent.tiwi.domein;
 
+import java.util.List;
+
 /**
  * Created by jelle on 18.02.16.
  */
@@ -7,6 +9,7 @@ public class Provider {
     private int id;
     private String naam;
     private boolean is_active;
+    private List<Meting> metingen;
 
     public Provider() {
     }
@@ -31,6 +34,14 @@ public class Provider {
 
     public int getId() {
         return id;
+    }
+
+    public List<Meting> getMetingen() {
+        return metingen;
+    }
+
+    public void setMetingen(List<Meting> metingen) {
+        this.metingen = metingen;
     }
 
     @Override

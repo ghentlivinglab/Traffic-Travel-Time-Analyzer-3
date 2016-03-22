@@ -13,6 +13,7 @@ import be.ugent.tiwi.domein.Traject;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,6 +24,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import settings.Settings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -109,8 +111,8 @@ public class CoyoteScraper implements TrafficScraper {
         String cookie = "";
         HttpPost httpPost = new HttpPost("https://maps.coyotesystems.com/traffic/index.php");
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-        nvps.add(new BasicNameValuePair("login", "110971610"));
-        nvps.add(new BasicNameValuePair("password", "50c20b94"));
+        nvps.add(new BasicNameValuePair("login",Settings.getSetting("coyote_user")));
+        nvps.add(new BasicNameValuePair("password", Settings.getSetting("coyote_password")));
         httpPost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
 
         CloseableHttpResponse LogInresponse = httpclient.execute(httpPost);

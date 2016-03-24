@@ -61,6 +61,11 @@ public class DatabaseController {
         return trajectenRepository.getTraject(id);
     }
 
+    public Traject haalTrajectMetWaypoints(int id)
+    {
+        return trajectenRepository.getTrajectMetWaypoints(id);
+    }
+
     public void wijzigTraject(Traject traject)
     {
         trajectenRepository.wijzigTraject(

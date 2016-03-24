@@ -132,6 +132,12 @@ public class TrajectRepository {
         return null;
     }
 
+    public Traject getTrajectMetWaypoints(int id) {
+        Traject result = getTraject(id);
+        result.setWaypoints(getWaypoints(id));
+        return result;
+    }
+
     public void wijzigTraject(int id, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude, List<Waypoint> waypoints)
     {
         ResultSet rs = null;
@@ -145,6 +151,7 @@ public class TrajectRepository {
             statUpdateTraject.setString(6,end_longitude);
             statUpdateTraject.setBoolean(7,is_active);
             statUpdateTraject.setInt(8,optimale_reistijd);
+            statUpdateTraject.setInt(9,id);
             rs = statUpdateTraject.executeQuery();
             wijzigWaypoints(id, waypoints);
         }catch (SQLException e) {
@@ -166,7 +173,7 @@ public class TrajectRepository {
                 statUpdateWaypoints.setInt(2, waypoint.getVolgnummer());
                 statUpdateWaypoints.setString(3, waypoint.getLatitude());
                 statUpdateWaypoints.setString(4, waypoint.getLongitude());
-                statUpdateTraject.executeQuery();
+                statUpdateWaypoints.executeQuery();
             }
         }catch (SQLException e) {
             logger.error("Wijzigen van de waypoints van traject met id "+id+" is mislukt...");
@@ -178,9 +185,9 @@ public class TrajectRepository {
         try {
             statDeleteWaypoints = connector.getConnection().prepareStatement(stringDeleteWaypoints);
 
-            statUpdateWaypoints.setInt(1, id);
-            statUpdateWaypoints.setInt(2, waypoints.size());
-            statUpdateTraject.executeQuery();
+            statDeleteWaypoints.setInt(1, id);
+            statDeleteWaypoints.setInt(2, waypoints.size());
+            statDeleteWaypoints.executeQuery();
 
         }catch (SQLException e) {
             logger.error("Verwijderen van deleted waypoints mislukt");
@@ -203,8 +210,6 @@ public class TrajectRepository {
             statWaypoints.setInt(1, trajectId);
             rs = statWaypoints.executeQuery();
 
-            Traject traj = getTraject(trajectId);
-
             while (rs.next())
             {
                 int volgnr = rs.getInt("volgnr");
@@ -214,7 +219,7 @@ public class TrajectRepository {
                 String lon = rs.getString("longitude");
                 if (rs.wasNull())
                     lon = null;
-                wpts.add(new Waypoint(traj,volgnr,lat,lon));
+                wpts.add(new Waypoint(null,volgnr,lat,lon));
             }
         } catch (SQLException e) {
             e.printStackTrace();

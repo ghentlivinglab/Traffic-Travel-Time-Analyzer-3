@@ -74,8 +74,8 @@ function addRoute(wegpunten)
             });
             start_latitude = route.waypoints[0].latLng.lat;
             start_longitude = route.waypoints[0].latLng.lng;
-            end_latitude = route.waypoints[1].latLng.lat;
-            end_longitude = route.waypoints[1].latLng.lng;
+            end_latitude = route.waypoints[route.waypoints.length-1].latLng.lat;
+            end_longitude = route.waypoints[route.waypoints.length-1].latLng.lng;
             wijzigFormulier();
             return line;
         },
@@ -105,7 +105,9 @@ function wijzigFormulier()
 }
 
 function deleteWaypoint(id){
+    alert(resultArray.length);
     resultArray.splice(id,1);
+    alert(resultArray.length);
     var plan = route.getPlan();
     updateWaypointsNamen(resultArray);
     plan.setWaypoints(resultArray);
@@ -116,20 +118,22 @@ function updateWaypointsNamen(array){
     {
         array[i].name = i+"";
     }
+    start_latitude = array[0].latitude;
+    start_longitude = array[0].longitude;
+    end_latitude = array[array.length-1].latitude;
+    end_longitude = array[array.length-1].longitude;
+    wijzigFormulier();
 }
 
 function formSubmit(){
-    var backendWaypoints = new Array(resultArray.length);
-    for(var i = 1; i<resultArray.length-1;i++){
+    var backendWaypoints = new Array(resultArray.length-2);
+    //i start bij 1 om startlat uit waypoints te houden en length -2 om endlat uit waypoints te houden(en zero based offset)
+    for(var i = 1; i<=backendWaypoints.length;i++){
         var obj={};
         obj.volgnummer = i;
         obj.latitude = resultArray[i].latLng.lat;
         obj.longitude = resultArray[i].latLng.lng;
-        backendWaypoints[i] = obj;
-        /*
-        backendWaypoints[i].volgnummer = i;
-        backendWaypoints[i].latitude = resultArray[i].latLng.lat;
-        backendWaypoints[i].longitude = resultArray[i].latLng.lng;*/
+        backendWaypoints[i-1] = obj;
     }
     $("#edit-traject input[id=wayPoints]").val(JSON.stringify(backendWaypoints));
     $( "#edit-traject" ).submit();

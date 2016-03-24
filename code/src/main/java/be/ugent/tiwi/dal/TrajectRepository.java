@@ -105,6 +105,11 @@ public class TrajectRepository {
         return trajecten;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Traject getTraject(int id) {
         ResultSet rs = null;
         try {

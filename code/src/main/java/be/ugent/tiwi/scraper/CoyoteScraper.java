@@ -1,17 +1,10 @@
 package be.ugent.tiwi.scraper;
 
-/**
- * Created by brent on 23/02/2016.
- */
-
-
-import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.http.*;
@@ -25,7 +18,6 @@ import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import settings.Settings;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -42,10 +34,12 @@ public class CoyoteScraper implements TrafficScraper {
 
     private static final Logger logger = LogManager.getLogger(CoyoteScraper.class);
 
-    @Override
     /**
-     * Aanspreekpunt voor klassen,
+     * Aan de spreken methode om een bepaalde provider te scrapen
+     * @param trajects Een lijst van trajecten waarvan een meting moet woren opgehaald
+     * @return Een lijst van opgehaalde metingen.
      */
+    @Override
     public List<Meting> scrape(List<Traject> trajects) {
         try {
             return JsonToPojo(sendPost());
@@ -59,10 +53,10 @@ public class CoyoteScraper implements TrafficScraper {
     /**
      * Vraag routegegevens op van de coyote site.
      *
-     * @return JsonString
+     * @return String met de gevraagde gegevens in JSON-formaat.
      * @throws IOException
      */
-    protected String sendPost() throws IOException {
+    private String sendPost() throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String cookie = getSession(httpclient);
         StringBuilder JsonString = new StringBuilder();
@@ -103,8 +97,8 @@ public class CoyoteScraper implements TrafficScraper {
     /**
      * Post login en password naar de server om een sesionId te verkrijgen.
      *
-     * @param httpclient client die instaat voor communicatie met de server.
-     * @return sessionID van de server.
+     * @param httpclient Client die instaat voor communicatie met de server.
+     * @return SessionID van de server.
      * @throws IOException
      */
     protected String getSession(CloseableHttpClient httpclient) throws IOException {
@@ -137,9 +131,9 @@ public class CoyoteScraper implements TrafficScraper {
 
 
     /**
-     * Parset Json die binnen komt van Coyote en zet deze om naar Java-objecten. Parset de gegevens handmatig omdat Coyote dynamische keys gebruikt, waarmee Gson niet eenvoudig mee overweg kan.
+     * Overloopt JSON die afkomstig is van Coyote en zet deze om naar Java-objecten. Parset de gegevens handmatig omdat Coyote dynamische keys gebruikt, waarmee Gson niet eenvoudig mee overweg kan.
      *
-     * @param JsonString Geldige Json afkomstig van Coyote.
+     * @param JsonString Geldige JSON afkomstig van Coyote.
      * @return Een lijst van Opgehaalde metingen.
      */
     private List<Meting> JsonToPojo(String JsonString) {

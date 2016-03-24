@@ -219,7 +219,7 @@ public class TrajectRepository {
                 String lon = rs.getString("longitude");
                 if (rs.wasNull())
                     lon = null;
-                wpts.add(new Waypoint(null,volgnr,lat,lon));
+                wpts.add(new Waypoint(volgnr,lat,lon));
             }
         } catch (SQLException e) {
             e.printStackTrace();

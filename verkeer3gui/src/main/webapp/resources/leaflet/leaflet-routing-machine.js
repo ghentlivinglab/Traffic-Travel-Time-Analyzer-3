@@ -2350,11 +2350,16 @@ if (typeof module !== undefined) module.exports = polyline;
 			language: 'en',
 			createGeocoderElement: L.Routing.geocoderElement,
 			createMarker: function(i, wp) {
+				if (typeof wp.name == 'undefined'){
+					wp.name = "Nieuw toegevoegd waypoint";
+				}
 				var options = {
 						draggable: this.draggableWaypoints
 					},
-				    marker = L.marker(wp.latLng, options);
-
+				    marker = L.marker(wp.latLng, options).bindLabel(""+ wp.name);
+					marker.on('dblclick', function(e) {
+						deleteWaypoint(wp.name);
+					});
 				return marker;
 			},
 			geocodersClassName: ''
@@ -2656,6 +2661,8 @@ if (typeof module !== undefined) module.exports = polyline;
 
 			this._map.on('mousemove', mouseMove);
 			this._map.on('mouseup', mouseUp);
+
+			reloadOnAdd();
 		},
 
 		_focusGeocoder: function(i) {

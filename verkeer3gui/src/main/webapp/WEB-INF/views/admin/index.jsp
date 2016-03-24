@@ -39,6 +39,7 @@
                         <td><c:out value="${traject.end_latitude}"/></td>
                         <td><c:out value="${traject.end_longitude}"/></td>
                         <td><a href=<c:url value="/traject/${traject.id}/edit"/>><span class="glyphicon glyphicon-edit"></span></a></td>
+
                     </tr>
                 </c:forEach>
                 </tbody>

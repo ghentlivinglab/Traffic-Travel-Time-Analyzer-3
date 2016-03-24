@@ -61,6 +61,11 @@ public class DatabaseController {
         return trajectenRepository.getTraject(id);
     }
 
+    public Traject haalTrajectMetWaypoints(int id)
+    {
+        return trajectenRepository.getTrajectMetWaypoints(id);
+    }
+
     public void wijzigTraject(Traject traject)
     {
         trajectenRepository.wijzigTraject(
@@ -72,7 +77,8 @@ public class DatabaseController {
                 traject.getStart_latitude(),
                 traject.getStart_longitude(),
                 traject.getEnd_latitude(),
-                traject.getEnd_longitude()
+                traject.getEnd_longitude(),
+                traject.getWaypoints()
         );
     }
 

@@ -11,9 +11,9 @@ import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -91,7 +91,7 @@ public class CoyoteScraper implements TrafficScraper {
                 throw e;
             }
             EntityUtils.consume(entity2);
-        }catch(IOException ex){
+        } catch (IOException ex) {
             throw ex;
         } finally {
             Dataresponse.close();
@@ -111,7 +111,7 @@ public class CoyoteScraper implements TrafficScraper {
         String cookie = "";
         HttpPost httpPost = new HttpPost("https://maps.coyotesystems.com/traffic/index.php");
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-        nvps.add(new BasicNameValuePair("login",Settings.getSetting("coyote_user")));
+        nvps.add(new BasicNameValuePair("login", Settings.getSetting("coyote_user")));
         nvps.add(new BasicNameValuePair("password", Settings.getSetting("coyote_password")));
         httpPost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
 

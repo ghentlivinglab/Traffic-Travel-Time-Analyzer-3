@@ -3,10 +3,14 @@ package be.ugent.tiwi.controller;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
+<<<<<<< HEAD
 import be.ugent.tiwi.scraper.CoyoteScraper;
 import be.ugent.tiwi.scraper.GoogleScraper;
 import be.ugent.tiwi.scraper.HereScraper;
 import be.ugent.tiwi.scraper.TomTomScraper;
+=======
+import be.ugent.tiwi.scraper.*;
+>>>>>>> 900d5c77dd68955600cfe607715c0fcf45e5e4b5
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,8 +32,9 @@ public class ScheduleController {
 
         final Runnable schema = new Runnable() {
             public void run() {
-                logger.trace("Schedule run - Trying to scrape data");
+                logger.info("Schedule STARTING - Trying to scrape data");
                 haalDataOp();
+                logger.info("Schedule DONE     - Waiting for next call");
             }
         };
         final ScheduledFuture<?> schemaHandle = scheduler.scheduleAtFixedRate(schema, 0, 5, MINUTES);
@@ -41,8 +46,9 @@ public class ScheduleController {
             List<Provider> providers = dbController.haalActieveProvidersOp();
             List<Traject> trajects = dbController.getTrajectenMetCoordinaten();
             for (Provider provider : providers) {
-                logger.trace(provider.getId() + ": Scraping provider " + provider.getNaam());
+                logger.info("[" + provider.getNaam() + "] Scraping provider...");
                 haalDataVanProvider(provider.getNaam(), trajects);
+                logger.info("[" + provider.getNaam() + "] Done!");
             }
 
             /*DalSamples.getProviderWithName("Waze");
@@ -71,6 +77,9 @@ public class ScheduleController {
                 break;
             case "tomtom":
                 dbController.voegMetingenToe(new TomTomScraper().scrape(trajects));
+                break;
+            case "bing maps":
+                dbController.voegMetingenToe(new BingScraper().scrape(trajects));
                 break;
         }
     }

@@ -4,7 +4,10 @@ package be.ugent.tiwi.scraper;
 import be.ugent.tiwi.controller.JsonController;
 import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.DatabaseController;
-import be.ugent.tiwi.domein.*;
+import be.ugent.tiwi.domein.Meting;
+import be.ugent.tiwi.domein.Provider;
+import be.ugent.tiwi.domein.RequestType;
+import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.tomtom.Route;
 import be.ugent.tiwi.domein.tomtom.TomTom;
 import org.apache.logging.log4j.LogManager;
@@ -64,7 +67,7 @@ public class TomTomScraper implements TrafficScraper {
 
     private String apiKey;
     private JsonController<TomTom> jc;
-    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final Logger logger = LogManager.getLogger(TomTomScraper.class);
 
 
     public TomTomScraper() {
@@ -87,7 +90,7 @@ public class TomTomScraper implements TrafficScraper {
 
         Provider tomtomProv = databaseController.haalProviderOp("TomTom");
         JsonController jc = new JsonController();
-
+        long lastScrape;
         for (Traject traject : trajects) {
              /* https://<baseURL>/routing/<versionNumber>/calculateRoute/<locations>[/<contentType>]?key=<apiKey>
               * [&routeType=<routeType>][&traffic=<boolean>][&avoid=<avoidType>][&instructionsType=<instructionsType>]
@@ -108,18 +111,24 @@ public class TomTomScraper implements TrafficScraper {
             urlBuilder.append("key=");
             urlBuilder.append(this.apiKey);
 
+            lastScrape = System.currentTimeMillis();
             TomTom tomtom = (TomTom) jc.getObject(urlBuilder.toString(), TomTom.class, RequestType.GET);
             LocalDateTime now = LocalDateTime.now();
             for(Route r : tomtom.getRoutes()) {
-                //if(r.getSummary().getLengthInMeters() == traject.getLengte()) {
-                    int traveltime = r.getSummary().getTravelTimeInSeconds();
-                    int basetime = r.getSummary().getTravelTimeInSeconds() - r.getSummary().getTrafficDelayInSeconds();
-                    Meting meting = new Meting(tomtomProv, traject, traveltime, basetime, now);
+                int traveltime = r.getSummary().getTravelTimeInSeconds();
 
-                    metingen.add(meting);
-                    break;
-                //}else
-                //    logger.warn("[TomTom] Meting van traject " + traject.toString() + " NIET toegevoegd! Gezochte afstand: " + traject.getLengte() + "; gevonden afstand: " + r.getSummary().getLengthInMeters());
+                Meting meting = new Meting(tomtomProv, traject, traveltime, now);
+
+                metingen.add(meting);
+                try {
+                    int diff = (int) (System.currentTimeMillis() - lastScrape);
+                    if(diff < 300){
+                        Thread.sleep(300-diff);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                break;
             }
         }
         return metingen;

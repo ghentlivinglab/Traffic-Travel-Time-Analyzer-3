@@ -11,6 +11,7 @@ import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.http.*;
@@ -25,7 +26,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import settings.Settings;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +40,7 @@ import java.util.Set;
  */
 public class CoyoteScraper implements TrafficScraper {
 
-    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final Logger logger = LogManager.getLogger(CoyoteScraper.class);
 
     @Override
     /**
@@ -59,7 +62,7 @@ public class CoyoteScraper implements TrafficScraper {
      * @return JsonString
      * @throws IOException
      */
-    private String sendPost() throws IOException {
+    protected String sendPost() throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String cookie = getSession(httpclient);
         StringBuilder JsonString = new StringBuilder();
@@ -67,7 +70,7 @@ public class CoyoteScraper implements TrafficScraper {
         httpPost2.addHeader("Cookie", cookie);
         httpPost2.addHeader("Connection", "close");
 
-        logger.trace("Sending Coyote-request...");
+        logger.info("Sending Coyote-request...");
         CloseableHttpResponse Dataresponse = httpclient.execute(httpPost2);
 
         try {
@@ -88,7 +91,7 @@ public class CoyoteScraper implements TrafficScraper {
                 throw e;
             }
             EntityUtils.consume(entity2);
-        }catch(IOException ex){
+        } catch (IOException ex) {
             throw ex;
         } finally {
             Dataresponse.close();
@@ -104,18 +107,18 @@ public class CoyoteScraper implements TrafficScraper {
      * @return sessionID van de server.
      * @throws IOException
      */
-    private String getSession(CloseableHttpClient httpclient) throws IOException {
+    protected String getSession(CloseableHttpClient httpclient) throws IOException {
         String cookie = "";
         HttpPost httpPost = new HttpPost("https://maps.coyotesystems.com/traffic/index.php");
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-        nvps.add(new BasicNameValuePair("login",Settings.getSetting("coyote_user")));
+        nvps.add(new BasicNameValuePair("login", Settings.getSetting("coyote_user")));
         nvps.add(new BasicNameValuePair("password", Settings.getSetting("coyote_password")));
         httpPost.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
 
         CloseableHttpResponse LogInresponse = httpclient.execute(httpPost);
 
         try {
-            logger.trace("Trying to login...");
+            logger.info("Trying to login...");
             HttpEntity entity2 = LogInresponse.getEntity();
             for (Header h : LogInresponse.getAllHeaders()) {
                 if (h.getName().equals("Set-Cookie")) {
@@ -131,6 +134,7 @@ public class CoyoteScraper implements TrafficScraper {
         }
         return cookie;
     }
+
 
     /**
      * Parset Json die binnen komt van Coyote en zet deze om naar Java-objecten. Parset de gegevens handmatig omdat Coyote dynamische keys gebruikt, waarmee Gson niet eenvoudig mee overweg kan.
@@ -158,9 +162,6 @@ public class CoyoteScraper implements TrafficScraper {
             Set<Map.Entry<String, JsonElement>> trajectData = traject.getValue().getAsJsonObject().entrySet();
             for (Map.Entry<String, JsonElement> data : trajectData) {
                 switch (data.getKey()) {
-                    case "normal_time":
-                        metingObj.setOptimale_reistijd(data.getValue().getAsInt());
-                        break;
                     case "real_time":
                         metingObj.setReistijd(data.getValue().getAsInt());
                         break;

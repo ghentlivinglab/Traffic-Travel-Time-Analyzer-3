@@ -1,12 +1,19 @@
 package be.ugent.tiwi;
 
 import be.ugent.tiwi.dal.DatabaseController;
+import be.ugent.tiwi.dal.TrajectRepository;
 import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.Waypoint;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Created by jelle on 10.03.16.
@@ -23,9 +30,23 @@ public class TrajectController {
         return "traject/edit";
     }
 
+    @RequestMapping(value = "/{id}/waypoints",method = RequestMethod.GET)
+    @ResponseBody
+    public String getWayPoints(@PathVariable("id") int id) {
+        TrajectRepository trajectRepository = new TrajectRepository();
+        List<Waypoint> waypoints = trajectRepository.getWaypoints(id);
+        Gson gson = new Gson();
+        String boop = gson.toJson(waypoints);
+        return boop;
+    }
+
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public ModelAndView slaTrajectWijzigingenOp(@PathVariable("id") int id, @ModelAttribute Traject traject, Model model)
+    public ModelAndView slaTrajectWijzigingenOp(@PathVariable("id") int id, @ModelAttribute Traject traject, @RequestParam(value="wayPoints") String wayPoints, Model model)
     {
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<List<Waypoint>>(){}.getType();
+        traject.setWaypoints(gson.fromJson(wayPoints,collectionType));
+
         DatabaseController databaseController = new DatabaseController();
         databaseController.wijzigTraject(traject);
         ModelAndView modelAndView =  new ModelAndView("redirect:/");

@@ -4,12 +4,10 @@ import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.util.StringBuilders;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 

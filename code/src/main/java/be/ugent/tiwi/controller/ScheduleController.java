@@ -3,7 +3,6 @@ package be.ugent.tiwi.controller;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
-import be.ugent.tiwi.samplecode.DalSamples;
 import be.ugent.tiwi.scraper.CoyoteScraper;
 import be.ugent.tiwi.scraper.GoogleScraper;
 import be.ugent.tiwi.scraper.HereScraper;

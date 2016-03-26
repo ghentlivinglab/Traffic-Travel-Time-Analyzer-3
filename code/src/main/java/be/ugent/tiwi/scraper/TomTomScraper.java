@@ -2,7 +2,6 @@ package be.ugent.tiwi.scraper;
 
 
 import be.ugent.tiwi.controller.JsonController;
-import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;

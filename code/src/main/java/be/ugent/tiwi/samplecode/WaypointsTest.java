@@ -1,6 +1,5 @@
 package be.ugent.tiwi.samplecode;
 
-import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.TrajectRepository;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;

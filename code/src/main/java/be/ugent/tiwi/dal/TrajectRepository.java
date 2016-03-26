@@ -1,24 +1,14 @@
 package be.ugent.tiwi.dal;
 
-import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;
 import org.apache.logging.log4j.LogManager;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
-=======
-import java.sql.Statement;
-import java.util.*;
->>>>>>> 900d5c77dd68955600cfe607715c0fcf45e5e4b5
 
 /**
  * Created by jelle on 19.02.16.

@@ -67,7 +67,7 @@ public class TomTomScraper implements TrafficScraper {
 
     private String apiKey;
     private JsonController<TomTom> jc;
-    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final Logger logger = LogManager.getLogger(TomTomScraper.class);
 
 
     public TomTomScraper() {
@@ -110,30 +110,25 @@ public class TomTomScraper implements TrafficScraper {
             urlBuilder.append("/json?");
             urlBuilder.append("key=");
             urlBuilder.append(this.apiKey);
-            System.out.println(urlBuilder.toString());
 
             lastScrape = System.currentTimeMillis();
             TomTom tomtom = (TomTom) jc.getObject(urlBuilder.toString(), TomTom.class, RequestType.GET);
             LocalDateTime now = LocalDateTime.now();
             for(Route r : tomtom.getRoutes()) {
-                //if(r.getSummary().getLengthInMeters() == traject.getLengte()) {
-                    int traveltime = r.getSummary().getTravelTimeInSeconds();
+                int traveltime = r.getSummary().getTravelTimeInSeconds();
 
-                    System.out.println(traject.getId() + " travel: " + traveltime + "; lastscrape="+lastScrape);
-                    Meting meting = new Meting(tomtomProv, traject, traveltime, now);
+                Meting meting = new Meting(tomtomProv, traject, traveltime, now);
 
-                    metingen.add(meting);
-                    try {
-                        int diff = (int) (System.currentTimeMillis() - lastScrape);
-                        if(diff < 300){
-                            Thread.sleep(300-diff);
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                metingen.add(meting);
+                try {
+                    int diff = (int) (System.currentTimeMillis() - lastScrape);
+                    if(diff < 300){
+                        Thread.sleep(300-diff);
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 break;
-                //}else
-                //    logger.warn("[TomTom] Meting van traject " + traject.toString() + " NIET toegevoegd! Gezochte afstand: " + traject.getLengte() + "; gevonden afstand: " + r.getSummary().getLengthInMeters());
             }
         }
         return metingen;

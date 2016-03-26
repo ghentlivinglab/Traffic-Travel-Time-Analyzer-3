@@ -11,6 +11,7 @@ import be.ugent.tiwi.scraper.GoogleScraper;
 import be.ugent.tiwi.scraper.HereScraper;
 import settings.Settings;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -68,4 +69,17 @@ public class DalSamples {
         }
     }
 
+    public static void getStatistieken(){
+        MetingRepository mrep = new MetingRepository();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
+
+        System.out.println(mrep.metingStatistieken(11,sevenDaysAgo,now).toString());
+        System.out.println("Algemene gemiddelde vertraging de laatste 7 dagen "+mrep.gemiddeldeVertraging(sevenDaysAgo,now));
+    }
+
+    public static void main(String[] args)
+    {
+        getStatistieken();
+    }
 }

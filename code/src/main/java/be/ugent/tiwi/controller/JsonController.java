@@ -28,7 +28,7 @@ public class JsonController<T extends Object> {
     private InputStream is = null;
     private Gson jObj = null;
     private String json = "";
-    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final Logger logger = LogManager.getLogger(JsonController.class);
 
 
     // constructor

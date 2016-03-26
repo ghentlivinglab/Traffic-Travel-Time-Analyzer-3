@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class WaypointsTest extends CoyoteScraper {
 
-    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final Logger logger = LogManager.getLogger(WaypointsTest.class);
 
 
     public static double distance(double lat1, double lat2, double lon1,
@@ -218,7 +218,7 @@ public class WaypointsTest extends CoyoteScraper {
             char c = 'A';
             Traject t = null;
             for(Traject t2 : trajects)
-                if(t2.getId() == afstanden.get(i).getWaypoint1().getTraject().getId()) {
+                if(t2.getId() == afstanden.get(i).getWaypoint1().getTraject().getId()){
                     t = t2;
                     break;
                 }

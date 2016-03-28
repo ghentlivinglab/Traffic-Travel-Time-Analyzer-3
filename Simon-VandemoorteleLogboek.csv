@@ -32,3 +32,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 22/03/16,10:45,13:00,School,"Loggers aangepast",47,
 22/03/16,13:00,13:15,School,"Query geschreven om reistijden te vergelijken (ratio traject/avg(metingen))",,
 26/03/16,01:45,02:40,Thuis,"Optimale reistijd per traject veranderd",46,
+28/03/16,00:15,03:15,Thuis,"Een deel van de waypoints aangepast zodat die werken met de google-provider",46,

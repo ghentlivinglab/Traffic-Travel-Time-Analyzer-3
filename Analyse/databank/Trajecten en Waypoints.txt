@@ -1,6 +1,6 @@
 insert into vop.trajecten (id, naam, lengte, optimale_reistijd, is_active, start_latitude, start_longitude, end_latitude, end_longitude) values
 (1, 'Rooigemlaan (R40) Northbound - Drongensesteenweg - Palinghuizen', 1339, 43, 1, '51.05617', '3.69508', '51.06629', '3.69971'),
-(2, 'Rooigemlaan (R40) Southbound - Palinghuizen - Drongensesteenweg', 1352, 44, 1, '51.06634', '3.69966', '51.0561', '3.69492'),
+(2, 'Rooigemlaan (R40) Southbound - Palinghuizen - Drongensesteenweg', 1352, 44, 1, '51.0663038', '3.6996702', '51.0561', '3.69492'),
 (3, 'Gasmeterlaan (R40) Eastbound - Palinghuizen - Neuseplein', 2191, 71, 1, '51.06629', '3.69971', '51.06742', '3.72758'),
 (4, 'Gasmeterlaan (R40) Westbound - Neuseplein - Palinghuizen', 2217, 94, 1, '51.06761', '3.72764', '51.06593', '3.69912'),
 (5, 'Dok-Noord (R40) Southbound - Neuseplein - Dampoort', 1748, 58, 1, '51.06729', '3.72713', '51.05663', '3.73843'),
@@ -86,7 +86,9 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,1,"51.
 (50,1,"51.06617","3.69957"),
 (51,1,"51.06629","3.69971")
 ;
-insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,2,"51.06634","3.69966"),
+insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values
+'51.0663038', '3.6996702'
+(1,2,"51.06634","3.69966"),
 (2,2,"51.06621","3.69951"),
 (3,2,"51.06621","3.69951"),
 (4,2,"51.06598","3.69926"),

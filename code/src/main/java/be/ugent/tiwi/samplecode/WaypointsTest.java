@@ -25,6 +25,11 @@ public class WaypointsTest extends CoyoteScraper {
     private static final Logger logger = LogManager.getLogger(WaypointsTest.class);
 
 
+    public static void main(String[] args){
+        WaypointsTest test = new WaypointsTest();
+        test.genereerSQL();
+    }
+
     public static double distance(double lat1, double lat2, double lon1,
                                   double lon2, double el1, double el2) {
 
@@ -59,9 +64,10 @@ public class WaypointsTest extends CoyoteScraper {
         JsonObject e = jsonObject.getAsJsonObject("Gand");
         Set<Map.Entry<String, JsonElement>> trajecten = e.entrySet();
 
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tempsql.txt"), "utf-8"))) {
-            //Dit bestand staat onder de databank/tool map
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\users\\eigenaar\\desktop\\Waypoints order coyote.txt"));
+        List<Traject> trajects = new ArrayList<>();
+
+        //Dit bestand staat onder de databank/tool map
+        try(BufferedReader reader = new BufferedReader(new FileReader("C:\\users\\eigenaar\\desktop\\Waypoints order coyote.txt"))){
             int trajectIndex = 0;
             for (Map.Entry<String, JsonElement> traject : trajecten) {
                 trajectIndex++;
@@ -69,13 +75,8 @@ public class WaypointsTest extends CoyoteScraper {
 
                 double prevLat = 0, prevLong = 0;
                 double startLat = 0, startLong = 0;
-                StringBuilder waypoints = new StringBuilder();
                 double totalDistance = 0;
                 int afstand = 0;
-
-                Set<Map.Entry<String, JsonElement>> coordinatendataStart = null;
-                Set<Map.Entry<String, JsonElement>> coordinatendataStop = null;
-                JsonArray jsonArray = new JsonArray();
 
                 Set<Map.Entry<String, JsonElement>> trajectData = traject.getValue().getAsJsonObject().entrySet();
                 for (Map.Entry<String, JsonElement> data : trajectData) {
@@ -87,12 +88,8 @@ public class WaypointsTest extends CoyoteScraper {
                             afstand = data.getValue().getAsInt();
                             break;
                         case "geometries":
-                            jsonArray = data.getValue().getAsJsonArray().get(0).getAsJsonArray();
-                            int index1 = 0, index2 = 0;
                             prevLat = 0; prevLong = 0;
                             startLat = 0; startLong = 0;
-                            waypoints = new StringBuilder();
-                            double maxDist = 0;
                             reader.readLine();
                             reader.readLine();
                             String volgorde = reader.readLine();
@@ -100,9 +97,7 @@ public class WaypointsTest extends CoyoteScraper {
                                 volgorde = volgorde.split(" ")[0];
                             int vIndex = 0;
                             int volgnummer = 1;
-                            waypoints.append("insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(");
-                            if(traject.getKey().contains("Dok-Noord (R40) Northboun"))
-                                System.out.print("");
+                            List<Waypoint> waypoints = new ArrayList<>();
                             while(vIndex < volgorde.length()) {
                                 char a = volgorde.charAt(vIndex);
                                 char b = volgorde.charAt(vIndex + 1);
@@ -123,67 +118,141 @@ public class WaypointsTest extends CoyoteScraper {
                                     double lat = pos.get("lat").getAsDouble();
                                     double lng = pos.get("lng").getAsDouble();
                                     if(vIndex != 0 || i != startI){
-                                        waypoints.append(",").append(System.getProperty("line.separator")).append("(");
                                         double distance = distance(lat, prevLat, lng, prevLong, 0, 0);
                                         totalDistance += distance;
-                                        if(maxDist < distance){
-                                            maxDist = distance;
-                                            index1 = vIndex;
-                                            index2 = i;
-                                        }
                                     }else{
                                         startLat = lat;
                                         startLong = lng;
                                     }
-                                    waypoints.append(volgnummer++).append(",").append(trajectIndex).append(",\"").append(lat).append("\",\"").append(lng).append("\")");
+                                    if(((vIndex != 0  || i != startI) && (i != maxI - incr || vIndex != volgorde.length() - 2)) && lat != prevLat && lng != prevLong) {
+                                        Waypoint w = new Waypoint(volgnummer++, String.valueOf(lat), String.valueOf(lng));
+                                        if(waypoints.isEmpty() || (!waypoints.get(waypoints.size()-1).getLatitude().equals(w.getLatitude())) && (!waypoints.get(waypoints.size()-1).getLongitude().equals(w.getLongitude()))){
+                                            waypoints.add(w);
+                                        }
+                                    }
                                     prevLat = lat;
                                     prevLong = lng;
                                 }
 
                                 vIndex += 2;
                             }
-                            waypoints.append(System.getProperty("line.separator"));
 
-                            System.out.println(trajectIndex + " - " + traject.getKey());
+                            Traject t = new Traject(trajectIndex, traject.getKey(), (int)Math.round(totalDistance), optReistijd, true, String.valueOf(startLat), String.valueOf(startLong), String.valueOf(prevLat), String.valueOf(prevLong));
+                            t.setWaypoints(waypoints);
+                            trajects.add(t);
+                            System.out.println(trajectIndex + " - " + t.getNaam());
                             System.out.println("diff: " + (totalDistance - afstand));
-
                             break;
                     }
                 }
-
-                writer.write("insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values(\"");
-                writer.write(traject.getKey());
-                writer.write("\",");
-                writer.write(String.valueOf((int)Math.round(totalDistance)));
-                writer.write(",");
-                writer.write(String.valueOf(optReistijd));
-                writer.write(",");
-                writer.write(String.valueOf(1));
-                writer.write(",\"");
-                writer.write(String.valueOf(startLat));
-                writer.write("\",\"");
-                writer.write(String.valueOf(startLong));
-                writer.write("\",\"");
-                writer.write(String.valueOf(prevLat));
-                writer.write("\",\"");
-                writer.write(String.valueOf(prevLong));
-                writer.write("\"");
-                writer.write(");");
-                writer.write(System.getProperty("line.separator"));
-                writer.write(waypoints.toString());
-                writer.write(";");
-                writer.write(System.getProperty("line.separator"));
             }
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        fixGlobalTrajects(trajects);
+        writeToTempSql(trajects);
+        //controleerWaypoints(trajects);
     }
 
-    public void controleerWaypoints(){
+    protected Traject getTraject(List<Traject> trajects, int id){
+        Traject t = trajects.get(id - 1);
+        if(t.getId() != id) {
+            for (Traject traj : trajects)
+                if (traj.getId() == id) {
+                    t = traj;
+                    break;
+                }
+        }
+        return t;
+    }
 
-        TrajectRepository repo = new TrajectRepository();
-        List<Traject> trajects = repo.getTrajectenMetCoordinaten();
+    private void fixGlobalTrajects(List<Traject> trajects) {
+        //Route 14: delete vanaf volgnr 106 (51.04645, 3.73437) tot volgn 114 (51.0445, 3.73421) (één-richtingsverkeer)
+        Traject t = getTraject(trajects, 14);
+        short step = 0;
+        int deletedCount = 0;
+        for(int i = 0; i < t.getWaypoints().size(); ++i) {
+            Waypoint w = t.getWaypoints().get(i);
+            if (step == 0){
+                if (w.getLatitude().equals("51.04645") && w.getLongitude().equals("3.73437")) {
+                    step = 1;
+                    t.getWaypoints().remove(w);
+                    deletedCount++;
+                    --i;
+                }
+            }else if(step == 1) {
+                if(w.getLatitude().equals("51.0445") && w.getLongitude().equals("3.73421")){
+                    step = 2;
+                }
+                t.getWaypoints().remove(w);
+                deletedCount++;
+                --i;
+            }else if(step == 2)
+                break;
+        }
+        logger.debug("Deleted " + deletedCount + " waypoints!");
+    }
+
+    private void writeToTempSql(List<Traject> trajecten){
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tempsql.txt"), "utf-8"))) {
+            for(Traject traject : trajecten){
+                writer.write("insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values(\"");
+                writer.write(traject.getNaam());
+                writer.write("\",");
+                writer.write(String.valueOf(traject.getLengte()));
+                writer.write(",");
+                writer.write(String.valueOf(traject.getOptimale_reistijd()));
+                writer.write(",");
+                writer.write(String.valueOf(1));
+                writer.write(",\"");
+                writer.write(String.valueOf(traject.getStart_latitude()));
+                writer.write("\",\"");
+                writer.write(String.valueOf(traject.getStart_longitude()));
+                writer.write("\",\"");
+                writer.write(String.valueOf(traject.getEnd_latitude()));
+                writer.write("\",\"");
+                writer.write(String.valueOf(traject.getEnd_longitude()));
+                writer.write("\"");
+                writer.write(");");
+                writer.write(System.getProperty("line.separator"));
+                writer.write("insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(");
+                for(int i = 0; i < traject.getWaypoints().size(); ++i) {
+                    Waypoint w = traject.getWaypoints().get(i);
+                    if(i != 0){
+                        writer.write(",");
+                        writer.write(System.getProperty("line.separator"));
+                        writer.write("(");
+                    }
+                    writer.write(String.valueOf(w.getVolgnummer()));
+                    writer.write(",");
+                    writer.write(String.valueOf(traject.getId()));
+                    writer.write(",'");
+                    writer.write(w.getLatitude());
+                    writer.write("','");
+                    writer.write(w.getLongitude());
+                    writer.write("')");
+
+                }
+                writer.write(";");
+                writer.write(System.getProperty("line.separator"));
+
+            }
+
+            writer.close();
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void controleerWaypoints(List<Traject> trajects){
+
         List<Afstand> afstanden = new ArrayList<>();
         for(Traject t : trajects){
             List<Waypoint> waypoints = t.getWaypoints();
@@ -193,7 +262,7 @@ public class WaypointsTest extends CoyoteScraper {
                 double long1 = Double.parseDouble(wp1.getLongitude());
                 double lat2 = Double.parseDouble(wp2.getLatitude());
                 double long2 = Double.parseDouble(wp2.getLongitude());
-                afstanden.add(new Afstand(distance(lat1, lat2, long1, long2, 0, 0), wp1, wp2));
+                afstanden.add(new Afstand(distance(lat1, lat2, long1, long2, 0, 0), wp1, wp2, t));
             }
         }
 
@@ -211,13 +280,13 @@ public class WaypointsTest extends CoyoteScraper {
 
         for(int i = 0; i < 30; i++){
             System.out.println(afstanden.get(i).toString());
-            System.out.print(afstanden.get(i).getWaypoint1().getTraject().getNaam());
+            System.out.print(afstanden.get(i).getTraject().getNaam());
             System.out.print(" ");
             String url = "https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=" + afstanden.get(i).getWaypoint1().getLatitude() + "," + afstanden.get(i).getWaypoint1().getLongitude();
             char c = 'A';
             Traject t = null;
             for(Traject t2 : trajects)
-                if(t2.getId() == afstanden.get(i).getWaypoint1().getTraject().getId()){
+                if(t2.getId() == afstanden.get(i).getTraject().getId()){
                     t = t2;
                     break;
                 }

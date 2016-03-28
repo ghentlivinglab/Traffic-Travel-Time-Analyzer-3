@@ -14,9 +14,6 @@ import java.util.concurrent.ScheduledFuture;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
-<<<<<<<HEAD
-        =======
-        >>>>>>>900d5c77dd68955600cfe607715c0fcf45e5e4b5
 
 public class ScheduleController {
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
@@ -41,7 +38,7 @@ public class ScheduleController {
         try {
             dbController = new DatabaseController();
             List<Provider> providers = dbController.haalActieveProvidersOp();
-            List<Traject> trajects = dbController.getTrajectenMetCoordinaten();
+            List<Traject> trajects = dbController.getTrajectenMetWaypoints();
             for (Provider provider : providers) {
                 logger.info("[" + provider.getNaam() + "] Scraping provider...");
                 haalDataVanProvider(provider.getNaam(), trajects);

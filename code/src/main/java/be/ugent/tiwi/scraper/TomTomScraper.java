@@ -62,7 +62,7 @@ import java.util.List;
  * 30	Calls per second
  * 5,000	Calls per day
  */
-public class TomTomScraper implements TrafficScraper {
+public class TomTomScraper extends TrafficScraper {
 
     private String apiKey;
     private JsonController<TomTom> jc;

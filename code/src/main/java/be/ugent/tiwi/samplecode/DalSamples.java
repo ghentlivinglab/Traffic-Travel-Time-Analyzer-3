@@ -52,7 +52,7 @@ public class DalSamples {
         MetingRepository mcrud = new MetingRepository();
         TrajectRepository tcrud = new TrajectRepository();
         List<Traject> trajects = tcrud.getTrajectenMetCoordinaten();
-        gs.makeCall(trajects);
+        gs.scrape(trajects);
         List<Meting> metingen = mcrud.getMetingen();
         for (Meting meting : metingen) {
             System.out.println(meting.toString());

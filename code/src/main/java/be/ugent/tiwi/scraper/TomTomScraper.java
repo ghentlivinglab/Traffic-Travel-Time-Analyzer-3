@@ -2,7 +2,6 @@ package be.ugent.tiwi.scraper;
 
 
 import be.ugent.tiwi.controller.JsonController;
-import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
@@ -63,7 +62,7 @@ import java.util.List;
  * 30	Calls per second
  * 5,000	Calls per day
  */
-public class TomTomScraper implements TrafficScraper {
+public class TomTomScraper extends TrafficScraper {
 
     private String apiKey;
     private JsonController<TomTom> jc;

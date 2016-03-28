@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by jelle on 18.02.16.
  */
-public class WazeScraper implements TrafficScraper {
+public class WazeScraper extends TrafficScraper {
     @Override
     public List<Meting> scrape(List<Traject> trajects) {
         //Hier komt de scraper specifiek voor Waze

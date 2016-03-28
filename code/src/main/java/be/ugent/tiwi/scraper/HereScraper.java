@@ -1,7 +1,6 @@
 package be.ugent.tiwi.scraper;
 
 import be.ugent.tiwi.controller.JsonController;
-import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
@@ -31,7 +30,7 @@ import java.util.List;
  * &waypoint0=geo!51.040800%2C3.614126&waypoint1=geo!51.038736%2C3.736503
  * &mode=fastest%3Bcar%3Btraffic%3Aenabled
  */
-public class HereScraper implements TrafficScraper {
+public class HereScraper extends TrafficScraper {
     private String appId;
     private String appCode;
     private String url;

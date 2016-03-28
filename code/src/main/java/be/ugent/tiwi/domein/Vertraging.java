@@ -1,8 +1,5 @@
 package be.ugent.tiwi.domein;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Vertraging{
     Traject traject;
     double avg_vertraging;

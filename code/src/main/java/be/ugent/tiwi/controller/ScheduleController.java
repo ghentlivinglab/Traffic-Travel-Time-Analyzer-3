@@ -3,14 +3,7 @@ package be.ugent.tiwi.controller;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
-<<<<<<< HEAD
-import be.ugent.tiwi.scraper.CoyoteScraper;
-import be.ugent.tiwi.scraper.GoogleScraper;
-import be.ugent.tiwi.scraper.HereScraper;
-import be.ugent.tiwi.scraper.TomTomScraper;
-=======
 import be.ugent.tiwi.scraper.*;
->>>>>>> 900d5c77dd68955600cfe607715c0fcf45e5e4b5
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +13,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
+
 
 public class ScheduleController {
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
@@ -44,7 +38,7 @@ public class ScheduleController {
         try {
             dbController = new DatabaseController();
             List<Provider> providers = dbController.haalActieveProvidersOp();
-            List<Traject> trajects = dbController.getTrajectenMetCoordinaten();
+            List<Traject> trajects = dbController.getTrajectenMetWaypoints();
             for (Provider provider : providers) {
                 logger.info("[" + provider.getNaam() + "] Scraping provider...");
                 haalDataVanProvider(provider.getNaam(), trajects);

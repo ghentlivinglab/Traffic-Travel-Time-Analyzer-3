@@ -19,51 +19,51 @@ $(function () {
 });
 
 $(document).ready(function(){
-     $("#container").highcharts({
-            global: {
-                useUTC: false
-            },
-            chart: {
-                zoomType: 'x',
-                type: 'line'
-            },
-            tooltip: {
-                formatter: function() {
-                    // If you want to see what is available in the formatter, you can
-                    // examine the `this` variable.
-                    //     console.log(this);
+    $("#container").highcharts({
+        global: {
+            useUTC: false
+        },
+        chart: {
+            zoomType: 'x',
+            type: 'line'
+        },
+        tooltip: {
+            formatter: function() {
+                // If you want to see what is available in the formatter, you can
+                // examine the `this` variable.
+                //     console.log(this);
 
-                    return '<p>'+ Math.round(this.y/60,2) +' min</p>';
-                }
-             },
+                return '<p>'+ Math.round(this.y/60,2) +' min</p>';
+            }
+        },
+        title: {
+            text: 'Reistijden historiek'
+        },
+        subtitle: {
+            text: document.ontouchstart === undefined ?
+                'Klik en sleep om een meer gedetaileerde weergave van een periode' : 'Zoom voor meer gedetaileerde weergave van een periode'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
             title: {
-                text: 'Reistijden historiek'
+                text: 'Reistijd in minuten'
             },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Klik en sleep om een meer gedetaileerde weergave van een periode' : 'Zoom voor meer gedetaileerde weergave van een periode'
-            },
-            xAxis: {
-                type: 'datetime'
-            },
-            yAxis: {
-                title: {
-                    text: 'Reistijd in minuten'
-                },
-                labels: {
-                    formatter: function(){return parseInt(this.value/60);}
-                }
+            labels: {
+                formatter: function(){return parseInt(this.value/60);}
+            }
 
-            },
-            legend: {
-                enabled: true
-            },
-             plotOptions: {
-                 series: {
-                         connectNulls: true
-                 }
-             },
-            series : []
+        },
+        legend: {
+            enabled: true
+        },
+        plotOptions: {
+            series: {
+                connectNulls: true
+            }
+        },
+        series : []
     });
 });
 
@@ -101,6 +101,7 @@ function updateDropdownChoice() {
 
 //Helper function which makes the JSON call
 function getTraveltimes(selected_traject_id) {
+    toggleLoader();
     chart = $("#container").highcharts();
     var startdatum = $("#startdate input[type='text']").val();
     var einddatum = $("#enddate input[type='text']").val();
@@ -113,7 +114,8 @@ function getTraveltimes(selected_traject_id) {
                 addMeting(val["provider"]["naam"],val["timestamp"],val["reistijd"]);
             });
         });
-        chart.redraw(true);
+        chart.redraw();
+        toggleLoader();
     });
 }
 
@@ -135,11 +137,24 @@ function addMeting(provider, datetime, traveltime)
     }
     else
     {
-       chart.addSeries({
-           id: provider,
-           name: provider,
-           data: [[formatted_date.getTime(), traveltime]]
-       },false,false);
+        chart.addSeries({
+            id: provider,
+            name: provider,
+            data: [[formatted_date.getTime(), traveltime]]
+        },false,false);
+    }
+}
+
+function toggleLoader()
+{
+    var status = $(".cs-loader").css('display');
+    if(status=="none")
+    {
+        $(".cs-loader").css('display','block');
+    }
+    else
+    {
+        $(".cs-loader").css('display','none');
     }
 }
 

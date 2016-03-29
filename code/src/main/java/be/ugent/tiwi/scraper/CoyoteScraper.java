@@ -13,7 +13,6 @@ import be.ugent.tiwi.domein.Traject;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;

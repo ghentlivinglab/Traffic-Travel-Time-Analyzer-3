@@ -48,8 +48,20 @@
         </ul>
     </div>
 </div>
-<div id="container">
-
+<div id="chart-area">
+    <div class="cs-loader" style="display: none">
+        <div class="cs-loader-inner">
+            <label>	&bull;</label>
+            <label>	&bull;</label>
+            <label>	&bull;</label>
+            <label>	&bull;</label>
+            <label>	&bull;</label>
+            <label>	&bull;</label>
+        </div>
+        <p>Even geduld ... De data wordt geladen</p>
+    </div>
+    <div id="container">
+    </div>
 </div>
 <script src="<c:url value="/resources/highcharts/js/highcharts.src.js"/>"></script>
 <script src="<c:url value="/resources/momentjs/min/moment.min.js"/>"></script>

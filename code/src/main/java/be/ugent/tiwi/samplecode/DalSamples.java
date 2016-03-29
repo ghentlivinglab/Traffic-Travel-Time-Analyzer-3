@@ -23,7 +23,7 @@ public class DalSamples {
         Provider test;
         ProviderRepository providerdb = new ProviderRepository();
         test = providerdb.getProvider(name);
-        System.out.printf("%s", test.to_string());
+        System.out.printf("%s", test.toString());
     }
 
     public static void getTrajecten() {

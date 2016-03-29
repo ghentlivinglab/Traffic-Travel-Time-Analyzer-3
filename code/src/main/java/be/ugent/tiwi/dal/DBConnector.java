@@ -18,8 +18,10 @@ public class DBConnector {
     /**
      * Configureert een connection voor algemeen gebruik.
      * @return Connection met de databank.
+     * @throws SQLException Indien de database niet bereikbaar is
+     * @see Connection
      */
-    public Connection getConnection() {
+    public Connection getConnection() throws  SQLException{
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             if (connection == null || connection.isClosed()) {
@@ -31,6 +33,7 @@ public class DBConnector {
             }
         } catch (SQLException e) {
             logger.error("Probleem met het opzetten van de verbinding met de databank");
+            throw e;
         } catch (ClassNotFoundException e) {
             logger.error("Class not found exception");
         }
@@ -40,7 +43,7 @@ public class DBConnector {
 
     /**
      *  Sluit de verbinding met de databank af.
-     * @throws SQLException
+     * @throws SQLException Indien de verbinding met de databank niet kan gesloten worden
      */
     public void close() throws SQLException {
         connection.close();

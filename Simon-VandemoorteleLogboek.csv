@@ -34,3 +34,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 26/03/16,01:45,02:40,Thuis,"Optimale reistijd per traject veranderd",46,
 28/03/16,00:15,03:15,Thuis,"Een deel van de waypoints aangepast zodat die werken met de google-provider",46,
 28/03/16,11:15,17:15,Thuis,"Google & Bing-providers gebruiken de correcte waypoints en slaan juiste metingen op!",46,
+29/03/16,11:00,14:15,Thuis,"JavaDoc aanvullen",65,
+29/03/16,16:00,18:00,Thuis,"JavaDoc aanvullen",65,

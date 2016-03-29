@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import settings.Settings;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -20,8 +21,13 @@ public class IndexController {
     public String index(ModelMap model) {
         //Config.properties file in jetty home zetten voor testing...
         MetingRepository mcrud = new MetingRepository();
-        List<Meting> metingen = mcrud.getMetingen();
-        model.addAttribute("metingen", metingen);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneDayAgo = LocalDateTime.now().minusDays(1L);
+        double vertraging = mcrud.gemiddeldeVertraging(oneDayAgo, now);
+        int minuten = (int)vertraging/60;
+        model.addAttribute("vertraging",vertraging>0?true:false);
+        model.addAttribute("vertraging_min", minuten);
+        model.addAttribute("vertraging_sec", (int)(vertraging-(minuten*60)));
 
         // Spring uses InternalResourceViewResolver and return back index.jsp
         return VIEW_INDEX;
@@ -43,9 +49,18 @@ public class IndexController {
         TrajectRepository tr = new TrajectRepository();
         List<Traject> trajecten = tr.getTrajecten();
 
+        MetingRepository mcrud = new MetingRepository();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneDayAgo = LocalDateTime.now().minusDays(1L);
+        double vertraging = mcrud.gemiddeldeVertraging(oneDayAgo, now);
+        int minuten = (int)vertraging/60;
+
+        model.addAttribute("vertraging",vertraging>0?true:false);
         model.addAttribute("trajecten",trajecten);
-        model.addAttribute("totale_vertraging_min",10);
+        model.addAttribute("totale_vertraging_min",minuten);
+        model.addAttribute("totale_vertraging_sec",(int)(vertraging-(minuten*60)));
         model.addAttribute("drukste_plaats","centrum");
+
         return "home/status";
     }
 

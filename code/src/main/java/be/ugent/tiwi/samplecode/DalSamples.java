@@ -74,8 +74,13 @@ public class DalSamples {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
 
-        System.out.println(mrep.metingStatistieken(11,sevenDaysAgo,now).toString());
+        System.out.println("Provider 11 tot 7 dagen geleden");
+        System.out.println(mrep.metingProviderStatistieken(11,sevenDaysAgo,now).toString());
+        System.out.println("Traject 11 tot 7 dagen geleden");
+        System.out.println(mrep.metingTrajectStatistieken(11,sevenDaysAgo,now).toString());
         System.out.println("Algemene gemiddelde vertraging de laatste 7 dagen "+mrep.gemiddeldeVertraging(sevenDaysAgo,now));
+        System.out.println("Traject 11, provider 10 tot 7 dagen geleden");
+        System.out.println(mrep.metingStatistieken(11,10,sevenDaysAgo,now));
     }
 
     public static void main(String[] args)

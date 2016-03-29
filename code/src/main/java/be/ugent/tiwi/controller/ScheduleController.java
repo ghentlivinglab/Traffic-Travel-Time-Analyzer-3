@@ -3,11 +3,7 @@ package be.ugent.tiwi.controller;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
-import be.ugent.tiwi.samplecode.DalSamples;
-import be.ugent.tiwi.scraper.CoyoteScraper;
-import be.ugent.tiwi.scraper.GoogleScraper;
-import be.ugent.tiwi.scraper.HereScraper;
-import be.ugent.tiwi.scraper.TomTomScraper;
+import be.ugent.tiwi.scraper.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,6 +13,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
+
 
 public class ScheduleController {
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
@@ -29,8 +26,9 @@ public class ScheduleController {
 
         final Runnable schema = new Runnable() {
             public void run() {
-                logger.trace("Schedule run - Trying to scrape data");
+                logger.info("Schedule STARTING - Trying to scrape data");
                 haalDataOp();
+                logger.info("Schedule DONE     - Waiting for next call");
             }
         };
         final ScheduledFuture<?> schemaHandle = scheduler.scheduleAtFixedRate(schema, 0, 5, MINUTES);
@@ -40,10 +38,11 @@ public class ScheduleController {
         try {
             dbController = new DatabaseController();
             List<Provider> providers = dbController.haalActieveProvidersOp();
-            List<Traject> trajects = dbController.getTrajectenMetCoordinaten();
+            List<Traject> trajects = dbController.getTrajectenMetWaypoints();
             for (Provider provider : providers) {
-                logger.trace(provider.getId() + ": Scraping provider " + provider.getNaam());
+                logger.info("[" + provider.getNaam() + "] Scraping provider...");
                 haalDataVanProvider(provider.getNaam(), trajects);
+                logger.info("[" + provider.getNaam() + "] Done!");
             }
 
             /*DalSamples.getProviderWithName("Waze");
@@ -72,6 +71,9 @@ public class ScheduleController {
                 break;
             case "tomtom":
                 dbController.voegMetingenToe(new TomTomScraper().scrape(trajects));
+                break;
+            case "bing maps":
+                dbController.voegMetingenToe(new BingScraper().scrape(trajects));
                 break;
         }
     }

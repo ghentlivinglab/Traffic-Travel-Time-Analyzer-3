@@ -28,3 +28,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 17/03/16,07:45,12:15,Thuis,Charting engine implementatie en zoekfuncties op basis van start en eindtijdstip naar metingen in de metingrepository,,
 17/03/16,12:45,13:45,Thuis,Herschrijven charting code om grafiek correcter en sneller te laten tekenen,,
 18/03/16,10:00,11:30,Thuis,Opzetten van testomgeving glassfish ed op raspberry pi server en WAR deployen op dit servertje,,
+22/03/16,08:15,11:30,School,Beredenering en implementatie SQL van statistieken queries,,
+24/03/16,12:30,13:45,Thuis,Implementatie van statistieken module in de domein code,,

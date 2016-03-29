@@ -128,4 +128,5 @@ public class Traject {
     public void setEnd_longitude(String end_longitude) {
         this.end_longitude = end_longitude;
     }
+
 }

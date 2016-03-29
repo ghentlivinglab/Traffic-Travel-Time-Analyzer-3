@@ -1,6 +1,5 @@
 package be.ugent.tiwi.samplecode;
 
-import be.ugent.tiwi.dal.TrajectRepository;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;
 import be.ugent.tiwi.scraper.CoyoteScraper;
@@ -20,37 +19,23 @@ import java.util.Set;
 /**
  * Created by Eigenaar on 22/03/2016.
  */
-public class WaypointsTest extends CoyoteScraper {
+public class WaypointsGenerator extends CoyoteScraper {
 
-    private static final Logger logger = LogManager.getLogger(WaypointsTest.class);
-
+    private static final Logger logger = LogManager.getLogger(WaypointsGenerator.class);
 
     public static void main(String[] args){
-        WaypointsTest test = new WaypointsTest();
-        test.genereerSQL();
+        WaypointsGenerator wg = new WaypointsGenerator();
+        wg.generate();
     }
 
-    public static double distance(double lat1, double lat2, double lon1,
-                                  double lon2, double el1, double el2) {
-
-        final int R = 6371; // Radius of the earth
-
-        Double latDistance = Math.toRadians(lat2 - lat1);
-        Double lonDistance = Math.toRadians(lon2 - lon1);
-        Double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c * 1000; // convert to meters
-
-        double height = el1 - el2;
-
-        distance = distance*distance + height*height;
-
-        return Math.sqrt(distance);
-    }
-
-    public void genereerSQL() {
+    /**
+     * Leest de {@link Traject}en en {@link Waypoint}s uit de **Coyote service**, doet enkele wijzigingen aan de
+     * waypoints en schrijft deze weg naar "verkeer-3\code\tempsql.txt".
+     *
+     * @see Traject
+     * @see Waypoint
+     */
+    public void generate() {
         String jsonString = "";
         try {
             jsonString = sendPost();
@@ -118,7 +103,7 @@ public class WaypointsTest extends CoyoteScraper {
                                     double lat = pos.get("lat").getAsDouble();
                                     double lng = pos.get("lng").getAsDouble();
                                     if(vIndex != 0 || i != startI){
-                                        double distance = distance(lat, prevLat, lng, prevLong, 0, 0);
+                                        double distance = Afstand.distance(lat, prevLat, lng, prevLong, 0, 0);
                                         totalDistance += distance;
                                     }else{
                                         startLat = lat;
@@ -150,23 +135,39 @@ public class WaypointsTest extends CoyoteScraper {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        //Fix de verkeerde waypoints
         fixGlobalTrajects(trajects);
+
+        //Schrijf naar tempsql.txt
         writeToTempSql(trajects);
+
         //controleerWaypoints(trajects);
     }
 
+    /**
+     * Zoekt een {@link Traject} binnen een lijst {@link Traject}en met een bepaald id
+     * @param trajects  Een lijst {@link Traject}en
+     * @param id        Het id van een {@link Traject}
+     * @return          Het gezochte {@link Traject}. Indien de lijst geen {@link Traject} bevat met het id, <code>null</code>
+     */
     protected Traject getTraject(List<Traject> trajects, int id){
         Traject t = trajects.get(id - 1);
         if(t.getId() != id) {
             for (Traject traj : trajects)
                 if (traj.getId() == id) {
-                    t = traj;
-                    break;
+                    return t;
                 }
+            return null;
         }
         return t;
     }
 
+    /**
+     * Deze functie verwijderdt een aantal waypoints uit een lijst {@link Traject}en. Deze waypoints kunnen niet door
+     * de {@link be.ugent.tiwi.scraper.TrafficScraper}s gebruikt worden.
+     * @param trajects De lijst van aan te passen {@link Traject}en
+     */
     private void fixGlobalTrajects(List<Traject> trajects) {
         //Route 14: delete vanaf volgnr 106 (51.04645, 3.73437) tot volgn 114 (51.0445, 3.73421) (één-richtingsverkeer)
         Traject t = getTraject(trajects, 14);
@@ -194,6 +195,10 @@ public class WaypointsTest extends CoyoteScraper {
         logger.debug("Deleted " + deletedCount + " waypoints!");
     }
 
+    /**
+     * Schrijft een lijst van {@link Traject}en en hun {@link Waypoint}s naar "verkeer-3\code\tempsql.txt"}.
+     * @param trajecten De lijst van weg te schrijven {@link Traject}en
+     */
     private void writeToTempSql(List<Traject> trajecten){
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tempsql.txt"), "utf-8"))) {
@@ -251,7 +256,12 @@ public class WaypointsTest extends CoyoteScraper {
         }
     }
 
-    public void controleerWaypoints(List<Traject> trajects){
+    /**
+     * (DEBUG) Berekent de afstanden tussen alle opeenvolgende waypoints van alle {@link Traject}en, rangschikt deze van hoog
+     * naar laag en print de 30 hoogste af.
+     * @param trajects De lijst trajecten (met waypoints)
+     */
+    private void controleerWaypoints(List<Traject> trajects){
 
         List<Afstand> afstanden = new ArrayList<>();
         for(Traject t : trajects){
@@ -262,7 +272,7 @@ public class WaypointsTest extends CoyoteScraper {
                 double long1 = Double.parseDouble(wp1.getLongitude());
                 double lat2 = Double.parseDouble(wp2.getLatitude());
                 double long2 = Double.parseDouble(wp2.getLongitude());
-                afstanden.add(new Afstand(distance(lat1, lat2, long1, long2, 0, 0), wp1, wp2, t));
+                afstanden.add(new Afstand(Afstand.distance(lat1, lat2, long1, long2, 0, 0), wp1, wp2, t));
             }
         }
 

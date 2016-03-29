@@ -3,6 +3,7 @@ package be.ugent.tiwi.dal;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.Waypoint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,42 +18,42 @@ public class DatabaseController {
     private MetingRepository metingRepository = new MetingRepository();
 
     /**
-     * Haalt een specifieke provider uit de databank aan de hand van de meegegeven id.
-     * @param id Id van de op te halen provider.
-     * @return De provider indien deze bestaat, zoniet wordt null geretourneerd.
+     * Haalt een specifieke {@link Provider} uit de databank aan de hand van de meegegeven id.
+     * @param id Id van de op te halen {@link Provider}.
+     * @return De {@link Provider} indien deze bestaat, zoniet wordt <code>null</code> geretourneerd.
      */
     public Provider haalProviderOp(int id) {
         return providerRepository.getProvider(id);
     }
 
     /**
-     * Haalt een specifieke provider uit de databank aan de hand van de meegegeven naam.
-     * @param naam Naam van de op te halen provider.
-     * @return De provider indien deze bestaat, zoniet wordt null geretourneerd.
+     * Haalt een specifieke {@link Provider} uit de databank aan de hand van de meegegeven naam.
+     * @param naam Naam van de op te halen {@link Provider}.
+     * @return De {@link Provider} indien deze bestaat, zoniet wordt <code>null</code> geretourneerd.
      */
     public Provider haalProviderOp(String naam) {
         return providerRepository.getProvider(naam);
     }
 
     /**
-     * Haalt alle trajecten op uit de databank.
-     * @return Een lijst van trajecten. Indien geen trajecten gevonden werden wordt een lege lijst terug gegeven.
+     * Haalt alle {@link Traject}en op uit de databank.
+     * @return Een lijst van {@link Traject}en. Indien geen {@link Traject}en gevonden werden wordt een lege lijst terug gegeven.
      */
     public List<Traject> haalTrajectenOp() {
         return trajectenRepository.getTrajectenMetCoordinaten();
     }
 
     /**
-     * Schrijft een nieuwe meting weg naar de databank.
-     * @param meting De weg te schrijven meting.
+     * Schrijft een nieuwe {@link Meting} weg naar de databank.
+     * @param meting De weg te schrijven {@link Meting}.
      */
     public void voegMetingToe(Meting meting) {
         metingRepository.addMeting(meting);
     }
 
     /**
-     * Schrijft een lijst van metingen weg naar de databank.
-     * @param metingenLijst Lijst met de weg te Schrijven metingen.
+     * Schrijft een lijst van {@link Meting}en weg naar de databank.
+     * @param metingenLijst Een lijst met de weg te schrijven {@link Meting}en.
      */
     public void voegMetingenToe(List<Meting> metingenLijst) {
         List<Integer> missing = new ArrayList<>();
@@ -75,9 +76,9 @@ public class DatabaseController {
     }
 
     /**
-     * Haalt een specifieke traject uit de databank aan de hand van de meegegeven id. De bijhorende waypoints worden niet opgehaald.
-     * @param id Id van het op te halen traject.
-     * @return Het traject indien deze bestaat, zoniet wordt null geretourneerd.
+     * Haalt een specifieke {@link Traject} uit de databank aan de hand van de meegegeven id. De bijhorende {@link Waypoint}s worden niet opgehaald.
+     * @param id Id van het op te halen {@link Traject}.
+     * @return Het {@link Traject} indien deze bestaat, zoniet wordt <code>null</code> geretourneerd.
      */
     public Traject haalTraject(int id)
     {
@@ -85,9 +86,10 @@ public class DatabaseController {
     }
 
     /**
-     * Haalt een specifieke traject uit de databank aan de hand van de meegegeven id. De bijhorende waypoints worden wel opgehaald.
+     * Haalt een specifieke {@link Traject} uit de databank aan de hand van de meegegeven id. De bijhorende {@link Waypoint}s worden wel opgehaald.
      * @param id Id van het op te halen traject.
-     * @return Het traject indien deze bestaat, zoniet wordt null geretourneerd.
+     * @return Het {@link Traject} indien deze bestaat, zoniet wordt <code>null</code> geretourneerd.
+     * @see Waypoint
      */
     public Traject haalTrajectMetWaypoints(int id)
     {
@@ -95,8 +97,8 @@ public class DatabaseController {
     }
 
     /**
-     * Schrijft de wijzigingen van een bestaand traject weg naar de databank.
-     * @param traject Het aangepaste traject dat moet worden geupdated
+     * Schrijft de wijzigingen van een bestaand {@link Traject} weg naar de databank.
+     * @param traject Het aangepaste {@link Traject} dat moet worden geupdated
      */
     public void wijzigTraject(Traject traject)
     {
@@ -115,25 +117,26 @@ public class DatabaseController {
     }
 
     /**
-     * Haalt een lijst op van alle trajecten met bijhorende waypoints.
-     * @return Lijst van Trajecten waarbij de waypoints ook ingevuld zijn.
+     * Haalt een lijst op van alle {@link Traject}en met bijhorende {@link Waypoint}s.
+     * @return Lijst van {@link Traject}en waarbij de {@link Waypoint}s ook ingevuld zijn.
+     * @see Waypoint
      */
     public List<Traject> getTrajectenMetWaypoints() {
         return trajectenRepository.getTrajectenMetCoordinaten();
     }
 
     /**
-     * Haalt alle providers op die momentaal als actief gemarkeerd zijn.
-     * @return Lijst met de providers die actief zijn.
+     * Haalt alle {@link Provider}s op die momentaal als actief gemarkeerd zijn.
+     * @return Lijst met de {@link Provider}s die actief zijn.
      */
     public List<Provider> haalActieveProvidersOp() {
         return providerRepository.getActieveProviders();
     }
 
     /**
-     * Haalt een specifieke traject uit de databank aan de hand van de meegegeven naam. De bijhorende waypoints worden niet opgehaald.
-     * @param naam Naam van het op te halen traject.
-     * @return Het traject indien deze bestaat, zoniet wordt null geretourneerd.
+     * Haalt een specifieke {@link Traject} uit de databank aan de hand van de meegegeven naam. De bijhorende {@link Waypoint}s worden niet opgehaald.
+     * @param naam Naam van het op te halen {@link Traject}.
+     * @return Het {@link Traject} indien deze bestaat, zoniet wordt <code>null</code> geretourneerd.
      */
     public Traject haalTrajectOp(String naam) {
         return trajectenRepository.getTraject(naam);

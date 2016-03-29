@@ -25,11 +25,23 @@ public class MetingRepository {
     private String stringMetingen = "select * from metingen";
     private String stringAddMetingen = "insert into metingen(provider_id,traject_id,reistijd) values (?, ?, ?)";
 
+    /**
+     * Constructor van de klasse.
+     */
     public MetingRepository() {
         connector = new DBConnector();
     }
 
-    public List<Meting> getMetingen(Provider provider, Traject traject) {
+    /**
+     * Deze methode geeft alle metingen terug gemaakt door een provider van een traject.
+     *
+     * @param provider  De provider waarvan je de metingen wil opvragen
+     * @param traject   Het traject waarvan je de metingen wil opvragen
+     * @return          Een lijst van metingen
+     * @throws SQLException Indien de databank niet beschikbaar is of als de query niet geldig is
+     * @see Meting
+     */
+    public List<Meting> getMetingen(Provider provider, Traject traject) throws SQLException {
         List<Meting> metingen = new ArrayList<>();
         ResultSet rs = null;
         try {
@@ -49,16 +61,20 @@ public class MetingRepository {
             return metingen;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
+            throw e;
         }finally{
             try { rs.close(); } catch (Exception e) { /* ignored */ }
             try { statMetingenPerProvPerTraj.close(); } catch (Exception e) { /* ignored */ }
             try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
-
-        return null;
     }
 
+    /**
+     * Geeft alle metingen terug die in de database aanwezig zijn.
+     * @return Een lijst van metingen.
+     * @see Meting
+     */
     public List<Meting> getMetingen() {
         ProviderRepository pcrud = new ProviderRepository();
         TrajectRepository tcrud = new TrajectRepository();
@@ -89,6 +105,12 @@ public class MetingRepository {
         return null;
     }
 
+    /**
+     * Geeft alle metingen van een meegegeven traject terug.
+     * @param traject_id    Het ID van het traject
+     * @return              Een lijst van metingen
+     * @see Meting
+     */
     public List<Meting> getMetingenFromTraject(int traject_id)
     {
         String query = "select * from metingen where traject_id ='" + traject_id + "'";
@@ -97,6 +119,15 @@ public class MetingRepository {
         return metingen;
     }
 
+    /**
+     * Geeft alle metingen van een meegegeven traject terug binnen een tijdspanne
+     *
+     * @param traject_id    Het ID van je traject
+     * @param start         De begintijd van de tijdspanne
+     * @param end           De eindtijd van de tijdspanne
+     * @return Een lijst van metingen
+     * @see Meting
+     */
     public List<Meting> getMetingenFromTraject(int traject_id, LocalDateTime start, LocalDateTime end)
     {
         String query = "select * from metingen where traject_id ='" + traject_id + "' and timestamp between '"+
@@ -106,6 +137,14 @@ public class MetingRepository {
         return metingen;
     }
 
+    /**
+     * Verwerkt een meegegeven query die een traject_id als parameter verwacht en geeft een lijst van metingen terug.
+     *
+     * @param query         De query die uitgevoerd moet worden
+     * @param traject_id    De parameter traject_id
+     * @return  Een lijst van metingen
+     * @see Meting
+     */
     private List<Meting> getMetingenFromQuery(String query, int traject_id)
     {
         List<Meting> metingen = new ArrayList<>();
@@ -131,6 +170,15 @@ public class MetingRepository {
         }
         return null;
     }
+
+    /**
+     * Geeft een lijst terug van providers. Iedere provider bevat een volledig ingevulde lijst van metingen van het
+     * meegegeven traject
+     *
+     * @param traject_id Een traject_id
+     * @return Een lijst van providers, aangevuld met een lijst metingen per provider.
+     * @see Meting
+     */
     public List<Provider> getMetingenFromTrajectByProvider(int traject_id)
     {
         List<Provider> providers = new ProviderRepository().getActieveProviders();
@@ -144,6 +192,13 @@ public class MetingRepository {
         return providers;
     }
 
+    /**
+     * Geeft alle metingen van 1 provider terug
+     *
+     * @param id    Het ID van de provider
+     * @return      Een lijst van metingen
+     * @see Meting
+     */
     public List<Meting> getMetingenByProvider(int id) {
         List<Meting> provider_metingen = new ArrayList<>();
         Provider provider = new ProviderRepository().getProvider(id);
@@ -172,6 +227,11 @@ public class MetingRepository {
         return null;
     }
 
+    /**
+     * Voegt 1 meting toe aan de database
+     * @param meting    De meting die toegevoegd moet worden
+     * @see Meting
+     */
     public void addMeting(Meting meting) {
          try {
              statAddMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
@@ -212,16 +272,15 @@ public class MetingRepository {
 //        return null;
 //    }
 
+
     public double gemiddeldeVertraging(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String gemiddelde_vertraging = "select avg(reistijd-traj.optimale_reistijd) totale_vertraging from metingen "+
         "join trajecten traj on traj.id = traject_id "+
         "where metingen.timestamp between ? and ? and reistijd is not null ";
         try {
             statStatistieken = connector.getConnection().prepareStatement(gemiddelde_vertraging);
-
             statStatistieken.setTimestamp(1,Timestamp.valueOf(start_tijdstip));
             statStatistieken.setTimestamp(2,Timestamp.valueOf(end_tijdstip));
-
             ResultSet rs = statStatistieken.executeQuery();
 
             if(rs.next()) {
@@ -250,18 +309,14 @@ public class MetingRepository {
             statStatistieken.setTimestamp(3,Timestamp.valueOf(end_tijdstip));
 
             Provider provider = new ProviderRepository().getProvider(provider_id);
-
             ProviderStatistiek stat = new ProviderStatistiek(provider);
-
             ResultSet rs = statStatistieken.executeQuery();
 
             while (rs.next()) {
                 Traject traject = new TrajectRepository().getTraject(rs.getInt("traject_id"));
                 double avg_vertraging = rs.getDouble("avg_vertraging");
-
                 stat.addVertraging(new Vertraging(traject,avg_vertraging));
             }
-
 
             return stat;
         }catch (SQLException e) {

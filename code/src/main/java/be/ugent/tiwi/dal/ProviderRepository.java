@@ -21,7 +21,7 @@ public class ProviderRepository {
     private PreparedStatement statProviderId = null;
     private PreparedStatement statProviderNaam = null;
 
-    private String stringActieveProviders = "select * from providers where is_active = 1";
+    private String stringActieveProviders = "select * from providers where is_active = 1 order by naam";
     private String stringProviderId = "select * from providers where id = ?";
     private String stringProviderNaam = "select * from providers where naam = ?";
 

@@ -19,14 +19,7 @@ import java.util.List;
 
 /**
  * Created by jan on 27.02.16.
- * <p>
- * Account settings
- * email:           vopverkeer3@gmail.com
- * password:        vopverk3
- * API key:         AIzaSyAcbAEzORRjLqSP6I4ZcUzB6YKaNr6X7Fg
- * Sample call:
- * https://maps.googleapis.com/maps/api/directions/json?origin=Brugge&destination=Gent
- * &key=AIzaSyAcbAEzORRjLqSP6I4ZcUzB6YKaNr6X7Fg
+ *
  */
 public class GoogleScraper extends TrafficScraper {
 
@@ -42,9 +35,12 @@ public class GoogleScraper extends TrafficScraper {
     }
 
     /**
-     * Geeft ee
-     * @param trajects Een lijst van trajecten waarvan een meting moet woren opgehaald
-     * @return
+     * Past de lijst trajects eerst aan zodat de {@link GoogleScraper} geen verkeerde waypoints meegeeft. Daarna wordt
+     * via de Google Directions API van alle trajecten de huidige reistijd afgehaald. Deze metingen worden teruggegeven.
+     * @param trajects Een lijst van trajecten waarvan een meting moet worden opgehaald
+     * @return Een lijst metingen
+     * @see Traject
+     * @see Meting
      */
     @Override
     public List<Meting> scrape(List<Traject> trajects) {
@@ -53,13 +49,15 @@ public class GoogleScraper extends TrafficScraper {
     }
 
     /**
+     * Pas de trajecten aan zodat de {@link GoogleScraper} straks geen problemen zal hebben.
      *
-     *
-     * @param trajects
-     *
+     * @param trajects Een lijst trajecten met waypoints
      */
     private void fixGoogleTrajects(List<Traject> trajects) {
         Traject t;
+
+        t = getTraject(trajects, 1);
+        editWaypoint(t,"51.063995","3.695596","51.064","3.6958");
 
         //Delete waypoint "51.06634,3.69966" uit traject 4
         t = getTraject(trajects, 4);

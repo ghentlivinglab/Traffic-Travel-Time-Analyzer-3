@@ -7,6 +7,7 @@ import be.ugent.tiwi.scraper.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -51,7 +52,8 @@ public class ScheduleController {
             for (Provider provider : providers) {
 
                 logger.info("[" + provider.getNaam() + "] Scraping provider...");
-                haalDataVanProvider(provider.getNaam(), trajects);
+                //Geef een kopie van de lijst mee zodat enige wijzigingen de andere scrapers niet beinvloeden.
+                haalDataVanProvider(provider.getNaam(), new ArrayList<>(trajects));
                 logger.info("[" + provider.getNaam() + "] Done!");
 
             }

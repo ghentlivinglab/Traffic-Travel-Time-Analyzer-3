@@ -107,3 +107,12 @@ li.traject-dropdown-item
     float: right;
     margin-top: 5;
 }
+
+#vertragingen td span{
+    display:inline-block;
+    border-radius: 25px;
+    padding: 5px 10px;
+    text-align:center;
+    background-color:grey;
+    color: white;
+}

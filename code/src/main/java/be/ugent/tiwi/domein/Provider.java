@@ -17,6 +17,7 @@ public class Provider {
     public Provider() {
     }
 
+
     /**
      * Constructor van de klasse die 3 parameters invult
      * @param id        Het ID van de provider
@@ -46,6 +47,14 @@ public class Provider {
     }
 
     /**
+     * Stelt in of de provider actief is
+     * @param is_active Een boolean die aangeeft of de provider actief is
+     */
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
+    }
+
+    /**
      * Geeft het ID van de provider terug
      * @return Het ID van de provider
      */
@@ -71,7 +80,7 @@ public class Provider {
 
     /**
      * Geeft een kort overzicht van de provider
-     * @return
+     * @return een kort overzicht
      */
     @Override
     public String toString() {

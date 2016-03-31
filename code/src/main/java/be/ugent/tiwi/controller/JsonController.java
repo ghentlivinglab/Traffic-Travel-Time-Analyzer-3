@@ -23,7 +23,7 @@ import java.io.InputStreamReader;
  * <p>
  * Update Jelle:
  * Deze klasse is generiek gemaakt zodat de controller met alle type providers overweg kan. Je moet nu wel de JSONController
- * genereren met type hinting. Bijvoorbeeld <code>jc = new JsonController<Here>();</code>.
+ * genereren met type hinting. Bijvoorbeeld <code>jc = new JsonController&lt;Here&gt;();</code>.
  */
 public class JsonController<T extends Object> {
     private InputStream is = null;
@@ -83,6 +83,8 @@ public class JsonController<T extends Object> {
             str.append(line + "\n");
         }
         json = str.toString();
+
+        jObj = new Gson();
 
         // Create jObj
         jObj.toJson(json);

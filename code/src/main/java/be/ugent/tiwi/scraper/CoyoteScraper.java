@@ -1,6 +1,7 @@
 package be.ugent.tiwi.scraper;
 
 import be.ugent.tiwi.dal.DatabaseController;
+import be.ugent.tiwi.dal.ProviderRepository;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
@@ -45,17 +46,21 @@ public class CoyoteScraper extends TrafficScraper {
         try {
             return JsonToPojo(sendPost());
         } catch (IOException ex) {
-            logger.error("Ophalen gegevens Coyote is mislukt.");
+            logger.error("Ophalen gegevens Coyote is mislukt:");
             logger.error(ex);
         }
-        return null;
+        List<Meting> legeMetingen = new ArrayList<>();
+        Provider p = new ProviderRepository().getProvider("coyote");
+        for(Traject t : trajects)
+            legeMetingen.add(new Meting(p, t, -1, LocalDateTime.now()));
+        return legeMetingen;
     }
 
     /**
      * Vraag routegegevens op van de coyote site.
      *
      * @return String met de gevraagde gegevens in JSON-formaat.
-     * @throws IOException
+     * @throws IOException Indien de JSON niet kan gelezen worden
      */
     protected String sendPost() throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -100,7 +105,7 @@ public class CoyoteScraper extends TrafficScraper {
      *
      * @param httpclient Client die instaat voor communicatie met de server.
      * @return SessionID van de server.
-     * @throws IOException
+     * @throws IOException Indien er een IO-fout gebeurt
      */
     protected String getSession(CloseableHttpClient httpclient) throws IOException {
         String cookie = "";

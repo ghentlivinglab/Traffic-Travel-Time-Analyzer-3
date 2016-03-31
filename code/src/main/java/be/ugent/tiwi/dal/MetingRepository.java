@@ -210,8 +210,9 @@ public class MetingRepository {
             ResultSet rs = stmt.executeQuery(query);
 
 
+            TrajectRepository trajrepo = new TrajectRepository();
             while (rs.next()) {
-                Traject traject = new TrajectRepository().getTraject(rs.getInt("traject_id"));
+                Traject traject = trajrepo.getTraject(rs.getInt("traject_id"));
                 int reistijd = rs.getInt("reistijd");
                 LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
 
@@ -225,6 +226,71 @@ public class MetingRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Meting> getLaatsteMetingenByProvider(int id){
+        List<Meting> provider_metingen = new ArrayList<>();
+        Provider provider = new ProviderRepository().getProvider(id);
+        String query = "select m.traject_id, m.reistijd, m.timestamp from metingen m " +
+                "join trajecten t on m.traject_id = t.id " +
+                "where m.provider_id = ? AND " +
+                "m.timestamp = (select max(m2.timestamp) from metingen m2 " +
+                            "where m2.traject_id = m.traject_id " +
+                            "and m2.provider_id = m.provider_id) " +
+                "order by m.traject_id";
+        try {
+            PreparedStatement stmt = connector.getConnection().prepareStatement(query);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            TrajectRepository trajrepo = new TrajectRepository();
+            while (rs.next()) {
+                Traject traject = trajrepo.getTraject(rs.getInt("traject_id"));
+                int reistijd = rs.getInt("reistijd");
+                LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
+                provider_metingen.add(new Meting(provider, traject, reistijd, timestamp));
+            }
+
+            connector.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return provider_metingen;
+    }
+
+    /**
+     * Geeft alle providers terug waarvoor al minstens 1 keer gescraped is
+     * @return Een lijst van providers
+     * @see Provider
+     */
+    public List<Provider> getGebruikteProviders(){
+        List<Provider> providers = new ArrayList<>();
+        String query = "select m.provider_id from metingen m " +
+                "join providers p on m.provider_id = p.id " +
+                "where m.reistijd is not null " +
+                "group by m.provider_id, p.naam " +
+                "order by p.naam";
+        try {
+            Statement stmt = connector.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+
+            while (rs.next()) {
+                ProviderRepository repo = new ProviderRepository();
+                Provider p = repo.getProvider(rs.getInt("provider_id"));
+
+                providers.add(p);
+            }
+
+            connector.close();
+            return providers;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     /**

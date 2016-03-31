@@ -48,7 +48,7 @@ public class Settings {
         InputStream input = null;
 
         try {
-
+            //System.out.println("Working Directory = "+System.getProperty("user.dir"));
             // Zo moet het in glassfish input = new FileInputStream("/etc/tiwi/config.properties");
             input = new FileInputStream("config.properties");
             // load a properties file

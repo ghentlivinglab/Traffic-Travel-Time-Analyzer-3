@@ -37,16 +37,17 @@ public class Traject {
     @Override
     public String toString() {
         return "Traject{" +
-            "id=" + id +
-            ", naam='" + naam + '\'' +
-            ", lengte=" + lengte +
-            ", optimale_reistijd=" + optimale_reistijd +
+                "id=" + id +
+                ", naam='" + naam + '\'' +
+                ", lengte=" + lengte +
+                ", optimale_reistijd=" + optimale_reistijd +
                 ", is_active=" + is_active +
-                ", start_latitude=" + getStart_latitude() +
-                ", start_longitude=" + getStart_longitude() +
-                ", end_latitude=" + getEnd_latitude() +
-                ", end_longitude=" + getEnd_longitude() +
-            '}';
+                ", start_latitude='" + start_latitude + '\'' +
+                ", start_longitude='" + start_longitude + '\'' +
+                ", end_latitude='" + end_latitude + '\'' +
+                ", end_longitude='" + end_longitude + '\'' +
+                ", waypoints=" + waypoints +
+                '}';
     }
 
     public int getId() {

@@ -324,6 +324,80 @@ public class MetingRepository {
         return null;
     }
 
+    /**
+     * Zoekt het drukste traject voor een bepaalde tijdsinterval, geeft een Vertraging object terug
+     * @param start_tijdstip het start tijdstip waarbinnen gezocht moeten
+     * @param end_tijdstip het eind tijdstip tot waar gezocht moeten
+     * @return drukste tijdstip
+     */
+    public Vertraging getDrukstePunt(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
+        String trajecten_vertraging = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging" +
+                "        from metingen m1" +
+                "        join metingen m2 on m1.traject_id = m2.traject_id" +
+                "        join trajecten traj on traj.id = m2.traject_id" +
+                "        where m1.timestamp between ? and ? and m1.reistijd is not null" +
+                "        group by m1.traject_id";
+
+        try {
+            statStatistieken = connector.getConnection().prepareStatement(trajecten_vertraging);
+            statStatistieken.setTimestamp(1,Timestamp.valueOf(start_tijdstip));
+            statStatistieken.setTimestamp(2,Timestamp.valueOf(end_tijdstip));
+
+            ResultSet rs = statStatistieken.executeQuery();
+            Vertraging drukste_traject = null;
+            if(rs.next()) {
+                drukste_traject =new Vertraging(new TrajectRepository().getTraject(rs.getInt("traject_id")),rs.getDouble("avg_vertraging"));
+                while (rs.next()){
+                    double avg_vertraging = rs.getDouble("avg_vertraging");
+                    if(avg_vertraging>drukste_traject.getAverageVertraging())
+                        drukste_traject.setTraject(new TrajectRepository().getTraject(rs.getInt("traject_id")));
+                        drukste_traject.setAverageVertraging(avg_vertraging);
+                }
+            }
+            return drukste_traject;
+        }catch (SQLException e) {
+            logger.error("Statistieken ophalen mislukt");
+            logger.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * Genereert een handig overzicht van alle trajecten, met de bijhorende gemiddelde vertragingen over het meegegeven tijdsinterval.
+     * @param start_tijdstip het start tijdstip waarbinnen gezocht moeten
+     * @param end_tijdstip het eind tijdstip tot waar gezocht moeten
+     * @return alle trajecten die een vertraging hebben over dat tijdstip
+     */
+    public List<Vertraging> getVertragingen(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip)
+    {
+        String trajecten_vertraging = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging" +
+                "        from metingen m1" +
+                "        join metingen m2 on m1.traject_id = m2.traject_id" +
+                "        join trajecten traj on traj.id = m2.traject_id" +
+                "        where m1.timestamp between ? and ? and m1.reistijd is not null" +
+                "        group by m1.traject_id";
+
+        try {
+            statStatistieken = connector.getConnection().prepareStatement(trajecten_vertraging);
+            statStatistieken.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
+            statStatistieken.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
+
+            ResultSet rs = statStatistieken.executeQuery();
+            List<Vertraging> vertragingen = new ArrayList<>();
+
+            while (rs.next()){
+                double avg_vertraging = rs.getDouble("avg_vertraging");
+                Traject traject = new TrajectRepository().getTrajectMetWaypoints(rs.getInt("traject_id"));
+                vertragingen.add(new Vertraging(traject,avg_vertraging));
+            }
+
+            return vertragingen;
+        } catch (SQLException e) {
+            logger.error("Statistieken ophalen mislukt");
+            logger.error(e);
+        }
+        return null;
+    }
 }
 
 /*

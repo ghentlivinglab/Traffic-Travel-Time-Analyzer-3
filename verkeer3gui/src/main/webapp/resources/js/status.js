@@ -2,7 +2,9 @@
 var selected_traject_id;
 var selected_traject;
 var chart;
-
+var x = new Date();
+var offset = x.getTimezoneOffset();
+console.log("Offset "+offset);
 //Datetimepicker
 $(function () {
     //Begindatum 1 week terug
@@ -21,7 +23,7 @@ $(function () {
 $(document).ready(function(){
     $("#container").highcharts({
         global: {
-            useUTC: false
+            timezoneOffset: offset
         },
         chart: {
             zoomType: 'x',
@@ -33,7 +35,7 @@ $(document).ready(function(){
                 // examine the `this` variable.
                 //     console.log(this);
 
-                return '<p>'+ Math.round(this.y/60,2) +' min</p>';
+                return '<p><b>'+new Date(this.x).toString()+"</b> : "+ Math.round(this.y/60,2) +' min</p>';
             }
         },
         title: {
@@ -122,9 +124,9 @@ function getTraveltimes(selected_traject_id) {
 function addMeting(provider, datetime, traveltime)
 {
     chart = $("#container").highcharts();
-    var formatted_date = new Date(
+    var formatted_date = Date.UTC(
         datetime["date"]["year"],
-        datetime["date"]["month"],
+        datetime["date"]["month"]-1,
         datetime["date"]["day"],
         datetime["time"]["hour"],
         datetime["time"]["minute"],
@@ -133,14 +135,14 @@ function addMeting(provider, datetime, traveltime)
     );//args: year, month, day, hours, minutes, seconds, milliseconds
 
     if(chart.get(provider)){
-        chart.get(provider).addPoint([formatted_date.getTime(), traveltime],false);
+        chart.get(provider).addPoint([formatted_date, traveltime],false);
     }
     else
     {
         chart.addSeries({
             id: provider,
             name: provider,
-            data: [[formatted_date.getTime(), traveltime]]
+            data: [[formatted_date, traveltime]]
         },false,false);
     }
 }

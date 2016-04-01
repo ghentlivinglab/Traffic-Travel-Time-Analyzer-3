@@ -37,10 +37,24 @@ public class IndexController {
 
         if(!pidExists && gebruikteProviders.size() > 0)
             pid = gebruikteProviders.get(0).getId();
+        Provider p = new ProviderRepository().getProvider(pid);
         List<Meting> metingen = mcrud.getLaatsteMetingenByProvider(pid);
+        boolean metingenHebbenCorrecteOptimaleReistijd = true;
+        if(!p.getNaam().equalsIgnoreCase("coyote"))
+            for(Meting m : metingen) {
+                int reistijd = mcrud.getOptimaleReistijdLaatste7Dagen(m.getTraject().getId(), pid);
+                if(reistijd != -1)
+                    m.getTraject().setOptimale_reistijd(reistijd);
+                else {
+                    //Negatieve waarde instellen zodat index.js weet dat het gaat over de optimale reistijd van het traject (en niet de dynamish gegenereerde)
+                    m.getTraject().setOptimale_reistijd(-m.getTraject().getOptimale_reistijd());
+                    metingenHebbenCorrecteOptimaleReistijd = false;
+                }
+            }
         model.addAttribute("currentProviderId", pid);
         model.addAttribute("metingen", metingen);
         model.addAttribute("gebruikteProviders", gebruikteProviders);
+        model.addAttribute("correcteOptimaleReistijden", metingenHebbenCorrecteOptimaleReistijd);
 
         // Spring uses InternalResourceViewResolver and return back index.jsp
         return VIEW_INDEX;

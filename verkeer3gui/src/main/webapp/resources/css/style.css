@@ -108,11 +108,12 @@ li.traject-dropdown-item
     margin-top: 5;
 }
 
-#vertragingen td span{
+#vertragingen td > span{
     display:inline-block;
     border-radius: 25px;
-    padding: 5px 10px;
-    text-align:center;
+    padding: 2px 10px;
     background-color:grey;
     color: white;
 }
+
+tr.clickableRow { cursor: pointer; }

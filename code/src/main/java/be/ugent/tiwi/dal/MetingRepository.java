@@ -338,16 +338,61 @@ public class MetingRepository {
 //        return null;
 //    }
 
+    public int getOptimaleReistijdLaatste7Dagen(int trajectId, int providerId){
+        String query = "select count(*) total, now() now from metingen " +
+                "where provider_id = ? and traject_id = ? and reistijd is not null " +
+                "and timestamp between date_sub(now(), INTERVAL 7 DAY) and now()";
+        ResultSet rs = null;
+        try {
+            PreparedStatement stat = connector.getConnection().prepareStatement(query);
+            stat.setInt(1, providerId);
+            stat.setInt(2, trajectId);
+            rs = stat.executeQuery();
+
+            if(rs.next()){
+                double total = rs.getInt("total");
+                if(total > 0){
+                    int percentileVal = (int) Math.round(total * 0.05);
+                    Timestamp now = rs.getTimestamp("now");
+                    rs.close();
+                    stat.close();
+
+                    query = "select reistijd from metingen " +
+                            "where provider_id = ? and traject_id = ? and reistijd is not null " +
+                            "and timestamp between date_sub(?, INTERVAL 7 DAY) and ? " +
+                            "order by reistijd asc limit ?,1";
+                    stat = connector.getConnection().prepareStatement(query);
+                    stat.setInt(1, providerId);
+                    stat.setInt(2, trajectId);
+                    stat.setTimestamp(3, now);
+                    stat.setTimestamp(4, now);
+                    stat.setInt(5, percentileVal);
+                    rs = stat.executeQuery();
+                    if(rs.next()){
+                        return rs.getInt("reistijd");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("Statistieken ophalen mislukt");
+            logger.error(e);
+        }finally{
+            try{ rs.close();} catch (Exception e) { /* ignored */ }
+            try{ connector.close();} catch (SQLException e) { /* ignored */ }
+        }
+        return -1;
+    }
 
     public double gemiddeldeVertraging(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String gemiddelde_vertraging = "select avg(reistijd-traj.optimale_reistijd) totale_vertraging from metingen "+
         "join trajecten traj on traj.id = traject_id "+
         "where metingen.timestamp between ? and ? and reistijd is not null ";
+        ResultSet rs = null;
         try {
             statStatistieken = connector.getConnection().prepareStatement(gemiddelde_vertraging);
             statStatistieken.setTimestamp(1,Timestamp.valueOf(start_tijdstip));
             statStatistieken.setTimestamp(2,Timestamp.valueOf(end_tijdstip));
-            ResultSet rs = statStatistieken.executeQuery();
+            rs = statStatistieken.executeQuery();
 
             if(rs.next()) {
                 return rs.getDouble("totale_vertraging");
@@ -357,6 +402,9 @@ public class MetingRepository {
         }catch (SQLException e) {
             logger.error("Statistieken ophalen mislukt");
             logger.error(e);
+        }finally{
+            try{ rs.close();} catch (Exception e) { /* ignored */ }
+            try{ connector.close();} catch (SQLException e) { /* ignored */ }
         }
         return -1;
     }

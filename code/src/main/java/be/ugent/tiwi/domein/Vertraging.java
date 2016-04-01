@@ -9,6 +9,8 @@ public class Vertraging{
         this.traject = traject;
     }
 
+    public Vertraging() {}
+
     @Override
     public String toString() {
         return "Vertraging{" +

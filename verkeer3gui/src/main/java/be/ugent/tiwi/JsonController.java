@@ -42,4 +42,13 @@ public class JsonController {
         MetingRepository mr = new MetingRepository();
         return new Gson().toJson( mr.getMetingenFromTraject(id,start,end));
     }
+
+    @RequestMapping(value = "/vertragingen/{start}/{end}", method = RequestMethod.GET)
+    public @ResponseBody
+    String getJsonMetingenStartAndEndInterval(@PathVariable("start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime start,
+                                              @PathVariable("end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime end, ModelMap model)
+    {
+        MetingRepository mr = new MetingRepository();
+        return new Gson().toJson( mr.getVertragingen(start,end));
+    }
 }

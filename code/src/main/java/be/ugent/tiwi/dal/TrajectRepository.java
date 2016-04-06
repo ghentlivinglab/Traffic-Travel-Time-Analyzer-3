@@ -1,24 +1,14 @@
 package be.ugent.tiwi.dal;
 
-import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;
 import org.apache.logging.log4j.LogManager;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
-=======
-import java.sql.Statement;
-import java.util.*;
->>>>>>> 900d5c77dd68955600cfe607715c0fcf45e5e4b5
 
 /**
  * Created by jelle on 19.02.16.
@@ -43,10 +33,17 @@ public class TrajectRepository {
     private String stringUpdateWaypoints = "insert into waypoints(traject_id, volgnr, latitude, longitude) values(?,?,?,?) on duplicate key update latitude = values(latitude), longitude = values(longitude);";
     private String stringDeleteWaypoints = "delete from waypoints where traject_id = ? and volgnr>?";
 
+    /**
+     * Constructor van de klasse
+     */
     public TrajectRepository() {
         connector = new DBConnector();
     }
 
+    /**
+     * Geeft alle trajecten in de database terug
+     * @return  Een lijst van trajecten
+     */
     public List<Traject> getTrajecten() {
         List<Traject> trajecten = new ArrayList<Traject>();
         ResultSet rs = null;
@@ -77,6 +74,10 @@ public class TrajectRepository {
         return trajecten;
     }
 
+    /**
+     * Geeft alle trajecten in de database terug met alle waypoints per traject
+     * @return Een lijst van trajecten
+     */
     public List<Traject> getTrajectenMetWayPoints() {
         List<Traject> trajecten = new ArrayList<Traject>();
         ResultSet rs = null;
@@ -110,9 +111,9 @@ public class TrajectRepository {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Geeft een traject terug met het opgegeven ID
+     * @param id    Het ID van het traject
+     * @return      Het gevraagde traject. Indien het ID niet bestaat, null.
      */
     public Traject getTraject(int id) {
         ResultSet rs = null;
@@ -141,12 +142,31 @@ public class TrajectRepository {
         return null;
     }
 
+    /**
+     * Geeft een traject terug met het opgegeven ID, aangevuld met al zijn waypoints.
+     * @param id    Het ID van het traject
+     * @return      Een traject met zijn waypoints. Indien het ID niet bestaat, null.
+     */
     public Traject getTrajectMetWaypoints(int id) {
         Traject result = getTraject(id);
-        result.setWaypoints(getWaypoints(id));
+        if(result != null)
+            result.setWaypoints(getWaypoints(id));
         return result;
     }
 
+    /**
+     * Wijzigt de informatie van het traject die het opgegeven ID heeft
+     * @param id                Het ID van het traject dat gewijzigd moet worden
+     * @param naam              De nieuwe naam
+     * @param lengte            De nieuwe lengte
+     * @param optimale_reistijd De nieuwe reistijd
+     * @param is_active         Geeft aan of het traject actief is
+     * @param start_latitude    De nieuwe begin-latitude
+     * @param start_longitude   De nieuwe begin-longitude
+     * @param end_latitude      De nieuwe eind-latitude
+     * @param end_longitude     De nieuwe eind-longitude
+     * @param waypoints         Een lijst van nieuwe waypoints
+     */
     public void wijzigTraject(int id, String naam, int lengte, int optimale_reistijd, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude, List<Waypoint> waypoints)
     {
         ResultSet rs = null;
@@ -173,6 +193,11 @@ public class TrajectRepository {
         }
     }
 
+    /**
+     * Wijzigt een traject met een ID en past de waypoints aan
+     * @param id        Het ID van het traject dat gewijzigd moet worden
+     * @param waypoints Een lijst van nieuwe waypoints
+     */
     public void wijzigWaypoints(int id, List<Waypoint> waypoints)
     {
         try {
@@ -205,11 +230,13 @@ public class TrajectRepository {
             try { statDeleteWaypoints.close(); } catch (Exception e) { /* ignored */ }
             try {  connector.close(); } catch (Exception e) { /* ignored */ }
         }
-
-
-
     }
 
+    /**
+     * Geeft alle waypoints terug van een traject
+     * @param trajectId Het ID van het traject waarvan de waypoints opgevraagd worden
+     * @return          Een lijst van waypoints. Indien het traject_id niet bestaat, een lege lijst.
+     */
     public List<Waypoint> getWaypoints(int trajectId)
     {
         List<Waypoint> wpts = new ArrayList<>();
@@ -240,6 +267,11 @@ public class TrajectRepository {
         return wpts;
     }
 
+    /**
+     * Geeft een traject terug met de opgegeven naam
+     * @param naam  De naam van het traject
+     * @return      Een traject. Indien de naam niet bestaat, null.
+     */
     public Traject getTraject(String naam) {
         ResultSet rs= null;
        try {
@@ -267,6 +299,10 @@ public class TrajectRepository {
         return null;
     }
 
+    /**
+     * Geeft alle trajecten terug met alle waypoints per traject
+     * @return  Een lijst van trajecten.
+     */
     public List<Traject> getTrajectenMetCoordinaten() {
         List<Traject> trajecten = getTrajecten();
         for(Traject t : trajecten){

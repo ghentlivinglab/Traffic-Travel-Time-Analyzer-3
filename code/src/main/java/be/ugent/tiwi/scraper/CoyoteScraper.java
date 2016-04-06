@@ -18,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import settings.Settings;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,7 +31,7 @@ import java.util.Set;
 /**
  * Haalt gegevens op van de Coyote webservice en zet deze om naar objecten
  */
-public class CoyoteScraper implements TrafficScraper {
+public class CoyoteScraper extends TrafficScraper {
 
     private static final Logger logger = LogManager.getLogger(CoyoteScraper.class);
 
@@ -56,7 +57,7 @@ public class CoyoteScraper implements TrafficScraper {
      * @return String met de gevraagde gegevens in JSON-formaat.
      * @throws IOException
      */
-    private String sendPost() throws IOException {
+    protected String sendPost() throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String cookie = getSession(httpclient);
         StringBuilder JsonString = new StringBuilder();

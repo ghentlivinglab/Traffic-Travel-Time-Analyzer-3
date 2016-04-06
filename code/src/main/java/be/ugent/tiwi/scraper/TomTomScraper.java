@@ -2,7 +2,7 @@ package be.ugent.tiwi.scraper;
 
 
 import be.ugent.tiwi.controller.JsonController;
-import be.ugent.tiwi.controller.ScheduleController;
+import be.ugent.tiwi.controller.exceptions.InvalidMethodException;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import settings.Settings;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ import java.util.List;
  * 30	Calls per second
  * 5,000	Calls per day
  */
-public class TomTomScraper implements TrafficScraper {
+public class TomTomScraper extends TrafficScraper {
 
     private String apiKey;
     private JsonController<TomTom> jc;
@@ -112,23 +113,33 @@ public class TomTomScraper implements TrafficScraper {
             urlBuilder.append(this.apiKey);
 
             lastScrape = System.currentTimeMillis();
-            TomTom tomtom = (TomTom) jc.getObject(urlBuilder.toString(), TomTom.class, RequestType.GET);
-            LocalDateTime now = LocalDateTime.now();
-            for(Route r : tomtom.getRoutes()) {
-                int traveltime = r.getSummary().getTravelTimeInSeconds();
+            try {
+                TomTom tomtom = (TomTom) jc.getObject(urlBuilder.toString(), TomTom.class, RequestType.GET);
+                LocalDateTime now = LocalDateTime.now();
+                for (Route r : tomtom.getRoutes()) {
+                    int traveltime = r.getSummary().getTravelTimeInSeconds();
 
-                Meting meting = new Meting(tomtomProv, traject, traveltime, now);
+                    Meting meting = new Meting(tomtomProv, traject, traveltime, now);
 
-                metingen.add(meting);
-                try {
-                    int diff = (int) (System.currentTimeMillis() - lastScrape);
-                    if(diff < 300){
-                        Thread.sleep(300-diff);
+                    metingen.add(meting);
+                    try {
+                        int diff = (int) (System.currentTimeMillis() - lastScrape);
+                        if (diff < 300) {
+                            Thread.sleep(300 - diff);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    break;
                 }
-                break;
+            } catch (InvalidMethodException e) {
+                logger.error(e);
+            } catch (IOException e) {
+                // Indien de service niet beschikbaar is (of deze machine heeft geen verbinding met de service), mag een leeg traject ingegeven worden.
+                Meting meting = new Meting(tomtomProv, traject, -1, LocalDateTime.now());
+                metingen.add(meting);
+                logger.error(e);
+                logger.warn("Added an empty measurement");
             }
         }
         return metingen;

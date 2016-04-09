@@ -1,5 +1,7 @@
 package be.ugent.tiwi.dal;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import settings.Settings;
 
 import java.sql.Connection;
@@ -7,12 +9,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Created by jelle on 18.02.16.
+ * Klasse die de connectie met de databank beheert.
  */
 public class DBConnector {
     private Connection connection;
+    private static Logger logger = LogManager.getLogger(DBConnector.class);
 
-    public Connection getConnection() {
+    /**
+     * Configureert een connection voor algemeen gebruik.
+     * @return Connection met de databank.
+     * @throws SQLException Indien de database niet bereikbaar is
+     * @see Connection
+     */
+    public Connection getConnection() throws  SQLException{
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             if (connection == null || connection.isClosed()) {
@@ -23,14 +32,19 @@ public class DBConnector {
                 connection = DriverManager.getConnection("jdbc:mysql://" + db_url + ":3306/" + db_name, db_username, db_password);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Probleem met het opzetten van de verbinding met de databank");
+            throw e;
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            logger.error("Class not found exception");
         }
 
         return connection;
     }
 
+    /**
+     *  Sluit de verbinding met de databank af.
+     * @throws SQLException Indien de verbinding met de databank niet kan gesloten worden
+     */
     public void close() throws SQLException {
         connection.close();
     }

@@ -1,0 +1,102 @@
+1 - Rooigemlaan (R40) Northbound - Drongensesteenweg - Palinghuizen
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.06629,3.69971&markers=label:A%7C51.05617,3.69508%7C&markers=label:B%7C51.06629,3.69971&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+2 - Rooigemlaan (R40) Southbound - Palinghuizen - Drongensesteenweg
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.0561,3.69492&markers=label:A%7C51.06634,3.69966%7C&markers=label:B%7C51.0561,3.69492&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+3 - Gasmeterlaan (R40) Eastbound - Palinghuizen - Neuseplein
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.06725,3.72701&markers=label:A%7C51.06629,3.69971%7C&markers=label:B%7C51.06725,3.72701%7C&markers=label:C%7C51.06729,3.72713%7C&markers=label:D%7C51.06742,3.72758%7C&markers=label:E%7C51.06725,3.72701%7C&markers=label:F%7C51.06729,3.72713&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+ABCD
+4 - Gasmeterlaan (R40) Westbound - Neuseplein - Palinghuizen
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.06593,3.69912&markers=label:A%7C51.06477,3.70212%7C&markers=label:B%7C51.06593,3.69912%7C&markers=label:C%7C51.06779,3.72699%7C&markers=label:D%7C51.06477,3.70212%7C&markers=label:E%7C51.06761,3.72764%7C&markers=label:F%7C51.06779,3.72699&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+EFCDAB
+5 - Dok-Noord (R40) Southbound - Neuseplein - Dampoort
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.05663,3.73843&markers=label:A%7C51.06729,3.72713%7C&markers=label:B%7C51.05663,3.73843&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+6 - Dok-Noord (R40) Northbound - Dampoort - Neuseplein
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.06744,3.72704&markers=label:A%7C51.05711,3.7386%7C&markers=label:B%7C51.06744,3.72704%7C&markers=label:C%7C51.05714,3.73952%7C&markers=label:D%7C51.05711,3.7386&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+CDAB
+7 - Heernislaan (R40) Southbound - Dampoort - Zuidparklaan
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.05663,3.73843&markers=label:A%7C51.05623,3.7387%7C&markers=label:B%7C51.03863,3.73622%7C&markers=label:C%7C51.05663,3.73843%7C&markers=label:D%7C51.05623,3.7387&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+CDAB
+8 - Heernislaan (R40) Northbound - Zuidparklaan - Dampoort
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.05714,3.73952&markers=label:A%7C51.03857,3.73624%7C&markers=label:B%7C51.05714,3.73952&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+9 - Martelaarslaan (R40) Northbound - Zuidparklaan - Drongensesteenweg
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.05617,3.69508&markers=label:A%7C51.03863,3.73622%7C&markers=label:B%7C51.05617,3.69508&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+10 - Martelaarslaan (R40) Southbound - Drongensesteenweg - Zuidparklaan
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.03857,3.73624&markers=label:A%7C51.0561,3.69492%7C&markers=label:B%7C51.03857,3.73624&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+11 - Blaisantvest (N430) Eastbound - Einde Were - Neuseplein
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.06725,3.72701&markers=label:A%7C51.05238,3.69972%7C&markers=label:B%7C51.06725,3.72701&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+12 - Blaisantvest (N430) Westbound - Neuseplein - Einde Were
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.05238,3.69972&markers=label:A%7C51.05256,3.69978%7C&markers=label:B%7C51.05238,3.69972%7C&markers=label:C%7C51.06744,3.72704%7C&markers=label:D%7C51.05256,3.69978&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+CDAB
+13 - Keizer Karelstraat Northbound - Sint-Lievenslaan - Neuseplein
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.0647,3.7265&markers=label:A%7C51.06442,3.72639%7C&markers=label:B%7C51.0647,3.7265%7C&markers=label:C%7C51.0569,3.72868%7C&markers=label:D%7C51.05702,3.72837%7C&markers=label:E%7C51.05677,3.72855%7C&markers=label:F%7C51.0569,3.72868%7C&markers=label:G%7C51.04903,3.73433%7C&markers=label:H%7C51.04966,3.73458%7C&markers=label:I%7C51.05702,3.72837%7C&markers=label:J%7C51.06442,3.72639%7C&markers=label:K%7C51.0388,3.73659%7C&markers=label:L%7C51.04663,3.73261%7C&markers=label:M%7C51.0647,3.7265%7C&markers=label:N%7C51.06729,3.72713%7C&markers=label:O%7C51.04966,3.73458%7C&markers=label:P%7C51.05677,3.72855%7C&markers=label:Q%7C51.03857,3.73672%7C&markers=label:R%7C51.0388,3.73659%7C&markers=label:S%7C51.04758,3.73415%7C&markers=label:T%7C51.04903,3.73433%7C&markers=label:U%7C51.03791,3.73713%7C&markers=label:V%7C51.03857,3.73672%7C&markers=label:W%7C51.04744,3.73377%7C&markers=label:X%7C51.04758,3.73415%7C&markers=label:Y%7C51.04663,3.73261%7C&markers=label:Z%7C51.04744,3.73377&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+UVQRKLYZWXSTGHOPEFCDIJABMN
+14 - Keizer Karelstraat Southbound - Neuseplein - Sint-Lievenslaan
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.06442,3.72639&markers=label:A%7C51.0647,3.7265%7C&markers=label:B%7C51.06442,3.72639%7C&markers=label:C%7C51.05702,3.72837%7C&markers=label:D%7C51.05677,3.72836%7C&markers=label:E%7C51.04952,3.73422%7C&markers=label:F%7C51.04878,3.73404%7C&markers=label:G%7C51.06442,3.72639%7C&markers=label:H%7C51.05702,3.72837%7C&markers=label:I%7C51.0667,3.72727%7C&markers=label:J%7C51.0647,3.7265%7C&markers=label:K%7C51.06725,3.72701%7C&markers=label:L%7C51.0667,3.72727%7C&markers=label:M%7C51.05677,3.72836%7C&markers=label:N%7C51.04952,3.73422%7C&markers=label:O%7C51.04878,3.73404%7C&markers=label:P%7C51.0389,3.7371&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+KLIJABGHCDMNEFOP
+15 - Kennedylaan (R4) Southbound - E34 - Port Arthurlaan
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.08737,3.75643&markers=label:A%7C51.18719,3.83245%7C&markers=label:B%7C51.08737,3.75643%7C&markers=label:C%7C51.19287,3.83009%7C&markers=label:D%7C51.18757,3.83234%7C&markers=label:E%7C51.08737,3.75643%7C&markers=label:F%7C51.07397,3.73478%7C&markers=label:G%7C51.18757,3.83234%7C&markers=label:H%7C51.18719,3.83245&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+CDGHABEF
+16 - Kennedylaan (R4) Northbound - Port Arthurlaan - E34
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.1872,3.83261&markers=label:A%7C51.07386,3.73473%7C&markers=label:B%7C51.1872,3.83261%7C&markers=label:C%7C51.18759,3.83247%7C&markers=label:D%7C51.1929,3.8303%7C&markers=label:E%7C51.18737,3.83281%7C&markers=label:F%7C51.18759,3.83247%7C&markers=label:G%7C51.1872,3.83261%7C&markers=label:H%7C51.18737,3.83281&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+ABGHEFCD
+17 - Eisenhowerlaan (R4) Southbound - Kennedylaan - E17
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.01401,3.72731&markers=label:A%7C51.00536,3.76393%7C&markers=label:B%7C51.01401,3.72731%7C&markers=label:C%7C51.08737,3.75643%7C&markers=label:D%7C51.08733,3.75663%7C&markers=label:E%7C51.08696,3.75743%7C&markers=label:F%7C51.00817,3.7742%7C&markers=label:G%7C51.08733,3.75663%7C&markers=label:H%7C51.08696,3.75743%7C&markers=label:I%7C51.00817,3.7742%7C&markers=label:J%7C51.00536,3.76393&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+CDGHEFIJAB
+18 - Eisenhowerlaan (R4) Northbound - E17 - Kennedylaan
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.00407,3.77264&markers=label:A%7C51.01338,3.72554%7C&markers=label:B%7C51.00407,3.77264%7C&markers=label:C%7C51.00761,3.76925%7C&markers=label:D%7C51.08773,3.75672%7C&markers=label:E%7C51.00386,3.76975%7C&markers=label:F%7C51.00761,3.76925%7C&markers=label:G%7C51.00407,3.77264%7C&markers=label:H%7C51.00386,3.76975&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+ABGHEFCD
+19 - Binnenring-Drongen (R4) Northbound - Sluisweg - Industrieweg
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.08524,3.66773&markers=label:A%7C51.01401,3.72731%7C&markers=label:B%7C51.08524,3.66773&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+20 - Buitenring-Drongen (R4) Southbound - Industrieweg - Sluisweg
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.01338,3.72554&markers=label:A%7C51.08584,3.66955%7C&markers=label:B%7C51.01338,3.72554&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+21 - Paryslaan (R4) Northbound - Industrieweg - E34
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.19584,3.78266&markers=label:A%7C51.08524,3.66773%7C&markers=label:B%7C51.19584,3.78266&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+22 - Paryslaan (R4) Southbound - E34 - Industrieweg
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.08584,3.66955&markers=label:A%7C51.19743,3.78512%7C&markers=label:B%7C51.08584,3.66955&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+23 - Drongensesteenweg (N466) Eastbound - E40 - Rooigemlaan
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.05412,3.6613&markers=label:A%7C51.0388,3.62712%7C&markers=label:B%7C51.05412,3.6613%7C&markers=label:C%7C51.05412,3.66185%7C&markers=label:D%7C51.05617,3.69508%7C&markers=label:E%7C51.05412,3.66185%7C&markers=label:F%7C51.05412,3.66185&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+ABCD
+24 - Drongensesteenweg (N466) Westbound - Rooigemlaan - E40
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.0388,3.62712&markers=label:A%7C51.0542,3.66126%7C&markers=label:B%7C51.0388,3.62712%7C&markers=label:C%7C51.05617,3.69508%7C&markers=label:D%7C51.05424,3.66189&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+CDAB
+25 - Antwerpsesteenweg (N70) Westbound - R4 - Dampoort
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.05714,3.73952&markers=label:A%7C51.08369,3.79449%7C&markers=label:B%7C51.05714,3.73952&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+26 - Antwerpsesteenweg (N70) Eastbound - Dampoort - R4
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.08343,3.79375&markers=label:A%7C51.05698,3.74015%7C&markers=label:B%7C51.08343,3.79375%7C&markers=label:C%7C51.05664,3.73981%7C&markers=label:D%7C51.0573,3.74014&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB //route CD klopt niet
+27 - B401 (Northbound) - E17 - Vlaanderenstraat
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.03198,3.73994&markers=label:A%7C51.02991,3.7393%7C&markers=label:B%7C51.03198,3.73994%7C&markers=label:C%7C51.02211,3.73471%7C&markers=label:D%7C51.02991,3.7393%7C&markers=label:E%7C51.03208,3.74001%7C&markers=label:F%7C51.03662,3.73791%7C&markers=label:G%7C51.0388,3.73659%7C&markers=label:H%7C51.04841,3.73144%7C&markers=label:I%7C51.03857,3.73672%7C&markers=label:J%7C51.0388,3.73659%7C&markers=label:K%7C51.03662,3.73791%7C&markers=label:L%7C51.03857,3.73672&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+CDABEFKLIJGH
+28 - B401 (Southbound) - Vlaanderenstraat - E17
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.03101,3.73951&markers=label:A%7C51.04203,3.73439%7C&markers=label:B%7C51.03101,3.73951%7C&markers=label:C%7C51.02225,3.73341%7C&markers=label:D%7C51.02171,3.73314%7C&markers=label:E%7C51.04345,3.73239%7C&markers=label:F%7C51.04203,3.73439%7C&markers=label:G%7C51.03101,3.73951%7C&markers=label:H%7C51.02225,3.73341%7C&markers=label:I%7C51.04841,3.73144%7C&markers=label:J%7C51.04869,3.73129%7C&markers=label:K%7C51.049,3.72964%7C&markers=label:L%7C51.04345,3.73239%7C&markers=label:M%7C51.04869,3.73129%7C&markers=label:N%7C51.049,3.72964&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+IJMNKLEFABGHCD
+29 - Brusselsesteenweg (N9) Westbound - R4 - Scheldekaai
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.04203,3.73968&markers=label:A%7C51.00874,3.79292%7C&markers=label:B%7C51.04203,3.73968&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+30 - Brusselsesteenweg (N9) Eastbound - Scheldekaai - R4
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.00874,3.79292&markers=label:A%7C51.04203,3.73968%7C&markers=label:B%7C51.00874,3.79292&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+31 - Oudenaardsesteenweg (N60) Northbound - E17 - R40
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.01403,3.72864&markers=label:A%7C50.98353,3.67534%7C&markers=label:B%7C51.01403,3.72864%7C&markers=label:C%7C50.98049,3.66833%7C&markers=label:D%7C50.98353,3.67534%7C&markers=label:E%7C51.01594,3.73017%7C&markers=label:F%7C51.02053,3.73328%7C&markers=label:G%7C51.01403,3.72864%7C&markers=label:H%7C51.01594,3.73017%7C&markers=label:I%7C51.02053,3.73328%7C&markers=label:J%7C51.02078,3.73535%7C&markers=label:K%7C51.03042,3.72994%7C&markers=label:L%7C51.03042,3.72994%7C&markers=label:M%7C51.02373,3.73132%7C&markers=label:N%7C51.02373,3.73132%7C&markers=label:O%7C51.0287,3.73173%7C&markers=label:P%7C51.0287,3.73173%7C&markers=label:Q%7C51.03731,3.72658%7C&markers=label:R%7C51.03843,3.72626%7C&markers=label:S%7C51.03042,3.72994%7C&markers=label:T%7C51.03731,3.72658%7C&markers=label:U%7C51.02078,3.73535%7C&markers=label:V%7C51.02336,3.73175%7C&markers=label:W%7C51.02885,3.73188%7C&markers=label:X%7C51.03028,3.73%7C&markers=label:Y%7C51.02383,3.73161%7C&markers=label:Z%7C51.02874,3.7319&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+CDABGHEFIJUVYZWXKLSTQR //MN en OP zijn volledige tours rond een rotonde (nutteloos dus)
+32 - Oudenaardsesteenweg (N60) Southbound - R40 - E17
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=50.98494,3.67285&markers=label:A%7C51.01382,3.72823%7C&markers=label:B%7C50.98494,3.67285%7C&markers=label:C%7C51.02171,3.73314%7C&markers=label:D%7C51.01382,3.72823%7C&markers=label:E%7C51.02349,3.73199%7C&markers=label:F%7C51.02171,3.73314%7C&markers=label:G%7C51.03843,3.72626%7C&markers=label:H%7C51.03042,3.72994%7C&markers=label:I%7C51.03028,3.73%7C&markers=label:J%7C51.02909,3.73214%7C&markers=label:K%7C51.02874,3.7319%7C&markers=label:L%7C51.02383,3.73161%7C&markers=label:M%7C51.02921,3.73197%7C&markers=label:N%7C51.02887,3.73175&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+GHIJMNKLEFCDAB
+33 - Brugsevaart (N9) Southbound - R4 - Gebroeders de Smetstraat
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.06431,3.70237&markers=label:A%7C51.08552,3.66315%7C&markers=label:B%7C51.06431,3.70237&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+AB
+34 - Brugsevaart (N9) Northbound - Gebroeders de Smetstraat - R4
+https://maps.googleapis.com/maps/api/staticmap?size=720x720&zoom=17&center=51.08552,3.66315&markers=label:A%7C51.0666,3.69936%7C&markers=label:B%7C51.08552,3.66315%7C&markers=label:C%7C51.0666,3.69936%7C&markers=label:D%7C51.06634,3.69966%7C&markers=label:E%7C51.06428,3.70242%7C&markers=label:F%7C51.06634,3.69966&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ
+EFDCAB

@@ -95,14 +95,14 @@ public class HereScraper extends TrafficScraper {
                     for (be.ugent.tiwi.domein.here.Waypoint point : route.getWaypoint()) {
                         urlStaticMaps += "&waypoint" + i++ + "=geo!" + point.getMappedPosition().getLatitude() + "%2C" + point.getMappedPosition().getLongitude();
                     }
+
+                    int traveltime = here_obj.getResponse().getRoute().get(0).getSummary().getTravelTime();
+                    Meting meting = new Meting(here, traject, traveltime, LocalDateTime.now());
+                    metingen.add(meting);
                 } else {
                     logger.warn("Provider Here: Could not scrape traject " + traject.getId() + ", adding an empty measurement [1]");
                     metingen.add(new Meting(here, traject, -1, LocalDateTime.now()));
                 }
-
-                int traveltime = here_obj.getResponse().getRoute().get(0).getSummary().getTravelTime();
-                Meting meting = new Meting(here, traject, traveltime, LocalDateTime.now());
-                metingen.add(meting);
             } catch (InvalidMethodException e) {
                 logger.error(e);
             } catch (IOException e) {

@@ -4,10 +4,7 @@ package be.ugent.tiwi.scraper;
 import be.ugent.tiwi.controller.JsonController;
 import be.ugent.tiwi.controller.exceptions.InvalidMethodException;
 import be.ugent.tiwi.dal.DatabaseController;
-import be.ugent.tiwi.domein.Meting;
-import be.ugent.tiwi.domein.Provider;
-import be.ugent.tiwi.domein.RequestType;
-import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.*;
 import be.ugent.tiwi.domein.tomtom.Route;
 import be.ugent.tiwi.domein.tomtom.TomTom;
 import org.apache.logging.log4j.LogManager;
@@ -99,23 +96,41 @@ public class TomTomScraper extends TrafficScraper {
               * [&routeRepresentation=<routeRepresentation>][&travelMode=<travelMode>][&callback=<callback>]
               * More info: http://developer.tomtom.com/products/onlinenavigation/onlinerouting/Documentation#Request
              */
-            StringBuilder urlBuilder = new StringBuilder();
-            urlBuilder.append("https://api.tomtom.com/routing/1/calculateRoute/");
-            urlBuilder.append(traject.getStart_latitude());
-            urlBuilder.append(",");
-            urlBuilder.append(traject.getStart_longitude());
-            urlBuilder.append(":");
-            urlBuilder.append(traject.getEnd_latitude());
-            urlBuilder.append(",");
-            urlBuilder.append(traject.getEnd_longitude());
-            urlBuilder.append("/json?");
-            urlBuilder.append("key=");
-            urlBuilder.append(this.apiKey);
+            String url = "https://api.tomtom.com/routing/1/calculateRoute/" +
+                    traject.getStart_latitude() + "%2C" + traject.getStart_longitude();
+            List<Waypoint> wpts = traject.getWaypoints();
+            int i;
+            if(wpts.size()>0) {
+                double size = wpts.size();
+                size /= 50; //Maximum toegelaten waypoints voor here
+                if(size > 1)
+                    for(i = 1; i < 50; ++i){
+                        int index = (int) (i * size);
+                        url += "%3A" + wpts.get(index).getLatitude() + "%2C" + wpts.get(index).getLongitude();
+                    }
+                else
+                    for(i = 1; i < wpts.size(); ++i)
+                        url += "%3A" + wpts.get(i).getLatitude() + "%2C" + wpts.get(i).getLongitude();
+            }
+            url +=  "%3A" + traject.getEnd_latitude() + "%2C" + traject.getEnd_longitude() +
+                    "/json?key=" + this.apiKey;
 
             lastScrape = System.currentTimeMillis();
             try {
-                TomTom tomtom = (TomTom) jc.getObject(urlBuilder.toString(), TomTom.class, RequestType.GET);
+                TomTom tomtom = (TomTom) jc.getObject(url, TomTom.class, RequestType.GET);
                 LocalDateTime now = LocalDateTime.now();
+                if (tomtom.getRoutes().size() > 0) {
+                    String urlStaticMaps;
+
+                    int traveltime = tomtom.getRoutes().get(0).getSummary().getTravelTimeInSeconds();
+                    Meting meting = new Meting(tomtomProv, traject, traveltime, LocalDateTime.now());
+                    metingen.add(meting);
+                } else {
+                    logger.warn("Provider TomTom: Could not scrape traject " + traject.getId() + ", adding an empty measurement [1]");
+                    metingen.add(new Meting(tomtomProv, traject, -1, LocalDateTime.now()));
+                }
+
+                /*
                 for (Route r : tomtom.getRoutes()) {
                     int traveltime = r.getSummary().getTravelTimeInSeconds();
 
@@ -131,7 +146,7 @@ public class TomTomScraper extends TrafficScraper {
                         e.printStackTrace();
                     }
                     break;
-                }
+                }*/
             } catch (InvalidMethodException e) {
                 logger.error(e);
             } catch (IOException e) {

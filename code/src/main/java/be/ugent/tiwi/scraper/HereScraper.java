@@ -86,7 +86,7 @@ public class HereScraper extends TrafficScraper {
                     "&mode=fastest%3Bcar%3Btraffic%3Aenabled";
             try {
                 Here here_obj = (Here) jc.getObject(url, Here.class, RequestType.GET);
-                if(here_obj.getResponse().getRoute().size() > 0) {
+                if(here_obj.getResponse() != null) {
                     String urlStaticMaps = "https://image.maps.cit.api.here.com/mia/1.6/routing?" +
                             "app_id=" + this.appId +
                             "&app_code=" + this.appCode +

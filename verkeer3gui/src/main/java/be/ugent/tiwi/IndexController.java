@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import settings.Settings;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -24,37 +25,19 @@ public class IndexController {
     public String index(ModelMap model, @RequestParam(value="pid", required=false) Integer pid) {
         //Config.properties file in jetty home zetten voor testing...
         MetingRepository mcrud = new MetingRepository();
-        List<Provider> gebruikteProviders = mcrud.getGebruikteProviders();
 
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneDayAgo = LocalDateTime.now().minusDays(1L);
+        double vertraging = mcrud.gemiddeldeVertraging(oneDayAgo, now);
+        Traject drukste_traject = mcrud.getDrukstePunt(oneDayAgo,now).getTraject();
+        String drukste_punt =drukste_traject.getNaam();
+        int minuten = (int)vertraging/60;
+        model.addAttribute("vertraging",vertraging>0?true:false);
+        model.addAttribute("vertraging_min", minuten);
+        model.addAttribute("vertraging_sec", (int)(vertraging-(minuten*60)));
+        model.addAttribute("drukste_punt", drukste_punt);
+        model.addAttribute("drukste_punt_id", drukste_traject.getId());
 
-        boolean pidExists = false;
-        if(pid != null)
-            for(Provider p : gebruikteProviders)
-                if(p.getId() == pid){
-                    pidExists = true;
-                    break;
-                }
-
-        if(!pidExists && gebruikteProviders.size() > 0)
-            pid = gebruikteProviders.get(0).getId();
-        Provider p = new ProviderRepository().getProvider(pid);
-        List<Meting> metingen = mcrud.getLaatsteMetingenByProvider(pid);
-        boolean metingenHebbenCorrecteOptimaleReistijd = true;
-        if(!p.getNaam().equalsIgnoreCase("coyote"))
-            for(Meting m : metingen) {
-                int reistijd = mcrud.getOptimaleReistijdLaatste7Dagen(m.getTraject().getId(), pid);
-                if(reistijd != -1)
-                    m.getTraject().setOptimale_reistijd(reistijd);
-                else {
-                    //Negatieve waarde instellen zodat index.js weet dat het gaat over de optimale reistijd van het traject (en niet de dynamish gegenereerde)
-                    m.getTraject().setOptimale_reistijd(-m.getTraject().getOptimale_reistijd());
-                    metingenHebbenCorrecteOptimaleReistijd = false;
-                }
-            }
-        model.addAttribute("currentProviderId", pid);
-        model.addAttribute("metingen", metingen);
-        model.addAttribute("gebruikteProviders", gebruikteProviders);
-        model.addAttribute("correcteOptimaleReistijden", metingenHebbenCorrecteOptimaleReistijd);
 
         // Spring uses InternalResourceViewResolver and return back index.jsp
         return VIEW_INDEX;
@@ -76,9 +59,19 @@ public class IndexController {
         TrajectRepository tr = new TrajectRepository();
         List<Traject> trajecten = tr.getTrajecten();
 
+        MetingRepository mcrud = new MetingRepository();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneDayAgo = LocalDateTime.now().minusDays(1L);
+        double vertraging = mcrud.gemiddeldeVertraging(oneDayAgo, now);
+        String drukste_punt = mcrud.getDrukstePunt(oneDayAgo,now).getTraject().getNaam();
+        int minuten = (int)vertraging/60;
+
+        model.addAttribute("vertraging",vertraging>0?true:false);
         model.addAttribute("trajecten",trajecten);
-        model.addAttribute("totale_vertraging_min",10);
-        model.addAttribute("drukste_plaats","centrum");
+        model.addAttribute("totale_vertraging_min",minuten);
+        model.addAttribute("totale_vertraging_sec",(int)(vertraging-(minuten*60)));
+        model.addAttribute("drukste_plaats",drukste_punt);
+
         return "home/status";
     }
 

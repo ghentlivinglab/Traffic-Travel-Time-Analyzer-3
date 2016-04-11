@@ -34,7 +34,7 @@ public class JsonController<T extends Object> {
     /**
      * De constructor van {@link JsonController}
      */
-    public JsonController() {}
+    public JsonController() {jObj = new Gson();}
 
     /**
      * Een functie die gebruikt wordt door de scrapers om JSON-data terug te krijgen.

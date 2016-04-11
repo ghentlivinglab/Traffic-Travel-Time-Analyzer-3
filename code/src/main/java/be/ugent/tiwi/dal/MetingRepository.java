@@ -317,26 +317,47 @@ public class MetingRepository {
          }
     }
 
-//    public Statistiek metingStatistieken(int traject_id, int provider_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
-//        String stringStatistieken = "select * from metingen where traject_id = ? and provider_id = ? and timestamp between ? and ?";
-//
-//        try {
-//            statStatistieken = connector.getConnection().prepareStatement(stringStatistieken);
-//
-//            statStatistieken.setInt(1,traject_id);
-//            statStatistieken.setInt(2,provider_id);
-//            statStatistieken.setTimestamp(3,Timestamp.valueOf(start_tijdstip));
-//            statStatistieken.setTimestamp(4,Timestamp.valueOf(end_tijdstip));
-//
-//            Statistiek stat = metingStatistieken();
-//
-//            return stat;
-//        }catch (SQLException e) {
-//            logger.error("Statistieken ophalen mislukt");
-//            logger.error(e);
-//        }
-//        return null;
-//    }
+    public ProviderTrajectStatistiek metingStatistieken(int traject_id, int provider_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
+        String stringStatistieken =
+                "        select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging" +
+                "        from metingen m1" +
+                "        join metingen m2 on m1.traject_id = m2.traject_id" +
+                "        join trajecten traj on traj.id = m2.traject_id" +
+                "        where m1.traject_id = ? and m1.provider_id = ? and m1.timestamp between ? and ? and m1.reistijd is not null" +
+                "        group by m1.traject_id";
+
+        try {
+            statStatistieken = connector.getConnection().prepareStatement(stringStatistieken);
+
+            statStatistieken.setInt(1,traject_id);
+            statStatistieken.setInt(2,provider_id);
+            statStatistieken.setTimestamp(3,Timestamp.valueOf(start_tijdstip));
+            statStatistieken.setTimestamp(4,Timestamp.valueOf(end_tijdstip));
+
+            ProviderTrajectStatistiek providerTrajectStatistiek;
+
+            ResultSet rs = statStatistieken.executeQuery();
+
+            if(rs.next()) {
+                Traject traject = new TrajectRepository().getTraject(rs.getInt("traject_id"));
+                Provider provider = new ProviderRepository().getProvider(provider_id);
+                Vertraging vertraging = new Vertraging(traject, rs.getDouble("avg_vertraging"));
+
+                providerTrajectStatistiek = new ProviderTrajectStatistiek(provider,vertraging);
+
+                return providerTrajectStatistiek;
+
+            }
+
+            connector.close();
+
+            return null;
+        }catch (SQLException e) {
+            logger.error("Statistieken ophalen mislukt");
+            logger.error(e);
+        }
+        return null;
+    }
 
     public int getOptimaleReistijdLaatste7Dagen(int trajectId, int providerId){
         String query = "select count(*) total, now() now from metingen " +
@@ -409,7 +430,7 @@ public class MetingRepository {
         return -1;
     }
 
-    public ProviderStatistiek metingStatistieken(int provider_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
+    public ProviderStatistiek metingProviderStatistieken(int provider_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String gemiddelde_per_traject_provider = "select m1.traject_id, traj.naam, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging "+
         "from metingen m1 "+
         "join metingen m2 on m1.traject_id = m2.traject_id "+
@@ -440,6 +461,112 @@ public class MetingRepository {
         return null;
     }
 
+    public Vertraging metingTrajectStatistieken(int traject_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
+        String traject_vertraging = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging"+
+        " from metingen m1"+
+        " join metingen m2 on m1.traject_id = m2.traject_id"+
+        " join trajecten traj on traj.id = m2.traject_id"+
+        " where m1.traject_id = ? and m1.timestamp between ? and ? and m1.reistijd is not null"+
+        " group by m1.traject_id";
+
+        try {
+            statStatistieken = connector.getConnection().prepareStatement(traject_vertraging);
+            statStatistieken.setInt(1, traject_id);
+            statStatistieken.setTimestamp(2,Timestamp.valueOf(start_tijdstip));
+            statStatistieken.setTimestamp(3,Timestamp.valueOf(end_tijdstip));
+
+            Traject traject = new TrajectRepository().getTraject(traject_id);
+
+
+
+            ResultSet rs = statStatistieken.executeQuery();
+
+            if(rs.next()) {
+                Vertraging vertraging = new Vertraging(traject, rs.getDouble("avg_vertraging"));
+
+                return vertraging;
+            }
+        }catch (SQLException e) {
+            logger.error("Statistieken ophalen mislukt");
+            logger.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * Zoekt het drukste traject voor een bepaalde tijdsinterval, geeft een Vertraging object terug
+     * @param start_tijdstip het start tijdstip waarbinnen gezocht moeten
+     * @param end_tijdstip het eind tijdstip tot waar gezocht moeten
+     * @return drukste tijdstip
+     */
+    public Vertraging getDrukstePunt(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
+        String trajecten_vertraging = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging" +
+                "        from metingen m1" +
+                "        join metingen m2 on m1.traject_id = m2.traject_id" +
+                "        join trajecten traj on traj.id = m2.traject_id" +
+                "        where m1.timestamp between ? and ? and m1.reistijd is not null" +
+                "        group by m1.traject_id";
+
+        try {
+            statStatistieken = connector.getConnection().prepareStatement(trajecten_vertraging);
+            statStatistieken.setTimestamp(1,Timestamp.valueOf(start_tijdstip));
+            statStatistieken.setTimestamp(2,Timestamp.valueOf(end_tijdstip));
+
+            ResultSet rs = statStatistieken.executeQuery();
+            Vertraging drukste_traject = null;
+            if(rs.next()) {
+                drukste_traject =new Vertraging(new TrajectRepository().getTraject(rs.getInt("traject_id")),rs.getDouble("avg_vertraging"));
+                while (rs.next()){
+                    double avg_vertraging = rs.getDouble("avg_vertraging");
+                    if(avg_vertraging>drukste_traject.getAverageVertraging())
+                        drukste_traject.setTraject(new TrajectRepository().getTraject(rs.getInt("traject_id")));
+                        drukste_traject.setAverageVertraging(avg_vertraging);
+                }
+            }
+            return drukste_traject;
+        }catch (SQLException e) {
+            logger.error("Statistieken ophalen mislukt");
+            logger.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * Genereert een handig overzicht van alle trajecten, met de bijhorende gemiddelde vertragingen over het meegegeven tijdsinterval.
+     * @param start_tijdstip het start tijdstip waarbinnen gezocht moeten
+     * @param end_tijdstip het eind tijdstip tot waar gezocht moeten
+     * @return alle trajecten die een vertraging hebben over dat tijdstip
+     */
+    public List<Vertraging> getVertragingen(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip)
+    {
+        String trajecten_vertraging = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging" +
+                "        from metingen m1" +
+                "        join metingen m2 on m1.traject_id = m2.traject_id" +
+                "        join trajecten traj on traj.id = m2.traject_id" +
+                "        where m1.timestamp between ? and ? and m1.reistijd is not null" +
+                "        group by m1.traject_id";
+
+        try {
+            statStatistieken = connector.getConnection().prepareStatement(trajecten_vertraging);
+            statStatistieken.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
+            statStatistieken.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
+
+            ResultSet rs = statStatistieken.executeQuery();
+            List<Vertraging> vertragingen = new ArrayList<>();
+
+            while (rs.next()){
+                double avg_vertraging = rs.getDouble("avg_vertraging");
+                Traject traject = new TrajectRepository().getTrajectMetWaypoints(rs.getInt("traject_id"));
+                vertragingen.add(new Vertraging(traject,avg_vertraging));
+            }
+
+            return vertragingen;
+        } catch (SQLException e) {
+            logger.error("Statistieken ophalen mislukt");
+            logger.error(e);
+        }
+        return null;
+    }
 }
 
 /*

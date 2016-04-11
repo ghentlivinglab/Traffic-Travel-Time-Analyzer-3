@@ -1,57 +1,68 @@
-/**
- * Created by jelle on 23.02.16.
- */
+var polylines = {};
+//Gemiddelde vertraging tot 1 dag terug
+var oneDayAgo = moment().subtract(1,'days');
+var now = moment();
 
-$( window ).load(function() {
-    $("#vertragingen td span").each(function(d) {
-        var reistijd = parseInt($(this).data("reistijd"));
-        var optreistijd = parseInt($(this).data("optimale-reistijd"));
-        if (optreistijd < 0) {
-            $(this).html("<span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span> Geen metingen");
-            $(this).css("background-color", "#fcf8e3");
-            $(this).css("color", "#8a6d3b");
-            $(this).css("border", "1px solid #faebcc");
-        } else if (reistijd == 0){
-            $(this).html("<span class=\"glyphicon glyphicon-warning-sign\" aria-hidden=\"true\"></span> Laatste meting is leeg");
-            $(this).css("background-color", "#fcf8e3");
-            $(this).css("color", "#8a6d3b");
-            $(this).css("border", "1px solid #faebcc");
-        }else{
-            var diff = reistijd - optreistijd;
-            var diffMin = Math.floor(diff / 60);
-            var diffSec = diff - (diffMin * 60);
-            var textVal = "";
-            if(optreistijd < 0)
-                textVal = "<span class=\"glyphicon glyphicon-warning-sign\" aria-hidden=\"true\"></span> ";
-            if (diff < 0) {
-                $(this).css("background-color", "#00DD00");
-                textVal = "+ 0m";
-            } else {
-                textVal += "+";
-                textVal += " " + Math.abs(diffMin) + "m";
-                if(diffSec > 0)
-                    textVal += " " + diffSec + "s"
+var map = L.map('map').setView([51.106596, 3.740759],11);
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
 
-                var hardBound = 180; //5 minuten
-                var softBound = 20; //20 seconden
+function addPointToArray(id, latitude, longitude) {
+    if(traj_wpts[id]==undefined)
+    {
+        traj_wpts[id]=[[parseFloat(latitude),parseFloat(longitude)]];
+    }
+    else{
+        traj_wpts[id].push([parseFloat(latitude),parseFloat(longitude)]);
+    }
+}
 
-                if (diff >= hardBound) {
-                    $(this).css("background-color", "#FF0000");
-                } else if (diff <= softBound) {
-                    $(this).css("background-color", "#00DD00");
-                } else {
-                    var hbDiff = hardBound - diff;
-                    hbDiff /= (hardBound - softBound);
+var drawPolyline = function (val) {
+    var traj_id = val['traject']['id'];
+    var wpts = [];
+    $.each(val['traject']['waypoints'],function(key,waypoint){
+        wpts.push([parseFloat(waypoint['latitude']),parseFloat(waypoint['longitude'])]);
+    });
+    var avg_vertraging =  val['avg_vertraging'];
+    var optimale_reistijd = val['traject']['optimale_reistijd'];
+    var line_color = (avg_vertraging-120<optimale_reistijd?'orange':(avg_vertraging>optimale_reistijd?"red":"green"));
+    var opts = {
+        color:line_color,
+        weight:10,
+        opacity:1
+    };
+    polylines[traj_id] = L.polyline(wpts,opts);
+    polylines[traj_id].bindPopup("<h1 class='tooltip-title'>"+val['traject']['naam']+"</h1>" +
+        "<ul>" +
+        "<li><b>Vertraging: </b>" + parseInt(val['avg_vertraging']/60)+" minuten "+parseInt(val['avg_vertraging']-60*parseInt(val['avg_vertraging']/60))+" seconden</li>" +
+        "</ul>");
+    polylines[traj_id].on('mouseover',function(e){
+       this.openPopup();
+    });
+    polylines[traj_id].on('mouseout',function(e){
+        this.closePopup();
+    });
+    polylines[traj_id].addTo(map);
+};
 
-                    var green = Math.min(hbDiff * 2, 1) * 255;
-                    var red = Math.min((1 - hbDiff) * 2, 1) * 255;
-
-                    $(this).css("background-color", "rgb(" + Math.round(red) + "," + Math.round(green) + ",0)");
-                    if (hbDiff < 0.9 && hbDiff > 0.3)
-                        $(this).css("color", "#333");
-                }
-            }
-            $(this).html(textVal);
-        }
-    })
+$(document).ready(function(){
+    $.getJSON( "json/vertragingen/"+moment(oneDayAgo).format("YYYY-MM-DD HH:mm")+"/"+moment(now).format("YYYY-MM-DD HH:mm"), function( data ) {
+        $.each( data, function( key, val ) {
+            drawPolyline(val);
+        });
+    });
 });
+
+function clearMap() {
+    for(i in map._layers) {
+        if(map._layers[i]._path != undefined) {
+            try {
+                map.removeLayer(map._layers[i]);
+            }
+            catch(e) {
+                console.log("problem with " + e + m._layers[i]);
+            }
+        }
+    }
+}

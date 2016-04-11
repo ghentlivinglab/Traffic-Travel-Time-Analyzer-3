@@ -3,7 +3,11 @@
 <h1>Actueel overzicht</h1>
 <h2>Status</h2>
 <ul>
-    <li>Er is totaal <c:out value="${totale_vertraging_min}"/> minuten vertraging in Gent.</li>
+<c:choose>
+    <c:when test="${vertraging}">
+        <li>Er was de afgelopen dag gemiddeld <c:out value="${totale_vertraging_min}"/>'<c:out value="${totale_vertraging_sec}"/> vertraging in Gent.</li>
+    </c:when>
+</c:choose>
     <li>Het is momenteel het meest druk in <c:out value="${drukste_plaats}"/>.</li>
 </ul>
 <h2>Reistijdinformatie</h2>
@@ -48,8 +52,20 @@
         </ul>
     </div>
 </div>
-<div id="container">
-
+<div id="chart-area">
+    <div class="cs-loader" style="display: none">
+        <div class="cs-loader-inner">
+            <label>	&bull;</label>
+            <label>	&bull;</label>
+            <label>	&bull;</label>
+            <label>	&bull;</label>
+            <label>	&bull;</label>
+            <label>	&bull;</label>
+        </div>
+        <p>Even geduld ... De data wordt geladen</p>
+    </div>
+    <div id="container">
+    </div>
 </div>
 <script src="<c:url value="/resources/highcharts/js/highcharts.src.js"/>"></script>
 <script src="<c:url value="/resources/momentjs/min/moment.min.js"/>"></script>

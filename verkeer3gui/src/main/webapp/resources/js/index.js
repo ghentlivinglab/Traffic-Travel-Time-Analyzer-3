@@ -26,7 +26,7 @@ var drawPolyline = function (val) {
     });
     var avg_vertraging =  val['avg_vertraging'];
     var optimale_reistijd = val['traject']['optimale_reistijd'];
-    var line_color = (avg_vertraging-120<optimale_reistijd?'orange':(avg_vertraging>optimale_reistijd?"red":"green"));
+    var line_color = (avg_vertraging-120>optimale_reistijd?'red':(avg_vertraging-30>optimale_reistijd?"green":"orange"));
     var opts = {
         color:line_color,
         weight:10,

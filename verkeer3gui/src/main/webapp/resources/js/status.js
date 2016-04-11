@@ -10,19 +10,16 @@ $(function () {
     begindatum.setDate(begindatum.getDate()-7);
     $('#startdate').datetimepicker({
         format: "YYYY-MM-DD HH:mm",
-        date: begindatum.toUTCString()
+        date: begindatum
     });
     $('#enddate').datetimepicker({
         format: "YYYY-MM-DD HH:mm",
-        date: new Date().toUTCString()
+        date: new Date()
     });
 });
 
 $(document).ready(function(){
      $("#container").highcharts({
-            global: {
-                useUTC: false
-            },
             chart: {
                 zoomType: 'x',
                 type: 'line'
@@ -32,8 +29,9 @@ $(document).ready(function(){
                     // If you want to see what is available in the formatter, you can
                     // examine the `this` variable.
                     //     console.log(this);
-
-                    return '<p>'+ Math.round(this.y/60,2) +' min</p>';
+                    var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                    d.setUTCSeconds(this.x);
+                    return '<p>'+ Math.floor(this.y/60,2) +' min ' + this.y % 60 + ' s<br>'+ d.toLocaleString("dd/MM/yyyy HH:mm") + '</p>';
                 }
              },
             title: {
@@ -65,6 +63,7 @@ $(document).ready(function(){
              },
             series : []
     });
+
 });
 
 //Dropdown
@@ -109,11 +108,9 @@ function getTraveltimes(selected_traject_id) {
 
     $.getJSON( "json/metingen/"+selected_traject_id+"/"+startdatum+"/"+einddatum, function( data ) {
         $.each( data, function( key, val ) {
-            $.each( data, function( key, val ) {
-                addMeting(val["provider"]["naam"],val["timestamp"],val["reistijd"]);
-            });
+            addMeting(val["provider"]["naam"],val["timestamp"],val["reistijd"]);
         });
-        chart.redraw(true);
+        chart.redraw();
     });
 }
 
@@ -135,11 +132,11 @@ function addMeting(provider, datetime, traveltime)
     }
     else
     {
-       chart.addSeries({
-           id: provider,
-           name: provider,
-           data: [[formatted_date.getTime(), traveltime]]
-       },false,false);
+        chart.addSeries({
+            id: provider,
+            name: provider,
+            data: [[formatted_date.getTime(), traveltime]]
+        },false,false);
     }
 }
 

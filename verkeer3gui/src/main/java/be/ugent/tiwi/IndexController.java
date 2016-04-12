@@ -1,13 +1,18 @@
 package be.ugent.tiwi;
 
 import be.ugent.tiwi.dal.MetingRepository;
+import be.ugent.tiwi.dal.ProviderRepository;
 import be.ugent.tiwi.dal.TrajectRepository;
 import be.ugent.tiwi.domein.Meting;
+import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.Vertraging;
+import org.omg.CORBA.Request;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import settings.Settings;
 
 import java.time.LocalDateTime;
@@ -18,21 +23,36 @@ public class IndexController {
     private static int counter = 0;
     private static final String VIEW_INDEX = "home/index";
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(ModelMap model) {
+    public String index(ModelMap model,@RequestParam(value = "provider", defaultValue = "-1") int provider) {
         //Config.properties file in jetty home zetten voor testing...
-        MetingRepository mcrud = new MetingRepository();
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime oneDayAgo = LocalDateTime.now().minusDays(1L);
-        double vertraging = mcrud.gemiddeldeVertraging(oneDayAgo, now);
-        Traject drukste_traject = mcrud.getDrukstePunt(oneDayAgo,now).getTraject();
-        String drukste_punt =drukste_traject.getNaam();
-        int minuten = (int)vertraging/60;
-        model.addAttribute("vertraging",vertraging>0?true:false);
-        model.addAttribute("vertraging_min", minuten);
-        model.addAttribute("vertraging_sec", (int)(vertraging-(minuten*60)));
-        model.addAttribute("drukste_punt", drukste_punt);
-        model.addAttribute("drukste_punt_id", drukste_traject.getId());
-
+        try {
+            MetingRepository mcrud = new MetingRepository();
+            List<Provider> providers = new ProviderRepository().getActieveProviders();
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime oneDayAgo = LocalDateTime.now().minusDays(1L);
+            Provider providerobj = new ProviderRepository().getProvider(provider);
+            double vertraging;
+            Traject drukste_traject;
+            if(provider!=-1) {
+                vertraging = mcrud.gemiddeldeVertraging(providerobj, oneDayAgo, now);
+                drukste_traject = mcrud.getDrukstePunt(providerobj, oneDayAgo, now).getTraject();
+            }
+            else {
+                vertraging = mcrud.gemiddeldeVertraging(oneDayAgo, now);
+                drukste_traject = mcrud.getDrukstePunt(oneDayAgo, now).getTraject();
+            }
+            String drukste_punt = drukste_traject.getNaam();
+            int minuten = (int) vertraging / 60;
+            model.addAttribute("vertraging", vertraging > 0 ? true : false);
+            model.addAttribute("providers",providers);
+            model.addAttribute("provider",provider);
+            model.addAttribute("vertraging_min", minuten);
+            model.addAttribute("vertraging_sec", (int) (vertraging - (minuten * 60)));
+            model.addAttribute("drukste_punt", drukste_punt);
+            model.addAttribute("drukste_punt_id", drukste_traject.getId());
+        }catch(Exception e){
+          model.addAttribute("exceptie","Fout bij het ophalen van de gemiddeldes.");
+        }
 
 
         // Spring uses InternalResourceViewResolver and return back index.jsp

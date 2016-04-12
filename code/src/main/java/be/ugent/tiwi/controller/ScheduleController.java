@@ -56,9 +56,7 @@ public class ScheduleController {
 
             }
         } catch (RuntimeException ex) {
-            logger.error("Schedule gestopt door exception");
-            ex.printStackTrace();
-            throw ex;
+            logger.error("Excetion in scheduler", ex);
         }
 
     }

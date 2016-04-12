@@ -29,6 +29,11 @@ public class ProviderRepository {
         connector = new DBConnector();
     }
 
+    /**
+     * Haalt de provider op met ene bepaalde naam
+     * @param naam De naam van de op te halen provider
+     * @return De provider met de gevraagde naam
+     */
     public Provider getProvider(String naam) {
         ResultSet rs = null;
         try {
@@ -53,6 +58,11 @@ public class ProviderRepository {
         return null;
     }
 
+    /**
+     * Haalt de provider op met ene bepaalde identificatie
+     * @param id De identificatie van de op te halen provider
+     * @return De provider met de identificatie naam
+     */
     public Provider getProvider(int id) {
         ResultSet rs = null;
         try {
@@ -77,6 +87,10 @@ public class ProviderRepository {
         return null;
     }
 
+    /**
+     * Haalt alle actieve providers op. Bij deze providers staat de flag isActive op 1.
+     * @return Een lijst met de actieve providers
+     */
     public List<Provider> getActieveProviders() {
         List<Provider> providers = new ArrayList<>();
         ResultSet rs = null;

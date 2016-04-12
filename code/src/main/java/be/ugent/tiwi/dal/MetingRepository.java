@@ -240,8 +240,8 @@ public class MetingRepository {
                 statAddMetingen.setNull(3, Types.INTEGER);
              statAddMetingen.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            logger.error("Toevoegen meting mislopen", ex);
         }finally{
              try { statAddMetingen.close(); } catch (Exception e) { /* ignored */ }
              try {  connector.close(); } catch (Exception e) { /* ignored */ }
@@ -294,9 +294,9 @@ public class MetingRepository {
             connector.close();
 
             return null;
-        }catch (SQLException e) {
-            logger.error("Statistieken ophalen mislukt");
-            logger.error(e);
+        }catch (SQLException ex) {
+            logger.error("Statistieken ophalen mislukt", ex);
+
         }
         return null;
     }

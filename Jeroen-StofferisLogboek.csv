@@ -1,4 +1,4 @@
-Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
+﻿Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 9/02/16,8:15,12:15,School,Uitlegsessie VOP,,
 10/02/16,19:00,21:00,Thuis,Gedetaïlleerd opdracht doornemen + vragen voorbereiden,,
 16/02/16,8:15,12:15,School,Opzoeken gegevens ophalen via Google en Bing + vragen stellen aan,5,
@@ -12,5 +12,9 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 05/03/16,13:00,15:30,Thuis,TomTom scraper afgewerkt,27, 
 06/03/16,15:00,17:05,Thuis,Presentatie Sprint 1,33,Presentatie nog niet volledig af
 07/03/16,20:00,23:00,Thuis,Analyse bijwerken,33,
-15/03/19,8:15,12:15,School,Perlscraper voor waze,,
-22/03/19,8:15,12:15,School,Schrijven analysedocumenten,,
+15/03/16,8:15,12:15,School,Perlscraper voor waze,,
+22/03/16,8:15,12:15,School,Schrijven analysedocumenten,,
+09/04/16,13:00,19:00,Thuis,Schrijven installatiehandleiding - Installatie Fedora,64,
+09/04/16,20:00,22:00,Thuis,Afwerken installatie Fedora;start CentOS,64,
+10/04/16,13:00,19:00,Thuis,Schrijven installatiehandleiding - Installatie CentOS;GlassFish;MariaDB,64,
+11/04/16,20:00,21:00,Thuis,Schrijven installatiehandleiding - MariaDB gestart,64,

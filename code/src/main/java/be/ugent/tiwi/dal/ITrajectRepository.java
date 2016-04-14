@@ -86,6 +86,4 @@ public interface ITrajectRepository {
      * @return Een lijst van trajecten.
      */
     List<Traject> getTrajectenMetCoordinaten();
-
-    List<Traject> getTrajectenMetCoordinaten(int id);
 }

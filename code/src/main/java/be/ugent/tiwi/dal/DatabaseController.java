@@ -166,9 +166,6 @@ public class DatabaseController {
         return trajectenRepository.getTraject(naam);
     }
 
-    public List<Traject> getTrajectenMetWaypoints(int providerId) {
-        return trajectenRepository.getTrajectenMetCoordinaten(providerId);
-    }
 
     public List<Provider> haalAlleProvidersOp() {
         return providerRepository.getProviders();

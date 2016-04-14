@@ -8,7 +8,7 @@
     <h2>Actueel overzicht (de afgelopen dag)</h2>
     <div class="row">
         <div class="col-lg-3 col-md-6">
-            <div class="panel panel-<c:out value="${vertraging?'red':'green'}"/>">
+            <div class="panel panel-<c:out value="${vertraging_min*60 + vertraging_sec < 30 ? 'green': vertraging_min*60 + vertraging_sec < 180 ? 'orange' : 'red'}"/>">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">

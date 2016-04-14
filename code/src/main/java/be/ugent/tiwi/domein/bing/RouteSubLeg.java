@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.bing;
 
 import com.google.gson.annotations.Expose;
@@ -23,72 +22,56 @@ public class RouteSubLeg {
     private Integer travelDuration;
 
     /**
-     * 
-     * @return
-     *     The endWaypoint
+     * @return The endWaypoint
      */
     public EndWaypoint getEndWaypoint() {
         return endWaypoint;
     }
 
     /**
-     * 
-     * @param endWaypoint
-     *     The endWaypoint
+     * @param endWaypoint The endWaypoint
      */
     public void setEndWaypoint(EndWaypoint endWaypoint) {
         this.endWaypoint = endWaypoint;
     }
 
     /**
-     * 
-     * @return
-     *     The startWaypoint
+     * @return The startWaypoint
      */
     public StartWaypoint getStartWaypoint() {
         return startWaypoint;
     }
 
     /**
-     * 
-     * @param startWaypoint
-     *     The startWaypoint
+     * @param startWaypoint The startWaypoint
      */
     public void setStartWaypoint(StartWaypoint startWaypoint) {
         this.startWaypoint = startWaypoint;
     }
 
     /**
-     * 
-     * @return
-     *     The travelDistance
+     * @return The travelDistance
      */
     public Double getTravelDistance() {
         return travelDistance;
     }
 
     /**
-     * 
-     * @param travelDistance
-     *     The travelDistance
+     * @param travelDistance The travelDistance
      */
     public void setTravelDistance(Double travelDistance) {
         this.travelDistance = travelDistance;
     }
 
     /**
-     * 
-     * @return
-     *     The travelDuration
+     * @return The travelDuration
      */
     public Integer getTravelDuration() {
         return travelDuration;
     }
 
     /**
-     * 
-     * @param travelDuration
-     *     The travelDuration
+     * @param travelDuration The travelDuration
      */
     public void setTravelDuration(Integer travelDuration) {
         this.travelDuration = travelDuration;

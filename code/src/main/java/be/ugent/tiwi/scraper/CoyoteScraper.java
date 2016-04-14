@@ -38,6 +38,7 @@ public class CoyoteScraper extends TrafficScraper {
 
     /**
      * Aan de spreken methode om een bepaalde provider te scrapen
+     *
      * @param trajects Een lijst van trajecten waarvan een meting moet woren opgehaald
      * @return Een lijst van opgehaalde metingen.
      */
@@ -51,8 +52,8 @@ public class CoyoteScraper extends TrafficScraper {
         }
         List<Meting> legeMetingen = new ArrayList<>();
         Provider p = new ProviderRepository().getProvider("coyote");
-        for(Traject t : trajects)
-            legeMetingen.add(new Meting(p, t, -1, LocalDateTime.now()));
+        for (Traject t : trajects)
+            legeMetingen.add(new Meting(p, t, null, LocalDateTime.now()));
         return legeMetingen;
     }
 

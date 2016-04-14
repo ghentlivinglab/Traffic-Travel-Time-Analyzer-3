@@ -19,7 +19,6 @@ import java.util.List;
 
 /**
  * Created by jan on 27.02.16.
- *
  */
 public class GoogleScraper extends TrafficScraper {
 
@@ -37,6 +36,7 @@ public class GoogleScraper extends TrafficScraper {
     /**
      * Past de lijst trajects eerst aan zodat de {@link GoogleScraper} geen verkeerde waypoints meegeeft. Daarna wordt
      * via de Google Directions API van alle trajecten de huidige reistijd afgehaald. Deze metingen worden teruggegeven.
+     *
      * @param trajects Een lijst van trajecten waarvan een meting moet worden opgehaald
      * @return Een lijst metingen
      * @see Traject
@@ -57,7 +57,7 @@ public class GoogleScraper extends TrafficScraper {
         Traject t;
 
         t = getTraject(trajects, 1);
-        editWaypoint(t,"51.063995","3.695596","51.064","3.6958");
+        editWaypoint(t, "51.063995", "3.695596", "51.064", "3.6958");
 
         //Delete waypoint "51.06634,3.69966" uit traject 4
         t = getTraject(trajects, 4);
@@ -69,15 +69,15 @@ public class GoogleScraper extends TrafficScraper {
 
         //Edit waypoint "51.05071,3.73347" to "51.05076,3.73343" uit traject 14
         t = getTraject(trajects, 14);
-        editWaypoint(t, "51.05071","3.73347", "51.05076","3.73343");
+        editWaypoint(t, "51.05071", "3.73347", "51.05076", "3.73343");
         //Edit waypoint "51.04576,3.73364" to "51.04576,3.73472" uit traject 14
         //editWaypoint(t, "51.04576","3.73364", "51.04576","3.73472");
         //Delete waypoint "51.18759,3.83256" uit traject 16
-        deleteWaypoint(getTraject(trajects, 16), "51.18759","3.83256");
+        deleteWaypoint(getTraject(trajects, 16), "51.18759", "3.83256");
 
         //Edit end-lat/long to last of waypoints & delete last waypoint uit traject 18
         t = getTraject(trajects, 18);
-        Waypoint w = t.getWaypoints().get(t.getWaypoints().size()-1);
+        Waypoint w = t.getWaypoints().get(t.getWaypoints().size() - 1);
         t.setEnd_latitude(w.getLatitude());
         t.setEnd_longitude(w.getLongitude());
         t.getWaypoints().remove(w);
@@ -88,7 +88,7 @@ public class GoogleScraper extends TrafficScraper {
 
         //Edit waypoint "51.07735,3.78175" to "51.07705,3.78140" uit traject 26
         t = getTraject(trajects, 26);
-        editWaypoint(t, "51.07735","3.78175", "51.07705","3.78140");
+        editWaypoint(t, "51.07735", "3.78175", "51.07705", "3.78140");
 
         //Edit waypoint "51.07735,3.78175" to "51.0217109,3.733007" uit traject 28
         t = getTraject(trajects, 28);
@@ -111,7 +111,7 @@ public class GoogleScraper extends TrafficScraper {
                     "&destination=" + traject.getEnd_latitude() + "%2C" + traject.getEnd_longitude() +
                     "&departure_time=now";
             List<Waypoint> wpts = traject.getWaypoints();
-            if(wpts.size()>0) {
+            if (wpts.size() > 0) {
                 url += "&waypoints=via:" + wpts.get(0).getLatitude() + "," + wpts.get(0).getLongitude();
                 addedWaypoints.add(wpts.get(0));
                 double size = wpts.size();
@@ -170,7 +170,7 @@ public class GoogleScraper extends TrafficScraper {
                         b.append(";").append(addedWaypoints.get(i).getLatitude()).append(",").append(addedWaypoints.get(i).getLongitude());
                     b.append("]");
                     logger.warn(b.toString());
-                    Meting meting = new Meting(google, traject, -1, LocalDateTime.now());
+                    Meting meting = new Meting(google, traject, null, LocalDateTime.now());
                     metingen.add(meting);
                 }
                 if (percent > 0.02) {
@@ -203,7 +203,7 @@ public class GoogleScraper extends TrafficScraper {
                 logger.error(e);
             } catch (IOException e) {
                 // Indien de service niet beschikbaar is (of deze machine heeft geen verbinding met de service), mag een leeg traject ingegeven worden.
-                Meting meting = new Meting(google, traject, -1, LocalDateTime.now());
+                Meting meting = new Meting(google, traject, null, LocalDateTime.now());
                 metingen.add(meting);
                 logger.error(e);
                 logger.warn("Added an empty measurement");

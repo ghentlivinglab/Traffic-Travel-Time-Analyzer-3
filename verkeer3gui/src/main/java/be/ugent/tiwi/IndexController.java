@@ -1,17 +1,14 @@
 package be.ugent.tiwi;
 
 import be.ugent.tiwi.dal.MetingRepository;
-import be.ugent.tiwi.dal.ProviderRepository;
 import be.ugent.tiwi.dal.TrajectRepository;
-import be.ugent.tiwi.domein.Meting;
-import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.Vertraging;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import settings.Settings;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,14 +26,18 @@ public class IndexController {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime oneDayAgo = LocalDateTime.now().minusDays(1L);
         double vertraging = mcrud.gemiddeldeVertraging(oneDayAgo, now);
-        Traject drukste_traject = mcrud.getDrukstePunt(oneDayAgo,now).getTraject();
-        String drukste_punt =drukste_traject.getNaam();
+        Vertraging v = mcrud.getDrukstePunt(oneDayAgo,now);
+        Traject drukste_traject = null;
+        if(v != null) {
+            drukste_traject = v.getTraject();
+            model.addAttribute("drukste_punt_id", drukste_traject.getId());
+            model.addAttribute("drukste_punt", drukste_traject.getNaam());
+        }
+
         int minuten = (int)vertraging/60;
         model.addAttribute("vertraging",vertraging>0?true:false);
         model.addAttribute("vertraging_min", minuten);
         model.addAttribute("vertraging_sec", (int)(vertraging-(minuten*60)));
-        model.addAttribute("drukste_punt", drukste_punt);
-        model.addAttribute("drukste_punt_id", drukste_traject.getId());
 
 
         // Spring uses InternalResourceViewResolver and return back index.jsp

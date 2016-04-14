@@ -26,26 +26,26 @@ import java.io.InputStreamReader;
  * genereren met type hinting. Bijvoorbeeld <code>jc = new JsonController&lt;Here&gt;();</code>.
  */
 public class JsonController<T extends Object> {
+    private static final Logger logger = LogManager.getLogger(JsonController.class);
     private InputStream is = null;
     private Gson jObj = null;
     private String json = "";
-    private static final Logger logger = LogManager.getLogger(JsonController.class);
 
     /**
      * De constructor van {@link JsonController}
      */
-    public JsonController() {jObj = new Gson();}
+    public JsonController() {
+        jObj = new Gson();
+    }
 
     /**
      * Een functie die gebruikt wordt door de scrapers om JSON-data terug te krijgen.
      *
-     * @param url           De url die een JSON-bestand teruggeeft.
-     * @param requestType   De request-type <code>HTTP</code> header die gebruikt wordt om de request te sturen.
-     * @return              Geeft een {@link Gson}-object terug van de opgehaalde JSON.
-     *
-     * @throws InvalidMethodException   Als de requestType niet <code>GET</code> of <code>POST</code> is
-     * @throws IOException              Als er geen verbinding kan gemaakt worden met de url
-     *
+     * @param url         De url die een JSON-bestand teruggeeft.
+     * @param requestType De request-type <code>HTTP</code> header die gebruikt wordt om de request te sturen.
+     * @return Geeft een {@link Gson}-object terug van de opgehaalde JSON.
+     * @throws InvalidMethodException Als de requestType niet <code>GET</code> of <code>POST</code> is
+     * @throws IOException            Als er geen verbinding kan gemaakt worden met de url
      * @see RequestType
      * @see Gson
      */
@@ -56,7 +56,7 @@ public class JsonController<T extends Object> {
         HttpResponse httpResponse;
         HttpEntity httpEntity;
 
-        switch(requestType){
+        switch (requestType) {
             case POST:
                 HttpPost httpPost = new HttpPost(url);
 
@@ -116,10 +116,8 @@ public class JsonController<T extends Object> {
      * @param klasse de **klasse** waarin de JSON string in kan geparsed worden
      * @param method een methode van de Enum RequestType, mogelijke waarden zijn GET en POST
      * @return Een object van de klasse zoals meegeven aan de JsonController (gebruik van generieke klasses)
-     *
-     * @throws InvalidMethodException   Als de requestType niet <code>GET</code> of <code>POST</code> is
-     * @throws IOException              Als er geen verbinding kan gemaakt worden met de url
-     *
+     * @throws InvalidMethodException Als de requestType niet <code>GET</code> of <code>POST</code> is
+     * @throws IOException            Als er geen verbinding kan gemaakt worden met de url
      * @see RequestType
      */
     public T getObject(String url, Class<T> klasse, RequestType method) throws InvalidMethodException, IOException {
@@ -133,13 +131,11 @@ public class JsonController<T extends Object> {
     /**
      * Deze methode wordt gebruikt door de GoogleScraper om JSON-bestanden uit te lezen.
      *
-     * @param url   De url die een JSON-bestand teruggeeft.
-     * @param type  De request-type header die gebruikt wordt om de request te sturen.
-     * @return      Een Google-object opgemaakt uit de verkregen JSON.
-     *
-     * @throws InvalidMethodException   Als de requestType niet <code>GET</code> of <code>POST</code> is
-     * @throws IOException              Als er geen verbinding kan gemaakt worden met de url
-     *
+     * @param url  De url die een JSON-bestand teruggeeft.
+     * @param type De request-type header die gebruikt wordt om de request te sturen.
+     * @return Een Google-object opgemaakt uit de verkregen JSON.
+     * @throws InvalidMethodException Als de requestType niet <code>GET</code> of <code>POST</code> is
+     * @throws IOException            Als er geen verbinding kan gemaakt worden met de url
      * @see RequestType
      */
     public Google makeGoogleCall(String url, RequestType type) throws InvalidMethodException, IOException {

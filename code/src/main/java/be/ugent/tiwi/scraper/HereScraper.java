@@ -21,11 +21,11 @@ import java.util.List;
  * Created by jelle on 19.02.16.
  */
 public class HereScraper extends TrafficScraper {
+    private static final Logger logger = LogManager.getLogger(HereScraper.class);
     private String appId;
     private String appCode;
     private String url;
     private JsonController<Here> jc;
-    private static final Logger logger = LogManager.getLogger(HereScraper.class);
 
 
     /**
@@ -39,8 +39,9 @@ public class HereScraper extends TrafficScraper {
 
     /**
      * Via de Here API worden van alle trajecten de huidige reistijd afgehaald. Deze metingen worden teruggegeven.
+     *
      * @param trajects Een lijst van trajecten waarvan een meting moet woren opgehaald
-     * @return         Een lijst van lijst van metingen
+     * @return Een lijst van lijst van metingen
      */
     @Override
     public List<Meting> scrape(List<Traject> trajects) {
@@ -67,7 +68,7 @@ public class HereScraper extends TrafficScraper {
                 logger.error(e);
             } catch (IOException e) {
                 // Indien de service niet beschikbaar is (of deze machine heeft geen verbinding met de service), mag een leeg traject ingegeven worden.
-                Meting meting = new Meting(here, traject, -1, LocalDateTime.now());
+                Meting meting = new Meting(here, traject, null, LocalDateTime.now());
                 metingen.add(meting);
                 logger.error(e);
                 logger.warn("Added an empty measurement");

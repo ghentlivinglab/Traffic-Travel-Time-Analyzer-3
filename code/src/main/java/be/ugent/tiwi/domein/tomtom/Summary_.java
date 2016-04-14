@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.tomtom;
 
 import com.google.gson.annotations.Expose;
@@ -26,90 +25,70 @@ public class Summary_ {
     private String arrivalTime;
 
     /**
-     * 
-     * @return
-     *     The lengthInMeters
+     * @return The lengthInMeters
      */
     public Integer getLengthInMeters() {
         return lengthInMeters;
     }
 
     /**
-     * 
-     * @param lengthInMeters
-     *     The lengthInMeters
+     * @param lengthInMeters The lengthInMeters
      */
     public void setLengthInMeters(Integer lengthInMeters) {
         this.lengthInMeters = lengthInMeters;
     }
 
     /**
-     * 
-     * @return
-     *     The travelTimeInSeconds
+     * @return The travelTimeInSeconds
      */
     public Integer getTravelTimeInSeconds() {
         return travelTimeInSeconds;
     }
 
     /**
-     * 
-     * @param travelTimeInSeconds
-     *     The travelTimeInSeconds
+     * @param travelTimeInSeconds The travelTimeInSeconds
      */
     public void setTravelTimeInSeconds(Integer travelTimeInSeconds) {
         this.travelTimeInSeconds = travelTimeInSeconds;
     }
 
     /**
-     * 
-     * @return
-     *     The trafficDelayInSeconds
+     * @return The trafficDelayInSeconds
      */
     public Integer getTrafficDelayInSeconds() {
         return trafficDelayInSeconds;
     }
 
     /**
-     * 
-     * @param trafficDelayInSeconds
-     *     The trafficDelayInSeconds
+     * @param trafficDelayInSeconds The trafficDelayInSeconds
      */
     public void setTrafficDelayInSeconds(Integer trafficDelayInSeconds) {
         this.trafficDelayInSeconds = trafficDelayInSeconds;
     }
 
     /**
-     * 
-     * @return
-     *     The departureTime
+     * @return The departureTime
      */
     public String getDepartureTime() {
         return departureTime;
     }
 
     /**
-     * 
-     * @param departureTime
-     *     The departureTime
+     * @param departureTime The departureTime
      */
     public void setDepartureTime(String departureTime) {
         this.departureTime = departureTime;
     }
 
     /**
-     * 
-     * @return
-     *     The arrivalTime
+     * @return The arrivalTime
      */
     public String getArrivalTime() {
         return arrivalTime;
     }
 
     /**
-     * 
-     * @param arrivalTime
-     *     The arrivalTime
+     * @param arrivalTime The arrivalTime
      */
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;

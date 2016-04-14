@@ -2,7 +2,6 @@ package be.ugent.tiwi;
 
 import be.ugent.tiwi.dal.MetingRepository;
 import be.ugent.tiwi.dal.TrajectRepository;
-import be.ugent.tiwi.domein.Meting;
 import com.google.gson.Gson;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;

@@ -44,7 +44,7 @@ function getWaypoints(){
 }
 
 function convertWaypoints(waypoints){
-    resultArray = new Array();
+    resultArray = [];
     resultArray[0] = new L.Routing.Waypoint(L.latLng(start_latitude,start_longitude),0);
     for(var i = 0;i<waypoints.length;i++)
     {
@@ -55,7 +55,7 @@ function convertWaypoints(waypoints){
 }
 
 var changedWaypoints = function (result) {
-    console.log("Waypoints changed!")
+    console.log("Waypoints changed!");
     console.log(result);
 };
 

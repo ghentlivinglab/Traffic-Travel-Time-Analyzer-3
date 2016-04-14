@@ -10,6 +10,7 @@ import be.ugent.tiwi.domein.RequestType;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.tomtom.Route;
 import be.ugent.tiwi.domein.tomtom.TomTom;
+import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import settings.Settings;
@@ -25,9 +26,9 @@ import java.util.List;
  */
 public class TomTomScraper extends TrafficScraper {
 
+    private static final Logger logger = LogManager.getLogger(TomTomScraper.class);
     private String apiKey;
     private JsonController<TomTom> jc;
-    private static final Logger logger = LogManager.getLogger(TomTomScraper.class);
 
 
     public TomTomScraper() {
@@ -38,6 +39,7 @@ public class TomTomScraper extends TrafficScraper {
     /**
      * Haalt per traject de huidige reistijd op van de TomTom provider. Deze reistijden worden als metingen
      * teruggestuurd.
+     *
      * @param trajects Een lijst van trajecten waarvan een meting moet woren opgehaald
      * @return Een lijst van metingen
      */
@@ -50,6 +52,7 @@ public class TomTomScraper extends TrafficScraper {
         Provider tomtomProv = databaseController.haalProviderOp("TomTom");
         JsonController jc = new JsonController();
         long lastScrape;
+        boolean exceededLimit = false;
         for (Traject traject : trajects) {
              /* https://<baseURL>/routing/<versionNumber>/calculateRoute/<locations>[/<contentType>]?key=<apiKey>
               * [&routeType=<routeType>][&traffic=<boolean>][&avoid=<avoidType>][&instructionsType=<instructionsType>]
@@ -90,11 +93,19 @@ public class TomTomScraper extends TrafficScraper {
                     }
                     break;
                 }
-            } catch (InvalidMethodException e) {
+            } catch(JsonSyntaxException e) {
+                //TomTom is over zijn limiet
+                if(!exceededLimit){
+                    logger.error("The TomTom-scraper has exceeded its daily limit!");
+                    exceededLimit = true;
+                }
+                logger.warn("Added an empty measurement");
+                metingen.add(new Meting(tomtomProv, traject, null, LocalDateTime.now()));
+            }catch (InvalidMethodException e) {
                 logger.error(e);
             } catch (IOException e) {
                 // Indien de service niet beschikbaar is (of deze machine heeft geen verbinding met de service), mag een leeg traject ingegeven worden.
-                Meting meting = new Meting(tomtomProv, traject, -1, LocalDateTime.now());
+                Meting meting = new Meting(tomtomProv, traject, null, LocalDateTime.now());
                 metingen.add(meting);
                 logger.error(e);
                 logger.warn("Added an empty measurement");

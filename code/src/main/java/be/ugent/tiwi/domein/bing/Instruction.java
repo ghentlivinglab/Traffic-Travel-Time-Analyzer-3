@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.bing;
 
 import com.google.gson.annotations.Expose;
@@ -20,54 +19,42 @@ public class Instruction {
     private String text;
 
     /**
-     * 
-     * @return
-     *     The formattedText
+     * @return The formattedText
      */
     public Object getFormattedText() {
         return formattedText;
     }
 
     /**
-     * 
-     * @param formattedText
-     *     The formattedText
+     * @param formattedText The formattedText
      */
     public void setFormattedText(Object formattedText) {
         this.formattedText = formattedText;
     }
 
     /**
-     * 
-     * @return
-     *     The maneuverType
+     * @return The maneuverType
      */
     public String getManeuverType() {
         return maneuverType;
     }
 
     /**
-     * 
-     * @param maneuverType
-     *     The maneuverType
+     * @param maneuverType The maneuverType
      */
     public void setManeuverType(String maneuverType) {
         this.maneuverType = maneuverType;
     }
 
     /**
-     * 
-     * @return
-     *     The text
+     * @return The text
      */
     public String getText() {
         return text;
     }
 
     /**
-     * 
-     * @param text
-     *     The text
+     * @param text The text
      */
     public void setText(String text) {
         this.text = text;

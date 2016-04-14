@@ -21,46 +21,35 @@ import java.util.List;
 
 /**
  * Created by jelle on 19.02.16.
- * <p>
- * Account settings
- * email:           jelle.debock@ugent.be
- * password:        vop_project_groep3
- * App ID:          tsliJF6nV8gV1CCk7yK8
- * App CODE:        o8KURFHJC02Zzlv8HTifkg
- * Expiry:          May 19, 2016
- * Sample call:
- * https://route.cit.api.here.com/routing/7.2/calculateroute.json?
- * app_id=tsliJF6nV8gV1CCk7yK8&app_code=o8KURFHJC02Zzlv8HTifkg
- * &waypoint0=geo!51.040800%2C3.614126&waypoint1=geo!51.038736%2C3.736503
- * &mode=fastest%3Bcar%3Btraffic%3Aenabled
  */
 public class HereScraper extends TrafficScraper {
+    private static final Logger logger = LogManager.getLogger(HereScraper.class);
     private String appId;
     private String appCode;
     private String url;
     private JsonController<Here> jc;
-    private static final Logger logger = LogManager.getLogger(HereScraper.class);
 
 
+    /**
+     * Constructor van de klasse
+     */
     public HereScraper() {
         this.appId = Settings.getSetting("here_appid");
         this.appCode = Settings.getSetting("here_appcode");
         this.jc = new JsonController<Here>();
     }
 
+    /**
+     * Via de Here API worden van alle trajecten de huidige reistijd afgehaald. Deze metingen worden teruggegeven.
+     *
+     * @param trajects Een lijst van trajecten waarvan een meting moet woren opgehaald
+     * @return Een lijst van lijst van metingen
+     */
     @Override
     public List<Meting> scrape(List<Traject> trajects) {
-        return makeCall(trajects);
-    }
-
-    /**
-     * here the actual rest call is made
-     */
-    public List<Meting> makeCall(List<Traject> trajects) {
         List<Meting> metingen = new ArrayList<>();
-        //Get all trajectories which have coordinates in it
-        DatabaseController databaseController = new DatabaseController();
 
+        DatabaseController databaseController = new DatabaseController();
         Provider here = databaseController.haalProviderOp("Here");
         JsonController jc = new JsonController();
         for (Traject traject : trajects) {
@@ -107,7 +96,7 @@ public class HereScraper extends TrafficScraper {
                 logger.error(e);
             } catch (IOException e) {
                 // Indien de service niet beschikbaar is (of deze machine heeft geen verbinding met de service), mag een leeg traject ingegeven worden.
-                Meting meting = new Meting(here, traject, -1, LocalDateTime.now());
+                Meting meting = new Meting(here, traject, null, LocalDateTime.now());
                 metingen.add(meting);
                 logger.error(e);
                 logger.warn("Added an empty measurement");

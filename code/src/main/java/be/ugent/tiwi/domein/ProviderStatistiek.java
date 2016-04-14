@@ -3,7 +3,7 @@ package be.ugent.tiwi.domein;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProviderStatistiek{
+public class ProviderStatistiek {
     Provider provider;
     private List<Vertraging> vertragingen;
 
@@ -12,16 +12,16 @@ public class ProviderStatistiek{
         this.vertragingen = new ArrayList<>();
     }
 
-    public void setProvider(Provider provider) {
-        this.provider = provider;
-    }
-
     public void addVertraging(Vertraging vertraging) {
         this.vertragingen.add(vertraging);
     }
 
     public Provider getProvider() {
         return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 
     public List<Vertraging> getStatistiekList() {

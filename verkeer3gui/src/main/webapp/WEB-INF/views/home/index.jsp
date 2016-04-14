@@ -5,6 +5,7 @@
     <link href="<c:url value="/resources/cp/css/timeline.css"/>" rel="stylesheet"  type="text/css" />
 
     <h1>Welkom op de Mobiliteitspagina van de stad Gent</h1>
+
     <c:choose>
         <c:when test="${exceptie == null || exceptie.length()==0}">
             <ul class="nav nav-tabs">
@@ -16,7 +17,7 @@
             <h2>Actueel overzicht (de afgelopen dag)</h2>
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-<c:out value="${vertraging?'red':'green'}"/>">
+                    <div class="panel panel-<c:out value="${vertraging_min*60 + vertraging_sec < 30 ? 'green': vertraging_min*60 + vertraging_sec < 120 ? 'orange' : 'red'}"/>">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">

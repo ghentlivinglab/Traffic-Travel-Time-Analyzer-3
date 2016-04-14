@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.bing;
 
 import com.google.gson.annotations.Expose;
@@ -17,36 +16,28 @@ public class Hint {
     private String text;
 
     /**
-     * 
-     * @return
-     *     The hintType
+     * @return The hintType
      */
     public String getHintType() {
         return hintType;
     }
 
     /**
-     * 
-     * @param hintType
-     *     The hintType
+     * @param hintType The hintType
      */
     public void setHintType(String hintType) {
         this.hintType = hintType;
     }
 
     /**
-     * 
-     * @return
-     *     The text
+     * @return The text
      */
     public String getText() {
         return text;
     }
 
     /**
-     * 
-     * @param text
-     *     The text
+     * @param text The text
      */
     public void setText(String text) {
         this.text = text;

@@ -32,8 +32,7 @@ function loadScript(url, callback) {
 
 function toDot (id){
 	return id.replace(/[-]+/g,'.');
-};
-
+}
 function escapeHTML(html) {
 	if (typeof html === 'string') {
 		html = html
@@ -132,8 +131,7 @@ function toggleExpand($elem, callback) {
 			$elem.addClass("collapsed");
 		});
 	}
-};
-
+}
 function toggleSection(sectionId) {
 	$section = $("#details > div.section:visible");
 
@@ -350,8 +348,7 @@ function loadChildren(name, silent, callback) {
 			}
 		}
 	});
-};
-
+}
 function loadObjectMembers(name){
 	$.ajax({
 		type: "GET",
@@ -365,8 +362,7 @@ function loadObjectMembers(name){
 		}
 	});
 	$(document).triggerHandler({ type:"xtra.btn.member.event", id: 'object-' + name,table:'object'});
-};
-
+}
 function gotoSection(anchor, hilighted) {
 
 	var name, levels, member, isObjectArr, isObject, parts, $_parent, $_parentparent, $_menu,
@@ -617,7 +613,7 @@ prepareOffline = function(callback) {
 	};
 
 	callback();
-}
+};
 
 // build dictionary for offline use
 buildApiOffline = function(data, callback) {
@@ -753,7 +749,7 @@ buildPage = function() {
 
 		 // focus search
 		 $("#search")[0].focus();
-	}
+	};
 
 // Startup
 $(document).ready( function () {
@@ -770,8 +766,7 @@ $(document).ready( function () {
 		});
 		// hide elements that don't make sence in offline mode
 		$('.hidden-offline').hide();
-	};
-
+	}
 	// convert hash from redirected dash syntax to new dot syntax
 	if (/-/.test(location.hash)) {
 		location.hash = location.hash.replace(/(--|-)/g, '.');
@@ -829,8 +824,7 @@ $(document).ready( function () {
 			// no height defined on the element for mobile devices
 			$('#nav-wrap').removeAttr('style');
 		}
-	};      
-	
+	}
 	updateHeight();
 
 	$(window).resize(updateHeight);

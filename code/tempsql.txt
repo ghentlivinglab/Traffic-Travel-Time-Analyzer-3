@@ -1,4 +1,4 @@
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Rooigemlaan (R40) Northbound - Drongensesteenweg - Palinghuizen",1339,76,1,"51.05617","3.69508","51.06629","3.69971");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Rooigemlaan (R40) Northbound - Drongensesteenweg - Palinghuizen",1339,90,1,"51.05617","3.69508","51.06629","3.69971");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,1,'51.05631','3.69487'),
 (2,1,'51.05676','3.69423'),
 (3,1,'51.05684','3.69413'),
@@ -48,7 +48,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,1,'51.
 (47,1,'51.06593','3.69932'),
 (48,1,'51.06614','3.69954'),
 (49,1,'51.06617','3.69957');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Rooigemlaan (R40) Southbound - Palinghuizen - Drongensesteenweg",1352,44,1,"51.06634","3.69966","51.0561","3.69492");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Rooigemlaan (R40) Southbound - Palinghuizen - Drongensesteenweg",1352,52,1,"51.06634","3.69966","51.0561","3.69492");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,2,'51.06621','3.69951'),
 (2,2,'51.06598','3.69926'),
 (3,2,'51.06593','3.69912'),
@@ -102,7 +102,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,2,'51.
 (51,2,'51.05627','3.69468'),
 (52,2,'51.05624','3.69473'),
 (53,2,'51.05616','3.69483');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Gasmeterlaan (R40) Eastbound - Palinghuizen - Neuseplein",2191,73,1,"51.06629","3.69971","51.06742","3.72758");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Gasmeterlaan (R40) Eastbound - Palinghuizen - Neuseplein",2191,71,1,"51.06629","3.69971","51.06742","3.72758");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,3,'51.06614','3.69987'),
 (2,3,'51.06601','3.70001'),
 (3,3,'51.06591','3.70014'),
@@ -178,7 +178,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,3,'51.
 (73,3,'51.06725','3.72701'),
 (74,3,'51.06729','3.72713'),
 (75,3,'51.06735','3.72732');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Gasmeterlaan (R40) Westbound - Neuseplein - Palinghuizen",2217,72,1,"51.06761","3.72764","51.06593","3.69912");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Gasmeterlaan (R40) Westbound - Neuseplein - Palinghuizen",2217,190,1,"51.06761","3.72764","51.06593","3.69912");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,4,'51.06764','3.72753'),
 (2,4,'51.06765','3.72741'),
 (3,4,'51.06768','3.72722'),
@@ -252,7 +252,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,4,'51.
 (71,4,'51.06634','3.69966'),
 (72,4,'51.06621','3.69951'),
 (73,4,'51.06598','3.69926');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Dok-Noord (R40) Southbound - Neuseplein - Dampoort",1748,60,1,"51.06729","3.72713","51.05663","3.73843");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Dok-Noord (R40) Southbound - Neuseplein - Dampoort",1748,123,1,"51.06729","3.72713","51.05663","3.73843");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,5,'51.06735','3.72732'),
 (2,5,'51.06742','3.72758'),
 (3,5,'51.06744','3.72766'),
@@ -324,7 +324,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,5,'51.
 (69,5,'51.05701','3.73834'),
 (70,5,'51.05695','3.73831'),
 (71,5,'51.05689','3.7383');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Dok-Noord (R40) Northbound - Dampoort - Neuseplein",1794,120,1,"51.05714","3.73952","51.06744","3.72704");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Dok-Noord (R40) Northbound - Dampoort - Neuseplein",1794,100,1,"51.05714","3.73952","51.06744","3.72704");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,6,'51.05717','3.7394'),
 (2,6,'51.05718','3.73934'),
 (3,6,'51.05719','3.73929'),
@@ -408,7 +408,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,6,'51.
 (81,6,'51.06761','3.72764'),
 (82,6,'51.06751','3.72726'),
 (83,6,'51.0675','3.72723');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Heernislaan (R40) Southbound - Dampoort - Zuidparklaan",2382,165,1,"51.05663","3.73843","51.03863","3.73622");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Heernislaan (R40) Southbound - Dampoort - Zuidparklaan",2382,128,1,"51.05663","3.73843","51.03863","3.73622");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,7,'51.05653','3.73848'),
 (2,7,'51.05637','3.73856'),
 (3,7,'51.0563','3.7386'),
@@ -490,7 +490,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,7,'51.
 (79,7,'51.03889','3.7374'),
 (80,7,'51.0388','3.73718'),
 (81,7,'51.03874','3.73689');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Heernislaan (R40) Northbound - Zuidparklaan - Dampoort",2485,170,1,"51.03857","3.73624","51.05714","3.73952");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Heernislaan (R40) Northbound - Zuidparklaan - Dampoort",2485,137,1,"51.03857","3.73624","51.05714","3.73952");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,8,'51.03869','3.73692'),
 (2,8,'51.03875','3.73721'),
 (3,8,'51.03883','3.73745'),
@@ -583,7 +583,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,8,'51.
 (90,8,'51.05703','3.73966'),
 (91,8,'51.05708','3.7396'),
 (92,8,'51.05711','3.73956');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Martelaarslaan (R40) Northbound - Zuidparklaan - Drongensesteenweg",3737,122,1,"51.03863","3.73622","51.05617","3.69508");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Martelaarslaan (R40) Northbound - Zuidparklaan - Drongensesteenweg",3737,172,1,"51.03863","3.73622","51.05617","3.69508");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,9,'51.03852','3.73553'),
 (2,9,'51.03846','3.73515'),
 (3,9,'51.03843','3.73487'),
@@ -725,7 +725,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,9,'51.
 (139,9,'51.05586','3.69546'),
 (140,9,'51.05604','3.69522'),
 (141,9,'51.05608','3.69519');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Martelaarslaan (R40) Southbound - Drongensesteenweg - Zuidparklaan",3744,238,1,"51.0561","3.69492","51.03857","3.73624");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Martelaarslaan (R40) Southbound - Drongensesteenweg - Zuidparklaan",3744,195,1,"51.0561","3.69492","51.03857","3.73624");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,10,'51.05602','3.69502'),
 (2,10,'51.05588','3.6952'),
 (3,10,'51.05567','3.69549'),
@@ -859,7 +859,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,10,'51
 (131,10,'51.03841','3.73499'),
 (132,10,'51.03842','3.73513'),
 (133,10,'51.03846','3.73543');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Blaisantvest (N430) Eastbound - Einde Were - Neuseplein",2621,93,1,"51.05238","3.69972","51.06725","3.72701");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Blaisantvest (N430) Eastbound - Einde Were - Neuseplein",2621,103,1,"51.05238","3.69972","51.06725","3.72701");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,11,'51.0525','3.69985'),
 (2,11,'51.05258','3.69994'),
 (3,11,'51.0526','3.69998'),
@@ -950,7 +950,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,11,'51
 (88,11,'51.06713','3.72651'),
 (89,11,'51.0672','3.72682'),
 (90,11,'51.06723','3.72691');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Blaisantvest (N430) Westbound - Neuseplein - Einde Were",2646,86,1,"51.06744","3.72704","51.05238","3.69972");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Blaisantvest (N430) Westbound - Neuseplein - Einde Were",2646,116,1,"51.06744","3.72704","51.05238","3.69972");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,12,'51.0674','3.72692'),
 (2,12,'51.06738','3.72684'),
 (3,12,'51.06729','3.72646'),
@@ -1040,7 +1040,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,12,'51
 (87,12,'51.05265','3.69992'),
 (88,12,'51.05263','3.69988'),
 (89,12,'51.05256','3.69978');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Keizer Karelstraat Northbound - Sint-Lievenslaan - Neuseplein",3823,264,1,"51.03791","3.73713","51.06729","3.72713");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Keizer Karelstraat Northbound - Sint-Lievenslaan - Neuseplein",3823,205,1,"51.03791","3.73713","51.06729","3.72713");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,13,'51.03851','3.73675'),
 (2,13,'51.03857','3.73672'),
 (3,13,'51.0388','3.73659'),
@@ -1203,7 +1203,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,13,'51
 (160,13,'51.0672','3.72716'),
 (161,13,'51.06722','3.72715'),
 (162,13,'51.06725','3.72714');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Keizer Karelstraat Southbound - Neuseplein - Sint-Lievenslaan",3550,116,1,"51.06725","3.72701","51.0389","3.7371");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Keizer Karelstraat Southbound - Neuseplein - Sint-Lievenslaan",3550,161,1,"51.06725","3.72701","51.0389","3.7371");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,14,'51.06723','3.72702'),
 (2,14,'51.06721','3.72703'),
 (3,14,'51.06719','3.72704'),
@@ -1317,7 +1317,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,14,'51
 (120,14,'51.04158','3.73552'),
 (121,14,'51.04107','3.73582'),
 (122,14,'51.04007','3.73639');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Kennedylaan (R4) Southbound - E34 - Port Arthurlaan",15645,546,1,"51.19287","3.83009","51.07397","3.73478");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Kennedylaan (R4) Southbound - E34 - Port Arthurlaan",15645,536,1,"51.19287","3.83009","51.07397","3.73478");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,15,'51.19276','3.83014'),
 (2,15,'51.19265','3.8302'),
 (3,15,'51.19239','3.8303'),
@@ -1600,7 +1600,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,15,'51
 (280,15,'51.07393','3.73497'),
 (281,15,'51.07394','3.73492'),
 (282,15,'51.07395','3.73484');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Kennedylaan (R4) Northbound - Port Arthurlaan - E34",15675,514,1,"51.07386","3.73473","51.1929","3.8303");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Kennedylaan (R4) Northbound - Port Arthurlaan - E34",15675,557,1,"51.07386","3.73473","51.1929","3.8303");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,16,'51.07385','3.735'),
 (2,16,'51.07384','3.7352'),
 (3,16,'51.07383','3.73533'),
@@ -1882,7 +1882,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,16,'51
 (279,16,'51.19195','3.83074'),
 (280,16,'51.19263','3.83042'),
 (281,16,'51.19281','3.83034');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Eisenhowerlaan (R4) Southbound - Kennedylaan - E17",17199,551,1,"51.08737","3.75643","51.01401","3.72731");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Eisenhowerlaan (R4) Southbound - Kennedylaan - E17",17199,529,1,"51.08737","3.75643","51.01401","3.72731");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,17,'51.08733','3.75663'),
 (2,17,'51.08696','3.75743'),
 (3,17,'51.08681','3.75776'),
@@ -2816,7 +2816,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,19,'51
 (227,19,'51.08472','3.66568'),
 (228,19,'51.08507','3.667'),
 (229,19,'51.08508','3.66706');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Buitenring-Drongen (R4) Southbound - Industrieweg - Sluisweg",10964,429,1,"51.08584","3.66955","51.01338","3.72554");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Buitenring-Drongen (R4) Southbound - Industrieweg - Sluisweg",10964,391,1,"51.08584","3.66955","51.01338","3.72554");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,20,'51.08577','3.66929'),
 (2,20,'51.08561','3.66866'),
 (3,20,'51.08545','3.66798'),
@@ -3352,7 +3352,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,21,'51
 (284,21,'51.19485','3.781'),
 (285,21,'51.19487','3.78104'),
 (286,21,'51.19553','3.78215');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Paryslaan (R4) Southbound - E34 - Industrieweg",15719,525,1,"51.19743","3.78512","51.08584","3.66955");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Paryslaan (R4) Southbound - E34 - Industrieweg",15719,545,1,"51.19743","3.78512","51.08584","3.66955");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,22,'51.1968','3.78408'),
 (2,22,'51.19618','3.78305'),
 (3,22,'51.19581','3.78242'),
@@ -3635,7 +3635,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,22,'51
 (280,22,'51.08627','3.6714'),
 (281,22,'51.08621','3.67114'),
 (282,22,'51.08604','3.67037');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Drongensesteenweg (N466) Eastbound - E40 - Rooigemlaan",5533,235,1,"51.0388","3.62712","51.05617","3.69508");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Drongensesteenweg (N466) Eastbound - E40 - Rooigemlaan",5533,247,1,"51.0388","3.62712","51.05617","3.69508");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,23,'51.03875','3.62726'),
 (2,23,'51.03872','3.62742'),
 (3,23,'51.03868','3.62759'),
@@ -3781,7 +3781,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,23,'51
 (143,23,'51.05608','3.69478'),
 (144,23,'51.05609','3.69485'),
 (145,23,'51.0561','3.69492');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Drongensesteenweg (N466) Westbound - Rooigemlaan - E40",5523,246,1,"51.05617","3.69508","51.0388","3.62712");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Drongensesteenweg (N466) Westbound - Rooigemlaan - E40",5523,250,1,"51.05617","3.69508","51.0388","3.62712");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,24,'51.05616','3.69483'),
 (2,24,'51.05615','3.69475'),
 (3,24,'51.05613','3.69454'),
@@ -3916,7 +3916,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,24,'51
 (132,24,'51.03863','3.62807'),
 (133,24,'51.03875','3.62746'),
 (134,24,'51.03878','3.62729');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Antwerpsesteenweg (N70) Westbound - R4 - Dampoort",5087,186,1,"51.08369","3.79449","51.05714","3.73952");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Antwerpsesteenweg (N70) Westbound - R4 - Dampoort",5087,167,1,"51.08369","3.79449","51.05714","3.73952");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,25,'51.0836','3.79425'),
 (2,25,'51.08355','3.79411'),
 (3,25,'51.08343','3.79375'),
@@ -4067,7 +4067,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,25,'51
 (148,25,'51.05723','3.73974'),
 (149,25,'51.05719','3.73965'),
 (150,25,'51.05717','3.73961');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Antwerpsesteenweg (N70) Eastbound - Dampoort - R4",4993,171,1,"51.05698","3.74015","51.08343","3.79375");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Antwerpsesteenweg (N70) Eastbound - Dampoort - R4",4993,258,1,"51.05698","3.74015","51.08343","3.79375");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,26,'51.05713','3.74032'),
 (2,26,'51.05716','3.74036'),
 (3,26,'51.05717','3.74041'),
@@ -4212,7 +4212,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,26,'51
 (142,26,'51.08304','3.79275'),
 (143,26,'51.0833','3.79342'),
 (144,26,'51.08338','3.79362');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("B401 (Northbound) - E17 - Vlaanderenstraat",3123,122,1,"51.02211","3.73471","51.04841","3.73144");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("B401 (Northbound) - E17 - Vlaanderenstraat",3123,125,1,"51.02211","3.73471","51.04841","3.73144");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,27,'51.02283','3.73535'),
 (2,27,'51.02289','3.73541'),
 (3,27,'51.02327','3.73576'),
@@ -4305,7 +4305,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,27,'51
 (90,27,'51.04829','3.73176'),
 (91,27,'51.04839','3.73171'),
 (92,27,'51.04841','3.73147');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("B401 (Southbound) - Vlaanderenstraat - E17",3461,110,1,"51.04841","3.73144","51.02171","3.73314");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("B401 (Southbound) - Vlaanderenstraat - E17",3461,121,1,"51.04841","3.73144","51.02171","3.73314");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,28,'51.04857','3.73136'),
 (2,28,'51.04869','3.73129'),
 (3,28,'51.049','3.72964'),
@@ -4390,7 +4390,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,28,'51
 (82,28,'51.02313','3.73402'),
 (83,28,'51.02225','3.73341'),
 (84,28,'51.0218','3.73311');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Brusselsesteenweg (N9) Westbound - R4 - Scheldekaai",5294,178,1,"51.00874","3.79292","51.04203","3.73968");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Brusselsesteenweg (N9) Westbound - R4 - Scheldekaai",5294,183,1,"51.00874","3.79292","51.04203","3.73968");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,29,'51.00922','3.7924'),
 (2,29,'51.00941','3.7922'),
 (3,29,'51.00953','3.79207'),
@@ -4530,7 +4530,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,29,'51
 (137,29,'51.04187','3.74005'),
 (138,29,'51.04189','3.74001'),
 (139,29,'51.04192','3.73994');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Brusselsesteenweg (N9) Eastbound - Scheldekaai - R4",5292,203,1,"51.04203","3.73968","51.00874","3.79292");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Brusselsesteenweg (N9) Eastbound - Scheldekaai - R4",5292,175,1,"51.04203","3.73968","51.00874","3.79292");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,30,'51.04192','3.73994'),
 (2,30,'51.04189','3.74001'),
 (3,30,'51.04187','3.74005'),
@@ -4682,7 +4682,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,30,'51
 (149,30,'51.00978','3.79146'),
 (150,30,'51.00945','3.79192'),
 (151,30,'51.00917','3.7923');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Oudenaardsesteenweg (N60) Northbound - E17 - R40",9679,310,1,"50.98049","3.66833","51.03843","3.72626");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Oudenaardsesteenweg (N60) Northbound - E17 - R40",9679,318,1,"50.98049","3.66833","51.03843","3.72626");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,31,'50.98066','3.66867'),
 (2,31,'50.98077','3.66899'),
 (3,31,'50.9808','3.6692'),
@@ -4936,7 +4936,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,31,'50
 (251,31,'51.03731','3.72658'),
 (252,31,'51.03814','3.72635'),
 (253,31,'51.03834','3.72628');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Oudenaardsesteenweg (N60) Southbound - R40 - E17",9465,291,1,"51.03843","3.72626","50.98494","3.67285");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Oudenaardsesteenweg (N60) Southbound - R40 - E17",9465,290,1,"51.03843","3.72626","50.98494","3.67285");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,32,'51.03834','3.72628'),
 (2,32,'51.03816','3.72635'),
 (3,32,'51.03731','3.72658'),
@@ -5246,7 +5246,7 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,33,'51
 (89,33,'51.06469','3.70219'),
 (90,33,'51.06438','3.7023'),
 (91,33,'51.06434','3.70233');
-insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Brugsevaart (N9) Northbound - Gebroeders de Smetstraat - R4",3646,121,1,"51.06428","3.70242","51.08552","3.66315");
+insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values("Brugsevaart (N9) Northbound - Gebroeders de Smetstraat - R4",3646,133,1,"51.06428","3.70242","51.08552","3.66315");
 insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,34,'51.06431','3.70237'),
 (2,34,'51.06434','3.70233'),
 (3,34,'51.06438','3.7023'),

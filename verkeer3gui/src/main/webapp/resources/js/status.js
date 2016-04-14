@@ -12,11 +12,11 @@ $(function () {
     begindatum.setDate(begindatum.getDate()-7);
     $('#startdate').datetimepicker({
         format: "YYYY-MM-DD HH:mm",
-        date: begindatum.toUTCString()
+        date: begindatum
     });
     $('#enddate').datetimepicker({
         format: "YYYY-MM-DD HH:mm",
-        date: new Date().toUTCString()
+        date: new Date()
     });
 });
 
@@ -67,6 +67,7 @@ $(document).ready(function(){
         },
         series : []
     });
+
 });
 
 //Dropdown
@@ -112,9 +113,7 @@ function getTraveltimes(selected_traject_id) {
 
     $.getJSON( "json/metingen/"+selected_traject_id+"/"+startdatum+"/"+einddatum, function( data ) {
         $.each( data, function( key, val ) {
-            $.each( data, function( key, val ) {
-                addMeting(val["provider"]["naam"],val["timestamp"],val["reistijd"]);
-            });
+            addMeting(val["provider"]["naam"],val["timestamp"],val["reistijd"]);
         });
         chart.redraw();
         toggleLoader();

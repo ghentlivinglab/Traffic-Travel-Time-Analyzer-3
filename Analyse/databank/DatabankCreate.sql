@@ -29,10 +29,30 @@ CREATE TABLE `metingen` (
   `reistijd` int(11) DEFAULT NULL,
   `traject_id` int(11) DEFAULT NULL,
   `provider_id` int(11) NOT NULL,
+  PRIMARY KEY (`timestamp`,`traject_id`,`provider_id`),
   KEY `fk_Meting_Provider1_idx` (`provider_id`),
   KEY `fk_Meting_Traject_idx` (`traject_id`),
   CONSTRAINT `fk_Meting_Provider1` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Meting_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `optimale_reistijden`
+--
+
+DROP TABLE IF EXISTS `optimale_reistijden`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `optimale_reistijden` (
+  `traject_id` int(11) NOT NULL,
+  `provider_id` int(11) NOT NULL,
+  `reistijd` int(11) DEFAULT NULL,
+  PRIMARY KEY (`traject_id`,`provider_id`),
+  KEY `fk_OptimaleReistijd_Provider_idx` (`provider_id`),
+  KEY `fk_OptimaleReistijd_Traject_idx` (`traject_id`),
+  CONSTRAINT `fk_OptimaleReistijd_Provider` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_OptimaleReistijd_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -22,7 +22,9 @@ import java.util.List;
 public class IndexController {
     private static int counter = 0;
     private static final String VIEW_INDEX = "home/index";
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
+
     public String index(ModelMap model,@RequestParam(value = "provider", defaultValue = "-1") int provider) {
         //Config.properties file in jetty home zetten voor testing...
         try {

@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.bing;
 
 import com.google.gson.annotations.Expose;
@@ -19,36 +18,28 @@ public class ResourceSet {
     private List<Resource> resources = new ArrayList<Resource>();
 
     /**
-     * 
-     * @return
-     *     The estimatedTotal
+     * @return The estimatedTotal
      */
     public Integer getEstimatedTotal() {
         return estimatedTotal;
     }
 
     /**
-     * 
-     * @param estimatedTotal
-     *     The estimatedTotal
+     * @param estimatedTotal The estimatedTotal
      */
     public void setEstimatedTotal(Integer estimatedTotal) {
         this.estimatedTotal = estimatedTotal;
     }
 
     /**
-     * 
-     * @return
-     *     The resources
+     * @return The resources
      */
     public List<Resource> getResources() {
         return resources;
     }
 
     /**
-     * 
-     * @param resources
-     *     The resources
+     * @param resources The resources
      */
     public void setResources(List<Resource> resources) {
         this.resources = resources;

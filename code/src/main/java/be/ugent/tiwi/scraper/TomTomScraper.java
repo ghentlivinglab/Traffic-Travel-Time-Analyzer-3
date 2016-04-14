@@ -7,6 +7,7 @@ import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.*;
 import be.ugent.tiwi.domein.tomtom.Route;
 import be.ugent.tiwi.domein.tomtom.TomTom;
+import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import settings.Settings;
@@ -19,53 +20,12 @@ import java.util.List;
 
 /**
  * Created on 01.03.16.
- * <p>
- * Account settings
- * email:           vopverkeer3@gmail.com
- * username:        vopverkeer3
- * password:        vopverk31
- * API key:         AIzaSyAcbAEzORRjLqSP6I4ZcUzB6YKaNr6X7Fg
- * Sample call: https://api.tomtom.com/routing/1/calculateRoute/52.509317,13.429368:52.502746,13.438724/json?key=8yafwthpctekty68x3kbae4h
- * <p>
- * <p>
- * Online Routing
- * <p>
- * Key: 8yafwthpctekty68x3kbae4h
- * <p>
- * Application: vopverkeer3 Key: 8yafwthpctekty68x3kbae4h Status: active Registered: 12 seconds ago
- * Key Rate Limits
- * 5	Calls per second
- * 1,000	Calls per day
- * Online Search
- * <p>
- * Key: naaqavj3jt4v6q74huk6wvfy
- * <p>
- * Application: vopverkeer3 Key: naaqavj3jt4v6q74huk6wvfy Status: active Registered: 12 seconds ago
- * Key Rate Limits
- * 5	Calls per second
- * 1,000	Calls per day
- * Online Traffic Flow
- * <p>
- * Key: 5jsqf2j9zjwerqudwcm8kn2f
- * <p>
- * Application: vopverkeer3 Key: 5jsqf2j9zjwerqudwcm8kn2f Status: active Registered: 12 seconds ago
- * Key Rate Limits
- * 1,000	Calls per second
- * 10,000	Calls per day
- * Online Traffic Incidents
- * <p>
- * Key: 5c64tkvt8w424hj8a6afxw3t
- * <p>
- * Application: vopverkeer3 Key: 5c64tkvt8w424hj8a6afxw3t Shared Secret: q5qt2mZ Status: active Registered: 11 seconds ago
- * Key Rate Limits
- * 30	Calls per second
- * 5,000	Calls per day
  */
 public class TomTomScraper extends TrafficScraper {
 
+    private static final Logger logger = LogManager.getLogger(TomTomScraper.class);
     private String apiKey;
     private JsonController<TomTom> jc;
-    private static final Logger logger = LogManager.getLogger(TomTomScraper.class);
 
 
     public TomTomScraper() {
@@ -73,15 +33,15 @@ public class TomTomScraper extends TrafficScraper {
         this.jc = new JsonController<TomTom>();
     }
 
+    /**
+     * Haalt per traject de huidige reistijd op van de TomTom provider. Deze reistijden worden als metingen
+     * teruggestuurd.
+     *
+     * @param trajects Een lijst van trajecten waarvan een meting moet woren opgehaald
+     * @return Een lijst van metingen
+     */
     @Override
     public List<Meting> scrape(List<Traject> trajects) {
-        return makeCall(trajects);
-    }
-
-    /**
-     * here the actual rest call is made
-     */
-    public List<Meting> makeCall(List<Traject> trajects) {
         List<Meting> metingen = new ArrayList<>();
         //Get all trajectories which have coordinates in it
         DatabaseController databaseController = new DatabaseController();
@@ -89,6 +49,7 @@ public class TomTomScraper extends TrafficScraper {
         Provider tomtomProv = databaseController.haalProviderOp("TomTom");
         JsonController jc = new JsonController();
         long lastScrape;
+        boolean exceededLimit = false;
         for (Traject traject : trajects) {
              /* https://<baseURL>/routing/<versionNumber>/calculateRoute/<locations>[/<contentType>]?key=<apiKey>
               * [&routeType=<routeType>][&traffic=<boolean>][&avoid=<avoidType>][&instructionsType=<instructionsType>]
@@ -130,7 +91,7 @@ public class TomTomScraper extends TrafficScraper {
                     metingen.add(new Meting(tomtomProv, traject, -1, LocalDateTime.now()));
                 }
 
-                /*
+
                 for (Route r : tomtom.getRoutes()) {
                     int traveltime = r.getSummary().getTravelTimeInSeconds();
 
@@ -146,12 +107,20 @@ public class TomTomScraper extends TrafficScraper {
                         e.printStackTrace();
                     }
                     break;
-                }*/
-            } catch (InvalidMethodException e) {
+                }
+            } catch(JsonSyntaxException e) {
+                //TomTom is over zijn limiet
+                if(!exceededLimit){
+                    logger.error("The TomTom-scraper has exceeded its daily limit!");
+                    exceededLimit = true;
+                }
+                logger.warn("Added an empty measurement");
+                metingen.add(new Meting(tomtomProv, traject, null, LocalDateTime.now()));
+            }catch (InvalidMethodException e) {
                 logger.error(e);
             } catch (IOException e) {
                 // Indien de service niet beschikbaar is (of deze machine heeft geen verbinding met de service), mag een leeg traject ingegeven worden.
-                Meting meting = new Meting(tomtomProv, traject, -1, LocalDateTime.now());
+                Meting meting = new Meting(tomtomProv, traject, null, LocalDateTime.now());
                 metingen.add(meting);
                 logger.error(e);
                 logger.warn("Added an empty measurement");

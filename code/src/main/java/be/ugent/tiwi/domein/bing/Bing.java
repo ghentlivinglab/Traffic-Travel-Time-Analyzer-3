@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.bing;
 
 import com.google.gson.annotations.Expose;
@@ -34,126 +33,98 @@ public class Bing {
     private String traceId;
 
     /**
-     * 
-     * @return
-     *     The authenticationResultCode
+     * @return The authenticationResultCode
      */
     public String getAuthenticationResultCode() {
         return authenticationResultCode;
     }
 
     /**
-     * 
-     * @param authenticationResultCode
-     *     The authenticationResultCode
+     * @param authenticationResultCode The authenticationResultCode
      */
     public void setAuthenticationResultCode(String authenticationResultCode) {
         this.authenticationResultCode = authenticationResultCode;
     }
 
     /**
-     * 
-     * @return
-     *     The brandLogoUri
+     * @return The brandLogoUri
      */
     public String getBrandLogoUri() {
         return brandLogoUri;
     }
 
     /**
-     * 
-     * @param brandLogoUri
-     *     The brandLogoUri
+     * @param brandLogoUri The brandLogoUri
      */
     public void setBrandLogoUri(String brandLogoUri) {
         this.brandLogoUri = brandLogoUri;
     }
 
     /**
-     * 
-     * @return
-     *     The copyright
+     * @return The copyright
      */
     public String getCopyright() {
         return copyright;
     }
 
     /**
-     * 
-     * @param copyright
-     *     The copyright
+     * @param copyright The copyright
      */
     public void setCopyright(String copyright) {
         this.copyright = copyright;
     }
 
     /**
-     * 
-     * @return
-     *     The resourceSets
+     * @return The resourceSets
      */
     public List<ResourceSet> getResourceSets() {
         return resourceSets;
     }
 
     /**
-     * 
-     * @param resourceSets
-     *     The resourceSets
+     * @param resourceSets The resourceSets
      */
     public void setResourceSets(List<ResourceSet> resourceSets) {
         this.resourceSets = resourceSets;
     }
 
     /**
-     * 
-     * @return
-     *     The statusCode
+     * @return The statusCode
      */
     public Integer getStatusCode() {
         return statusCode;
     }
 
     /**
-     * 
-     * @param statusCode
-     *     The statusCode
+     * @param statusCode The statusCode
      */
     public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
 
     /**
-     * 
-     * @return
-     *     The statusDescription
+     * @return The statusDescription
      */
     public String getStatusDescription() {
         return statusDescription;
     }
 
     /**
-     * 
-     * @param statusDescription
-     *     The statusDescription
+     * @param statusDescription The statusDescription
      */
     public void setStatusDescription(String statusDescription) {
         this.statusDescription = statusDescription;
     }
 
     /**
-     * 
-     * @return
-     *     The traceId
+     * @return The traceId
      */
     public String getTraceId() {
         return traceId;
     }
 
     /**
-     * 
-     * @param traceId
-     *     The traceId
+     * @param traceId The traceId
      */
     public void setTraceId(String traceId) {
         this.traceId = traceId;

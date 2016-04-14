@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.tomtom;
 
 import com.google.gson.annotations.Expose;
@@ -22,54 +21,42 @@ public class Route {
     private List<Section> sections = new ArrayList<Section>();
 
     /**
-     * 
-     * @return
-     *     The summary
+     * @return The summary
      */
     public Summary getSummary() {
         return summary;
     }
 
     /**
-     * 
-     * @param summary
-     *     The summary
+     * @param summary The summary
      */
     public void setSummary(Summary summary) {
         this.summary = summary;
     }
 
     /**
-     * 
-     * @return
-     *     The legs
+     * @return The legs
      */
     public List<Leg> getLegs() {
         return legs;
     }
 
     /**
-     * 
-     * @param legs
-     *     The legs
+     * @param legs The legs
      */
     public void setLegs(List<Leg> legs) {
         this.legs = legs;
     }
 
     /**
-     * 
-     * @return
-     *     The sections
+     * @return The sections
      */
     public List<Section> getSections() {
         return sections;
     }
 
     /**
-     * 
-     * @param sections
-     *     The sections
+     * @param sections The sections
      */
     public void setSections(List<Section> sections) {
         this.sections = sections;

@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Verkeer 3 GUI</title>
+	<link rel="shortcut icon" type="image/png" href="<c:url value="/resources/favicon.ico"/>"/>
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet"  type="text/css" />
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet"  type="text/css" />
     <link href="<c:url value="/resources/datetimepicker/css/bootstrap-datetimepicker.min.css"/>" rel="stylesheet"  type="text/css" />

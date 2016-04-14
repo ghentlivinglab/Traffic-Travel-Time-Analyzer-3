@@ -17,8 +17,10 @@ public class Provider {
     public Provider() {
     }
 
+
     /**
      * Constructor van de klasse die 3 parameters invult
+     *
      * @param id        Het ID van de provider
      * @param naam      De naam van de provider
      * @param is_active Geeft aan of de provider actief is.
@@ -31,6 +33,7 @@ public class Provider {
 
     /**
      * Geeft de naam van de provider
+     *
      * @return De naam van de provider
      */
     public String getNaam() {
@@ -39,6 +42,7 @@ public class Provider {
 
     /**
      * Geeft aan of de provider actief is
+     *
      * @return Een boolean die aangeeft of de provider actief is
      */
     public boolean is_active() {
@@ -46,7 +50,17 @@ public class Provider {
     }
 
     /**
+     * Stelt in of de provider actief is
+     *
+     * @param is_active Een boolean die aangeeft of de provider actief is
+     */
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
+    }
+
+    /**
      * Geeft het ID van de provider terug
+     *
      * @return Het ID van de provider
      */
     public int getId() {
@@ -55,6 +69,7 @@ public class Provider {
 
     /**
      * Geeft een lijst van alle metingen terug
+     *
      * @return Een lijst van metingen
      */
     public List<Meting> getMetingen() {
@@ -63,6 +78,7 @@ public class Provider {
 
     /**
      * Wijzig de lijst van metingen van de provider
+     *
      * @param metingen Een lijst van nieuwe metingen
      */
     public void setMetingen(List<Meting> metingen) {
@@ -71,7 +87,8 @@ public class Provider {
 
     /**
      * Geeft een kort overzicht van de provider
-     * @return
+     *
+     * @return een kort overzicht
      */
     @Override
     public String toString() {

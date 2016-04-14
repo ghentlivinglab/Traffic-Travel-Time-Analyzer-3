@@ -25,9 +25,9 @@ var drawPolyline = function (val) {
     $.each(val['traject']['waypoints'],function(key,waypoint){
         wpts.push([parseFloat(waypoint['latitude']),parseFloat(waypoint['longitude'])]);
     });
-    var avg_vertraging =  val['avg_vertraging'];
+    var avg_vertraging =  val['avg_vertraging'] < 0 ? 0 : val['avg_vertraging'];
     var optimale_reistijd = val['traject']['optimale_reistijd'];
-    var line_color = (avg_vertraging-120>optimale_reistijd?'red':(avg_vertraging-30>optimale_reistijd?"green":"orange"));
+    var line_color = (avg_vertraging < optimale_reistijd + 30 ? 'green':(avg_vertraging < optimale_reistijd + 120? "orange":"red"));
     var opts = {
         color:line_color,
         weight:10,

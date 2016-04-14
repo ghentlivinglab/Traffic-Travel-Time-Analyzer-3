@@ -5337,3 +5337,4 @@ insert into vop.waypoints(volgnr, traject_id,latitude,longitude) values(1,34,'51
 (88,34,'51.08498','3.66421'),
 (89,34,'51.08504','3.66411'),
 (90,34,'51.08516','3.66386');
+insert into vop.optimale_reistijden(traject_id, provider_id, reistijd) select t.id traject_id, p.id provider_id, t.optimale_reistijd reistijd from trajecten t cross join providers p;

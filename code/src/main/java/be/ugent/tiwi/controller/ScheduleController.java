@@ -7,6 +7,7 @@ import be.ugent.tiwi.scraper.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -40,32 +41,31 @@ public class ScheduleController {
 
     /**
      * Overloopt alle actieve providers en verwerkt de verkregen metingen.
-     *
-     * @throws RuntimeException Als een onopgevangen fout gebeurt
      */
-    private void haalDataOp() throws RuntimeException {
-        try {
+    private void haalDataOp() {
             dbController = new DatabaseController();
             List<Provider> providers = dbController.haalActieveProvidersOp();
-            List<Traject> trajects = dbController.getTrajectenMetWaypoints();
             for (Provider provider : providers) {
 
-                logger.info("[" + provider.getNaam() + "] Scraping provider...");
-                haalDataVanProvider(provider.getNaam(), trajects);
-                logger.info("[" + provider.getNaam() + "] Done!");
+                try {
+                    List<Traject> trajects = dbController.getTrajectenMetWaypoints();
+                    logger.info("[" + provider.getNaam() + "] Scraping provider...");
+                    //Geef een kopie van de lijst mee zodat enige wijzigingen de andere scrapers niet beinvloeden.
+                    haalDataVanProvider(provider.getNaam(), new ArrayList<>(trajects));
+                    logger.info("[" + provider.getNaam() + "] Done!");
 
+                } catch (RuntimeException ex) {
+                    logger.error("Exception in een scraper:", ex);
+                }
             }
-        } catch (RuntimeException ex) {
-            logger.error("Excetion in scheduler", ex);
-        }
 
     }
 
     /**
      * Roept de scraper van de provider gelabeled als **naam** op en voegt de verkregen metingen toe aan de database.
-     * @param naam      De naam van de provider
-     * @param trajects  De trajecten die meegegeven worden met de scraper
      *
+     * @param naam     De naam van de provider
+     * @param trajects De trajecten die meegegeven worden met de scraper
      * @see Traject
      * @see Provider
      */

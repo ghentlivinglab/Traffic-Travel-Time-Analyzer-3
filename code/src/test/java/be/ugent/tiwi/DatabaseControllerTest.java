@@ -2,6 +2,7 @@ package be.ugent.tiwi;
 
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Provider;
+import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.settings.DependencyModules.RepositoryTestModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -64,5 +65,34 @@ public class DatabaseControllerTest{
     public void haalAlleTrajecten_Correct() {
         int count = dbController.haalTrajectenOp().size();
         assertEquals(5, count);
+    }
+
+    @Test
+    public void haalAlleTrajectenMetWaypoints_Correct() {
+        int count = dbController.getTrajectenMetWaypoints().size();
+        assertEquals(1, count);
+    }
+
+    @Test
+    public void haalTraject_Correct() {
+        Traject traj = dbController.haalTraject(2);
+        assertEquals("Traject 2", traj.getNaam());
+    }
+
+    @Test
+    public void wijzigTraject_Correct() {
+        Traject traj = dbController.haalTraject(2);
+        traj.setNaam("Aangepast");
+        dbController.wijzigTraject(traj);
+
+        assertEquals("Aangepast", traj.getNaam());
+
+        traj.setNaam("Traject 2");
+        dbController.wijzigTraject(traj);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void wijzigTraject_MetNULL() {
+        dbController.wijzigTraject(null);
     }
 }

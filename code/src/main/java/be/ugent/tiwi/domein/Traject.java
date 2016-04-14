@@ -135,7 +135,7 @@ public class Traject {
      *
      * @return De optimale reistijd van het traject
      */
-    public int getGlobaleOptimale_reistijd() {
+    public int getOptimale_reistijd() {
         return optimale_reistijd;
     }
 
@@ -144,7 +144,7 @@ public class Traject {
      *
      * @param optimale_reistijd De optimale reistijd
      */
-    public void setGlobaleOptimale_reistijd(int optimale_reistijd) {
+    public void setOptimale_reistijd(int optimale_reistijd) {
         this.optimale_reistijd = optimale_reistijd;
     }
 

@@ -91,7 +91,7 @@ public class TomTomScraper extends TrafficScraper {
                     metingen.add(new Meting(tomtomProv, traject, -1, LocalDateTime.now()));
                 }
 
-                /*
+
                 for (Route r : tomtom.getRoutes()) {
                     int traveltime = r.getSummary().getTravelTimeInSeconds();
 

@@ -112,7 +112,7 @@ public class DatabaseController {
                 traject.getId(),
                 traject.getNaam(),
                 traject.getLengte(),
-                traject.getGlobaleOptimale_reistijd(),
+                traject.getOptimale_reistijd(),
                 traject.getOptimaleReistijden(),
                 traject.is_active(),
                 traject.getStart_latitude(),

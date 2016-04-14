@@ -44,7 +44,7 @@ public class OptimaleReistijdGenerator {
                 case "coyote":
                     Map<Integer, Integer> reistijdenPerTraject = new HashMap<>();
                     for(Traject t : trajects)
-                        reistijdenPerTraject.put(t.getId(), t.getGlobaleOptimale_reistijd());
+                        reistijdenPerTraject.put(t.getId(), t.getOptimale_reistijd());
                     dbController.setOptimaleReistijdenPerProvider(provider.getId(), reistijdenPerTraject);
                     break;
                 case "bing maps":

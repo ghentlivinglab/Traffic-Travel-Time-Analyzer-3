@@ -217,7 +217,7 @@ public class WaypointsGenerator extends CoyoteScraper {
                 writer.write("\",");
                 writer.write(String.valueOf(traject.getLengte()));
                 writer.write(",");
-                writer.write(String.valueOf(traject.getGlobaleOptimale_reistijd()));
+                writer.write(String.valueOf(traject.getOptimale_reistijd()));
                 writer.write(",");
                 writer.write(String.valueOf(1));
                 writer.write(",\"");

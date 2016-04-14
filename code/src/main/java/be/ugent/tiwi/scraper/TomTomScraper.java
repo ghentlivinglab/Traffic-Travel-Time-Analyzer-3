@@ -49,16 +49,11 @@ public class TomTomScraper extends TrafficScraper {
         Provider tomtomProv = databaseController.haalProviderOp("TomTom");
         JsonController jc = new JsonController();
         long lastScrape;
-        boolean exceededLimit = false;
+        boolean loggedExceededLimit = false;
         for (Traject traject : trajects) {
-             /* https://<baseURL>/routing/<versionNumber>/calculateRoute/<locations>[/<contentType>]?key=<apiKey>
-              * [&routeType=<routeType>][&traffic=<boolean>][&avoid=<avoidType>][&instructionsType=<instructionsType>]
-              * [&departAt=<time>][&maxAlternatives=<alternativeRoutes>][&computeBestOrder=<boolean>]
-              * [&routeRepresentation=<routeRepresentation>][&travelMode=<travelMode>][&callback=<callback>]
-              * More info: http://developer.tomtom.com/products/onlinenavigation/onlinerouting/Documentation#Request
-             */
-            String url = "https://api.tomtom.com/routing/1/calculateRoute/" +
-                    traject.getStart_latitude() + "%2C" + traject.getStart_longitude();
+             /* Url opbouwen */
+            StringBuilder url = new StringBuilder("https://api.tomtom.com/routing/1/calculateRoute/");
+            url.append(traject.getStart_latitude()).append("%2C").append(traject.getStart_longitude());
             List<Waypoint> wpts = traject.getWaypoints();
             int i;
             if(wpts.size()>0) {
@@ -67,63 +62,60 @@ public class TomTomScraper extends TrafficScraper {
                 if(size > 1)
                     for(i = 1; i < 50; ++i){
                         int index = (int) (i * size);
-                        url += "%3A" + wpts.get(index).getLatitude() + "%2C" + wpts.get(index).getLongitude();
+                        url.append("%3A").append(wpts.get(index).getLatitude()).append("%2C").append(wpts.get(index).getLongitude());
                     }
                 else
                     for(i = 1; i < wpts.size(); ++i)
-                        url += "%3A" + wpts.get(i).getLatitude() + "%2C" + wpts.get(i).getLongitude();
+                        url.append("%3A").append(wpts.get(i).getLatitude()).append("%2C").append(wpts.get(i).getLongitude());
             }
-            url +=  "%3A" + traject.getEnd_latitude() + "%2C" + traject.getEnd_longitude() +
-                    "/json?key=" + this.apiKey;
+            url.append("%3A").append(traject.getEnd_latitude()).append("%2C").append(traject.getEnd_longitude()).append("/json?key=").append(this.apiKey);
 
+
+            // We geven ieder traject een delay van 300ms zodat we niet over het maximum aantal calls per seconde gaan.
             lastScrape = System.currentTimeMillis();
+            int diff = (int) (System.currentTimeMillis() - lastScrape);
             try {
-                TomTom tomtom = (TomTom) jc.getObject(url, TomTom.class, RequestType.GET);
+                if (diff < 300)
+                    Thread.sleep(300 - diff);
+            }catch (InterruptedException e) {
+                logger.warn("Could not delay the call to the API.");
+            }
+
+            try {
+                TomTom tomtom = (TomTom) jc.getObject(url.toString(), TomTom.class, RequestType.GET);
                 LocalDateTime now = LocalDateTime.now();
-                if (tomtom.getRoutes().size() > 0) {
-                    String urlStaticMaps;
-
-                    int traveltime = tomtom.getRoutes().get(0).getSummary().getTravelTimeInSeconds();
-                    Meting meting = new Meting(tomtomProv, traject, traveltime, LocalDateTime.now());
-                    metingen.add(meting);
-                } else {
-                    logger.warn("Provider TomTom: Could not scrape traject " + traject.getId() + ", adding an empty measurement [1]");
-                    metingen.add(new Meting(tomtomProv, traject, -1, LocalDateTime.now()));
-                }
-
-
+                Meting meting = null;
                 for (Route r : tomtom.getRoutes()) {
                     int traveltime = r.getSummary().getTravelTimeInSeconds();
-
-                    Meting meting = new Meting(tomtomProv, traject, traveltime, now);
-
-                    metingen.add(meting);
-                    try {
-                        int diff = (int) (System.currentTimeMillis() - lastScrape);
-                        if (diff < 300) {
-                            Thread.sleep(300 - diff);
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    break;
+                    int distance = r.getSummary().getLengthInMeters();
+                    Meting tempM = new Meting(tomtomProv, traject, traveltime, now);
+                    if (meting == null || Math.abs(tempM.getTraject().getLengte() - traveltime) < Math.abs(meting.getTraject().getLengte() - traveltime))
+                        meting = tempM;
                 }
+
+                if (meting != null)
+                    metingen.add(meting);
+                else {
+                    logger.warn("Provider TomTom: Could not scrape traject " + traject.getId() + ", adding an empty measurement [1]");
+                    metingen.add(new Meting(tomtomProv, traject, null, LocalDateTime.now()));
+                }
+
             } catch(JsonSyntaxException e) {
                 //TomTom is over zijn limiet
-                if(!exceededLimit){
+                if(!loggedExceededLimit){
                     logger.error("The TomTom-scraper has exceeded its daily limit!");
-                    exceededLimit = true;
+                    loggedExceededLimit = true;
                 }
                 logger.warn("Added an empty measurement");
                 metingen.add(new Meting(tomtomProv, traject, null, LocalDateTime.now()));
-            }catch (InvalidMethodException e) {
-                logger.error(e);
             } catch (IOException e) {
                 // Indien de service niet beschikbaar is (of deze machine heeft geen verbinding met de service), mag een leeg traject ingegeven worden.
                 Meting meting = new Meting(tomtomProv, traject, null, LocalDateTime.now());
                 metingen.add(meting);
-                logger.error(e);
-                logger.warn("Added an empty measurement");
+                logger.warn("Added an empty measurement: ", e);
+            } catch (InvalidMethodException e) {
+                // Zou nooit mogen gebeuren
+                e.printStackTrace();
             }
         }
         return metingen;

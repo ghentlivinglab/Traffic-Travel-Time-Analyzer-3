@@ -1,5 +1,6 @@
 package be.ugent.tiwi.controller;
 
+import be.ugent.tiwi.dal.DBConnector;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
@@ -7,6 +8,7 @@ import be.ugent.tiwi.scraper.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -29,14 +31,21 @@ public class ScheduleController {
         ScheduledExecutorService scheduler =
                 Executors.newScheduledThreadPool(1);
 
-        final Runnable schema = new Runnable() {
-            public void run() {
-                logger.info("Schedule STARTING - Trying to scrape data");
-                haalDataOp();
-                logger.info("Schedule DONE     - Waiting for next call");
+        DBConnector db = new DBConnector();
+        try {
+            if(db.getConnection() != null) {
+                final Runnable schema = new Runnable() {
+                    public void run() {
+                        logger.info("Schedule STARTING - Trying to scrape data");
+                        haalDataOp();
+                        logger.info("Schedule DONE     - Waiting for next call");
+                    }
+                };
+                final ScheduledFuture<?> schemaHandle = scheduler.scheduleAtFixedRate(schema, 0, 5, MINUTES);
             }
-        };
-        final ScheduledFuture<?> schemaHandle = scheduler.scheduleAtFixedRate(schema, 0, 5, MINUTES);
+        } catch (SQLException e) {
+
+        }
     }
 
     /**

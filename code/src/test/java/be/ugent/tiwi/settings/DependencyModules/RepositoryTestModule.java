@@ -10,7 +10,7 @@ import com.google.inject.AbstractModule;
 /** Klasse die de instellingen van de Guice dependency injection configureert.
  *
  */
-public class RepositoryModule  extends AbstractModule {
+public class RepositoryTestModule extends AbstractModule {
         @Override
         protected void configure() {
             bind(IMetingRepository.class).to(MetingRepositoryMock.class);

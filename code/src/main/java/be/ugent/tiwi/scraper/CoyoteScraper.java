@@ -20,7 +20,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import settings.RepositoryModule;
+import settings.DependencyModules.RepositoryModule;
 import settings.Settings;
 
 import java.io.BufferedReader;

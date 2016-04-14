@@ -1,4 +1,4 @@
-package settings;
+package settings.DependencyModules;
 
 
 import be.ugent.tiwi.dal.*;

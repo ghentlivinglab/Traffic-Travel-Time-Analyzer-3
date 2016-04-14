@@ -27,8 +27,7 @@ public class TrajectRepository {
     private String stringTrajectNaam = "select * from trajecten where naam= ?";
     private String stringUpdateWaypoints = "insert into waypoints(traject_id, volgnr, latitude, longitude) values(?,?,?,?) on duplicate key update latitude = values(latitude), longitude = values(longitude);";
     private String stringDeleteWaypoints = "delete from waypoints where traject_id = ? and volgnr>?";
-    private String stringTrajectenByProvider = "select t.id, t.naam, t.lengte, (case when o.reistijd is null then t.optimale_reistijd else o.reistijd end) optimale_reistijd, t.is_active, t.start_latitude, t.start_longitude, t.end_latitude, t.end_longitude " +
-            "from trajecten t join optimale_reistijden o on t.id = o.traject_id and o.provider_id = ?";
+
     private String stringOptimaleReistijden = "select * from optimale_reistijden where traject_id = ?";
     private String stringDeleteReistijden = "delete from optimale_reistijden where traject_id = ?";
     private String stringAddReistijd = "insert into optimale_reistijden(traject_id, provider_id, reistijd) values (?, ?, ?)";
@@ -426,48 +425,4 @@ public class TrajectRepository {
         return trajecten;
     }
 
-    public List<Traject> getTrajectenMetCoordinaten(int id) {
-        List<Traject> trajecten = getTrajectenByProvider(id);
-        for (Traject t : trajecten) {
-            t.setWaypoints(getWaypoints(t.getId()));
-        }
-        return trajecten;
-    }
-
-    private List<Traject> getTrajectenByProvider(int providerId) {
-        List<Traject> trajecten = new ArrayList<Traject>();
-        ResultSet rs = null;
-        try {
-            statTrajecten = connector.getConnection().prepareStatement(stringTrajectenByProvider);
-            statTrajecten.setInt(1, providerId);
-            rs = statTrajecten.executeQuery();
-
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String naam = rs.getString("naam");
-                int lengte = rs.getInt("lengte");
-                int optimale_reistijd = rs.getInt("optimale_reistijd");
-                boolean is_active = rs.getBoolean("is_active");
-                String start_latitude = rs.getString("start_latitude");
-                String start_longitude = rs.getString("start_longitude");
-                String end_latitude = rs.getString("end_latitude");
-                String end_longitude = rs.getString("end_longitude");
-                trajecten.add(new Traject(id, naam, lengte, optimale_reistijd, getOptimaleReistijden(id), is_active, start_latitude, start_longitude, end_latitude, end_longitude));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-            } catch (Exception e) { /* ignored */ }
-            try {
-                statTrajecten.close();
-            } catch (Exception e) { /* ignored */ }
-            try {
-                connector.close();
-            } catch (Exception e) { /* ignored */ }
-
-        }
-        return trajecten;
-    }
 }

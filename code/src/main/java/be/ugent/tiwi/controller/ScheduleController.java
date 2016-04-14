@@ -55,12 +55,9 @@ public class ScheduleController {
                     logger.info("[" + provider.getNaam() + "] Done!");
 
                 } catch (RuntimeException ex) {
-                    logger.error("Schedule gestopt door exception:");
-                    logger.error(ex);
-                    ex.printStackTrace();
+                    logger.error("Exception in een scraper:", ex);
                 }
             }
-
 
     }
 

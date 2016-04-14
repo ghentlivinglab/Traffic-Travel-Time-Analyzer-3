@@ -9,9 +9,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by JelleDeBock on 23/02/16.
- */
 public class MetingRepository {
     private static final Logger logger = LogManager.getLogger(MetingRepository.class);
     private DBConnector connector;
@@ -329,19 +326,26 @@ public class MetingRepository {
                 statAddMetingen.setNull(3, Types.INTEGER);
             statAddMetingen.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                statAddMetingen.close();
-            } catch (Exception e) { /* ignored */ }
-            try {
-                connector.close();
-            } catch (Exception e) { /* ignored */ }
-        }
+
+        } catch (SQLException ex) {
+            logger.error("Toevoegen meting mislopen", ex);
+        }finally{
+             try { statAddMetingen.close(); } catch (Exception e) { /* ignored */ }
+             try {  connector.close(); } catch (Exception e) { /* ignored */ }
+         }
     }
 
-    /* Deprecated: Moet aangepast/verwijderd worden */
+    /**
+     * Deze functie berekent de gemiddelde vertraging voor een bepaald traject voor een bepaalde provider.
+     *
+     * @param traject_id het id van het traject (zoals is databank opgeslaan)
+     * @param provider_id het id van de provider (zoals is databank opgeslaan)
+     * @param start_tijdstip het starttijdstip vanaf waar het gemiddelde berekend moet worden
+     * @param end_tijdstip het eindtijdstip tot waar het gemiddelde berekend moet worden
+     *
+     * @return Het object dat geretourneerd wordt is van de klasse @class ProviderTrajectStatistiek. Per metingstatistiek oproep wordt slechts 1 object
+     * geretourneerd. Het @class ProviderTrajectStatistiek object bevat de gemiddelde vertraging, het traject (als object) en de provider (als object).
+     */
     public ProviderTrajectStatistiek metingStatistieken(int traject_id, int provider_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String stringStatistieken = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging " +
                         "from metingen m1 " +
@@ -376,9 +380,8 @@ public class MetingRepository {
             connector.close();
 
             return null;
-        } catch (SQLException e) {
-            logger.error("Statistieken ophalen mislukt");
-            logger.error(e);
+        }catch (SQLException ex) {
+            logger.error("Statistieken ophalen mislukt", ex);
         }
         return null;
     }
@@ -434,13 +437,15 @@ public class MetingRepository {
 
 
     /**
-     * Haalt de gemiddelde, algemene vertraging op voor een bepaalde periode. Wordt berekend door:
+     * Berekent de gemiddelde vertraging in Gent. Het geeft dus een vertraging voor alle trajecten rekening houdende met alle providers.
+     * Wordt berekend door:
      *  1: Berekent de gemiddelde, algemene reistijd voor de periode (rekening houdend met frequenties en null-values).
      *  2: Berekent de gemiddelde, algemene optimale reistijd (houdt ook rekening met de frequenties van de metingen en null-values).
      *  3: De gemiddelde vertraging bedraagt verschil van deze twee gemiddelden.
-     * @param start_tijdstip
-     * @param end_tijdstip
-     * @return De gemiddelde, algemene vertraging van alle metingen binnen een bepaalde periode
+     * @param start_tijdstip het starttijdstip vanaf waar het gemiddelde berekend moet worden
+     * @param end_tijdstip het eindtijdstip tot waar het gemiddelde berekend moet worden
+     *
+     * @return de waarde van de gemiddelde vertraging (als double)
      */
     public double gemiddeldeVertraging(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String gemiddelde_vertraging = "select avg(m.reistijd - o.reistijd) totale_vertraging " +
@@ -474,6 +479,48 @@ public class MetingRepository {
         return -1;
     }
 
+    /**
+     * Berekent de gemiddelde vertraging in Gent voor een bepaalde provider. Het geeft dus een vertraging voor alle trajecten rekening houdende de gewenste provider.
+     *
+     * @param provider de provider waarvoor we de gemiddelde vertraging wensen te berekenen
+     * @param start_tijdstip het starttijdstip vanaf waar het gemiddelde berekend moet worden
+     * @param end_tijdstip het eindtijdstip tot waar het gemiddelde berekend moet worden
+     *
+     * @return de waarde van de gemiddelde vertraging (als double)
+     */
+    public double gemiddeldeVertraging(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
+        String gemiddelde_vertraging_provider = "select avg(reistijd-traj.optimale_reistijd) totale_vertraging from metingen "+
+                "join trajecten traj on traj.id = traject_id "+
+                "where metingen.timestamp between ? and ? and metingen.provider_id = ? and reistijd is not null ";
+        try {
+            statStatistieken = connector.getConnection().prepareStatement(gemiddelde_vertraging_provider);
+            statStatistieken.setTimestamp(1,Timestamp.valueOf(start_tijdstip));
+            statStatistieken.setTimestamp(2,Timestamp.valueOf(end_tijdstip));
+            statStatistieken.setInt(3,provider.getId());
+            ResultSet rs = statStatistieken.executeQuery();
+
+            if(rs.next()) {
+                return rs.getDouble("totale_vertraging");
+            }else{
+                throw new SQLException("Oeps... We hebben geen algemene vertraging kunnen bepalen.");
+            }
+        }catch (SQLException e) {
+            logger.error("Statistieken ophalen mislukt");
+            logger.error(e);
+        }
+        return -1;
+    }
+
+    /**
+     * Deze functie berekent de gemiddelde reistijdvertraging van alle trajecten voor een specifieke provider.
+     *
+     * @param provider_id de provider waarvan de gemiddelde reistijd bepaald moet worden (id uit databank)
+     * @param start_tijdstip het starttijdstip vanaf waar het gemiddelde berekend moet worden
+     * @param end_tijdstip het eindtijdstip tot waar het gemiddelde berekend moet worden
+     *
+     * @return Deze functie retourneert 1 enkel object van het type ProviderStatistiek. Het bevat de gemiddelde vertraging alsook de provider in kwestie
+     * (als object)
+     */
     public ProviderStatistiek metingProviderStatistieken(int provider_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String gemiddelde_per_traject_provider = "select m1.traject_id, traj.naam, avg(m1.reistijd-o.reistijd) avg_vertraging " +
                 "from metingen m1 " +
@@ -505,12 +552,22 @@ public class MetingRepository {
         return null;
     }
 
-    public Vertraging metingTrajectStatistieken(int traject_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
-        String traject_vertraging = "select m1.traject_id, avg(m1.reistijd)-traj.optimale_reistijd avg_vertraging " +
-                "from metingen m1 " +
-                "join trajecten traj on traj.id = m1.traject_id " +
-                "where m1.traject_id = ? and m1.timestamp between ? and ? and m1.reistijd is not null " +
-                "group by m1.traject_id";
+    /**
+     * Deze functie berekent voor een gewenst traject de gemiddelde vertraging (over alle providers uitgemiddeld)
+     *
+     * @param traject_id het traject waarvoor de gemiddelde vertraging bepaald dient te worden
+     * @param start_tijdstip het starttijdstip vanaf waar het gemiddelde berekend moet worden
+     * @param end_tijdstip het eindtijdstip tot waar het gemiddelde berekend moet worden
+     *
+     * @return Deze functie retourneert 1 enkel object van het type Vertraging deze gevat de gemiddelde vertraging en het traject (als object)
+     */
+    public Vertraging metingTrajectStatistieken(int traject_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
+        String traject_vertraging = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging"+
+        " from metingen m1"+
+        " join metingen m2 on m1.traject_id = m2.traject_id"+
+        " join trajecten traj on traj.id = m2.traject_id"+
+        " where m1.traject_id = ? and m1.timestamp between ? and ? and m1.reistijd is not null"+
+        " group by m1.traject_id";
 
         try {
             statStatistieken = connector.getConnection().prepareStatement(traject_vertraging);
@@ -538,8 +595,8 @@ public class MetingRepository {
     /**
      * Zoekt het drukste traject voor een bepaalde tijdsinterval, geeft een Vertraging object terug
      *
-     * @param start_tijdstip het start tijdstip waarbinnen gezocht moeten
-     * @param end_tijdstip   het eind tijdstip tot waar gezocht moeten
+     * @param start_tijdstip het start tijdstip waarbinnen gezocht moet worden
+     * @param end_tijdstip   het eind tijdstip tot waar gezocht moet worden
      * @return drukste tijdstip
      */
     public Vertraging getDrukstePunt(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
@@ -567,6 +624,48 @@ public class MetingRepository {
             }
             return drukste_traject;
         } catch (SQLException e) {
+            logger.error("Statistieken ophalen mislukt");
+            logger.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * Berekent het drukste punt, maar dan voor de meting van een specifieke provider
+     *
+     * @param provider De provider waarvan het drukste punt gewenst is
+     * @param start_tijdstip het start tijdstip waarbinnen gezocht moeten
+     * @param end_tijdstip het eind tijdstip tot waar gezocht moeten
+     *
+     * @return het drukste punt voor die provider
+     */
+    public Vertraging getDrukstePunt(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
+        String trajecten_vertraging_provider = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging" +
+                "        from metingen m1" +
+                "        join metingen m2 on m1.traject_id = m2.traject_id" +
+                "        join trajecten traj on traj.id = m2.traject_id" +
+                "        where m1.timestamp between ? and ? and m1.provider_id = ? and m1.reistijd is not null" +
+                "        group by m1.traject_id";
+
+        try {
+            statStatistieken = connector.getConnection().prepareStatement(trajecten_vertraging_provider);
+            statStatistieken.setTimestamp(1,Timestamp.valueOf(start_tijdstip));
+            statStatistieken.setTimestamp(2,Timestamp.valueOf(end_tijdstip));
+            statStatistieken.setInt(3,provider.getId());
+
+            ResultSet rs = statStatistieken.executeQuery();
+            Vertraging drukste_traject = null;
+            if(rs.next()) {
+                drukste_traject =new Vertraging(new TrajectRepository().getTraject(rs.getInt("traject_id")),rs.getDouble("avg_vertraging"));
+                while (rs.next()){
+                    double avg_vertraging = rs.getDouble("avg_vertraging");
+                    if(avg_vertraging>drukste_traject.getAverageVertraging())
+                        drukste_traject.setTraject(new TrajectRepository().getTraject(rs.getInt("traject_id")));
+                    drukste_traject.setAverageVertraging(avg_vertraging);
+                }
+            }
+            return drukste_traject;
+        }catch (SQLException e) {
             logger.error("Statistieken ophalen mislukt");
             logger.error(e);
         }
@@ -609,18 +708,43 @@ public class MetingRepository {
         return null;
     }
 
-    public List<Meting> getAlleLaatsteMetingen() {
-        String alleMetingen = "SELECT m1.traject_id, m1.provider_id, m1.reistijd " +
-                "FROM metingen m1 " +
-                "LEFT JOIN metingen m2 ON " +
-                "(m1.traject_id = m2.traject_id and m1.provider_id = m2.provider_id AND m1.timestamp < m2.timestamp) " +
-                "WHERE m2.timestamp IS NULL";
+    /**
+     * Genereert een handig overzicht van alle trajecten, met de bijhorende gemiddelde vertragingen over het meegegeven tijdsinterval.
+     * Deze functie doet dit voor 1 bepaalde provider.
+     *
+     * @param provider de provider waarvoor we de gemiddelde vertragingen wensen te berekenen
+     * @param start_tijdstip het start tijdstip waarbinnen gezocht moeten
+     * @param end_tijdstip het eind tijdstip tot waar gezocht moeten
+     *
+     * @return alle trajecten die een vertraging hebben over dat tijdstip
+     */
+    public List<Vertraging> getVertragingen(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
+        String trajecten_vertraging = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging" +
+                "        from metingen m1" +
+                "        join metingen m2 on m1.traject_id = m2.traject_id" +
+                "        join trajecten traj on traj.id = m2.traject_id" +
+                "        where m1.timestamp between ? and ? and m1.provider_id = ? and m1.reistijd is not null" +
+                "        group by m1.traject_id";
 
         try {
-            Statement stat = connector.getConnection().createStatement();
+            statStatistieken = connector.getConnection().prepareStatement(trajecten_vertraging);
+            statStatistieken.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
+            statStatistieken.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
+            statStatistieken.setInt(3,provider.getId());
 
+            ResultSet rs = statStatistieken.executeQuery();
+            List<Vertraging> vertragingen = new ArrayList<>();
+
+            while (rs.next()){
+                double avg_vertraging = rs.getDouble("avg_vertraging");
+                Traject traject = new TrajectRepository().getTrajectMetWaypoints(rs.getInt("traject_id"));
+                vertragingen.add(new Vertraging(traject,avg_vertraging));
+            }
+
+            return vertragingen;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Statistieken ophalen mislukt");
+            logger.error(e);
         }
         return null;
     }

@@ -4,8 +4,11 @@ import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.scraper.*;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import settings.RepositoryModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +46,8 @@ public class ScheduleController {
      * Overloopt alle actieve providers en verwerkt de verkregen metingen.
      */
     private void haalDataOp() {
-            dbController = new DatabaseController();
+            Injector injector = Guice.createInjector(new RepositoryModule());
+            dbController = injector.getInstance(DatabaseController.class);
             List<Provider> providers = dbController.haalActieveProvidersOp();
             for (Provider provider : providers) {
 

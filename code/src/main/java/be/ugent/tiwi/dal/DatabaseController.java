@@ -4,6 +4,7 @@ import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;
+import com.google.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,9 +15,22 @@ import java.util.Map;
 public class DatabaseController {
     private static final Logger logger = LogManager.getLogger(DatabaseController.class);
 
-    private ProviderRepository providerRepository = new ProviderRepository();
-    private TrajectRepository trajectenRepository = new TrajectRepository();
-    private MetingRepository metingRepository = new MetingRepository();
+    private IProviderRepository providerRepository;
+    private ITrajectRepository trajectenRepository;
+    private IMetingRepository metingRepository;
+
+    /**
+     * Constructor die de controller aanmaakt met de meegegeven repositories.
+     * @param providerRepo Databron in verband met providers.
+     * @param trajectRepo Databron in verband met trajecten.
+     * @param metingRepo Databron in verband met metingen.
+     */
+    @Inject
+    public  DatabaseController(IProviderRepository providerRepo, ITrajectRepository trajectRepo, IMetingRepository metingRepo){
+        providerRepository = providerRepo;
+        trajectenRepository = trajectRepo;
+        metingRepository = metingRepo;
+    }
 
     /**
      * Haalt een specifieke {@link Provider} uit de databank aan de hand van de meegegeven id.

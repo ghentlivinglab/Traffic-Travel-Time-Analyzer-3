@@ -8,6 +8,8 @@ import be.ugent.tiwi.domein.Traject;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -18,6 +20,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import settings.RepositoryModule;
 import settings.Settings;
 
 import java.io.BufferedReader;
@@ -150,7 +153,9 @@ public class CoyoteScraper extends TrafficScraper {
         JsonObject jsonObject = gson.fromJson(JsonString, JsonObject.class);
         JsonObject e = jsonObject.getAsJsonObject("Gand");
         Set<Map.Entry<String, JsonElement>> trajecten = e.entrySet();
-        DatabaseController dbController = new DatabaseController();
+
+        Injector injector = Guice.createInjector(new RepositoryModule());
+        DatabaseController dbController = injector.getInstance(DatabaseController.class);
 
         Provider coyote = dbController.haalProviderOp("Coyote");
         for (Map.Entry<String, JsonElement> traject : trajecten) {

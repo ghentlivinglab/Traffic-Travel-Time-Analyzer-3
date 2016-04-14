@@ -1,4 +1,17 @@
+
+NEW CONFIG:
+-----------
+PROJECT_URL: verkeer-3.vop.tiwi.be
+ROOT_PASSWORD: dKkvn0DuP5
+
+SSH ACCESS:
+ssh root@146.185.151.33
+
+Glassfish: admin/admin
+MySQL: root/root
+
+OLD CONFIG:
+-----------
 PROJECT_URL: verkeer-3.vop.tiwi.be
 PROJECT_PROXY: tiwibp3.ugent.be
 PROJECT_SSHPORT: 10022
-ROOT_PASSWORD: dKkvn0DuP5

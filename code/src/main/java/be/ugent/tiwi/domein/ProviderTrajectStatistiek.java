@@ -3,7 +3,7 @@ package be.ugent.tiwi.domein;
 /**
  * Created by jelle on 29.03.16.
  */
-public class ProviderTrajectStatistiek{
+public class ProviderTrajectStatistiek {
     private Provider provider;
     private Vertraging vertraging;
 
@@ -20,19 +20,19 @@ public class ProviderTrajectStatistiek{
                 '}';
     }
 
-    public void setProvider(Provider provider) {
-        this.provider = provider;
-    }
-
-    public void setVertraging(Vertraging vertraging) {
-        this.vertraging = vertraging;
-    }
-
     public Provider getProvider() {
         return provider;
     }
 
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
     public Vertraging getVertraging() {
         return vertraging;
+    }
+
+    public void setVertraging(Vertraging vertraging) {
+        this.vertraging = vertraging;
     }
 }

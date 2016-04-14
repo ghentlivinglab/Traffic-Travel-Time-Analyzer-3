@@ -37,3 +37,8 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 29/03/16,11:00,14:15,Thuis,"JavaDoc aanvullen",65,
 29/03/16,16:00,18:00,Thuis,"JavaDoc aanvullen",65,
 30/03/16,11:00,16:00,Thuis,"JavaDoc & aanpassing aan het gui-project ('home/index')",65,
+12/04/16,08:30,09:30,School,"Bespreking van komende taken, opmaken van issues",,
+12/04/16,09:30,10:00,School,"Opstellen van query om de optimale reistijden per traject per provider te bepalen",70,
+12/04/16,22:00,23:59,Thuis,"Aanpassen model voor meerdere optimale reistijden",70,
+13/04/16,00:00,02:00,Thuis,"Aanpassen model voor meerdere optimale reistijden",70,
+14/04/16,01:00,04:00,Thuis,"Aanpassen model voor meerdere optimale reistijden",70,"Nog enkele andere fixes"

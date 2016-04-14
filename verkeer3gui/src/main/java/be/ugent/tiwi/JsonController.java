@@ -1,8 +1,8 @@
 package be.ugent.tiwi;
 
 import be.ugent.tiwi.dal.MetingRepository;
+import be.ugent.tiwi.dal.ProviderRepository;
 import be.ugent.tiwi.dal.TrajectRepository;
-import be.ugent.tiwi.domein.Meting;
 import com.google.gson.Gson;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -50,5 +50,14 @@ public class JsonController {
     {
         MetingRepository mr = new MetingRepository();
         return new Gson().toJson( mr.getVertragingen(start,end));
+    }
+
+    @RequestMapping(value = "/vertragingen/{id}/{start}/{end}", method = RequestMethod.GET)
+    public @ResponseBody
+    String getJsonMetingenProviderStartAndEndInterval(@PathVariable("id") int id, @PathVariable("start") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime start,
+                                              @PathVariable("end") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime end, ModelMap model)
+    {
+        MetingRepository mr = new MetingRepository();
+        return new Gson().toJson( mr.getVertragingen(new ProviderRepository().getProvider(id),start,end));
     }
 }

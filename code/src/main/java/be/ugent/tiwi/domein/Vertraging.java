@@ -1,15 +1,16 @@
 package be.ugent.tiwi.domein;
 
-public class Vertraging{
+public class Vertraging {
     Traject traject;
     double avg_vertraging;
 
-    public Vertraging(Traject traject,double vertraging) {
+    public Vertraging(Traject traject, double vertraging) {
         this.avg_vertraging = vertraging;
         this.traject = traject;
     }
 
-    public Vertraging() {}
+    public Vertraging() {
+    }
 
     @Override
     public String toString() {

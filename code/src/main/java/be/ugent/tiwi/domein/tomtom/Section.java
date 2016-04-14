@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.tomtom;
 
 import com.google.gson.annotations.Expose;
@@ -20,54 +19,42 @@ public class Section {
     private String travelMode;
 
     /**
-     * 
-     * @return
-     *     The startPointIndex
+     * @return The startPointIndex
      */
     public Integer getStartPointIndex() {
         return startPointIndex;
     }
 
     /**
-     * 
-     * @param startPointIndex
-     *     The startPointIndex
+     * @param startPointIndex The startPointIndex
      */
     public void setStartPointIndex(Integer startPointIndex) {
         this.startPointIndex = startPointIndex;
     }
 
     /**
-     * 
-     * @return
-     *     The endPointIndex
+     * @return The endPointIndex
      */
     public Integer getEndPointIndex() {
         return endPointIndex;
     }
 
     /**
-     * 
-     * @param endPointIndex
-     *     The endPointIndex
+     * @param endPointIndex The endPointIndex
      */
     public void setEndPointIndex(Integer endPointIndex) {
         this.endPointIndex = endPointIndex;
     }
 
     /**
-     * 
-     * @return
-     *     The travelMode
+     * @return The travelMode
      */
     public String getTravelMode() {
         return travelMode;
     }
 
     /**
-     * 
-     * @param travelMode
-     *     The travelMode
+     * @param travelMode The travelMode
      */
     public void setTravelMode(String travelMode) {
         this.travelMode = travelMode;

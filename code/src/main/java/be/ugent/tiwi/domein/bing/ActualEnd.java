@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.bing;
 
 import com.google.gson.annotations.Expose;
@@ -19,36 +18,28 @@ public class ActualEnd {
     private List<Double> coordinates = new ArrayList<Double>();
 
     /**
-     * 
-     * @return
-     *     The type
+     * @return The type
      */
     public String getType() {
         return type;
     }
 
     /**
-     * 
-     * @param type
-     *     The type
+     * @param type The type
      */
     public void setType(String type) {
         this.type = type;
     }
 
     /**
-     * 
-     * @return
-     *     The coordinates
+     * @return The coordinates
      */
     public List<Double> getCoordinates() {
         return coordinates;
     }
 
     /**
-     * 
-     * @param coordinates
-     *     The coordinates
+     * @param coordinates The coordinates
      */
     public void setCoordinates(List<Double> coordinates) {
         this.coordinates = coordinates;

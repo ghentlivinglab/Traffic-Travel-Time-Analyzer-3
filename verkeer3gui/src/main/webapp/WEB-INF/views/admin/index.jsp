@@ -1,5 +1,5 @@
-<jsp:include page="/WEB-INF/views/partial/header.jsp" />
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:include page="/WEB-INF/views/partial/header.jsp"/>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <h1>Admin panel</h1>
 <div class="panel panel-primary" id="admin-traject-table">
     <div class="panel-heading">
@@ -26,19 +26,21 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tbody>
-                <c:forEach var="traject" items="${trajecten}" >
+                <c:forEach var="traject" items="${trajecten}">
                     <tr>
                         <td><c:out value="${traject.id}"/></td>
                         <td><c:out value="${traject.naam}"/></td>
-                        <td><span class="glyphicon <c:out value="${traject.is_active()?'glyphicon-ok':'glyphicon-remove'}"/>" aria-hidden="true"></span></td>
+                        <td><span
+                                class="glyphicon <c:out value="${traject.is_active()?'glyphicon-ok':'glyphicon-remove'}"/>"
+                                aria-hidden="true"></span></td>
                         <td><c:out value="${traject.optimale_reistijd}"/></td>
                         <td><c:out value="${traject.lengte/1000}"/></td>
                         <td><c:out value="${traject.start_latitude}"/></td>
                         <td><c:out value="${traject.start_longitude}"/></td>
                         <td><c:out value="${traject.end_latitude}"/></td>
                         <td><c:out value="${traject.end_longitude}"/></td>
-                        <td><a href=<c:url value="/traject/${traject.id}/edit"/>><span class="glyphicon glyphicon-edit"></span></a></td>
+                        <td><a href=<c:url value="/traject/${traject.id}/edit"/>><span
+                                class="glyphicon glyphicon-edit"></span></a></td>
 
                     </tr>
                 </c:forEach>
@@ -47,4 +49,4 @@
         </div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/views/partial/footer.jsp" />
+<jsp:include page="/WEB-INF/views/partial/footer.jsp"/>

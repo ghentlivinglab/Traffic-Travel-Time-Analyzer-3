@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.bing;
 
 import com.google.gson.annotations.Expose;
@@ -43,180 +42,140 @@ public class RouteLeg {
     private Integer travelDuration;
 
     /**
-     * 
-     * @return
-     *     The actualEnd
+     * @return The actualEnd
      */
     public ActualEnd getActualEnd() {
         return actualEnd;
     }
 
     /**
-     * 
-     * @param actualEnd
-     *     The actualEnd
+     * @param actualEnd The actualEnd
      */
     public void setActualEnd(ActualEnd actualEnd) {
         this.actualEnd = actualEnd;
     }
 
     /**
-     * 
-     * @return
-     *     The actualStart
+     * @return The actualStart
      */
     public ActualStart getActualStart() {
         return actualStart;
     }
 
     /**
-     * 
-     * @param actualStart
-     *     The actualStart
+     * @param actualStart The actualStart
      */
     public void setActualStart(ActualStart actualStart) {
         this.actualStart = actualStart;
     }
 
     /**
-     * 
-     * @return
-     *     The alternateVias
+     * @return The alternateVias
      */
     public List<Object> getAlternateVias() {
         return alternateVias;
     }
 
     /**
-     * 
-     * @param alternateVias
-     *     The alternateVias
+     * @param alternateVias The alternateVias
      */
     public void setAlternateVias(List<Object> alternateVias) {
         this.alternateVias = alternateVias;
     }
 
     /**
-     * 
-     * @return
-     *     The cost
+     * @return The cost
      */
     public Integer getCost() {
         return cost;
     }
 
     /**
-     * 
-     * @param cost
-     *     The cost
+     * @param cost The cost
      */
     public void setCost(Integer cost) {
         this.cost = cost;
     }
 
     /**
-     * 
-     * @return
-     *     The description
+     * @return The description
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     * 
-     * @param description
-     *     The description
+     * @param description The description
      */
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
-     * 
-     * @return
-     *     The itineraryItems
+     * @return The itineraryItems
      */
     public List<ItineraryItem> getItineraryItems() {
         return itineraryItems;
     }
 
     /**
-     * 
-     * @param itineraryItems
-     *     The itineraryItems
+     * @param itineraryItems The itineraryItems
      */
     public void setItineraryItems(List<ItineraryItem> itineraryItems) {
         this.itineraryItems = itineraryItems;
     }
 
     /**
-     * 
-     * @return
-     *     The routeRegion
+     * @return The routeRegion
      */
     public String getRouteRegion() {
         return routeRegion;
     }
 
     /**
-     * 
-     * @param routeRegion
-     *     The routeRegion
+     * @param routeRegion The routeRegion
      */
     public void setRouteRegion(String routeRegion) {
         this.routeRegion = routeRegion;
     }
 
     /**
-     * 
-     * @return
-     *     The routeSubLegs
+     * @return The routeSubLegs
      */
     public List<RouteSubLeg> getRouteSubLegs() {
         return routeSubLegs;
     }
 
     /**
-     * 
-     * @param routeSubLegs
-     *     The routeSubLegs
+     * @param routeSubLegs The routeSubLegs
      */
     public void setRouteSubLegs(List<RouteSubLeg> routeSubLegs) {
         this.routeSubLegs = routeSubLegs;
     }
 
     /**
-     * 
-     * @return
-     *     The travelDistance
+     * @return The travelDistance
      */
     public Double getTravelDistance() {
         return travelDistance;
     }
 
     /**
-     * 
-     * @param travelDistance
-     *     The travelDistance
+     * @param travelDistance The travelDistance
      */
     public void setTravelDistance(Double travelDistance) {
         this.travelDistance = travelDistance;
     }
 
     /**
-     * 
-     * @return
-     *     The travelDuration
+     * @return The travelDuration
      */
     public Integer getTravelDuration() {
         return travelDuration;
     }
 
     /**
-     * 
-     * @param travelDuration
-     *     The travelDuration
+     * @param travelDuration The travelDuration
      */
     public void setTravelDuration(Integer travelDuration) {
         this.travelDuration = travelDuration;

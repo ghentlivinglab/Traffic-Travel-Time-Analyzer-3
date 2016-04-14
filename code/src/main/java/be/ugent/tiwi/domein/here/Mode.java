@@ -1,4 +1,3 @@
-
 package be.ugent.tiwi.domein.here;
 
 import com.google.gson.annotations.Expose;

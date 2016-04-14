@@ -40,7 +40,7 @@ public class DalSamples {
         MetingRepository mcrud = new MetingRepository();
         TrajectRepository tcrud = new TrajectRepository();
         List<Traject> trajects = tcrud.getTrajectenMetCoordinaten();
-        hs.makeCall(trajects);
+        hs.scrape(trajects);
         List<Meting> metingen = mcrud.getMetingen();
         for (Meting meting : metingen) {
             System.out.println(meting.toString());
@@ -69,22 +69,21 @@ public class DalSamples {
         }
     }
 
-    public static void getStatistieken(){
+    public static void getStatistieken() {
         MetingRepository mrep = new MetingRepository();
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
 
         System.out.println("Provider 11 tot 7 dagen geleden");
-        System.out.println(mrep.metingProviderStatistieken(11,sevenDaysAgo,now).toString());
+        System.out.println(mrep.metingProviderStatistieken(11, sevenDaysAgo, now).toString());
         System.out.println("Traject 11 tot 7 dagen geleden");
-        System.out.println(mrep.metingTrajectStatistieken(11,sevenDaysAgo,now).toString());
-        System.out.println("Algemene gemiddelde vertraging de laatste 7 dagen "+mrep.gemiddeldeVertraging(sevenDaysAgo,now));
+        System.out.println(mrep.metingTrajectStatistieken(11, sevenDaysAgo, now).toString());
+        System.out.println("Algemene gemiddelde vertraging de laatste 7 dagen " + mrep.gemiddeldeVertraging(sevenDaysAgo, now));
         System.out.println("Traject 11, provider 10 tot 7 dagen geleden");
-        System.out.println(mrep.metingStatistieken(11,10,sevenDaysAgo,now));
+        System.out.println(mrep.metingStatistieken(11, 10, sevenDaysAgo, now));
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         getStatistieken();
     }
 }

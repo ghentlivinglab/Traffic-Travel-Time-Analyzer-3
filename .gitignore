@@ -3,5 +3,5 @@ code/config.properties
 code/build/*
 *.iml
 target/
-code/config.properties
 *.class
+code/classes/

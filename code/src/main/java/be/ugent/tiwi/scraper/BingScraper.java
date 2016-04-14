@@ -31,10 +31,10 @@ public class BingScraper extends TrafficScraper {
         Traject t;
 
         //Edit waypoint "51.06378,3.69559" to "51.063995,3.695596" uit traject 1
-        editWaypoint(getTraject(trajects,1), "51.06378", "3.69559", "51.063995", "3.695596");
+        editWaypoint(getTraject(trajects, 1), "51.06378", "3.69559", "51.063995", "3.695596");
 
         //Edit waypoint "51.05258,3.69949" to "51.05278,3.69949" uit traject 1
-        editWaypoint(getTraject(trajects,10), "51.05258", "3.69949", "51.05278", "3.69949");
+        editWaypoint(getTraject(trajects, 10), "51.05258", "3.69949", "51.05278", "3.69949");
 
         //Edit start-lat/long to "51.0372705,3.737777" uit traject 13
         t = getTraject(trajects, 13);
@@ -42,10 +42,10 @@ public class BingScraper extends TrafficScraper {
         t.setStart_longitude("3.737777");
 
         //Edit waypoint "51.04867,3.73406" to "51.04737,3.73395" uit traject 13
-        editWaypoint(t, "51.04867", "3.73406","51.04737", "3.73395");
+        editWaypoint(t, "51.04867", "3.73406", "51.04737", "3.73395");
 
         //Edit start-long to "3.733050" uit traject 28
-        getTraject(trajects,28).setEnd_longitude("3.733050");
+        getTraject(trajects, 28).setEnd_longitude("3.733050");
     }
 
     @Override
@@ -64,19 +64,19 @@ public class BingScraper extends TrafficScraper {
                     traject.getStart_latitude() + "," + traject.getStart_longitude();
             List<Waypoint> wpts = traject.getWaypoints();
             int i = 1;
-            if(wpts.size()>0) {
+            if (wpts.size() > 0) {
                 double size = wpts.size();
                 size /= 10; //Maximum toegelaten ViaWaypoints
-                if(size > 1)
-                    for(i = 1; i < 10; ++i){
+                if (size > 1)
+                    for (i = 1; i < 10; ++i) {
                         int index = (int) (i * size);
                         url += "&vWp." + i + "=" + wpts.get(index).getLatitude() + "," + wpts.get(index).getLongitude();
                     }
                 else
-                    for(i = 1; i < wpts.size(); ++i)
+                    for (i = 1; i < wpts.size(); ++i)
                         url += "&vWp." + i + "=" + wpts.get(i).getLatitude() + "," + wpts.get(i).getLongitude();
             }
-            url += "&wp."+ i+"=" + traject.getEnd_latitude() + "," + traject.getEnd_longitude();
+            url += "&wp." + i + "=" + traject.getEnd_latitude() + "," + traject.getEnd_longitude();
             url += "&optimize=timeWithTraffic&maxSolutions=1&mfa=1&key=" + apiKey;
             try {
                 Bing bing_obj = (Bing) jc.getObject(url, Bing.class, RequestType.GET);
@@ -128,17 +128,17 @@ public class BingScraper extends TrafficScraper {
                         metingen.add(m);
                     } else {
                         logger.warn("Provider Bing: Could not scrape traject " + traject.getId() + ", adding an empty measurement [1]");
-                        metingen.add(new Meting(bing, traject, -1, LocalDateTime.now()));
+                        metingen.add(new Meting(bing, traject, null, LocalDateTime.now()));
                     }
                 } else {
                     logger.warn("Provider Bing: Could not scrape traject " + traject.getId() + ", adding an empty measurement [2]");
-                    metingen.add(new Meting(bing, traject, -1, LocalDateTime.now()));
+                    metingen.add(new Meting(bing, traject, null, LocalDateTime.now()));
                 }
             } catch (InvalidMethodException e) {
                 logger.error(e);
             } catch (IOException e) {
                 // Indien de service niet beschikbaar is (of deze machine heeft geen verbinding met de service), mag een leeg traject ingegeven worden.
-                Meting meting = new Meting(bing, traject, -1, LocalDateTime.now());
+                Meting meting = new Meting(bing, traject, null, LocalDateTime.now());
                 metingen.add(meting);
                 logger.error(e);
                 logger.warn("Added an empty measurement");

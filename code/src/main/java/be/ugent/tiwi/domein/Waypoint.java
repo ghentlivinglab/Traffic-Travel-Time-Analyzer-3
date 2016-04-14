@@ -10,9 +10,10 @@ public class Waypoint {
 
     /**
      * Constructor van de klasse
-     * @param volgnummer    Het volgnummer van de waypoint
-     * @param latitude      De latitude van de waypoint
-     * @param longitude     De longitude van de waypoint
+     *
+     * @param volgnummer Het volgnummer van de waypoint
+     * @param latitude   De latitude van de waypoint
+     * @param longitude  De longitude van de waypoint
      */
     public Waypoint(int volgnummer, String latitude, String longitude) {
         this.volgnummer = volgnummer;
@@ -22,6 +23,7 @@ public class Waypoint {
 
     /**
      * Geeft het volgnummer terug
+     *
      * @return Het volgnummer van de waypoint
      */
     public int getVolgnummer() {
@@ -30,6 +32,7 @@ public class Waypoint {
 
     /**
      * Wijzigt het volgnummer
+     *
      * @param volgnummer Het nieuwe volgnummer van de waypoint
      */
     public void setVolgnummer(int volgnummer) {
@@ -38,6 +41,7 @@ public class Waypoint {
 
     /**
      * Geeft de latitude terug
+     *
      * @return De latitude van het waypoint
      */
     public String getLatitude() {
@@ -46,6 +50,7 @@ public class Waypoint {
 
     /**
      * Wijzigt de latitude
+     *
      * @param latitude De nieuwe latitude van de waypoint
      */
     public void setLatitude(String latitude) {
@@ -54,6 +59,7 @@ public class Waypoint {
 
     /**
      * Geeft de longitude terug
+     *
      * @return De longitude van het waypoint
      */
     public String getLongitude() {
@@ -62,6 +68,7 @@ public class Waypoint {
 
     /**
      * Wijzigt de longitude
+     *
      * @param longitude De nieuwe longitude van de waypoint
      */
     public void setLongitude(String longitude) {
@@ -70,6 +77,7 @@ public class Waypoint {
 
     /**
      * Geeft een kort overzicht van het waypoint terug
+     *
      * @return Een kort overzicht
      */
     @Override

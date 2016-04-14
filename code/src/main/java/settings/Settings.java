@@ -4,8 +4,7 @@ import java.io.*;
 import java.util.Properties;
 
 public class Settings {
-    public static void createSettings()
-    {
+    public static void createSettings() {
         Properties prop = new Properties();
         OutputStream output = null;
 
@@ -18,8 +17,8 @@ public class Settings {
             prop.setProperty("db_user", "vop");
             prop.setProperty("db_password", "vop");
             prop.setProperty("db_name", "vop");
-            prop.setProperty("here_appid","tsliJF6nV8gV1CCk7yK8");
-            prop.setProperty("here_appcode","o8KURFHJC02Zzlv8HTifkg");
+            prop.setProperty("here_appid", "tsliJF6nV8gV1CCk7yK8");
+            prop.setProperty("here_appcode", "o8KURFHJC02Zzlv8HTifkg");
             prop.setProperty("google_apikey", "AIzaSyAcbAEzORRjLqSP6I4ZcUzB6YKaNr6X7Fg");
             prop.setProperty("tomtom_apikey", "8yafwthpctekty68x3kbae4h");
             prop.setProperty("bing_apikey", "AuHLFNcYkzCC1--LUCVw62rrAUtQC9-lQfqhQfPCyEiZs0pWGWQKWDmte9MZqaSQ");
@@ -42,13 +41,12 @@ public class Settings {
         }
     }
 
-    public static String getSetting(String key)
-    {
+    public static String getSetting(String key) {
         Properties prop = new Properties();
         InputStream input = null;
 
         try {
-
+            //System.out.println("Working Directory = "+System.getProperty("user.dir"));
             // Zo moet het in glassfish input = new FileInputStream("/etc/tiwi/config.properties");
             input = new FileInputStream("config.properties");
             // load a properties file

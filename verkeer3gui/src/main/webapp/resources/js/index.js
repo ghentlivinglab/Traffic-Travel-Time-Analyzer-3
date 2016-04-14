@@ -2,6 +2,7 @@ var polylines = {};
 //Gemiddelde vertraging tot 1 dag terug
 var oneDayAgo = moment().subtract(1,'days');
 var now = moment();
+var provider = getUrlParameter("provider");
 
 var map = L.map('map').setView([51.106596, 3.740759],11);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
@@ -24,9 +25,9 @@ var drawPolyline = function (val) {
     $.each(val['traject']['waypoints'],function(key,waypoint){
         wpts.push([parseFloat(waypoint['latitude']),parseFloat(waypoint['longitude'])]);
     });
-    var avg_vertraging =  val['avg_vertraging'];
+    var avg_vertraging =  val['avg_vertraging'] < 0 ? 0 : val['avg_vertraging'];
     var optimale_reistijd = val['traject']['optimale_reistijd'];
-    var line_color = (avg_vertraging-120<optimale_reistijd?'orange':(avg_vertraging>optimale_reistijd?"red":"green"));
+    var line_color = (avg_vertraging < optimale_reistijd + 30 ? 'green':(avg_vertraging < optimale_reistijd + 120? "orange":"red"));
     var opts = {
         color:line_color,
         weight:10,
@@ -47,7 +48,8 @@ var drawPolyline = function (val) {
 };
 
 $(document).ready(function(){
-    $.getJSON( "json/vertragingen/"+moment(oneDayAgo).format("YYYY-MM-DD HH:mm")+"/"+moment(now).format("YYYY-MM-DD HH:mm"), function( data ) {
+    var url = "json/vertragingen/"+(provider?provider:'')+'/'+moment(oneDayAgo).format("YYYY-MM-DD HH:mm")+"/"+moment(now).format("YYYY-MM-DD HH:mm");
+    $.getJSON( url , function( data ) {
         $.each( data, function( key, val ) {
             drawPolyline(val);
         });
@@ -66,3 +68,19 @@ function clearMap() {
         }
     }
 }
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+    return null;
+};

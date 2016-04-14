@@ -58,7 +58,7 @@ public class DatabaseController {
      * @return Een lijst van {@link Traject}en. Indien geen {@link Traject}en gevonden werden wordt een lege lijst terug gegeven.
      */
     public List<Traject> haalTrajectenOp() {
-        return trajectenRepository.getTrajectenMetCoordinaten();
+        return trajectenRepository.getTrajecten();
     }
 
     /**

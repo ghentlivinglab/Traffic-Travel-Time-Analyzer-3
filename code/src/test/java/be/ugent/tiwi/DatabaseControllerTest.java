@@ -5,6 +5,7 @@ import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.settings.DependencyModules.RepositoryTestModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
@@ -26,7 +27,7 @@ public class DatabaseControllerTest{
     @Test
     public void haalProviderOpMetId_Correct() {
         Provider prov = dbController.haalProviderOp(1);
-        assertEquals(prov.getNaam(), "Provider 1");
+        assertEquals("Provider 1", prov.getNaam());
     }
 
     @Test
@@ -38,7 +39,7 @@ public class DatabaseControllerTest{
     @Test
     public void haalProviderOpMetNaam_Correct() {
         Provider prov = dbController.haalProviderOp("Provider 2");
-        assertEquals(prov.getId(), 2);
+        assertEquals(2, prov.getId());
     }
 
     @Test
@@ -50,12 +51,18 @@ public class DatabaseControllerTest{
     @Test
     public void haalActieveProviders_Correct() {
         int count = dbController.haalActieveProvidersOp().size();
-        assertEquals(count, 2);
+        assertEquals(2, count);
     }
 
     @Test
     public void haalAlleProviders_Correct() {
         int count = dbController.haalAlleProvidersOp().size();
-        assertEquals(count, 4);
+        assertEquals(4, count);
+    }
+
+    @Test
+    public void haalAlleTrajecten_Correct() {
+        int count = dbController.haalTrajectenOp().size();
+        assertEquals(5, count);
     }
 }

@@ -6,7 +6,6 @@ import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.settings.DependencyModules.RepositoryTestModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
@@ -74,9 +73,15 @@ public class DatabaseControllerTest{
     }
 
     @Test
-    public void haalTraject_Correct() {
+    public void haalTrajectId_Correct() {
         Traject traj = dbController.haalTraject(2);
         assertEquals("Traject 2", traj.getNaam());
+    }
+
+    @Test
+    public void haalTrajectNaam_Correct() {
+        Traject traj = dbController.haalTrajectOp("Traject 3");
+        assertEquals(3, traj.getId());
     }
 
     @Test

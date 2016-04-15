@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by jelle on 18.02.16.
  */
-public class ProviderRepository {
+public class ProviderRepository implements IProviderRepository {
     private static final Logger logger = LogManager.getLogger(ProviderRepository.class);
     private DBConnector connector;
     private PreparedStatement statProviders = null;
@@ -35,6 +35,7 @@ public class ProviderRepository {
      * @param naam De naam van de op te halen provider
      * @return De provider met de gevraagde naam
      */
+    @Override
     public Provider getProvider(String naam) {
         ResultSet rs = null;
         try {
@@ -70,6 +71,7 @@ public class ProviderRepository {
      * @param id De identificatie van de op te halen provider
      * @return De provider met de identificatie naam
      */
+    @Override
     public Provider getProvider(int id) {
         ResultSet rs = null;
         try {
@@ -104,10 +106,12 @@ public class ProviderRepository {
      * Haalt alle actieve providers op. Bij deze providers staat de flag isActive op 1.
      * @return Een lijst met de actieve providers
      */
+    @Override
     public List<Provider> getActieveProviders() {
         return verwerkQuery(stringActieveProviders);
     }
 
+    @Override
     public List<Provider> getProviders() {
         return verwerkQuery(stringProviders);
     }
@@ -138,6 +142,7 @@ public class ProviderRepository {
         return providers;
     }
 
+    @Override
     public void setOptimaleReistijden(int provider_id, Map<Integer, Integer> optimaleReistijden){
         try{
             statProviders = connector.getConnection().prepareStatement(stringDeleteOptimaleReistijden);

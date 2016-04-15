@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MetingRepository {
+public class MetingRepository implements IMetingRepository {
     private static final Logger logger = LogManager.getLogger(MetingRepository.class);
     private DBConnector connector;
     private PreparedStatement statMetingenPerProvPerTraj = null;
@@ -37,6 +37,7 @@ public class MetingRepository {
      * @throws SQLException Indien de databank niet beschikbaar is of als de query niet geldig is
      * @see Meting
      */
+    @Override
     public List<Meting> getMetingen(Provider provider, Traject traject) throws SQLException {
         List<Meting> metingen = new ArrayList<>();
         ResultSet rs = null;
@@ -80,9 +81,10 @@ public class MetingRepository {
      * @return Een lijst van metingen.
      * @see Meting
      */
+    @Override
     public List<Meting> getMetingen() {
-        ProviderRepository pcrud = new ProviderRepository();
-        TrajectRepository tcrud = new TrajectRepository();
+        IProviderRepository pcrud = new ProviderRepository();
+        ITrajectRepository tcrud = new TrajectRepository();
         List<Meting> metingen = new ArrayList<Meting>();
         ResultSet rs = null;
         try {
@@ -125,6 +127,7 @@ public class MetingRepository {
      * @return Een lijst van metingen
      * @see Meting
      */
+    @Override
     public List<Meting> getMetingenFromTraject(int traject_id) {
         String query = "select * from metingen where traject_id ='" + traject_id + "'";
         List<Meting> metingen = getMetingenFromQuery(query, traject_id);
@@ -141,6 +144,7 @@ public class MetingRepository {
      * @return Een lijst van metingen
      * @see Meting
      */
+    @Override
     public List<Meting> getMetingenFromTraject(int traject_id, LocalDateTime start, LocalDateTime end) {
         String query = "select * from metingen where traject_id ='" + traject_id + "' and timestamp between '" +
                 Timestamp.valueOf(start) + "' and '" + Timestamp.valueOf(end) + "'";
@@ -192,6 +196,7 @@ public class MetingRepository {
      * @return Een lijst van providers, aangevuld met een lijst metingen per provider.
      * @see Meting
      */
+    @Override
     public List<Provider> getMetingenFromTrajectByProvider(int traject_id) {
         List<Provider> providers = new ProviderRepository().getActieveProviders();
 
@@ -210,6 +215,7 @@ public class MetingRepository {
      * @return Een lijst van metingen
      * @see Meting
      */
+    @Override
     public List<Meting> getMetingenByProvider(int id) {
         List<Meting> provider_metingen = new ArrayList<>();
         Provider provider = new ProviderRepository().getProvider(id);
@@ -221,7 +227,7 @@ public class MetingRepository {
             ResultSet rs = stmt.executeQuery(query);
 
 
-            TrajectRepository trajrepo = new TrajectRepository();
+            ITrajectRepository trajrepo = new TrajectRepository();
             while (rs.next()) {
                 Traject traject = trajrepo.getTraject(rs.getInt("traject_id"));
                 Integer reistijd = rs.getInt("reistijd");
@@ -241,6 +247,7 @@ public class MetingRepository {
         return null;
     }
 
+    @Override
     public List<Meting> getLaatsteMetingenByProvider(int id) {
         List<Meting> provider_metingen = new ArrayList<>();
         Provider provider = new ProviderRepository().getProvider(id);
@@ -256,7 +263,7 @@ public class MetingRepository {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
-            TrajectRepository trajrepo = new TrajectRepository();
+            ITrajectRepository trajrepo = new TrajectRepository();
             while (rs.next()) {
                 Traject traject = trajrepo.getTraject(rs.getInt("traject_id"));
                 Integer reistijd = rs.getInt("reistijd");
@@ -280,6 +287,7 @@ public class MetingRepository {
      * @return Een lijst van providers
      * @see Provider
      */
+    @Override
     public List<Provider> getGebruikteProviders() {
         List<Provider> providers = new ArrayList<>();
         String query = "select m.provider_id from metingen m " +
@@ -293,7 +301,7 @@ public class MetingRepository {
 
 
             while (rs.next()) {
-                ProviderRepository repo = new ProviderRepository();
+                IProviderRepository repo = new ProviderRepository();
                 Provider p = repo.getProvider(rs.getInt("provider_id"));
 
                 providers.add(p);
@@ -315,6 +323,7 @@ public class MetingRepository {
      * @param meting De meting die toegevoegd moet worden
      * @see Meting
      */
+    @Override
     public void addMeting(Meting meting) {
         try {
             statAddMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
@@ -346,6 +355,7 @@ public class MetingRepository {
      * @return Het object dat geretourneerd wordt is van de klasse @class ProviderTrajectStatistiek. Per metingstatistiek oproep wordt slechts 1 object
      * geretourneerd. Het @class ProviderTrajectStatistiek object bevat de gemiddelde vertraging, het traject (als object) en de provider (als object).
      */
+    @Override
     public ProviderTrajectStatistiek metingStatistieken(int traject_id, int provider_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String stringStatistieken = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging " +
                         "from metingen m1 " +
@@ -386,6 +396,7 @@ public class MetingRepository {
         return null;
     }
 
+    @Override
     public int getOptimaleReistijdLaatste7Dagen(int trajectId, int providerId) {
         String query = "select count(*) total, now() now from metingen " +
                 "where provider_id = ? and traject_id = ? and reistijd is not null " +
@@ -447,6 +458,7 @@ public class MetingRepository {
      *
      * @return de waarde van de gemiddelde vertraging (als double)
      */
+    @Override
     public double gemiddeldeVertraging(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String gemiddelde_vertraging = "select avg(m.reistijd - o.reistijd) totale_vertraging " +
                 "from metingen m " +
@@ -488,6 +500,7 @@ public class MetingRepository {
      *
      * @return de waarde van de gemiddelde vertraging (als double)
      */
+    @Override
     public double gemiddeldeVertraging(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String gemiddelde_vertraging_provider = "select avg(reistijd-traj.optimale_reistijd) totale_vertraging from metingen "+
                 "join trajecten traj on traj.id = traject_id "+
@@ -521,6 +534,7 @@ public class MetingRepository {
      * @return Deze functie retourneert 1 enkel object van het type ProviderStatistiek. Het bevat de gemiddelde vertraging alsook de provider in kwestie
      * (als object)
      */
+    @Override
     public ProviderStatistiek metingProviderStatistieken(int provider_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String gemiddelde_per_traject_provider = "select m1.traject_id, traj.naam, avg(m1.reistijd-o.reistijd) avg_vertraging " +
                 "from metingen m1 " +
@@ -561,6 +575,7 @@ public class MetingRepository {
      *
      * @return Deze functie retourneert 1 enkel object van het type Vertraging deze gevat de gemiddelde vertraging en het traject (als object)
      */
+    @Override
     public Vertraging metingTrajectStatistieken(int traject_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
         String traject_vertraging = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging"+
         " from metingen m1"+
@@ -599,6 +614,7 @@ public class MetingRepository {
      * @param end_tijdstip   het eind tijdstip tot waar gezocht moet worden
      * @return drukste tijdstip
      */
+    @Override
     public Vertraging getDrukstePunt(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String trajecten_vertraging = "select m1.traject_id, avg(m1.reistijd-o.reistijd) avg_vertraging " +
                 "from metingen m1 " +
@@ -639,6 +655,7 @@ public class MetingRepository {
      *
      * @return het drukste punt voor die provider
      */
+    @Override
     public Vertraging getDrukstePunt(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
         String trajecten_vertraging_provider = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging" +
                 "        from metingen m1" +
@@ -679,6 +696,7 @@ public class MetingRepository {
      * @param end_tijdstip   het eind tijdstip tot waar gezocht moeten
      * @return alle trajecten die een vertraging hebben over dat tijdstip
      */
+    @Override
     public List<Vertraging> getVertragingen(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         String trajecten_vertraging = "select m1.traject_id, avg(m1.reistijd - o.reistijd) avg_vertraging " +
                 "from metingen m1 " +
@@ -718,6 +736,7 @@ public class MetingRepository {
      *
      * @return alle trajecten die een vertraging hebben over dat tijdstip
      */
+    @Override
     public List<Vertraging> getVertragingen(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
         String trajecten_vertraging = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging" +
                 "        from metingen m1" +

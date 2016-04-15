@@ -8,8 +8,11 @@ import be.ugent.tiwi.domein.google.Google;
 import be.ugent.tiwi.domein.google.Leg;
 import be.ugent.tiwi.domein.google.Route;
 import be.ugent.tiwi.domein.google.Step;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import settings.DependencyModules.RepositoryModule;
 import settings.Settings;
 
 import java.io.IOException;
@@ -100,7 +103,8 @@ public class GoogleScraper extends TrafficScraper {
 
         List<Meting> metingen = new ArrayList<>();
         //Get all trajectories which have coordinates in it
-        DatabaseController databaseController = new DatabaseController();
+        Injector injector = Guice.createInjector(new RepositoryModule());
+        DatabaseController databaseController = injector.getInstance(DatabaseController.class);
 
         Provider google = databaseController.haalProviderOp("Google Maps");
         JsonController jc = new JsonController();

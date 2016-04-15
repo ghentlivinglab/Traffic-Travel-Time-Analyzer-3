@@ -118,9 +118,4 @@ public class TrajectRepositoryMock implements ITrajectRepository {
     public List<Traject> getTrajectenMetCoordinaten() {
         return getTrajectenMetWayPoints();
     }
-
-    @Override
-    public List<Traject> getTrajectenMetCoordinaten(int id) {
-        throw new NotImplementedException();
-    }
 }

@@ -17,20 +17,10 @@ import java.util.Map;
  */
 public class TrajectRepository {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(TrajectRepository.class);
-    private DBConnector connector;
+    private final DBConnector connector;
     private PreparedStatement statTrajecten = null;
 
     private String stringTrajecten = "select * from trajecten";
-    private String stringTrajectId = "select * from trajecten where id= ?";
-    private String stringUpdateTraject = "update trajecten set naam= ?, lengte=?, start_latitude= ?, start_longitude= ?, end_latitude= ?, end_longitude= ?, is_active= ?, optimale_reistijd= ? where id= ?";
-    private String stringWaypoints = "select * from waypoints where traject_id= ? order by volgnr asc";
-    private String stringTrajectNaam = "select * from trajecten where naam= ?";
-    private String stringUpdateWaypoints = "insert into waypoints(traject_id, volgnr, latitude, longitude) values(?,?,?,?) on duplicate key update latitude = values(latitude), longitude = values(longitude);";
-    private String stringDeleteWaypoints = "delete from waypoints where traject_id = ? and volgnr>?";
-
-    private String stringOptimaleReistijden = "select * from optimale_reistijden where traject_id = ?";
-    private String stringDeleteReistijden = "delete from optimale_reistijden where traject_id = ?";
-    private String stringAddReistijd = "insert into optimale_reistijden(traject_id, provider_id, reistijd) values (?, ?, ?)";
 
     /**
      * Constructor van de klasse
@@ -85,6 +75,7 @@ public class TrajectRepository {
         Map<Integer, Integer> reistijden = new HashMap<>();
         ResultSet rs = null;
         try{
+            String stringOptimaleReistijden = "select * from optimale_reistijden where traject_id = ?";
             statTrajecten = connector.getConnection().prepareStatement(stringOptimaleReistijden);
             statTrajecten.setInt(1, id);
             rs = statTrajecten.executeQuery();
@@ -160,11 +151,12 @@ public class TrajectRepository {
     public Traject getTraject(int id) {
         ResultSet rs = null;
         try {
+            String stringTrajectId = "select * from trajecten where id= ?";
             statTrajecten = connector.getConnection().prepareStatement(stringTrajectId);
             statTrajecten.setInt(1, id);
             rs = statTrajecten.executeQuery();
 
-            while (rs.next()) {
+            if(rs.next()) {
 
                 String naam = rs.getString("naam");
                 int lengte = rs.getInt("lengte");
@@ -220,6 +212,7 @@ public class TrajectRepository {
     public void wijzigTraject(int id, String naam, int lengte, int optimale_reistijd, Map<Integer, Integer> optimaleReistijden, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude, List<Waypoint> waypoints) {
         ResultSet rs = null;
         try {
+            String stringUpdateTraject = "update trajecten set naam= ?, lengte=?, start_latitude= ?, start_longitude= ?, end_latitude= ?, end_longitude= ?, is_active= ?, optimale_reistijd= ? where id= ?";
             statTrajecten = connector.getConnection().prepareStatement(stringUpdateTraject);
             statTrajecten.setString(1, naam);
             statTrajecten.setInt(2, lengte);
@@ -251,6 +244,7 @@ public class TrajectRepository {
 
     private void wijzigOptimaleReistijden(int id, Map<Integer, Integer> optimaleReistijden) {
         try{
+            String stringDeleteReistijden = "delete from optimale_reistijden where traject_id = ?";
             statTrajecten = connector.getConnection().prepareStatement(stringDeleteReistijden);
             statTrajecten.setInt(1, id);
             statTrajecten.execute();
@@ -266,6 +260,7 @@ public class TrajectRepository {
             } catch (Exception e) { /* ignored */ }
         }
         try{
+            String stringAddReistijd = "insert into optimale_reistijden(traject_id, provider_id, reistijd) values (?, ?, ?)";
             statTrajecten = connector.getConnection().prepareStatement(stringAddReistijd);
             statTrajecten.setInt(1, id);
             for(Integer provider_id : optimaleReistijden.keySet()){
@@ -295,6 +290,7 @@ public class TrajectRepository {
      */
     public void wijzigWaypoints(int id, List<Waypoint> waypoints) {
         try {
+            String stringUpdateWaypoints = "insert into waypoints(traject_id, volgnr, latitude, longitude) values(?,?,?,?) on duplicate key update latitude = values(latitude), longitude = values(longitude);";
             statTrajecten = connector.getConnection().prepareStatement(stringUpdateWaypoints);
             for (Waypoint waypoint : waypoints) {
                 statTrajecten.setInt(1, id);
@@ -315,6 +311,7 @@ public class TrajectRepository {
             } catch (Exception e) { /* ignored */ }
         }
         try {
+            String stringDeleteWaypoints = "delete from waypoints where traject_id = ? and volgnr>?";
             statTrajecten = connector.getConnection().prepareStatement(stringDeleteWaypoints);
 
             statTrajecten.setInt(1, id);
@@ -343,6 +340,7 @@ public class TrajectRepository {
         List<Waypoint> wpts = new ArrayList<>();
         ResultSet rs = null;
         try {
+            String stringWaypoints = "select * from waypoints where traject_id= ? order by volgnr asc";
             statTrajecten = connector.getConnection().prepareStatement(stringWaypoints);
             statTrajecten.setInt(1, trajectId);
             rs = statTrajecten.executeQuery();
@@ -382,11 +380,12 @@ public class TrajectRepository {
     public Traject getTraject(String naam) {
         ResultSet rs = null;
         try {
+            String stringTrajectNaam = "select * from trajecten where naam= ?";
             statTrajecten = connector.getConnection().prepareStatement(stringTrajectNaam);
             statTrajecten.setString(1, naam);
             rs = statTrajecten.executeQuery();
 
-            while (rs.next()) {
+            if (rs.next()) {
                 int id = rs.getInt("id");
                 int lengte = rs.getInt("lengte");
                 int optimale_reistijd = rs.getInt("optimale_reistijd");

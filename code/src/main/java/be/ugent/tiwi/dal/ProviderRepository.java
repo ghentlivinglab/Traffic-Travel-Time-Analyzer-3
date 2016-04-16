@@ -16,15 +16,8 @@ import java.util.Map;
  */
 public class ProviderRepository {
     private static final Logger logger = LogManager.getLogger(ProviderRepository.class);
-    private DBConnector connector;
+    private final DBConnector connector;
     private PreparedStatement statProviders = null;
-
-    private String stringActieveProviders = "select * from providers where is_active = 1 order by naam";
-    private String stringProviderId = "select * from providers where id = ?";
-    private String stringProviderNaam = "select * from providers where naam = ?";
-    private String stringProviders = "select * from providers order by naam";
-    private String stringDeleteOptimaleReistijden = "delete from optimale_reistijden where provider_id = ?";
-    private String stringInsertOptimaleReistijden = "insert into optimale_reistijden(provider_id, traject_id, reistijd) values (?, ?, ?)";
 
     public ProviderRepository() {
         connector = new DBConnector();
@@ -38,6 +31,7 @@ public class ProviderRepository {
     public Provider getProvider(String naam) {
         ResultSet rs = null;
         try {
+            String stringProviderNaam = "select * from providers where naam = ?";
             statProviders = connector.getConnection().prepareStatement(stringProviderNaam);
             statProviders.setString(1, naam);
             rs = statProviders.executeQuery();
@@ -45,8 +39,7 @@ public class ProviderRepository {
             while (rs.next()) {
                 String naam_in_tabel = rs.getString("naam");
                 if (naam_in_tabel.equals(naam)) {
-                    Provider p = new Provider(rs.getInt("id"), naam_in_tabel, rs.getBoolean("is_active"));
-                    return p;
+                    return new Provider(rs.getInt("id"), naam_in_tabel, rs.getBoolean("is_active"));
                 }
             }
         } catch (SQLException e) {
@@ -73,6 +66,7 @@ public class ProviderRepository {
     public Provider getProvider(int id) {
         ResultSet rs = null;
         try {
+            String stringProviderId = "select * from providers where id = ?";
             statProviders = connector.getConnection().prepareStatement(stringProviderId);
             statProviders.setInt(1, id);
             rs = statProviders.executeQuery();
@@ -80,8 +74,7 @@ public class ProviderRepository {
             while (rs.next()) {
                 int id_in_tabel = rs.getInt("id");
                 if (id_in_tabel == id) {
-                    Provider p = new Provider(rs.getInt("id"), rs.getString("naam"), rs.getBoolean("is_active"));
-                    return p;
+                    return new Provider(rs.getInt("id"), rs.getString("naam"), rs.getBoolean("is_active"));
                 }
             }
         } catch (SQLException e) {
@@ -105,10 +98,12 @@ public class ProviderRepository {
      * @return Een lijst met de actieve providers
      */
     public List<Provider> getActieveProviders() {
+        String stringActieveProviders = "select * from providers where is_active = 1 order by naam";
         return verwerkQuery(stringActieveProviders);
     }
 
     public List<Provider> getProviders() {
+        String stringProviders = "select * from providers order by naam";
         return verwerkQuery(stringProviders);
     }
     private List<Provider> verwerkQuery(String query){
@@ -140,6 +135,7 @@ public class ProviderRepository {
 
     public void setOptimaleReistijden(int provider_id, Map<Integer, Integer> optimaleReistijden){
         try{
+            String stringDeleteOptimaleReistijden = "delete from optimale_reistijden where provider_id = ?";
             statProviders = connector.getConnection().prepareStatement(stringDeleteOptimaleReistijden);
             statProviders.setInt(1, provider_id);
             statProviders.execute();
@@ -155,6 +151,7 @@ public class ProviderRepository {
             } catch (Exception e) { /* ignored */ }
         }
         try{
+            String stringInsertOptimaleReistijden = "insert into optimale_reistijden(provider_id, traject_id, reistijd) values (?, ?, ?)";
             statProviders = connector.getConnection().prepareStatement(stringInsertOptimaleReistijden);
             statProviders.setInt(1, provider_id);
             for(Integer traject_id : optimaleReistijden.keySet()){

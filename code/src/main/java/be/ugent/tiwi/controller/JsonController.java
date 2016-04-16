@@ -25,9 +25,8 @@ import java.io.InputStreamReader;
  * Deze klasse is generiek gemaakt zodat de controller met alle type providers overweg kan. Je moet nu wel de JSONController
  * genereren met type hinting. Bijvoorbeeld <code>jc = new JsonController&lt;Here&gt;();</code>.
  */
-public class JsonController<T extends Object> {
+public class JsonController<T> {
     private static final Logger logger = LogManager.getLogger(JsonController.class);
-    private InputStream is = null;
     private Gson jObj = null;
     private String json = "";
 
@@ -49,13 +48,14 @@ public class JsonController<T extends Object> {
      * @see RequestType
      * @see Gson
      */
-    public Gson makeHttpRequest(String url, RequestType requestType) throws InvalidMethodException, IOException {
+    public void makeHttpRequest(String url, RequestType requestType) throws InvalidMethodException, IOException {
         // Making HTTP request
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         // check for request method
         HttpResponse httpResponse;
         HttpEntity httpEntity;
 
+        InputStream is = null;
         switch (requestType) {
             case POST:
                 HttpPost httpPost = new HttpPost(url);
@@ -90,9 +90,6 @@ public class JsonController<T extends Object> {
         jObj.toJson(json);
 
         httpClient.close();
-
-        return jObj;
-
     }
 
     /**
@@ -123,9 +120,8 @@ public class JsonController<T extends Object> {
     public T getObject(String url, Class<T> klasse, RequestType method) throws InvalidMethodException, IOException {
         makeHttpRequest(url, method);
         Gson gson_obj = new Gson();
-        T obj = gson_obj.fromJson(this.json, klasse);
 
-        return obj;
+        return gson_obj.fromJson(this.json, klasse);
     }
 
     /**
@@ -142,9 +138,7 @@ public class JsonController<T extends Object> {
         makeHttpRequest(url, type);
         Gson obj = new Gson();
 
-        Google google_obj = obj.fromJson(this.json, Google.class);
-
-        return google_obj;
+        return obj.fromJson(this.json, Google.class);
     }
 }
 

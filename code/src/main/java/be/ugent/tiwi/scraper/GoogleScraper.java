@@ -24,7 +24,7 @@ public class GoogleScraper extends TrafficScraper {
 
     private static final Logger logger = LogManager.getLogger(GoogleScraper.class);
 
-    private String apiKey;
+    private final String apiKey;
 
     /**
      * Constructor van de klasse

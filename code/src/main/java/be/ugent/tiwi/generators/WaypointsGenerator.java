@@ -104,7 +104,7 @@ public class WaypointsGenerator extends CoyoteScraper {
                                     double lat = pos.get("lat").getAsDouble();
                                     double lng = pos.get("lng").getAsDouble();
                                     if (vIndex != 0 || i != startI) {
-                                        double distance = Afstand.distance(lat, prevLat, lng, prevLong, 0, 0);
+                                        double distance = Afstand.distance(lat, prevLat, lng, prevLong);
                                         totalDistance += distance;
                                     } else {
                                         startLat = lat;
@@ -122,7 +122,7 @@ public class WaypointsGenerator extends CoyoteScraper {
                                 vIndex += 2;
                             }
 
-                            Map m = new HashMap<Integer, Integer>();
+                            Map<Integer, Integer> m = new HashMap<Integer, Integer>();
 
                             DatabaseController c = new DatabaseController();
                             m.put(c.haalProviderOp("Coyote").getId(), optReistijd);
@@ -302,7 +302,7 @@ public class WaypointsGenerator extends CoyoteScraper {
                 double long1 = Double.parseDouble(wp1.getLongitude());
                 double lat2 = Double.parseDouble(wp2.getLatitude());
                 double long2 = Double.parseDouble(wp2.getLongitude());
-                afstanden.add(new Afstand(Afstand.distance(lat1, lat2, long1, long2, 0, 0), wp1, wp2, t));
+                afstanden.add(new Afstand(Afstand.distance(lat1, lat2, long1, long2), wp1, wp2, t));
             }
         }
 

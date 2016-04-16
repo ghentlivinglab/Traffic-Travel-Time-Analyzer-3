@@ -14,9 +14,9 @@ import java.util.Map;
 public class DatabaseController {
     private static final Logger logger = LogManager.getLogger(DatabaseController.class);
 
-    private ProviderRepository providerRepository = new ProviderRepository();
-    private TrajectRepository trajectenRepository = new TrajectRepository();
-    private MetingRepository metingRepository = new MetingRepository();
+    private final ProviderRepository providerRepository = new ProviderRepository();
+    private final TrajectRepository trajectenRepository = new TrajectRepository();
+    private final MetingRepository metingRepository = new MetingRepository();
 
     /**
      * Haalt een specifieke {@link Provider} uit de databank aan de hand van de meegegeven id.

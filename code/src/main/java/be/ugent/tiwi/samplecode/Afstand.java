@@ -34,12 +34,10 @@ public class Afstand {
      * @param lat2 De latitude van de tweede waypoint
      * @param lon1 De longitude van de eerste waypoint
      * @param lon2 De longitude van de tweede waypoint
-     * @param el1  Het hoogteverschil tussen het eerste waypoint en de zeespiegel (in meter)
-     * @param el2  Het hoogteverschil tussen het tweede waypoint en de zeespiegel (in meter)
      * @return De afstand tussen de twee coordinaten
      */
     public static double distance(double lat1, double lat2, double lon1,
-                                  double lon2, double el1, double el2) {
+                                  double lon2) {
 
         final int R = 6371; // Radius of the earth
 
@@ -51,9 +49,7 @@ public class Afstand {
         Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c * 1000; // convert to meters
 
-        double height = el1 - el2;
-
-        distance = distance * distance + height * height;
+        distance = distance * distance;
 
         return Math.sqrt(distance);
     }
@@ -94,7 +90,7 @@ public class Afstand {
      */
     public void setWp1(Waypoint wp1) {
         this.wp1 = wp1;
-        this.afstand = distance(Double.valueOf(wp1.getLatitude()), Double.valueOf(wp2.getLatitude()), Double.valueOf(wp1.getLongitude()), Double.valueOf(wp2.getLongitude()), 0, 0);
+        this.afstand = distance(Double.valueOf(wp1.getLatitude()), Double.valueOf(wp2.getLatitude()), Double.valueOf(wp1.getLongitude()), Double.valueOf(wp2.getLongitude()));
     }
 
     /**
@@ -115,7 +111,7 @@ public class Afstand {
      */
     public void setWaypoint2(Waypoint wp2) {
         this.wp2 = wp2;
-        this.afstand = distance(Double.valueOf(wp1.getLatitude()), Double.valueOf(wp2.getLatitude()), Double.valueOf(wp1.getLongitude()), Double.valueOf(wp2.getLongitude()), 0, 0);
+        this.afstand = distance(Double.valueOf(wp1.getLatitude()), Double.valueOf(wp2.getLatitude()), Double.valueOf(wp1.getLongitude()), Double.valueOf(wp2.getLongitude()));
     }
 
     /**

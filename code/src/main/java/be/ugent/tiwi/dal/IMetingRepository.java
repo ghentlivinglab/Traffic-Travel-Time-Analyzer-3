@@ -26,8 +26,10 @@ public interface IMetingRepository {
      *
      * @return Een lijst van metingen.
      * @see Meting
+     * @param provider_id
+     * @param traject_id
      */
-    List<Meting> getMetingen();
+    List<Meting> getMetingen(int provider_id, int traject_id);
 
     /**
      * Geeft alle metingen van een meegegeven traject terug.

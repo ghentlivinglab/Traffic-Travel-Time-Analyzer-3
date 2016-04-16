@@ -36,6 +36,36 @@ public class TomTomScraper extends TrafficScraper {
         this.jc = new JsonController<TomTom>();
     }
 
+    private void fixTomTomTrajects(List<Traject> trajects) {
+        Traject t;
+
+        //Delete waypoint "51.06306,3.69491" uit traject 1
+        t = getTraject(trajects, 1);
+        deleteWaypoint(t, "51.06306","3.69491");
+
+        t = getTraject(trajects, 9);
+        deleteWaypoint(t, "51.0445", "3.71462");
+
+        t = getTraject(trajects, 12);
+        boolean startedDeleting = false;
+        for(int i = 0; i < t.getWaypoints().size(); ++i){
+            Waypoint w = t.getWaypoints().get(i);
+            if(w.getLatitude().equals("51.06054") && w.getLongitude().equals("3.71274"))
+                startedDeleting = true;
+            if(startedDeleting){
+                t.getWaypoints().remove(i);
+                if(w.getLatitude().equals("51.05964") && w.getLongitude().equals("3.7116"))
+                    break;
+                --i;
+            }
+        }
+        deleteWaypoint(t, "51.06054","3.71274");
+        deleteWaypoint(t, "51.05964","3.7116");
+
+        t = getTraject(trajects, 14);
+        deleteWaypoint(t, "51.04686","3.73424");
+    }
+
     /**
      * Haalt per traject de huidige reistijd op van de TomTom provider. Deze reistijden worden als metingen
      * teruggestuurd.
@@ -45,13 +75,14 @@ public class TomTomScraper extends TrafficScraper {
      */
     @Override
     public List<Meting> scrape(List<Traject> trajects) {
+        fixTomTomTrajects(trajects);
+
         List<Meting> metingen = new ArrayList<>();
         //Get all trajectories which have coordinates in it
         Injector injector = Guice.createInjector(new RepositoryModule());
         DatabaseController databaseController = injector.getInstance(DatabaseController.class);
 
         Provider tomtomProv = databaseController.haalProviderOp("TomTom");
-        JsonController jc = new JsonController();
         long lastScrape;
         boolean loggedExceededLimit = false;
         for (Traject traject : trajects) {

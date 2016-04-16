@@ -17,7 +17,7 @@ public class MetingRepositoryMock implements IMetingRepository {
     }
 
     @Override
-    public List<Meting> getMetingen() {
+    public List<Meting> getMetingen(int provider_id, int traject_id) {
         return null;
     }
 

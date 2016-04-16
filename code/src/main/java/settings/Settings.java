@@ -51,6 +51,7 @@ public class Settings {
             input = new FileInputStream("config.properties");
             // load a properties file
             prop.load(input);
+            return prop.getProperty(key);
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -58,12 +59,11 @@ public class Settings {
             if (input != null) {
                 try {
                     input.close();
-                    return prop.getProperty(key);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            return "null";
         }
+        return null;
     }
 }

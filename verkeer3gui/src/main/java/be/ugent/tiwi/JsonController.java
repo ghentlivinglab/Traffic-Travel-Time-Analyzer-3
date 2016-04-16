@@ -31,7 +31,7 @@ public class JsonController {
     String getJsonMetingen(@PathVariable("id") int id, ModelMap model)
     {
         MetingRepository mr = new MetingRepository();
-        return new Gson().toJson( mr.getMetingenFromTrajectByProvider(id));
+        return new Gson().toJson( mr.getMetingenByProvider(id));
     }
 
     @RequestMapping(value = "/metingen/{id}/{start}/{end}", method = RequestMethod.GET)

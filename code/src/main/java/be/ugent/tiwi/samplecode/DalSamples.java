@@ -40,8 +40,7 @@ public class DalSamples {
         MetingRepository mcrud = new MetingRepository();
         TrajectRepository tcrud = new TrajectRepository();
         List<Traject> trajects = tcrud.getTrajectenMetCoordinaten();
-        hs.scrape(trajects);
-        List<Meting> metingen = mcrud.getMetingen();
+        List<Meting> metingen = hs.scrape(trajects);
         for (Meting meting : metingen) {
             System.out.println(meting.toString());
         }
@@ -52,8 +51,7 @@ public class DalSamples {
         MetingRepository mcrud = new MetingRepository();
         TrajectRepository tcrud = new TrajectRepository();
         List<Traject> trajects = tcrud.getTrajectenMetCoordinaten();
-        gs.scrape(trajects);
-        List<Meting> metingen = mcrud.getMetingen();
+        List<Meting> metingen = gs.scrape(trajects);
         for (Meting meting : metingen) {
             System.out.println(meting.toString());
         }

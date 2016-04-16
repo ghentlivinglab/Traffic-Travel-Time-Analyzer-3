@@ -10,8 +10,11 @@ import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;
 import be.ugent.tiwi.domein.here.Here;
 import be.ugent.tiwi.domein.here.Route;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import settings.DependencyModules.RepositoryModule;
 import settings.Settings;
 
 import java.io.IOException;
@@ -48,7 +51,9 @@ public class HereScraper extends TrafficScraper {
     public List<Meting> scrape(List<Traject> trajects) {
         List<Meting> metingen = new ArrayList<>();
 
-        DatabaseController databaseController = new DatabaseController();
+        Injector injector = Guice.createInjector(new RepositoryModule());
+        DatabaseController databaseController = injector.getInstance(DatabaseController.class);
+
         Provider here = databaseController.haalProviderOp("Here");
         for (Traject traject : trajects) {
             String url = "https://route.cit.api.here.com/routing/7.2/calculateroute.json?" +

@@ -5,8 +5,11 @@ import be.ugent.tiwi.controller.exceptions.InvalidMethodException;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.*;
 import be.ugent.tiwi.domein.bing.*;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import settings.DependencyModules.RepositoryModule;
 import settings.Settings;
 
 import java.io.IOException;
@@ -55,7 +58,8 @@ public class BingScraper extends TrafficScraper {
 
         List<Meting> metingen = new ArrayList<>();
         //Get all trajectories which have coordinates in it
-        DatabaseController databaseController = new DatabaseController();
+        Injector injector = Guice.createInjector(new RepositoryModule());
+        DatabaseController databaseController = injector.getInstance(DatabaseController.class);
 
         Provider bing = databaseController.haalProviderOp("Bing Maps");
         JsonController jc = new JsonController();

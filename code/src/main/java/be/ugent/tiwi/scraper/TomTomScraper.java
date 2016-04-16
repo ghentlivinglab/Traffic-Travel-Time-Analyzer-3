@@ -8,8 +8,11 @@ import be.ugent.tiwi.domein.*;
 import be.ugent.tiwi.domein.tomtom.Route;
 import be.ugent.tiwi.domein.tomtom.TomTom;
 import com.google.gson.JsonSyntaxException;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import settings.DependencyModules.RepositoryModule;
 import settings.Settings;
 
 import java.io.IOException;
@@ -76,7 +79,8 @@ public class TomTomScraper extends TrafficScraper {
 
         List<Meting> metingen = new ArrayList<>();
         //Get all trajectories which have coordinates in it
-        DatabaseController databaseController = new DatabaseController();
+        Injector injector = Guice.createInjector(new RepositoryModule());
+        DatabaseController databaseController = injector.getInstance(DatabaseController.class);
 
         Provider tomtomProv = databaseController.haalProviderOp("TomTom");
         long lastScrape;

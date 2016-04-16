@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by jelle on 19.02.16.
  */
-public class TrajectRepository {
+public class TrajectRepository implements ITrajectRepository {
     private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(TrajectRepository.class);
     private final DBConnector connector;
     private PreparedStatement statTrajecten = null;
@@ -34,6 +34,7 @@ public class TrajectRepository {
      *
      * @return Een lijst van trajecten
      */
+    @Override
     public List<Traject> getTrajecten() {
         List<Traject> trajecten = new ArrayList<Traject>();
         ResultSet rs = null;
@@ -104,6 +105,7 @@ public class TrajectRepository {
      *
      * @return Een lijst van trajecten
      */
+    @Override
     public List<Traject> getTrajectenMetWayPoints() {
         List<Traject> trajecten = new ArrayList<Traject>();
         ResultSet rs = null;
@@ -148,6 +150,7 @@ public class TrajectRepository {
      * @param id Het ID van het traject
      * @return Het gevraagde traject. Indien het ID niet bestaat, null.
      */
+    @Override
     public Traject getTraject(int id) {
         ResultSet rs = null;
         try {
@@ -188,6 +191,7 @@ public class TrajectRepository {
      * @param id Het ID van het traject
      * @return Een traject met zijn waypoints. Indien het ID niet bestaat, null.
      */
+    @Override
     public Traject getTrajectMetWaypoints(int id) {
         Traject result = getTraject(id);
         if (result != null)
@@ -209,6 +213,7 @@ public class TrajectRepository {
      * @param end_longitude     De nieuwe eind-longitude
      * @param waypoints         Een lijst van nieuwe waypoints
      */
+    @Override
     public void wijzigTraject(int id, String naam, int lengte, int optimale_reistijd, Map<Integer, Integer> optimaleReistijden, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude, List<Waypoint> waypoints) {
         ResultSet rs = null;
         try {
@@ -288,6 +293,7 @@ public class TrajectRepository {
      * @param id        Het ID van het traject dat gewijzigd moet worden
      * @param waypoints Een lijst van nieuwe waypoints
      */
+    @Override
     public void wijzigWaypoints(int id, List<Waypoint> waypoints) {
         try {
             String stringUpdateWaypoints = "insert into waypoints(traject_id, volgnr, latitude, longitude) values(?,?,?,?) on duplicate key update latitude = values(latitude), longitude = values(longitude);";
@@ -336,6 +342,7 @@ public class TrajectRepository {
      * @param trajectId Het ID van het traject waarvan de waypoints opgevraagd worden
      * @return Een lijst van waypoints. Indien het traject_id niet bestaat, een lege lijst.
      */
+    @Override
     public List<Waypoint> getWaypoints(int trajectId) {
         List<Waypoint> wpts = new ArrayList<>();
         ResultSet rs = null;
@@ -377,6 +384,7 @@ public class TrajectRepository {
      * @param naam De naam van het traject
      * @return Een traject. Indien de naam niet bestaat, null.
      */
+    @Override
     public Traject getTraject(String naam) {
         ResultSet rs = null;
         try {
@@ -416,6 +424,7 @@ public class TrajectRepository {
      *
      * @return Een lijst van trajecten.
      */
+    @Override
     public List<Traject> getTrajectenMetCoordinaten() {
         List<Traject> trajecten = getTrajecten();
         for (Traject t : trajecten) {

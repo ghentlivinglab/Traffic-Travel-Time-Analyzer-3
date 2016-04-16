@@ -36,3 +36,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 02/04/2016,13:00,13:30,Thuis,verbeteren document sprint 1,60,
 06/04/2016,14:30,15:45,Thuis,aanvullen documentatie en structuur aanvullen voor einde sprint 2,61,
 12/04/2016,8:15,10:30,School, aanvullen documentatie; bekijken deployment en aanvullen structuur document,,
+14/04/2016,10:30,12:00,School, code DatabaseController aanpassen om gebruik te laten maken van dependency injection,79,
+14/04/2016,13:30,15:30,School, oorzaak van excetion opsporen en delegeren; boilerplatecode van testen schrijven; ProviderMock implementeren en testen; TrajectMock implementeren en deels testen,79,Bepaalde functies van trajectRepository moeten nog eens in groep besproken worden

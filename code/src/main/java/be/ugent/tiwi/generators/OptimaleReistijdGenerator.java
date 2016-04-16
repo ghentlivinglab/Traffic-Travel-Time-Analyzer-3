@@ -5,8 +5,11 @@ import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.scraper.*;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import settings.DependencyModules.RepositoryModule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +27,9 @@ public class OptimaleReistijdGenerator {
         logger.info("We zullen de tabel optimale_reistijden opvullen met deze metingen.");
         logger.info("Draai dit programma dus enkel wanneer er vrijwel geen verkeer op de autoweg is.");
 
-        DatabaseController dbController = new DatabaseController();
+        Injector injector = Guice.createInjector(new RepositoryModule());
+        DatabaseController dbController = injector.getInstance(DatabaseController.class);
+
         List<Provider> providers = dbController.haalAlleProvidersOp();
         List<Traject> trajects = dbController.getTrajectenMetWaypoints();
         for(Provider provider : providers){

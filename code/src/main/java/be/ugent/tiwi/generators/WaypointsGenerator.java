@@ -9,8 +9,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import settings.DependencyModules.RepositoryModule;
 
 import java.io.*;
 import java.util.*;
@@ -124,7 +127,8 @@ public class WaypointsGenerator extends CoyoteScraper {
 
                             Map<Integer, Integer> m = new HashMap<Integer, Integer>();
 
-                            DatabaseController c = new DatabaseController();
+                            Injector injector = Guice.createInjector(new RepositoryModule());
+                            DatabaseController c = injector.getInstance(DatabaseController.class);
                             m.put(c.haalProviderOp("Coyote").getId(), optReistijd);
 
                             Traject t = new Traject(trajectIndex, traject.getKey(), (int) Math.round(totalDistance), optReistijd, m, true, String.valueOf(startLat), String.valueOf(startLong), String.valueOf(prevLat), String.valueOf(prevLong));

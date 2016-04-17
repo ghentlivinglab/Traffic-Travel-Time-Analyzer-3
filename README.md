@@ -1,5 +1,5 @@
 #Projectgroep 3 VOP : verkeer project repository
-###ProductieOmgeving
+###Productieomgeving
 http://verkeer-3.vop.tiwi.be/verkeer3gui/
 ###Groepsleden
 

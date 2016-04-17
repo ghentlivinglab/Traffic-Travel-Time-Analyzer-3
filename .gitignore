@@ -5,3 +5,6 @@ code/build/*
 target/
 *.class
 code/classes/
+verkeer3gui/module_verkeer3gui.xml
+*.properties
+verkeer3gui/verkeer3gui.xml

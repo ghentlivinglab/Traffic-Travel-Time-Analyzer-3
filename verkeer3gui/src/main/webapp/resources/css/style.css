@@ -258,8 +258,8 @@ th.thh > div > span {
     border-radius: 4px;
     font-weight: bold;
     padding-left: 20px;
-    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 22.5px 100%);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 22.5px 100%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 22px 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 22px 100%);
 }
 
 th.optimaleReistijd.thh > div > span{

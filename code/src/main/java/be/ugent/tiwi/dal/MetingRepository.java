@@ -342,6 +342,39 @@ public class MetingRepository implements IMetingRepository {
          }
     }
 
+
+
+    /**
+     * Voegt een lijst metingen toe aan de database
+     *
+     * @param metingen De metingen die toegevoegd moeten worden
+     * @see Meting
+     */
+    @Override
+    public void addMetingen(List<Meting> metingen) {
+        try {
+            String stringAddMetingen = "insert into metingen(provider_id,traject_id,reistijd) values (?, ?, ?)";
+            statMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
+            for(Meting meting : metingen) {
+                statMetingen.setInt(1, meting.getProvider().getId());
+                statMetingen.setInt(2, meting.getTraject().getId());
+                if (meting.getReistijd() != null && meting.getReistijd() >= 0)
+                    statMetingen.setInt(3, meting.getReistijd());
+                else
+                    statMetingen.setNull(3, Types.INTEGER);
+                statMetingen.addBatch();
+            }
+            statMetingen.executeBatch();
+
+
+        } catch (SQLException ex) {
+            logger.error("Toevoegen metingen mislopen", ex);
+        }finally{
+            try { statMetingen.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
+        }
+    }
+
     /**
      * Deze functie berekent de gemiddelde vertraging voor een bepaald traject voor een bepaalde provider.
      *

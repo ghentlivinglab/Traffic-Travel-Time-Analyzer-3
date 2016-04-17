@@ -15,4 +15,6 @@ public class AdminController {
         model.addAttribute("trajecten", trajectRepository.getTrajectenMetWayPoints());
         return "admin/index";
     }
+
+
 }

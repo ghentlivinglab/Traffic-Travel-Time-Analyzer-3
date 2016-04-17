@@ -46,7 +46,7 @@ public class ScheduleController {
                 };
                 final ScheduledFuture<?> schemaHandle = scheduler.scheduleAtFixedRate(schema, 0, 5, MINUTES);
             }
-        } catch (SQLException e) {
+        } catch (SQLException ignored) {
 
         }
     }

@@ -31,11 +31,15 @@ nav.navbar
     clear: both;
     display: block;
 }
-#content
+.content
 {
     display: block;
     margin: 0;
     padding: 25px;
+}
+
+.content-container{
+    padding: 0px 40px 0px 0px;
 }
 #div-logo
 {
@@ -156,6 +160,8 @@ body {
     }
 }
 
+
+
 @-webkit-keyframes lol {
     0% {
         opacity: 0;
@@ -206,4 +212,88 @@ body {
 }
 .tooltip-title{
     font-size: medium;
+}
+
+#header-fixed {
+    position: fixed;
+    top: 0px;
+    display:none;
+    background-color:white;
+    z-index: 1010;
+}
+
+.floatThead-container{
+    overflow: visible !important;
+    background-color: #FFFFFF;
+}
+
+#trajecten-table{
+    z-index: 1000;
+}
+
+th.rotate {
+    /* Something you can count on */
+    height: 140px;
+    white-space: nowrap;
+}
+
+th.rotate > div {
+    transform: translate(25px, 0px) rotate(300deg);
+    width: 30px;
+}
+/*th.rotate:last-of-type > div{
+    transform: translate(12px, 0px) rotate(300deg)
+}*/
+
+th.thh > div{
+    transform: translate(25px, 15px) rotate(300deg);
+}
+
+th.rotate > div > span {
+    border-bottom: 1px solid #ccc;
+    padding: 3px 5px;
+}
+th.thh > div > span {
+    padding: 10px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    padding-left: 20px;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 22px 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 22px 100%);
+}
+
+th.optimaleReistijd.thh > div > span{
+    color: white;
+    background: #FF0000;
+}
+th.reistijd.thh > div > span{
+    color: #333;
+    background: yellow;
+}
+th.vertraging.thh > div > span{
+    color: white;
+    background: blue;
+}
+
+tr.map-not-showing{
+    background-color: #ffffff;
+}
+tr.map-showing{
+    background-color: #FFEEE8;
+}
+tr.map-showing:hover{
+    background-color: #ffdddd !important;
+}
+
+a.view-traject-onmap, a.delete-traject-onmap{
+    cursor:hand;
+}
+
+td.thtd{
+    width: 40px;
+}
+
+td.rotatedtd{
+    width: 30px;
+    text-align:right;
 }

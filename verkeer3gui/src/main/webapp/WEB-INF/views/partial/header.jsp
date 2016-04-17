@@ -10,6 +10,7 @@
     <link href="<c:url value="/resources/datetimepicker/css/bootstrap-datetimepicker.min.css"/>" rel="stylesheet"  type="text/css" />
     <script src="<c:url value="/resources/js/jquery.min.js"/>"></script>
     <script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/resources/js/jquery.floatThead.js"/>"></script>
 </head>
 <body>
 <header class="col-md-12">
@@ -30,7 +31,7 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-<div id="content">
+<div class="content">
     <c:if test="${param.message!=null}">
         <div id="messagebox" class="alert alert-success">
             <strong>Melding:</strong> <c:out value="${param.message}"/>

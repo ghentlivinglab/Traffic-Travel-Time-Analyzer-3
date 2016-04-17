@@ -27,9 +27,8 @@ import java.util.List;
  */
 public class HereScraper extends TrafficScraper {
     private static final Logger logger = LogManager.getLogger(HereScraper.class);
-    private String appId;
-    private String appCode;
-    private String url;
+    private final String appId;
+    private final String appCode;
     private JsonController<Here> jc;
 
 
@@ -56,7 +55,6 @@ public class HereScraper extends TrafficScraper {
         DatabaseController databaseController = injector.getInstance(DatabaseController.class);
 
         Provider here = databaseController.haalProviderOp("Here");
-        JsonController jc = new JsonController();
         for (Traject traject : trajects) {
             String url = "https://route.cit.api.here.com/routing/7.2/calculateroute.json?" +
                     "app_id=" + this.appId +

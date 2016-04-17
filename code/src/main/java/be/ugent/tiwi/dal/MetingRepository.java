@@ -7,19 +7,14 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MetingRepository implements IMetingRepository {
     private static final Logger logger = LogManager.getLogger(MetingRepository.class);
     private DBConnector connector;
-    private PreparedStatement statMetingenPerProvPerTraj = null;
     private PreparedStatement statMetingen = null;
-    private PreparedStatement statAddMetingen = null;
-    private PreparedStatement statStatistieken = null;
-
-    private String stringMetingenPerProvPerTraj = "select * from metingen where traject_id = ? and provider_id = ?";
-    private String stringMetingen = "select * from metingen";
-    private String stringAddMetingen = "insert into metingen(provider_id,traject_id,reistijd) values (?, ?, ?)";
 
     /**
      * Constructor van de klasse.
@@ -42,11 +37,12 @@ public class MetingRepository implements IMetingRepository {
         List<Meting> metingen = new ArrayList<>();
         ResultSet rs = null;
         try {
-            statMetingenPerProvPerTraj = connector.getConnection().prepareStatement(stringMetingenPerProvPerTraj);
-            statMetingenPerProvPerTraj.setInt(1, traject.getId());
-            statMetingenPerProvPerTraj.setInt(2, provider.getId());
+            String stringMetingenPerProvPerTraj = "select * from metingen where traject_id = ? and provider_id = ?";
+            statMetingen = connector.getConnection().prepareStatement(stringMetingenPerProvPerTraj);
+            statMetingen.setInt(1, traject.getId());
+            statMetingen.setInt(2, provider.getId());
 
-            rs = statMetingenPerProvPerTraj.executeQuery();
+            rs = statMetingen.executeQuery();
 
             while (rs.next()) {
                 Integer reistijd = rs.getInt("reistijd");
@@ -67,7 +63,7 @@ public class MetingRepository implements IMetingRepository {
                 rs.close();
             } catch (Exception e) { /* ignored */ }
             try {
-                statMetingenPerProvPerTraj.close();
+                statMetingen.close();
             } catch (Exception e) { /* ignored */ }
             try {
                 connector.close();
@@ -80,15 +76,20 @@ public class MetingRepository implements IMetingRepository {
      *
      * @return Een lijst van metingen.
      * @see Meting
+     * @param provider_id
+     * @param traject_id
      */
     @Override
-    public List<Meting> getMetingen() {
+    public List<Meting> getMetingen(int provider_id, int traject_id) {
         IProviderRepository pcrud = new ProviderRepository();
         ITrajectRepository tcrud = new TrajectRepository();
         List<Meting> metingen = new ArrayList<Meting>();
         ResultSet rs = null;
         try {
+            String stringMetingen = "select * from metingen where provider_id = ? and traject_id = ?";
             statMetingen = connector.getConnection().prepareStatement(stringMetingen);
+            statMetingen.setInt(1, provider_id);
+            statMetingen.setInt(2, traject_id);
             rs = statMetingen.executeQuery();
 
             while (rs.next()) {
@@ -130,9 +131,8 @@ public class MetingRepository implements IMetingRepository {
     @Override
     public List<Meting> getMetingenFromTraject(int traject_id) {
         String query = "select * from metingen where traject_id ='" + traject_id + "'";
-        List<Meting> metingen = getMetingenFromQuery(query, traject_id);
 
-        return metingen;
+        return getMetingenFromQuery(query, traject_id);
     }
 
     /**
@@ -148,9 +148,8 @@ public class MetingRepository implements IMetingRepository {
     public List<Meting> getMetingenFromTraject(int traject_id, LocalDateTime start, LocalDateTime end) {
         String query = "select * from metingen where traject_id ='" + traject_id + "' and timestamp between '" +
                 Timestamp.valueOf(start) + "' and '" + Timestamp.valueOf(end) + "'";
-        List<Meting> metingen = getMetingenFromQuery(query, traject_id);
 
-        return metingen;
+        return getMetingenFromQuery(query, traject_id);
     }
 
     /**
@@ -192,16 +191,14 @@ public class MetingRepository implements IMetingRepository {
      * Geeft een lijst terug van providers. Iedere provider bevat een volledig ingevulde lijst van metingen van het
      * meegegeven traject
      *
-     * @param traject_id Een traject_id
      * @return Een lijst van providers, aangevuld met een lijst metingen per provider.
      * @see Meting
      */
-    @Override
     public List<Provider> getMetingenFromTrajectByProvider(int traject_id) {
         List<Provider> providers = new ProviderRepository().getActieveProviders();
 
         for (Provider provider : providers) {
-            List<Meting> metingen = getMetingenByProvider(provider.getId());
+            List<Meting> metingen = getMetingen(provider.getId(), traject_id);
             provider.setMetingen(metingen);
         }
 
@@ -326,22 +323,56 @@ public class MetingRepository implements IMetingRepository {
     @Override
     public void addMeting(Meting meting) {
         try {
-            statAddMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
-            statAddMetingen.setInt(1, meting.getProvider().getId());
-            statAddMetingen.setInt(2, meting.getTraject().getId());
+            String stringAddMetingen = "insert into metingen(provider_id,traject_id,reistijd) values (?, ?, ?)";
+            statMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
+            statMetingen.setInt(1, meting.getProvider().getId());
+            statMetingen.setInt(2, meting.getTraject().getId());
             if (meting.getReistijd() != null && meting.getReistijd() >= 0)
-                statAddMetingen.setInt(3, meting.getReistijd());
+                statMetingen.setInt(3, meting.getReistijd());
             else
-                statAddMetingen.setNull(3, Types.INTEGER);
-            statAddMetingen.executeUpdate();
+                statMetingen.setNull(3, Types.INTEGER);
+            statMetingen.executeUpdate();
 
 
         } catch (SQLException ex) {
             logger.error("Toevoegen meting mislopen", ex);
         }finally{
-             try { statAddMetingen.close(); } catch (Exception e) { /* ignored */ }
+             try { statMetingen.close(); } catch (Exception e) { /* ignored */ }
              try {  connector.close(); } catch (Exception e) { /* ignored */ }
          }
+    }
+
+
+
+    /**
+     * Voegt een lijst metingen toe aan de database
+     *
+     * @param metingen De metingen die toegevoegd moeten worden
+     * @see Meting
+     */
+    @Override
+    public void addMetingen(List<Meting> metingen) {
+        try {
+            String stringAddMetingen = "insert into metingen(provider_id,traject_id,reistijd) values (?, ?, ?)";
+            statMetingen = connector.getConnection().prepareStatement(stringAddMetingen);
+            for(Meting meting : metingen) {
+                statMetingen.setInt(1, meting.getProvider().getId());
+                statMetingen.setInt(2, meting.getTraject().getId());
+                if (meting.getReistijd() != null && meting.getReistijd() >= 0)
+                    statMetingen.setInt(3, meting.getReistijd());
+                else
+                    statMetingen.setNull(3, Types.INTEGER);
+                statMetingen.addBatch();
+            }
+            statMetingen.executeBatch();
+
+
+        } catch (SQLException ex) {
+            logger.error("Toevoegen metingen mislopen", ex);
+        }finally{
+            try { statMetingen.close(); } catch (Exception e) { /* ignored */ }
+            try {  connector.close(); } catch (Exception e) { /* ignored */ }
+        }
     }
 
     /**
@@ -357,27 +388,25 @@ public class MetingRepository implements IMetingRepository {
      */
     @Override
     public ProviderTrajectStatistiek metingStatistieken(int traject_id, int provider_id, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
-        String stringStatistieken = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging " +
-                        "from metingen m1 " +
-                        "join metingen m2 on m1.traject_id = m2.traject_id " +
-                        "join trajecten traj on traj.id = m2.traject_id " +
-                        "where m1.traject_id = ? and m1.provider_id = ? and m1.timestamp between ? and ? and m1.reistijd is not null " +
-                        "group by m1.traject_id";
+        String stringStatistieken = "SELECT avg(m1.reistijd-o.reistijd) avg_vertraging " +
+                "FROM metingen m1 " +
+                "JOIN optimale_reistijden o ON m1.traject_id = o.traject_id AND m1.provider_id = o.provider_id " +
+                "WHERE m1.traject_id = ? AND m1.provider_id = ? AND m1.timestamp BETWEEN ? AND ? AND m1.reistijd IS NOT NULL";
 
         try {
-            statStatistieken = connector.getConnection().prepareStatement(stringStatistieken);
+            statMetingen = connector.getConnection().prepareStatement(stringStatistieken);
 
-            statStatistieken.setInt(1, traject_id);
-            statStatistieken.setInt(2, provider_id);
-            statStatistieken.setTimestamp(3, Timestamp.valueOf(start_tijdstip));
-            statStatistieken.setTimestamp(4, Timestamp.valueOf(end_tijdstip));
+            statMetingen.setInt(1, traject_id);
+            statMetingen.setInt(2, provider_id);
+            statMetingen.setTimestamp(3, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(4, Timestamp.valueOf(end_tijdstip));
 
             ProviderTrajectStatistiek providerTrajectStatistiek;
 
-            ResultSet rs = statStatistieken.executeQuery();
+            ResultSet rs = statMetingen.executeQuery();
 
             if (rs.next()) {
-                Traject traject = new TrajectRepository().getTraject(rs.getInt("traject_id"));
+                Traject traject = new TrajectRepository().getTraject(traject_id);
                 Provider provider = new ProviderRepository().getProvider(provider_id);
                 Vertraging vertraging = new Vertraging(traject, rs.getDouble("avg_vertraging"));
 
@@ -402,8 +431,9 @@ public class MetingRepository implements IMetingRepository {
                 "where provider_id = ? and traject_id = ? and reistijd is not null " +
                 "and timestamp between date_sub(now(), INTERVAL 7 DAY) and now()";
         ResultSet rs = null;
+        PreparedStatement stat = null;
         try {
-            PreparedStatement stat = connector.getConnection().prepareStatement(query);
+            stat = connector.getConnection().prepareStatement(query);
             stat.setInt(1, providerId);
             stat.setInt(2, trajectId);
             rs = stat.executeQuery();
@@ -433,11 +463,13 @@ public class MetingRepository implements IMetingRepository {
                 }
             }
         } catch (SQLException e) {
-            logger.error("Statistieken ophalen mislukt");
-            logger.error(e);
+            logger.error("Statistieken ophalen mislukt", e);
         } finally {
             try {
                 rs.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                stat.close();
             } catch (Exception e) { /* ignored */ }
             try {
                 connector.close();
@@ -467,10 +499,10 @@ public class MetingRepository implements IMetingRepository {
                 "AND m.timestamp BETWEEN ? AND ?";
         ResultSet rs = null;
         try {
-            statStatistieken = connector.getConnection().prepareStatement(gemiddelde_vertraging);
-            statStatistieken.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
-            statStatistieken.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
-            rs = statStatistieken.executeQuery();
+            statMetingen = connector.getConnection().prepareStatement(gemiddelde_vertraging);
+            statMetingen.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
+            rs = statMetingen.executeQuery();
 
             if (rs.next()) {
                 return rs.getDouble("totale_vertraging");
@@ -502,15 +534,16 @@ public class MetingRepository implements IMetingRepository {
      */
     @Override
     public double gemiddeldeVertraging(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
-        String gemiddelde_vertraging_provider = "select avg(reistijd-traj.optimale_reistijd) totale_vertraging from metingen "+
-                "join trajecten traj on traj.id = traject_id "+
-                "where metingen.timestamp between ? and ? and metingen.provider_id = ? and reistijd is not null ";
+        String gemiddelde_vertraging_provider = "select avg(m.reistijd-o.reistijd) totale_vertraging " +
+                "from metingen m " +
+                "join optimale_reistijden o on o.traject_id = m.traject_id and o.provider_id = m.provider_id "+
+                "where m.timestamp between ? and ? and m.provider_id = ? and m.reistijd is not null ";
         try {
-            statStatistieken = connector.getConnection().prepareStatement(gemiddelde_vertraging_provider);
-            statStatistieken.setTimestamp(1,Timestamp.valueOf(start_tijdstip));
-            statStatistieken.setTimestamp(2,Timestamp.valueOf(end_tijdstip));
-            statStatistieken.setInt(3,provider.getId());
-            ResultSet rs = statStatistieken.executeQuery();
+            statMetingen = connector.getConnection().prepareStatement(gemiddelde_vertraging_provider);
+            statMetingen.setTimestamp(1,Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(2,Timestamp.valueOf(end_tijdstip));
+            statMetingen.setInt(3,provider.getId());
+            ResultSet rs = statMetingen.executeQuery();
 
             if(rs.next()) {
                 return rs.getDouble("totale_vertraging");
@@ -522,6 +555,82 @@ public class MetingRepository implements IMetingRepository {
             logger.error(e);
         }
         return -1;
+    }
+
+    public Map<LocalDateTime, Double> getVertragingenEveryFiveMinutes(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
+        String gemiddeldeVertragingPeriode = "select max(b.max) timestamp, sum(b.count * b.avg) / sum(b.count) gemiddelde, sum(b.count) aantal " +
+                "from ( " +
+                    "SELECT    round((a.timestamp - max(m.timestamp))/(5 * 60)) id, max(m.timestamp) max, avg(m.reistijd - o.reistijd) avg, count(*) count " +
+                    "FROM     metingen m " +
+                    "join optimale_reistijden o on o.traject_id = m.traject_id and o.provider_id = m.provider_id " +
+                    ", (" +
+                        "select max(m2.timestamp) timestamp " +
+                        "from metingen m2 " +
+                        "where m2.timestamp between ? and ? and m2.reistijd is not null and m2.provider_id = ? " +
+                    ") a " +
+                    "where m.timestamp between ? and ? and m.reistijd is not null and m.provider_id = ? " +
+                    "GROUP BY ROUND(UNIX_TIMESTAMP(m.timestamp)/(5 * 60)) " +
+                ") b " +
+                "group by b.id " +
+                "order by timestamp";
+        try{
+            statMetingen = connector.getConnection().prepareStatement(gemiddeldeVertragingPeriode);
+            statMetingen.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
+            statMetingen.setInt(3, provider.getId());
+            statMetingen.setTimestamp(4, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(5, Timestamp.valueOf(end_tijdstip));
+            statMetingen.setInt(6, provider.getId());
+            ResultSet rs = statMetingen.executeQuery();
+
+            Map<LocalDateTime, Double> map = new HashMap<LocalDateTime, Double>();
+            while(rs.next()){
+                Timestamp timestamp = rs.getTimestamp("timestamp");
+                Double vertraging = rs.getDouble("gemiddelde");
+                map.put(timestamp.toLocalDateTime(), vertraging);
+            }
+            return map;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Map<LocalDateTime, Double> getVertragingenEveryFiveMinutes(LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
+        String gemiddeldeVertragingPeriode = "select max(b.max) timestamp, sum(b.count * b.avg) / sum(b.count) gemiddelde, sum(b.count) aantal " +
+                "from ( " +
+                "SELECT    round((a.timestamp - max(m.timestamp))/(5 * 60)) id, max(m.timestamp) max, avg(m.reistijd - o.reistijd) avg, count(*) count " +
+                "FROM     metingen m " +
+                "join optimale_reistijden o on o.traject_id = m.traject_id and o.provider_id = m.provider_id " +
+                ", (" +
+                "select max(m2.timestamp) timestamp " +
+                "from metingen m2 " +
+                "where m2.timestamp between ? and ? and m2.reistijd is not null " +
+                ") a " +
+                "where m.timestamp between ? and ? and m.reistijd is not null " +
+                "GROUP BY ROUND(UNIX_TIMESTAMP(m.timestamp)/(5 * 60)) " +
+                ") b " +
+                "group by b.id " +
+                "order by timestamp";
+        try{
+            statMetingen = connector.getConnection().prepareStatement(gemiddeldeVertragingPeriode);
+            statMetingen.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
+            statMetingen.setTimestamp(3, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(4, Timestamp.valueOf(end_tijdstip));
+            ResultSet rs = statMetingen.executeQuery();
+
+            Map<LocalDateTime, Double> map = new HashMap<LocalDateTime, Double>();
+            while(rs.next()){
+                Timestamp timestamp = rs.getTimestamp("timestamp");
+                Double vertraging = rs.getDouble("gemiddelde");
+                map.put(timestamp.toLocalDateTime(), vertraging);
+            }
+            return map;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -543,14 +652,14 @@ public class MetingRepository implements IMetingRepository {
                 "where m1.provider_id = ? and m1.timestamp between ? and ? and m1.reistijd is not null " +
                 "group by m1.traject_id";
         try {
-            statStatistieken = connector.getConnection().prepareStatement(gemiddelde_per_traject_provider);
-            statStatistieken.setInt(1, provider_id);
-            statStatistieken.setTimestamp(2, Timestamp.valueOf(start_tijdstip));
-            statStatistieken.setTimestamp(3, Timestamp.valueOf(end_tijdstip));
+            statMetingen = connector.getConnection().prepareStatement(gemiddelde_per_traject_provider);
+            statMetingen.setInt(1, provider_id);
+            statMetingen.setTimestamp(2, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(3, Timestamp.valueOf(end_tijdstip));
 
             Provider provider = new ProviderRepository().getProvider(provider_id);
             ProviderStatistiek stat = new ProviderStatistiek(provider);
-            ResultSet rs = statStatistieken.executeQuery();
+            ResultSet rs = statMetingen.executeQuery();
 
             while (rs.next()) {
                 Traject traject = new TrajectRepository().getTraject(rs.getInt("traject_id"));
@@ -585,20 +694,19 @@ public class MetingRepository implements IMetingRepository {
         " group by m1.traject_id";
 
         try {
-            statStatistieken = connector.getConnection().prepareStatement(traject_vertraging);
-            statStatistieken.setInt(1, traject_id);
-            statStatistieken.setTimestamp(2, Timestamp.valueOf(start_tijdstip));
-            statStatistieken.setTimestamp(3, Timestamp.valueOf(end_tijdstip));
+            statMetingen = connector.getConnection().prepareStatement(traject_vertraging);
+            statMetingen.setInt(1, traject_id);
+            statMetingen.setTimestamp(2, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(3, Timestamp.valueOf(end_tijdstip));
 
             Traject traject = new TrajectRepository().getTraject(traject_id);
 
 
-            ResultSet rs = statStatistieken.executeQuery();
+            ResultSet rs = statMetingen.executeQuery();
 
             if (rs.next()) {
-                Vertraging vertraging = new Vertraging(traject, rs.getDouble("avg_vertraging"));
 
-                return vertraging;
+                return new Vertraging(traject, rs.getDouble("avg_vertraging"));
             }
         } catch (SQLException e) {
             logger.error("Statistieken ophalen mislukt");
@@ -623,11 +731,11 @@ public class MetingRepository implements IMetingRepository {
                 "group by m1.traject_id";
 
         try {
-            statStatistieken = connector.getConnection().prepareStatement(trajecten_vertraging);
-            statStatistieken.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
-            statStatistieken.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
+            statMetingen = connector.getConnection().prepareStatement(trajecten_vertraging);
+            statMetingen.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
 
-            ResultSet rs = statStatistieken.executeQuery();
+            ResultSet rs = statMetingen.executeQuery();
             Vertraging drukste_traject = null;
             if (rs.next()) {
                 drukste_traject = new Vertraging(new TrajectRepository().getTraject(rs.getInt("traject_id")), rs.getDouble("avg_vertraging"));
@@ -665,12 +773,12 @@ public class MetingRepository implements IMetingRepository {
                 "        group by m1.traject_id";
 
         try {
-            statStatistieken = connector.getConnection().prepareStatement(trajecten_vertraging_provider);
-            statStatistieken.setTimestamp(1,Timestamp.valueOf(start_tijdstip));
-            statStatistieken.setTimestamp(2,Timestamp.valueOf(end_tijdstip));
-            statStatistieken.setInt(3,provider.getId());
+            statMetingen = connector.getConnection().prepareStatement(trajecten_vertraging_provider);
+            statMetingen.setTimestamp(1,Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(2,Timestamp.valueOf(end_tijdstip));
+            statMetingen.setInt(3,provider.getId());
 
-            ResultSet rs = statStatistieken.executeQuery();
+            ResultSet rs = statMetingen.executeQuery();
             Vertraging drukste_traject = null;
             if(rs.next()) {
                 drukste_traject =new Vertraging(new TrajectRepository().getTraject(rs.getInt("traject_id")),rs.getDouble("avg_vertraging"));
@@ -705,11 +813,11 @@ public class MetingRepository implements IMetingRepository {
                 "group by m1.traject_id";
 
         try {
-            statStatistieken = connector.getConnection().prepareStatement(trajecten_vertraging);
-            statStatistieken.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
-            statStatistieken.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
+            statMetingen = connector.getConnection().prepareStatement(trajecten_vertraging);
+            statMetingen.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
 
-            ResultSet rs = statStatistieken.executeQuery();
+            ResultSet rs = statMetingen.executeQuery();
             List<Vertraging> vertragingen = new ArrayList<>();
 
             while (rs.next()) {
@@ -738,20 +846,19 @@ public class MetingRepository implements IMetingRepository {
      */
     @Override
     public List<Vertraging> getVertragingen(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
-        String trajecten_vertraging = "select m1.traject_id, avg(m2.reistijd-traj.optimale_reistijd) avg_vertraging" +
-                "        from metingen m1" +
-                "        join metingen m2 on m1.traject_id = m2.traject_id" +
-                "        join trajecten traj on traj.id = m2.traject_id" +
-                "        where m1.timestamp between ? and ? and m1.provider_id = ? and m1.reistijd is not null" +
-                "        group by m1.traject_id";
+        String trajecten_vertraging = "select m1.traject_id, avg(m1.reistijd-o.reistijd) avg_vertraging " +
+                "from metingen m1 " +
+                "join optimale_reistijden o on m1.traject_id = o.traject_id and m1.provider_id = o.provider_id " +
+                "where m1.timestamp between ? and ? and m1.provider_id = ? and m1.reistijd is not null " +
+                "group by m1.traject_id";
 
         try {
-            statStatistieken = connector.getConnection().prepareStatement(trajecten_vertraging);
-            statStatistieken.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
-            statStatistieken.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
-            statStatistieken.setInt(3,provider.getId());
+            statMetingen = connector.getConnection().prepareStatement(trajecten_vertraging);
+            statMetingen.setTimestamp(1, Timestamp.valueOf(start_tijdstip));
+            statMetingen.setTimestamp(2, Timestamp.valueOf(end_tijdstip));
+            statMetingen.setInt(3,provider.getId());
 
-            ResultSet rs = statStatistieken.executeQuery();
+            ResultSet rs = statMetingen.executeQuery();
             List<Vertraging> vertragingen = new ArrayList<>();
 
             while (rs.next()){

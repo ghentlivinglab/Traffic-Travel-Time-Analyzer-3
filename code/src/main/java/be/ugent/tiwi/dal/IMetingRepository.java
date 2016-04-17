@@ -26,8 +26,10 @@ public interface IMetingRepository {
      *
      * @return Een lijst van metingen.
      * @see Meting
+     * @param provider_id
+     * @param traject_id
      */
-    List<Meting> getMetingen();
+    List<Meting> getMetingen(int provider_id, int traject_id);
 
     /**
      * Geeft alle metingen van een meegegeven traject terug.
@@ -188,4 +190,11 @@ public interface IMetingRepository {
      * @return alle trajecten die een vertraging hebben over dat tijdstip
      */
     List<Vertraging> getVertragingen(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip);
+
+    /**
+     * Methode om een lijst metingen toe te voegen in de databank.
+     *
+     * @param metingen de lijst gesrapete metingne
+     */
+    void addMetingen(List<Meting> metingen);
 }

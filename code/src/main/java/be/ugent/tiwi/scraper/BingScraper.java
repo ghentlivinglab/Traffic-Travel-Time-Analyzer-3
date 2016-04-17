@@ -24,7 +24,7 @@ public class BingScraper extends TrafficScraper {
 
     private static final Logger logger = LogManager.getLogger(BingScraper.class);
 
-    private String apiKey;
+    private final String apiKey;
 
     public BingScraper() {
         this.apiKey = Settings.getSetting("bing_apikey");

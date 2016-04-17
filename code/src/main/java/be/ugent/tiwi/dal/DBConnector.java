@@ -10,7 +10,7 @@ import java.sql.*;
  * Klasse die de connectie met de databank beheert.
  */
 public class DBConnector {
-    private static Logger logger = LogManager.getLogger(DBConnector.class);
+    private static final Logger logger = LogManager.getLogger(DBConnector.class);
     private Connection connection;
 
     /**

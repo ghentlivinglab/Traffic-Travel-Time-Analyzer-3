@@ -88,15 +88,13 @@ public class CoyoteScraper extends TrafficScraper {
                     }
                     br.close();
 
-                } catch (ConnectionClosedException ex) {
+                } catch (ConnectionClosedException ignored) {
                 }
             } catch (IOException e) {
                 logger.error("Could not parse coyote-json file - Status: " + Dataresponse.getStatusLine().toString());
                 throw e;
             }
             EntityUtils.consume(entity2);
-        } catch (IOException ex) {
-            throw ex;
         } finally {
             Dataresponse.close();
         }

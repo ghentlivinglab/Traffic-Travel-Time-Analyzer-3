@@ -1,16 +1,20 @@
 package be.ugent.tiwi;
 
 import be.ugent.tiwi.dal.DatabaseController;
+import be.ugent.tiwi.dal.ITrajectRepository;
 import be.ugent.tiwi.dal.TrajectRepository;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import settings.DependencyModules.RepositoryModule;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -24,8 +28,8 @@ public class TrajectController {
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String wijzigTraject(@PathVariable("id") int id, ModelMap model)
     {
-        DatabaseController databaseController = new DatabaseController();
-        Traject traject = databaseController.haalTraject(id);
+        ITrajectRepository repo = new TrajectRepository();
+        Traject traject = repo.getTraject(id);
         model.addAttribute("traject",traject);
         return "traject/edit";
     }
@@ -47,8 +51,9 @@ public class TrajectController {
         Type collectionType = new TypeToken<List<Waypoint>>(){}.getType();
         traject.setWaypoints(gson.fromJson(wayPoints,collectionType));
 
-        DatabaseController databaseController = new DatabaseController();
-        databaseController.wijzigTraject(traject);
+        Injector injector = Guice.createInjector(new RepositoryModule());
+        DatabaseController dbController = injector.getInstance(DatabaseController.class);
+        dbController.wijzigTraject(traject);
         ModelAndView modelAndView =  new ModelAndView("redirect:/");
         modelAndView.addObject("message" , "Wijzigen van "+traject.getNaam()+" geslaagd!");
         return modelAndView;

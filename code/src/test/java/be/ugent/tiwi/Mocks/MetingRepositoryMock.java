@@ -105,4 +105,7 @@ public class MetingRepositoryMock implements IMetingRepository {
     public List<Vertraging> getVertragingen(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip) {
         return null;
     }
+
+    @Override
+    public void addMetingen(List<Meting> metingen) { }
 }

@@ -74,22 +74,25 @@ public class IndexController {
 
         //traject.id -> vertraging
         Map<Integer, Integer> globaleVertragingen = new HashMap<>();
-        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(5), LocalDateTime.now());
-        for(Vertraging v : vList)
-            globaleVertragingen.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
+        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+        if(vList != null)
+            for(Vertraging v : vList)
+                globaleVertragingen.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
 
         Map<Integer, Map<Integer, Integer>> vertragingen = new HashMap<>();
         for(Provider p : providers) {
             Map<Integer, Integer> temp = new HashMap<>();
-            vList = mr.getVertragingen(p, LocalDateTime.now().minusMinutes(5), LocalDateTime.now());
-            for(Vertraging v : vList)
-                temp.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
+            vList = mr.getVertragingen(p, LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+            if(vList != null)
+                for(Vertraging v : vList)
+                    temp.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
             vertragingen.put(p.getId(), temp);
         }
         model.addAttribute("vertragingen", vertragingen);
         model.addAttribute("globaleVertragingen", globaleVertragingen);
         model.addAttribute("trajecten",trajecten);
         model.addAttribute("providers",providers);
+
 
         return "home/trajecten";
     }

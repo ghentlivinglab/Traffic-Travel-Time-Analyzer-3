@@ -289,6 +289,20 @@ a.view-traject-onmap, a.delete-traject-onmap{
     cursor:hand;
 }
 
+.bootstrap-switch { height: 2.5em }
+
+#serverStatus{
+    float:right;
+}
+.inline-h{
+    display:inline-block;
+    margin-bottom:30px;
+}
+
+#admin-traject-table{
+    clear:both;
+}
+
 td.thtd{
     width: 40px;
 }

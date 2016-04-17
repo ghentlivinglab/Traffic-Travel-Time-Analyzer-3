@@ -24,14 +24,40 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 public class ScheduleController {
     private static final Logger logger = LogManager.getLogger(ScheduleController.class);
     private DatabaseController dbController;
+    private boolean started = false;
+
+    ScheduledExecutorService scheduler;
+
+    public boolean start() throws SQLException {
+        if (!started){
+            started = true;
+            startSchedule();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean stop(){
+        if(started) {
+            started = false;
+            scheduler.shutdown();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isStarted(){
+        return started;
+    }
+
 
     /**
      * Deze functie begint een cyclus die iedere 5 minuten alle actieve {@link Provider}s overloopt en de beschikbare
      * data opslaat.
      */
-    public void startSchedule() {
+    private void startSchedule() throws SQLException {
 
-        ScheduledExecutorService scheduler =
+        scheduler =
                 Executors.newScheduledThreadPool(1);
 
         DBConnector db = new DBConnector();
@@ -46,8 +72,9 @@ public class ScheduleController {
                 };
                 final ScheduledFuture<?> schemaHandle = scheduler.scheduleAtFixedRate(schema, 0, 5, MINUTES);
             }
-        } catch (SQLException ignored) {
-
+        } catch (SQLException ex) {
+            started = false;
+            throw ex;
         }
     }
 

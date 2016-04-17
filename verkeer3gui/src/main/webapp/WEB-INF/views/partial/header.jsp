@@ -11,6 +11,7 @@
     <script src="<c:url value="/resources/js/jquery.min.js"/>"></script>
     <script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js"/>"></script>
     <script src="<c:url value="/resources/js/jquery.floatThead.js"/>"></script>
+    <script src="<c:url value="/resources/js/bootstrap-switch.js"/>"></script>
 </head>
 <body>
 <header class="col-md-12">

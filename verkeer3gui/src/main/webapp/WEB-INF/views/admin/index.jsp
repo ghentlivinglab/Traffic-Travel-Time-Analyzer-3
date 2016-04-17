@@ -1,6 +1,12 @@
 <jsp:include page="/WEB-INF/views/partial/header.jsp"/>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<h1>Admin panel</h1>
+<link href="<c:out value="resources/css/bootstrap3/bootstrap-switch.css"/>" rel="stylesheet">
+<script src="<c:out value="resources/js/admin.js"/>"></script>
+<h1 class="inline-h">Admin panel</h1>
+<span id="serverStatus">
+    Scrapers server: <input type="checkbox" name="chkServerToggle" disabled="true" />
+</span>
+
 <div class="panel panel-primary" id="admin-traject-table">
     <div class="panel-heading">
         <a data-toggle="collapse" data-target="#admin-traject-details"

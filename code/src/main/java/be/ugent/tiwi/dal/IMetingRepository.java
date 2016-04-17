@@ -190,4 +190,11 @@ public interface IMetingRepository {
      * @return alle trajecten die een vertraging hebben over dat tijdstip
      */
     List<Vertraging> getVertragingen(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip);
+
+    /**
+     * Methode om een lijst metingen toe te voegen in de databank.
+     *
+     * @param metingen de lijst gesrapete metingne
+     */
+    void addMetingen(List<Meting> metingen);
 }

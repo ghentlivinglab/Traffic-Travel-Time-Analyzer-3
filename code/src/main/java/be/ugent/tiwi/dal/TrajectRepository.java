@@ -298,13 +298,14 @@ public class TrajectRepository implements ITrajectRepository {
         try {
             String stringUpdateWaypoints = "insert into waypoints(traject_id, volgnr, latitude, longitude) values(?,?,?,?) on duplicate key update latitude = values(latitude), longitude = values(longitude);";
             statTrajecten = connector.getConnection().prepareStatement(stringUpdateWaypoints);
+            statTrajecten.setInt(1, id);
             for (Waypoint waypoint : waypoints) {
-                statTrajecten.setInt(1, id);
                 statTrajecten.setInt(2, waypoint.getVolgnummer());
                 statTrajecten.setString(3, waypoint.getLatitude());
                 statTrajecten.setString(4, waypoint.getLongitude());
-                statTrajecten.executeQuery();
+                statTrajecten.addBatch();
             }
+            statTrajecten.executeBatch();
         } catch (SQLException e) {
             logger.error("Wijzigen van de waypoints van traject met id " + id + " is mislukt...");
             logger.error(e);

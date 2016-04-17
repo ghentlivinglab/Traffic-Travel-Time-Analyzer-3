@@ -77,8 +77,8 @@ public class DatabaseController {
      */
     public void voegMetingenToe(List<Meting> metingenLijst) {
         List<Integer> missing = new ArrayList<>();
+        metingRepository.addMetingen(metingenLijst);
         for (Meting meting : metingenLijst) {
-            metingRepository.addMeting(meting);
             if (meting.getReistijd() == null || meting.getReistijd() < 0)
                 missing.add(meting.getTraject().getId());
         }

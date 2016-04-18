@@ -1,6 +1,6 @@
 var polylines = {};
 //Gemiddelde vertraging tot 1 dag terug
-var oneDayAgo = moment().subtract(1,'days');
+var oneDayAgo = moment().subtract(60,'minutes');
 var now = moment();
 var provider = getUrlParameter("provider");
 
@@ -27,7 +27,7 @@ var drawPolyline = function (val) {
     });
     var avg_vertraging =  val['avg_vertraging'] < 0 ? 0 : val['avg_vertraging'];
     var optimale_reistijd = val['traject']['optimale_reistijd'];
-    var line_color = (avg_vertraging < optimale_reistijd + 30 ? 'green':(avg_vertraging < optimale_reistijd + 120? "orange":"red"));
+    var line_color = (avg_vertraging < optimale_reistijd + 30 ? 'green':(avg_vertraging < optimale_reistijd + 120? "yellow":"red"));
     var opts = {
         color:line_color,
         weight:10,

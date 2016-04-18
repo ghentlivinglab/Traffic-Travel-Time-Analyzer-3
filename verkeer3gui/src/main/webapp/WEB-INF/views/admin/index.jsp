@@ -21,14 +21,14 @@
                 <tr>
                     <th>id</th>
                     <th>Naam traject</th>
-                    <th>is actief</th>
-                    <th>ideale reistijd</th>
-                    <th>afstand (km)</th>
-                    <th>Start Latitude</th>
-                    <th>Start Longitude</th>
-                    <th>End Latitude</th>
-                    <th>End Longitude</th>
-                    <th>Acties</th>
+                    <th>Actief</th>
+                    <th>Optimale reistijd</th>
+                    <th>Afstand (km)</th>
+                    <th>Start-Latitude</th>
+                    <th>Start-Longitude</th>
+                    <th>End-Latitude</th>
+                    <th>End-Longitude</th>
+                    <th>Wijzigen</th>
                 </tr>
                 </thead>
                 <tbody>

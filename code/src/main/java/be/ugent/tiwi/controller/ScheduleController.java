@@ -126,6 +126,9 @@ public class ScheduleController {
             case "bing maps":
                 dbController.voegMetingenToe(new BingScraper().scrape(trajects));
                 break;
+            case "waze":
+                new WazeScraper().scrape(trajects);
+                break;
             default:
                 logger.error("'" + naam + "' is geen geldige providernaam!");
         }

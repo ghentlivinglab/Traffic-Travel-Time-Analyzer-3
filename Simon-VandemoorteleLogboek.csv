@@ -43,3 +43,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 13/04/16,00:00,02:00,Thuis,"Aanpassen model voor meerdere optimale reistijden",70,
 14/04/16,01:00,04:00,Thuis,"Aanpassen model voor meerdere optimale reistijden",70,"Nog enkele andere fixes"
 16/04/16,13:00,16:00,Thuis,"Tabel trajecten, TomTom-scraper gefixed, code inspection",71,
+17/04/16,15:00,17:30,Thuis,"Productieserver aan de praat krijgen",,

@@ -299,6 +299,13 @@ a.view-traject-onmap, a.delete-traject-onmap{
     margin-bottom:30px;
 }
 
+.current-traject{
+    background-color: #fff9b2 !important;
+}
+.current-traject:hover{
+    background-color: #e3dfc7;
+}
+
 #admin-traject-table{
     clear:both;
 }

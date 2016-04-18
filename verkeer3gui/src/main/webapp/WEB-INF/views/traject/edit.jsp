@@ -9,34 +9,34 @@
             <input type="hidden" id="id" name="id" value="<c:out value="${traject.id}"/>">
             <input type="hidden" id="wayPoints" name="wayPoints" />
             <div class="form-group">
-                <label for="naam">Traject naam</label>
+                <label for="naam">Naam</label>
                 <input class="form-control" id="naam" type="text" name="naam" value="<c:out value="${traject.naam}"/>">
             </div>
             <div class="form-group">
-                <label for="lengte">Lengte</label>
+                <label for="lengte">Afstand</label>
                 <input class="form-control" id="lengte" type="number" name="lengte" value="<c:out value="${traject.lengte}"/>">
             </div>
             <div class="form-group">
-                <label for="optimale_reistijd">Ideale reistijd</label>
+                <label for="optimale_reistijd">Optimale reistijd</label>
                 <input class="form-control" id="optimale_reistijd" type="number" name="optimale_reistijd" value="<c:out value="${traject.optimale_reistijd}"/>">
             </div>
             <div class="form-group">
-                <label for="start_latitude">Start latitude</label>
+                <label for="start_latitude">Start-Latitude</label>
                 <input class="form-control" id="start_latitude" type="text" name="start_latitude" value="<c:out value="${traject.start_latitude}"/>">
             </div>
             <div class="form-group">
-                <label for="start_longitude">Start longitude</label>
+                <label for="start_longitude">Start-Longitude</label>
                 <input class="form-control" id="start_longitude" type="text" name="start_longitude" value="<c:out value="${traject.start_longitude}"/>">
             </div>
             <div class="form-group">
-                <label for="start_latitude">End latitude</label>
+                <label for="start_latitude">End-Latitude</label>
                 <input class="form-control" id="end_latitude" type="text" name="end_latitude" value="<c:out value="${traject.end_latitude}"/>">
             </div>
             <div class="form-group">
-                <label for="start_latitude">End longitude</label>
+                <label for="start_latitude">End-Longitude</label>
                 <input class="form-control" id="end_longitude" type="text" name="end_longitude" value="<c:out value="${traject.end_longitude}"/>">
             </div>
-            <div class="form-group-sm">
+            <div class="form-group">
                 <label for="is_active">Traject is actief:</label>
                 <input type="hidden" name="_is_active"/>
                 <input type="checkbox" id="is_active" name="is_active" value="true"  <c:if test="${traject.is_active()}">checked</c:if>>

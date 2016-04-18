@@ -1,4 +1,4 @@
-Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
+﻿Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 09/02/16,08:15,12:15,School,Uitlegsessie VOP,,
 09/02/16,19:00,20:10,Thuis,GIT in orde brengen op pc,,
 09/02/16,20:15,20:40,Thuis,Doornemen en samenvatten van de basisrequirements,,
@@ -37,3 +37,5 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 11/04/16,19:00,20:30,Thuis,Administratie en documentatie van de webapplicatie adhv screenshots en filmpjes en kleine wijzigingen in de gui,,
 12/04/16,08:15,10:30,School,Overleg over deployment mogelijke enhancements en kwaliteitscontrole van onze data,,
 12/04/16,16:00,17:30,Thuis,Documentatie van analyse functies in javadoc front pagina selecteerbaar op provider maken,,
+17/04/16,19:00,19:45,Thuis,probleem oplossen met pom xml in gui en nakijken van gui stijl,
+18/04/16,18:30,20:30,Thuis,Nalezen analyse document gedeelte testplan en installatiehandleiding,

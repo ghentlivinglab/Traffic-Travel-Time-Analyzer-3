@@ -3,6 +3,7 @@ $( document ).ready(function() {
     var trajecten = {};
     var wpts = {};
     var opts = {
+        //TODO: Aanpassen van de opties per traject
         color: 'blue',
         weight: 10,
         opacity: 1
@@ -23,39 +24,37 @@ $( document ).ready(function() {
         }
     }
 
-    function getTraject(id) {
-        $.getJSON("json/trajecten/" + id, function (data) {
-            $.each(data, function (key, val) {
-                addPointToArray(id, val["latitude"], val["longitude"]);
-            });
-            updateLeaflet();
-        });
-    }
-
     $('body').on('click', '.view-traject-onmap', function () {
         id = $(this).data("id");
-        $(this).parent().parent().addClass("map-showing");
-        $(this).parent().parent().removeClass("map-not-showing");
-        $(this).attr("class", "delete-traject-onmap");
+        removeAllTrajects();
         getTraject(id);
     });
 
-    $('body').on('click', '.delete-traject-onmap', function () {
-        id = $(this).data("id");
-        $(this).parent().parent().removeClass("map-showing");
-        $(this).parent().parent().addClass("map-not-showing");
-        $(this).attr("class", "view-traject-onmap");
-        removeTraject(id);
-    });
+    function removeAllTrajects() {
+        wpts = {};
+    }
+
     function removeTraject(id) {
         delete wpts[id];
         updateLeaflet();
     }
 
+    function getTraject(id) {
+        $("#mapModal .modal-title").html($("#traject-" + id + " td .view-traject-onmap").html());
+        $.getJSON("json/trajecten/" + id, function (data) {
+            $.each(data, function (key, val) {
+                addPointToArray(id, val["latitude"], val["longitude"]);
+            });
+            console.dir(wpts);
+            updateLeaflet();
+        });
+    }
+
+
     function updateLeaflet() {
         clearMap();
-        $.each(wpts, function (key, val) {
-            trajecten[key] = new L.polyline(val, opts).addTo(map);
+        $.each(wpts, function (key, value) {
+            trajecten[key] = new L.polyline(value, opts).addTo(map);
         });
     }
 
@@ -72,8 +71,9 @@ $( document ).ready(function() {
         }
     }
 
-    $('html, body').animate({
-        scrollTop: $(".current-traject").offset().top - 300
-    }, 500);
+    if($(".current-traject").length)
+        $('html, body').animate({
+            scrollTop: $(".current-traject").offset().top - 300
+        }, 500);
 
 });

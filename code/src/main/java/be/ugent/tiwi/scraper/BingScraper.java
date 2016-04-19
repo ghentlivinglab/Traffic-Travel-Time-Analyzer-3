@@ -136,6 +136,7 @@ public class BingScraper extends TrafficScraper {
                     }
                 } else {
                     logger.warn("Provider Bing: Could not scrape traject " + traject.getId() + ", adding an empty measurement [2]");
+                    logger.warn(url.toString());
                     logger.warn(jc.getJsonResponse());
                     metingen.add(new Meting(bing, traject, null, LocalDateTime.now()));
                 }

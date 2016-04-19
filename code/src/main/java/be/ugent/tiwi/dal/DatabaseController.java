@@ -33,6 +33,15 @@ public class DatabaseController {
     }
 
     /**
+     * Constructor die de controller aanmaakt met de standaard repositories. Wordt voornamelijk gebruikt voor de webapp
+     */
+    public  DatabaseController(){
+        providerRepository = new ProviderRepository();
+        trajectenRepository = new TrajectRepository();
+        metingRepository = new MetingRepository();
+    }
+
+    /**
      * Haalt een specifieke {@link Provider} uit de databank aan de hand van de meegegeven id.
      *
      * @param id Id van de op te halen {@link Provider}.

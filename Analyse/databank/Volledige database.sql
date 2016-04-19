@@ -1,3 +1,4 @@
+use vop;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -8,7 +9,7 @@ SET time_zone = "+00:00";
 
 
 CREATE TABLE IF NOT EXISTS `metingen` (
-  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `reistijd` int(11) DEFAULT NULL,
   `traject_id` int(11) NOT NULL DEFAULT '0',
   `provider_id` int(11) NOT NULL

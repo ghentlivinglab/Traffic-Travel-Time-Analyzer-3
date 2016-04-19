@@ -268,6 +268,9 @@ public class TrajectRepository implements ITrajectRepository {
             String stringAddReistijd = "insert into optimale_reistijden(traject_id, provider_id, reistijd) values (?, ?, ?)";
             statTrajecten = connector.getConnection().prepareStatement(stringAddReistijd);
             statTrajecten.setInt(1, id);
+            if (optimaleReistijden==null){
+                optimaleReistijden = getOptimaleReistijden(id);
+            }
             for(Integer provider_id : optimaleReistijden.keySet()){
                 statTrajecten.setInt(2, provider_id);
                 statTrajecten.setInt(3, optimaleReistijden.get(provider_id));

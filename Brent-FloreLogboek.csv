@@ -41,3 +41,4 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 16/04/2016,14:00,15:00,Thuis, war van webproject builden; deployen op Glassfish en configuraties aanpassen voor productieomgeving,,probleem met de configuratie van de MySQL server
 17/04/2016,12:30,14:00,Thuis, databank deployen in productie en aanpassingen voor backgroundscrapers te laten werken,,Samen met Simon
 18/04/2016,20:00,23:30,Thuis, analyse aanvullen en verbeteren; testdossies opstellen;overlopen presentatie en productieomgeving,,
+19/04/2016,08:15,12:15,School, presentatie en sprint review; bug op adminpage traject aanpassen oplossen; Log4J configureren om gebruik te maken van een logfile,,

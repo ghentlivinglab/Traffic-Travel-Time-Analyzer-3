@@ -14,10 +14,10 @@
                     <li role="presentation" <c:if test="${providerobj.id == provider}"><c:out value="class=active"/></c:if>><a href="?provider=<c:out value="${providerobj.id}"/>"><c:out value="${providerobj.naam}"/></a></li>
                 </c:forEach>
             </ul>
-            <h2>Actueel overzicht (de afgelopen dag)</h2>
+            <h2>Actueel overzicht (het afgelopen uur)</h2>
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-<c:out value="${vertraging_min*60 + vertraging_sec < 30 ? 'green': vertraging_min*60 + vertraging_sec < 120 ? 'orange' : 'red'}"/>">
+                    <div class="panel panel-<c:out value="${vertraging_min*60 + vertraging_sec < 30 ? 'green': vertraging_min*60 + vertraging_sec < 120 ? 'red' : 'red'}"/>">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="<c:url value="/traject/${drukste_punt_id}"/>">
+                        <a href="<c:url value="/trajecten/${drukste_punt_id}"/>">
                             <div class="panel-footer">
                                 <span class="pull-left">Bekijk traject</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

@@ -1,6 +1,6 @@
 package be.ugent.tiwi.scraper;
 
-import be.ugent.tiwi.controller.JsonController;
+import be.ugent.tiwi.dal.JsonController;
 import be.ugent.tiwi.controller.exceptions.InvalidMethodException;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Meting;

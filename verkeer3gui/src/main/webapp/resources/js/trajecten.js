@@ -72,37 +72,8 @@ $( document ).ready(function() {
         }
     }
 
-    /*
-     var tableOffset = $("#trajecten-table").offset().top;
-     var $header = $("#trajecten-table > thead").clone();
-     var $fixedHeader = $("#header-fixed").append($header);
+    $('html, body').animate({
+        scrollTop: $(".current-traject").offset().top - 300
+    }, 500);
 
-     $(window).bind("scroll", function() {
-     var offset = $(this).scrollTop();
-
-     if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
-     $('#header-fixed thead tr').width($('#trajecten-table thead tr').width());
-     $('#trajecten-table thead tr').children('th').each(function(i){
-     var width = $(this).width();
-     var padding = parseInt($(this).css("padding-left")) + parseInt($(this).css("padding-right"));
-     var child = $("#header-fixed thead tr").children('th').eq(i);
-     child.width(width);
-     });
-
-     $('#trajecten-table thead tr').children('th').each(function(i) {
-     var width = $(this).width();
-     var padding = parseInt($(this).css("padding-left")) + parseInt($(this).css("padding-right"));
-     var child = $("#header-fixed thead tr").children('th').eq(i);
-     while (child.width() + padding > $(this).width()){
-     width -= 5;
-     child.width(width - padding);
-     }
-     });
-
-     $fixedHeader.show();
-     }
-     else if (offset < tableOffset) {
-     $fixedHeader.hide();
-     }
-     });*/
 });

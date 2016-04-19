@@ -1,5 +1,10 @@
 #Projectgroep 3 VOP : verkeer project repository
+###Productieomgeving
+http://verkeer-3.vop.tiwi.be/verkeer3gui/
 
+username: root
+
+wachtwoord: dKkvn0DuP5
 ###Groepsleden
 
 - De Bock Jelle

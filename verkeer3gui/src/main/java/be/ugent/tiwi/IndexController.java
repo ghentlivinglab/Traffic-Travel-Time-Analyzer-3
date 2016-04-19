@@ -8,6 +8,7 @@ import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Vertraging;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,16 +31,16 @@ public class IndexController {
             MetingRepository mcrud = new MetingRepository();
             List<Provider> providers = new ProviderRepository().getActieveProviders();
             LocalDateTime now = LocalDateTime.now();
-            LocalDateTime oneDayAgo = LocalDateTime.now().minusDays(1L);
+            LocalDateTime oneHourAgo = LocalDateTime.now().minusMinutes(60);
             Provider providerobj = new ProviderRepository().getProvider(provider);
             double vertraging;
             Traject drukste_traject;
             if(provider!=-1) {
-                vertraging = mcrud.gemiddeldeVertraging(providerobj, oneDayAgo, now);
-                drukste_traject = mcrud.getDrukstePunt(providerobj, oneDayAgo, now).getTraject();
+                vertraging = mcrud.gemiddeldeVertraging(providerobj, oneHourAgo, now);
+                drukste_traject = mcrud.getDrukstePunt(providerobj, oneHourAgo, now).getTraject();
             } else {
-                vertraging = mcrud.gemiddeldeVertraging(oneDayAgo, now);
-                drukste_traject = mcrud.getDrukstePunt(oneDayAgo, now).getTraject();
+                vertraging = mcrud.gemiddeldeVertraging(oneHourAgo, now);
+                drukste_traject = mcrud.getDrukstePunt(oneHourAgo, now).getTraject();
             }
             String drukste_punt = drukste_traject.getNaam();
             int minuten = (int) vertraging / 60;
@@ -74,22 +75,62 @@ public class IndexController {
 
         //traject.id -> vertraging
         Map<Integer, Integer> globaleVertragingen = new HashMap<>();
-        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(5), LocalDateTime.now());
-        for(Vertraging v : vList)
-            globaleVertragingen.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
+        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+        if(vList != null)
+            for(Vertraging v : vList)
+                globaleVertragingen.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
 
         Map<Integer, Map<Integer, Integer>> vertragingen = new HashMap<>();
         for(Provider p : providers) {
             Map<Integer, Integer> temp = new HashMap<>();
-            vList = mr.getVertragingen(p, LocalDateTime.now().minusMinutes(5), LocalDateTime.now());
-            for(Vertraging v : vList)
-                temp.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
+            vList = mr.getVertragingen(p, LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+            if(vList != null)
+                for(Vertraging v : vList)
+                    temp.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
             vertragingen.put(p.getId(), temp);
         }
         model.addAttribute("vertragingen", vertragingen);
         model.addAttribute("globaleVertragingen", globaleVertragingen);
         model.addAttribute("trajecten",trajecten);
         model.addAttribute("providers",providers);
+
+
+        return "home/trajecten";
+    }
+    @RequestMapping(value = "/trajecten/{id}", method = RequestMethod.GET)
+    public String traject(@PathVariable("id") int id, ModelMap model) {
+        // Spring uses InternalResourceViewResolver and return back index.jsp
+        TrajectRepository tr = new TrajectRepository();
+        List<Traject> trajecten = tr.getTrajecten();
+        ProviderRepository pr = new ProviderRepository();
+        List<Provider> providers = pr.getActieveProviders();
+        MetingRepository mr = new MetingRepository();
+
+        LocalDateTime start = LocalDateTime.now().minusMinutes(5);
+        LocalDateTime end = LocalDateTime.now();
+
+        //traject.id -> vertraging
+        Map<Integer, Integer> globaleVertragingen = new HashMap<>();
+        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+        if(vList != null)
+            for(Vertraging v : vList)
+                globaleVertragingen.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
+
+        Map<Integer, Map<Integer, Integer>> vertragingen = new HashMap<>();
+        for(Provider p : providers) {
+            Map<Integer, Integer> temp = new HashMap<>();
+            vList = mr.getVertragingen(p, LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+            if(vList != null)
+                for(Vertraging v : vList)
+                    temp.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
+            vertragingen.put(p.getId(), temp);
+        }
+        model.addAttribute("currentTrajectId", id);
+        model.addAttribute("vertragingen", vertragingen);
+        model.addAttribute("globaleVertragingen", globaleVertragingen);
+        model.addAttribute("trajecten",trajecten);
+        model.addAttribute("providers",providers);
+
 
         return "home/trajecten";
     }

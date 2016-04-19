@@ -35,7 +35,7 @@
 
         <c:forEach var="traject" items="${trajecten}" >
             <c:set var="trajectCount" value="${trajectCount + 1}"/>
-                <tr class="map-not-showing">
+                <tr id="traject-<c:out value="${traject.id}"/>" class="map-not-showing<c:if test="${traject.id eq currentTrajectId}"><c:out value=" current-traject"/></c:if>">
                     <td><c:out value="${traject.id}"/></td>
                     <td><a class="view-traject-onmap" data-id="<c:out value="${traject.id}"/>"><c:out value="${traject.naam}"/></a></td>
                     <td><c:out value="${traject.lengte/1000}"/></td>

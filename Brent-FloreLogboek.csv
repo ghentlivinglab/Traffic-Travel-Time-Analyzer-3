@@ -38,3 +38,6 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 12/04/2016,8:15,10:30,School, aanvullen documentatie; bekijken deployment en aanvullen structuur document,,
 14/04/2016,10:30,12:00,School, code DatabaseController aanpassen om gebruik te laten maken van dependency injection,79,
 14/04/2016,13:30,15:30,School, oorzaak van excetion opsporen en delegeren; boilerplatecode van testen schrijven; ProviderMock implementeren en testen; TrajectMock implementeren en deels testen,79,Bepaalde functies van trajectRepository moeten nog eens in groep besproken worden
+16/04/2016,14:00,15:00,Thuis, war van webproject builden; deployen op Glassfish en configuraties aanpassen voor productieomgeving,,probleem met de configuratie van de MySQL server
+17/04/2016,12:30,14:00,Thuis, databank deployen in productie en aanpassingen voor backgroundscrapers te laten werken,,Samen met Simon
+18/04/2016,20:00,23:30,Thuis, analyse aanvullen en verbeteren; testdossies opstellen;overlopen presentatie en productieomgeving,,

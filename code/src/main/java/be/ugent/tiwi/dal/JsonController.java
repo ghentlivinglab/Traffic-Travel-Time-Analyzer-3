@@ -1,4 +1,4 @@
-package be.ugent.tiwi.controller;
+package be.ugent.tiwi.dal;
 
 import be.ugent.tiwi.controller.exceptions.InvalidMethodException;
 import be.ugent.tiwi.domein.RequestType;

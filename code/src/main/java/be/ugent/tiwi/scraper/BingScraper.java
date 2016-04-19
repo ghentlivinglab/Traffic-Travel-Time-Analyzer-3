@@ -1,6 +1,6 @@
 package be.ugent.tiwi.scraper;
 
-import be.ugent.tiwi.controller.JsonController;
+import be.ugent.tiwi.dal.JsonController;
 import be.ugent.tiwi.controller.exceptions.InvalidMethodException;
 import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.*;
@@ -136,6 +136,7 @@ public class BingScraper extends TrafficScraper {
                     }
                 } else {
                     logger.warn("Provider Bing: Could not scrape traject " + traject.getId() + ", adding an empty measurement [2]");
+                    logger.warn(jc.getJsonResponse());
                     metingen.add(new Meting(bing, traject, null, LocalDateTime.now()));
                 }
             } catch (InvalidMethodException e) {

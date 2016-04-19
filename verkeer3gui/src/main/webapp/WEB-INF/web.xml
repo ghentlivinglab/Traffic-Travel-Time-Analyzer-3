@@ -17,6 +17,10 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/mvc-dispatcher-servlet.xml</param-value>
     </context-param>
+
+    <listener>
+        <listener-class>be.ugent.tiwi.listeners.JsonControllerContextListener</listener-class>
+    </listener>
     <listener>
         <listener-class>
             org.springframework.web.context.ContextLoaderListener

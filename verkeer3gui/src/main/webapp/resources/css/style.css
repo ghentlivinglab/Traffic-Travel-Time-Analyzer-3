@@ -289,6 +289,27 @@ a.view-traject-onmap, a.delete-traject-onmap{
     cursor:hand;
 }
 
+.bootstrap-switch { height: 2.5em }
+
+#serverStatus{
+    float:right;
+}
+.inline-h{
+    display:inline-block;
+    margin-bottom:30px;
+}
+
+.current-traject{
+    background-color: #fff9b2 !important;
+}
+.current-traject:hover{
+    background-color: #e3dfc7;
+}
+
+#admin-traject-table{
+    clear:both;
+}
+
 td.thtd{
     width: 40px;
 }

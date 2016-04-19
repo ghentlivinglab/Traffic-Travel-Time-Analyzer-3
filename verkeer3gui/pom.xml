@@ -59,6 +59,16 @@
       <artifactId>sisu-guice</artifactId>
       <version>2.1.7</version>
     </dependency>
+    <dependency>
+      <groupId>be.ugent.tiwi</groupId>
+      <artifactId>be.ugent.tiwi</artifactId>
+      <version>0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>verkeer3gui</finalName>

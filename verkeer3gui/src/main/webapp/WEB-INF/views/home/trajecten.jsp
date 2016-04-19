@@ -37,7 +37,7 @@
             <c:set var="trajectCount" value="${trajectCount + 1}"/>
                 <tr id="traject-<c:out value="${traject.id}"/>" class="map-not-showing<c:if test="${traject.id eq currentTrajectId}"><c:out value=" current-traject"/></c:if>">
                     <td><c:out value="${traject.id}"/></td>
-                    <td><a class="view-traject-onmap" data-id="<c:out value="${traject.id}"/>"><c:out value="${traject.naam}"/></a></td>
+                    <td><a class="view-traject-onmap" data-id="<c:out value="${traject.id}"/>" data-toggle="modal" data-target="#mapModal"><c:out value="${traject.naam}"/></a></td>
                     <td><c:out value="${traject.lengte/1000}"/></td>
 
                     <td class="thtd"></td>
@@ -79,7 +79,26 @@
     </table>
 </div>
 <div class="content">
-    <div id="map"></div>
+    <!-- Modal -->
+    <div id="mapModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Kaart</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="map"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Sluiten</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <link href="<c:url value="/resources/leaflet/leaflet.css"/>" rel="stylesheet"  type="text/css" />
     <script src="<c:url value="/resources/leaflet/leaflet.js"/>"></script>
     <script src="<c:url value="/resources/js/trajecten.js"/>"></script>

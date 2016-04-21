@@ -26,3 +26,5 @@
 19/04/16,15:00,18:30,Thuis,Start loginmodule - loginpagina aanmaken in gui,90,
 19/04/16,19:30,23:59,Thuis,Userklasse + iLoginrepository + loginrepository (sql connector) toegevoegd,90,
 20/04/16,19:30,22:00,Thuis,jsp pagina + javascript cookie creator gestart,90,
+21/04/16,8:00,12:30,Thuis,Cookie aanmaken bij inloggen (inloggen afgewerkt),90,
+22/04/16,13:00,15:30,Thuis,Cookie uitlezen + Redirecting instellen,90,

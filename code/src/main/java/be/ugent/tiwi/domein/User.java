@@ -1,5 +1,7 @@
 package be.ugent.tiwi.domein;
 
+import be.ugent.tiwi.controller.exceptions.UserException;
+
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.MessageDigest;
@@ -17,7 +19,12 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username) {
+        this.username = username;
+        this.password = "";
+    }
+
+    public User(String username, String password) throws UserException {
         this.username = username;
         this.password = toMD5hash(password);
     }
@@ -26,7 +33,7 @@ public class User {
         this.username = username;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) throws UserException{
         this.password = toMD5hash(password);
     }
 
@@ -41,7 +48,7 @@ public class User {
     /**
      * MD5 hasher
      */
-    private String toMD5hash(String unencrypted){
+    private String toMD5hash(String unencrypted) throws UserException{
         String encrypted = "";
         try {
             MessageDigest m = MessageDigest.getInstance("MD5");
@@ -57,10 +64,32 @@ public class User {
             encrypted = hashtekst;
         }
         catch(NoSuchAlgorithmException exceptie){
-            System.out.println("Password encryptor error: " + exceptie.toString());
+            throw new UserException("Password encryptor error: " + exceptie.toString());
         }
         return encrypted;
     }
+
+
+    /**
+     * Controle indien twee objecten gelijk zijn
+     */
+    @Override
+    public boolean equals(Object object){
+        if (object == null)
+            return false;
+        if (object == this)
+            return true;
+        if (!(object instanceof User))
+            return false;
+
+        User user = (User)object;
+
+        if(this.username.equals(user.username) && this.password.equals(user.password))
+            return true;
+        else
+            return false;
+    }
+
 
     /**
      * tostring

@@ -80,6 +80,16 @@ public class DatabaseController {
     }
 
     /**
+     * Haalt alle metingen op van een bepaald traject en provider
+     * @param providerId Id van de provider
+     * @param trajectId Id van het traject
+     * @return Lijst met alle metingen die voldoen.
+     */
+    public List<Meting> haalMetingenOp(int providerId, int trajectId) {
+        return metingRepository.getMetingen(providerId, trajectId);
+    }
+
+    /**
      * Schrijft een lijst van {@link Meting}en weg naar de databank.
      *
      * @param metingenLijst Een lijst met de weg te schrijven {@link Meting}en.

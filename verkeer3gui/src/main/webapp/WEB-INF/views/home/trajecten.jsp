@@ -3,28 +3,28 @@
 <h1>Trajecten</h1>
 </div>
 <div class="content-container">
-    <table id="trajecten-table" class="table table-hover">
+    <table id="trajecten-table" class="table table-hover" data-toggle="table">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Naam</th>
-            <th>Lengte</th>
+            <th class="th-head" data-sortable="true">Id</th>
+            <th class="th-head" data-sortable="true">Naam</th>
+            <th class="th-head" data-sortable="true">Lengte</th>
             <th class="rotate optimaleReistijd thh"><div><span>Optimale reistijd</span></div></th>
             <th class="rotate"><div><span>Globaal</span></div></th>
                 <c:forEach var="provider" items="${providers}" >
-                    <th class="rotate"><div><span>${provider.naam}</span></div></th>
+                    <th class="rotate" data-sortable="true"><div><span>${provider.naam}</span></div></th>
                 </c:forEach>
 
             <th class="rotate vertraging thh"><div><span>Vertraging</span></div></th>
             <th class="rotate"><div><span>Globaal</span></div></th>
             <c:forEach var="provider" items="${providers}" >
-                <th class="rotate"><div><span>${provider.naam}</span></div></th>
+                <th class="rotate" data-sortable="true"><div><span>${provider.naam}</span></div></th>
             </c:forEach>
 
             <th class="rotate reistijd thh"><div><span>Huidige reistijd</span></div></th>
             <th class="rotate"><div><span>Globaal</span></div></th>
             <c:forEach var="provider" items="${providers}" >
-                <th class="rotate"><div><span>${provider.naam}</span></div></th>
+                <th class="rotate" data-sortable="true"><div><span>${provider.naam}</span></div></th>
             </c:forEach>
 
         </tr>
@@ -101,5 +101,7 @@
     </div>
     <link href="<c:url value="/resources/leaflet/leaflet.css"/>" rel="stylesheet"  type="text/css" />
     <script src="<c:url value="/resources/leaflet/leaflet.js"/>"></script>
+    <script src="<c:url value="/resources/bootstrap-table/bootstrap-table.js"/>"></script>
+    <link href="<c:url value="/resources/bootstrap-table/bootstrap-table.css"/>" rel="stylesheet"  type="text/css" />
     <script src="<c:url value="/resources/js/trajecten.js"/>"></script>
     <jsp:include page="/WEB-INF/views/partial/footer.jsp" />

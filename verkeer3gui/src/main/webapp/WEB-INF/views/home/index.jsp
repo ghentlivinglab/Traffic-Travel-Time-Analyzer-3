@@ -1,6 +1,5 @@
     <jsp:include page="/WEB-INF/views/partial/header.jsp" />
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    <link href="<c:url value="/resources/css/font-awesome.min.css"/>" rel="stylesheet"  type="text/css" />
     <link href="<c:url value="/resources/cp/css/sb-admin-2.css"/>" rel="stylesheet"  type="text/css" />
     <link href="<c:url value="/resources/cp/css/timeline.css"/>" rel="stylesheet"  type="text/css" />
 

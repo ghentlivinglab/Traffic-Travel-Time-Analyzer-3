@@ -4,7 +4,7 @@
 $(window).load(function(){
     var type = "state";
     var waitingForStatus = false;
-    var currentServerStatus
+    var currentServerStatus;
 
     var toggleSwitch = $("[name='chkServerToggle']");
     toggleSwitch.bootstrapSwitch(type, "false");

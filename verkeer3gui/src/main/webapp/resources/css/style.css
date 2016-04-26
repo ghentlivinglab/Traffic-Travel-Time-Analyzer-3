@@ -79,13 +79,16 @@ nav.navbar
     height:500px;
 }
 #wijzig-traject-form,
-#wijzig-traject-map
+#wijzig-traject-map,
+#nieuw-traject-form,
+#nieuw-traject-map
 {
     margin: 5px
 ;
     padding: 0;
 }
-#wijzig-traject-form form
+#wijzig-traject-form form,
+#nieuw-traject-form form
 {
     padding: 15px;
 }

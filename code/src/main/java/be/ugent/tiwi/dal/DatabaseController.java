@@ -136,6 +136,25 @@ public class DatabaseController {
                 traject.getWaypoints()
         );
     }
+    /**
+     * Voegt een nieuw traject toe {@link Traject} en schrijft deze weg naar de databank.
+     *
+     * @param traject Het aangepaste {@link Traject} dat moet worden toegevoegd
+     */
+    public void voegTrajectToe(Traject traject){
+        trajectenRepository.addTraject(
+                traject.getNaam(),
+                traject.getLengte(),
+                traject.getOptimale_reistijd(),
+                traject.getOptimaleReistijden(),
+                traject.is_active(),
+                traject.getStart_latitude(),
+                traject.getStart_longitude(),
+                traject.getEnd_latitude(),
+                traject.getEnd_longitude(),
+                traject.getWaypoints()
+        );
+    }
 
     /**
      * Haalt een lijst op van alle {@link Traject}en met bijhorende {@link Waypoint}s.

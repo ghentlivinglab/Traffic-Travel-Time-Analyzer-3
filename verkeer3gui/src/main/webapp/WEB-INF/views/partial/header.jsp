@@ -9,6 +9,7 @@
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css"/>
     <link href="<c:url value="/resources/datetimepicker/css/bootstrap-datetimepicker.min.css"/>" rel="stylesheet"
           type="text/css"/>
+    <link href="<c:url value="/resources/css/font-awesome.min.css"/>" rel="stylesheet"  type="text/css" />
     <script src="<c:url value="/resources/js/jquery.min.js"/>"></script>
     <script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js"/>"></script>
     <script src="<c:url value="/resources/js/jquery.floatThead.js"/>"></script>
@@ -24,7 +25,7 @@
     <div class="col-md-8" id="div-bannertext"><p class="header-text">MOBILITEIT STAD GENT</p></div>
 
     <div class="uitlogdiv">
-        <button id="logout" style="display: none;" class="btn btn-default">Uitloggen</button>
+        <button id="logout" style="display: none;" class="fa fa-user btn btn-default">Uitloggen</button>
     </div>
 </header>
 <nav class="navbar navbar-default">
@@ -32,7 +33,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a id="welcome" class="navbar-brand" href="#" style="display:none">Project name</a></li>
+                <li><a id="welcome" class="navbar-brand fa fa-user" href="#" style="display:none;font-size: 20px;color:black;">Project name</a></li>
 
                 <li><a href="<c:url value="/"/>">Home</a></li>
                 <li><a href="<c:url value="/trajecten"/>">Trajecten</a></li>

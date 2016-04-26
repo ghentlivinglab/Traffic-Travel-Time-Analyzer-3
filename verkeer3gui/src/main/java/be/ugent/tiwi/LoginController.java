@@ -43,10 +43,9 @@ public class LoginController {
                 //Controle indien gebruiker bestaat en de sessieID van cookie overeenkomt met deze in de database
                 if (lr.userExists(user) && cookieSessionID.equals(databaseSessionID)) {
                     //$$verder gaan
-                    model.addAttribute("error", "Cookie correct ingelezen! " + cookieContent);
+                    model.addAttribute("error", "U bent reeds ingelogd");
                 } else {
-                    //$$mag weg
-                    model.addAttribute("error", "Cookie verwijderd! ");
+                    //Cookie foutief
                     response.addCookie(deleteCookie("verkeerCookie"));
                 }
             } else {

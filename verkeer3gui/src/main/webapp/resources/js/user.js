@@ -20,8 +20,8 @@ $( document ).ready(function() {
 
             //Knoppen + welkomsttekst zichtbaar maken
             document.getElementById("logout").setAttribute("style", "display: inline-block;");
-            document.getElementById("welcome").setAttribute("style", "display: inline-block;");
-            document.getElementById("welcome").innerHTML = userName;
+            document.getElementById("welcome").setAttribute("style", "display: inline-block;font-size: 20px;color:black;");
+            document.getElementById("welcome").innerHTML = "  " + userName;
         }
     }
 
@@ -45,6 +45,6 @@ $( document ).ready(function() {
         //document.cookie = cookieName + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         $.removeCookie(cookieName, { path: '/' });
         document.getElementById("logout").setAttribute("style", "display: none;");
-        document.getElementById("welcome").setAttribute("style", "display: none;");
+        document.getElementById("welcome").setAttribute("style", "display: none;font-size: 20px;color:black;");
     }
 });

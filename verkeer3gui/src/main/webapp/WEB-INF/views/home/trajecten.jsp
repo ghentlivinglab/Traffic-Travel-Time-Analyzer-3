@@ -1,5 +1,6 @@
 <jsp:include page="/WEB-INF/views/partial/header.jsp" />
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <h1>Trajecten</h1>
 </div>
 <div class="content-container">
@@ -44,7 +45,9 @@
                     <c:set var="optTotal" value="${optTotal + traject.optimale_reistijd}"/>
                     <td class="rotatedtd"><c:out value="${traject.optimale_reistijd}"/></td>
                     <c:forEach var="provider" items="${providers}" >
-                        <td class="rotatedtd">${traject.optimaleReistijden[provider.id]}</td>
+                        <td class="rotatedtd"><fmt:formatNumber value="${traject.optimaleReistijden[provider.id]/60}"
+                                                                maxFractionDigits="0" pattern="###m" /><fmt:formatNumber value="${traject.optimaleReistijden[provider.id]%60}"
+                                                                                                                         maxFractionDigits="0" pattern=" ##" /></td>
                     </c:forEach>
 
                     <td class="thtd"></td>

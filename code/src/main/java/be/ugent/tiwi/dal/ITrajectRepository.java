@@ -86,4 +86,19 @@ public interface ITrajectRepository {
      * @return Een lijst van trajecten.
      */
     List<Traject> getTrajectenMetCoordinaten();
+
+    /**
+     * Voegt een nieuw traject aan de databank toe
+     *
+     * @param naam              De nieuwe naam
+     * @param lengte            De nieuwe lengte
+     * @param optimale_reistijd De nieuwe reistijd
+     * @param is_active         Geeft aan of het traject actief is
+     * @param start_latitude    De nieuwe begin-latitude
+     * @param start_longitude   De nieuwe begin-longitude
+     * @param end_latitude      De nieuwe eind-latitude
+     * @param end_longitude     De nieuwe eind-longitude
+     * @param waypoints         Een lijst van nieuwe waypoints
+     */
+    void addTraject(String naam, int lengte, int optimale_reistijd, Map<Integer, Integer> optimaleReistijden, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude, List<Waypoint> waypoints);
 }

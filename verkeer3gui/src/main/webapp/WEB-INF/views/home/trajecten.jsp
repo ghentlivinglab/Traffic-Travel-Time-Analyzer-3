@@ -8,7 +8,7 @@
         <thead>
         <tr>
             <th class="th-head" data-sortable="true">Id</th>
-            <th class="th-head" data-sortable="true">Naam</th>
+            <th class="th-head" data-sortable="true" data-sortable-type="alpha">Naam</th>
             <th class="th-head" data-sortable="true">Lengte</th>
             <th class="rotate optimaleReistijd thh"><div><span>Optimale reistijd</span></div></th>
             <th class="rotate"><div><span>Globaal</span></div></th>
@@ -38,7 +38,7 @@
             <c:set var="trajectCount" value="${trajectCount + 1}"/>
                 <tr id="traject-<c:out value="${traject.id}"/>" class="map-not-showing<c:if test="${traject.id eq currentTrajectId}"><c:out value=" current-traject"/></c:if>">
                     <td><c:out value="${traject.id}"/></td>
-                    <td><a class="view-traject-onmap" data-id="<c:out value="${traject.id}"/>" data-toggle="modal" data-target="#mapModal"><c:out value="${traject.naam}"/></a></td>
+                    <td><a class="view-traject-onmap"  data-toggle="modal" data-target="#mapModal"><c:out value="${traject.naam}"/></a></td>
                     <td>
                         <fmt:formatNumber value="${traject.lengte/1000}"
                                           maxFractionDigits="3" pattern="#####,###km" />

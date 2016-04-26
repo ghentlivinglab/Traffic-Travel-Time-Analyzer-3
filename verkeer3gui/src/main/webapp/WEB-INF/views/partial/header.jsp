@@ -38,12 +38,9 @@
                 <li><a href="<c:url value="/"/>">Home</a></li>
                 <li><a href="<c:url value="/trajecten"/>">Trajecten</a></li>
                 <li><a href="<c:url value="/admin"/>">Admin</a></li>
-<<<<<<< HEAD
                 <li><a href="<c:url value="/login"/>">Login</a></li>
-=======
-            </ul>
+			</ul>
             <ul class="nav navbar-nav navbar-right">
->>>>>>> refs/remotes/origin/master
                 <li><a href="<c:url value="/about"/>">Over</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->

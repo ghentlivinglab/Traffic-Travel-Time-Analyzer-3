@@ -112,7 +112,7 @@ public class LoginController {
         }
 
         if (loginSucces) {
-            return "home/index";
+            return "redirect:/";
         } else {
             return "login/index";
         }

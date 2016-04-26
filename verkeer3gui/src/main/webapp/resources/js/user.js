@@ -46,5 +46,7 @@ $( document ).ready(function() {
         $.removeCookie(cookieName, { path: '/' });
         document.getElementById("logout").setAttribute("style", "display: none;");
         document.getElementById("welcome").setAttribute("style", "display: none;font-size: 20px;color:black;");
+        //Redirect naar de home pagina
+        window.location.href = '/verkeer3gui';
     }
 });

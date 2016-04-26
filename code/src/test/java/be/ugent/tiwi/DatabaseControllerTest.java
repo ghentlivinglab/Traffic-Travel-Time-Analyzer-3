@@ -1,12 +1,17 @@
 package be.ugent.tiwi;
 
 import be.ugent.tiwi.dal.DatabaseController;
+import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.settings.DependencyModules.RepositoryTestModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.*;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -99,5 +104,24 @@ public class DatabaseControllerTest{
     @Test(expected=NullPointerException.class)
     public void wijzigTraject_MetNULL() {
         dbController.wijzigTraject(null);
+    }
+
+    @Test
+    public void voegMetingToe_Correct() {
+        Meting meting = new Meting(dbController.haalProviderOp(1), dbController.haalTraject(1), 100, LocalDateTime.now());
+        dbController.voegMetingToe(meting);
+        int result = dbController.haalMetingenOp(1,1).size();
+        assertEquals(1, result);
+    }
+
+    @Test
+    public void voegMetingenToe_Correct() {
+        List<Meting> metingen = new ArrayList<>();
+        metingen.add(new Meting(dbController.haalProviderOp(1), dbController.haalTraject(1), 100, LocalDateTime.now()));
+        metingen.add(new Meting(dbController.haalProviderOp(1), dbController.haalTraject(1), 201, LocalDateTime.now()));
+
+        dbController.voegMetingenToe(metingen);
+        int result = dbController.haalMetingenOp(1,1).size();
+        assertEquals(2, result);
     }
 }

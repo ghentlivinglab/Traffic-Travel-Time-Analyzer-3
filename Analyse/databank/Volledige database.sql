@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 -- phpMyAdmin SQL Dump
 -- version 4.0.4.2
 -- http://www.phpmyadmin.net
@@ -7,6 +8,9 @@
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
+=======
+use vop;
+>>>>>>> refs/remotes/origin/master
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -29,7 +33,7 @@ USE `vop`;
 --
 
 CREATE TABLE IF NOT EXISTS `metingen` (
-  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `reistijd` int(11) DEFAULT NULL,
   `traject_id` int(11) NOT NULL DEFAULT '0',
   `provider_id` int(11) NOT NULL,

@@ -14,6 +14,11 @@
             Beheer trajecten
         </a>
     </div>
+    <ul class="nav navbar">
+        <li>
+            <a href="<c:url value="/traject/new"/>"><span class="glyphicon glyphicon-plus"></span> Voeg nieuw traject toe...</a>
+        </li>
+    </ul>
     <div id="admin-traject-details" class="panel-collapse collapse in">
         <div class="panel-body">
             <table class="table table-hover">

@@ -1,12 +1,13 @@
 img.banner-fullscreen
 {
-    display: inline;
-    position: absolute;
     opacity: 0.75;
     z-index: -1;
     overflow: hidden;
     width: 100%;
     height: 100%;
+    position: absolute;
+    display: inline;
+    left: 0px;
 }
 
 .uitlogdiv{
@@ -29,8 +30,13 @@ img.banner-fullscreen
 
 .header-text
 {
-    font-size: x-large;
-    text-align: center;
+    margin: 0px 0px 10px;
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
+    padding: 15px;
+    background-color: #FFF;
+    color: #000;
 }
 div.background-content
 {
@@ -44,6 +50,8 @@ header
     margin: 0 !important;
     height: 250px;
     clear: both;
+    width: 100%;
+    display: inline-block;
 }
 nav.navbar
 {
@@ -63,6 +71,7 @@ nav.navbar
 #div-logo
 {
     margin-top: 50px;
+    position: absolute;
 }
 #div-bannertext
 {
@@ -70,7 +79,9 @@ nav.navbar
     font-size: x-large !important;
     font-family: "DejaVu Sans";
     font-weight: bolder;
-    color: whitesmoke;
+    color: #F5F5F5;
+    right: 0px;
+    width: 100%;
 }
 #div-bannertext p
 {
@@ -87,13 +98,16 @@ nav.navbar
     height:500px;
 }
 #wijzig-traject-form,
-#wijzig-traject-map
+#wijzig-traject-map,
+#nieuw-traject-form,
+#nieuw-traject-map
 {
     margin: 5px
 ;
     padding: 0;
 }
-#wijzig-traject-form form
+#wijzig-traject-form form,
+#nieuw-traject-form form
 {
     padding: 15px;
 }

@@ -268,6 +268,9 @@ public class TrajectRepository implements ITrajectRepository {
             String stringAddReistijd = "insert into optimale_reistijden(traject_id, provider_id, reistijd) values (?, ?, ?)";
             statTrajecten = connector.getConnection().prepareStatement(stringAddReistijd);
             statTrajecten.setInt(1, id);
+            if (optimaleReistijden==null){
+                optimaleReistijden = getOptimaleReistijden(id);
+            }
             for(Integer provider_id : optimaleReistijden.keySet()){
                 statTrajecten.setInt(2, provider_id);
                 statTrajecten.setInt(3, optimaleReistijden.get(provider_id));
@@ -432,6 +435,57 @@ public class TrajectRepository implements ITrajectRepository {
             t.setWaypoints(getWaypoints(t.getId()));
         }
         return trajecten;
+    }
+
+    /**
+     * Voegt een nieuw traject toe
+     *
+     * @param naam              De nieuwe naam
+     * @param lengte            De nieuwe lengte
+     * @param optimale_reistijd De nieuwe reistijd
+     * @param is_active         Geeft aan of het traject actief is
+     * @param start_latitude    De nieuwe begin-latitude
+     * @param start_longitude   De nieuwe begin-longitude
+     * @param end_latitude      De nieuwe eind-latitude
+     * @param end_longitude     De nieuwe eind-longitude
+     * @param waypoints         Een lijst van nieuwe waypoints
+     */
+    @Override
+    public void addTraject(String naam, int lengte, int optimale_reistijd, Map<Integer, Integer> optimaleReistijden, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude, List<Waypoint> waypoints) {
+        ResultSet rs = null;
+        try {
+            String stringUpdateTraject = "insert into trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values(?, ?, ?, ?, ?, ?, ?, ? )";
+            statTrajecten = connector.getConnection().prepareStatement(stringUpdateTraject);
+            statTrajecten.setString(1, naam);
+            statTrajecten.setInt(2, lengte);
+            statTrajecten.setString(5, start_latitude);
+            statTrajecten.setString(6, start_longitude);
+            statTrajecten.setString(7, end_latitude);
+            statTrajecten.setString(8, end_longitude);
+            statTrajecten.setBoolean(4, is_active);
+            statTrajecten.setInt(3, optimale_reistijd);
+            rs = statTrajecten.executeQuery();
+
+            //haal id van nieuw gecrëerd traject op
+            int id = getTraject(naam).getId();
+            wijzigWaypoints(id, waypoints);
+            Map<Integer,Integer> map = new HashMap<>();
+            map.put(new ProviderRepository().getProviders().get(0).getId(),optimale_reistijd);
+            wijzigOptimaleReistijden(id, map);
+        } catch (SQLException e) {
+            logger.error("Traject kon niet toegevoegd worden...");
+            logger.error(e);
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                statTrajecten.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                connector.close();
+            } catch (Exception e) { /* ignored */ }
+        }
     }
 
 }

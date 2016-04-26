@@ -33,6 +33,15 @@ public class DatabaseController {
     }
 
     /**
+     * Constructor die de controller aanmaakt met de standaard repositories. Wordt voornamelijk gebruikt voor de webapp
+     */
+    public  DatabaseController(){
+        providerRepository = new ProviderRepository();
+        trajectenRepository = new TrajectRepository();
+        metingRepository = new MetingRepository();
+    }
+
+    /**
      * Haalt een specifieke {@link Provider} uit de databank aan de hand van de meegegeven id.
      *
      * @param id Id van de op te halen {@link Provider}.
@@ -68,6 +77,16 @@ public class DatabaseController {
      */
     public void voegMetingToe(Meting meting) {
         metingRepository.addMeting(meting);
+    }
+
+    /**
+     * Haalt alle metingen op van een bepaald traject en provider
+     * @param providerId Id van de provider
+     * @param trajectId Id van het traject
+     * @return Lijst met alle metingen die voldoen.
+     */
+    public List<Meting> haalMetingenOp(int providerId, int trajectId) {
+        return metingRepository.getMetingen(providerId, trajectId);
     }
 
     /**
@@ -124,6 +143,25 @@ public class DatabaseController {
     public void wijzigTraject(Traject traject) {
         trajectenRepository.wijzigTraject(
                 traject.getId(),
+                traject.getNaam(),
+                traject.getLengte(),
+                traject.getOptimale_reistijd(),
+                traject.getOptimaleReistijden(),
+                traject.is_active(),
+                traject.getStart_latitude(),
+                traject.getStart_longitude(),
+                traject.getEnd_latitude(),
+                traject.getEnd_longitude(),
+                traject.getWaypoints()
+        );
+    }
+    /**
+     * Voegt een nieuw traject toe {@link Traject} en schrijft deze weg naar de databank.
+     *
+     * @param traject Het aangepaste {@link Traject} dat moet worden toegevoegd
+     */
+    public void voegTrajectToe(Traject traject){
+        trajectenRepository.addTraject(
                 traject.getNaam(),
                 traject.getLengte(),
                 traject.getOptimale_reistijd(),

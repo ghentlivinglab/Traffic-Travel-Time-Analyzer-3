@@ -20,6 +20,13 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/login")
 public class LoginController {
 
+    /**
+     * Het cookie controleren
+     * @param model
+     * @param cookieContent
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(ModelMap model,
                         @CookieValue(value = "verkeerCookie", defaultValue = "verkeerCookie") String cookieContent,
@@ -46,10 +53,12 @@ public class LoginController {
                     model.addAttribute("error", "U bent reeds ingelogd");
                 } else {
                     //Cookie foutief
+                    //Cookie verwijderen om serverload te minderen
                     response.addCookie(deleteCookie("verkeerCookie"));
                 }
             } else {
                 //Cookie is foutief aangemaakt / gewijzigd
+                //Cookie verwijderen om serverload te minderen
                 response.addCookie(deleteCookie("verkeerCookie"));
             }
         }

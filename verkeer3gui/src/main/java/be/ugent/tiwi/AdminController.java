@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -18,7 +19,7 @@ public class AdminController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(ModelMap model,
                         @CookieValue(value = "verkeerCookie", defaultValue = "verkeerCookie") String cookieContent,
-                        HttpServletResponse response) {
+                        HttpServletResponse response, HttpServletRequest request) {
 
         boolean loginSucces = false;
         //Cookiecontrole
@@ -58,7 +59,9 @@ public class AdminController {
             return "admin/index";
         }
         else{
-            return "login/index";
+            //String contextPath = request.getContextPath();
+            //response.sendRedirect(response.encodeRedirectURL(contextPath + "/profile.jsp"));
+            return "redirect:/login";
         }
     }
 

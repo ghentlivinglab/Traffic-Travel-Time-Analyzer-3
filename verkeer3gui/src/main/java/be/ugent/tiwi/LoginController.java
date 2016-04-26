@@ -1,35 +1,18 @@
 package be.ugent.tiwi;
 
 import be.ugent.tiwi.controller.exceptions.UserException;
-import be.ugent.tiwi.dal.MetingRepository;
 import be.ugent.tiwi.dal.LoginRepository;
-import be.ugent.tiwi.dal.ProviderRepository;
-import be.ugent.tiwi.dal.TrajectRepository;
 import be.ugent.tiwi.domein.User;
 
-import org.omg.CORBA.Request;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,7 +31,7 @@ public class LoginController {
         //Cookie moet bestaan
         if (cookieContent != null) {
             //Bevat deze substrings
-            if(cookieContent.contains("username=") && cookieContent.contains("&sessionID=")) {
+            if (cookieContent.matches("username=\\w+&sessionID=\\d+")) {
                 LoginRepository lr = new LoginRepository();
                 String[] parts = cookieContent.split("&");
                 String username = parts[0].split("=")[1];
@@ -66,8 +49,7 @@ public class LoginController {
                     model.addAttribute("error", "Cookie verwijderd! ");
                     response.addCookie(deleteCookie("verkeerCookie"));
                 }
-            }
-            else{
+            } else {
                 //Cookie is foutief aangemaakt / gewijzigd
                 response.addCookie(deleteCookie("verkeerCookie"));
             }

@@ -35,3 +35,4 @@
 27/04/16,20:00,23:59,Thuis,Opzoeken toevoeging van Graphhopper + Apple + MapQuest + Garmin; Start Userbeheermodule,73+74+75+76,
 28/04/16,8:00,12:30,Thuis,Kleine fix logincontrollen + useroverzicht in adminpaneel,106,
 28/04/16,13:00,15:30,Thuis,Useroverzicht afgewerkt + Verplaatsen van cookiecontroller naar aparte klasse,106,
+28/04/16,20:00,23:59,Thuis,Toevoegen+verwijderen van gebruiker volledig afgewerkt & controle of iemand ingelogd is herwerkt,106,

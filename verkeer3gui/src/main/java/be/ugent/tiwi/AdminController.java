@@ -41,6 +41,8 @@ public class AdminController {
                     //De persoon is correct ingelogd
                     TrajectRepository trajectRepository = new TrajectRepository();
                     model.addAttribute("trajecten", trajectRepository.getTrajectenMetWayPoints());
+                    model.addAttribute("users", lr.getUsers());
+
                     loginSucces = true;
 
                 } else {

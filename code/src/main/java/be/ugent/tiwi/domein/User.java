@@ -10,8 +10,10 @@ import java.security.MessageDigest;
  * Created by Jeroen on 19/04/16.
  */
 public class User {
-    private String username;
-    private String password;
+    private int id = 0;
+    private String username = "";
+    private String password = "";
+    private int sessionID = 0;
 
     /**
      * Constructor van de klasse
@@ -29,6 +31,13 @@ public class User {
         this.password = toMD5hash(password);
     }
 
+    public User(int id, String username, String password, int sessionID) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.sessionID = sessionID;
+    }
+
     public void setUsername(String username){
         this.username = username;
     }
@@ -37,6 +46,8 @@ public class User {
         this.password = toMD5hash(password);
     }
 
+    public int getId(){return this.id;}
+
     public String getUsername(){
         return this.username;
     }
@@ -44,6 +55,8 @@ public class User {
     public String getPassword(){
         return this.password;
     }
+
+    public int getSessionID(){return this.sessionID;}
 
     /**
      * MD5 hasher

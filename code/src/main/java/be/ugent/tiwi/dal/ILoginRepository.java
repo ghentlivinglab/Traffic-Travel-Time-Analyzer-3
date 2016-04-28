@@ -2,8 +2,7 @@ package be.ugent.tiwi.dal;
 
 import be.ugent.tiwi.controller.exceptions.UserException;
 import be.ugent.tiwi.domein.*;
-
-import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Jeroen on 19/04/2016.
@@ -45,4 +44,10 @@ public interface ILoginRepository {
      * @return
      */
     String getUserSessionID(User user);
+
+    /**
+     * Lijst van gebruikers teruggeven
+     * @return List<user>
+     */
+    List<User> getUsers();
 }

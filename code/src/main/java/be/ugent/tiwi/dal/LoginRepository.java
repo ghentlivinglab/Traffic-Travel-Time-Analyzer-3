@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class LoginRepository implements ILoginRepository {
@@ -206,5 +208,44 @@ public class LoginRepository implements ILoginRepository {
         }
 
         return sessionID;
+    }
+
+    /**
+     * Geeft alle users terug die zich in de database bevinden
+     *
+     * @return Lijst van users
+     */
+    @Override
+    public List<User> getUsers() {
+        List<User> users = new ArrayList<User>();
+        ResultSet rs = null;
+        try {
+            String stringUser = "select * from users";
+            statUser = connector.getConnection().prepareStatement(stringUser);
+            rs = statUser.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                int sessionID = rs.getInt("sessionID");
+
+                users.add(new User(id, username,password,sessionID));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                statUser.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                connector.close();
+            } catch (Exception e) { /* ignored */ }
+
+        }
+        return users;
     }
 }

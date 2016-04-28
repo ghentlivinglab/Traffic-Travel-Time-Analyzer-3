@@ -557,7 +557,7 @@ public class MetingRepository implements IMetingRepository {
         return -1;
     }
 
-    public Map<LocalDateTime, Double> getVertragingenEveryFiveMinutes(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
+        public Map<LocalDateTime, Double> getVertragingenEveryFiveMinutes(Provider provider, LocalDateTime start_tijdstip, LocalDateTime end_tijdstip){
         String gemiddeldeVertragingPeriode = "select max(b.max) timestamp, sum(b.count * b.avg) / sum(b.count) gemiddelde, sum(b.count) aantal " +
                 "from ( " +
                     "SELECT    round((a.timestamp - max(m.timestamp))/(5 * 60)) id, max(m.timestamp) max, avg(m.reistijd - o.reistijd) avg, count(*) count " +

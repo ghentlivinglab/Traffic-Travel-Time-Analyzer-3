@@ -53,6 +53,34 @@ public class LoginRepository implements ILoginRepository {
         }
     }
 
+    /**
+     * Verwijderen van een gebruiker aan de hand van zijn username
+     * Indien de gebruiker niet bestaat wordt er niks gewijzigd
+     * @param user een gebruiker, enkel het veld username is verplicht
+     * @throws UserException
+     */
+    public void removeUser(User user){
+        if(userExists(user)){
+            try {
+                String stringUserdel = "DELETE FROM users WHERE username=?";
+
+                statUser = connector.getConnection().prepareStatement(stringUserdel);
+                statUser.setString(1, user.getUsername());
+                statUser.executeUpdate();
+
+            } catch (SQLException ex) {
+                logger.error("Fout bij het verwijderen van een user", ex);
+            } finally {
+                try {
+                    statUser.close();
+                } catch (Exception e) { /* ignored */ }
+                try {
+                    connector.close();
+                } catch (Exception e) { /* ignored */ }
+            }
+
+        }
+    }
 
     /**
      * Controle indien de opgegeven user aanwezig is in de database

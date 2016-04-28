@@ -35,9 +35,12 @@ public class TrajectController {
                                 @CookieValue(value = "verkeerCookie", defaultValue = "verkeerCookie") String cookieContent,
                                 HttpServletResponse response) {
         //Contole indien het cookie correct is
-        if (!validCookie(model, cookieContent, response))
+        cookieController cc = new cookieController();
+
+        if (!cc.validCookie(cookieContent)) {
+            response.addCookie(cc.deleteCookie("verkeerCookie"));
             return "redirect:/login";
-        else {
+        } else {
             ITrajectRepository repo = new TrajectRepository();
             Traject traject = repo.getTraject(id);
             model.addAttribute("traject", traject);
@@ -51,8 +54,10 @@ public class TrajectController {
                                @CookieValue(value = "verkeerCookie", defaultValue = "verkeerCookie") String cookieContent,
                                HttpServletResponse response) {
         //Contole indien het cookie correct is
-        if (!validCookie(model, cookieContent, response))
-            return "redirect:/login";
+        cookieController cc = new cookieController();
+        if (!cc.validCookie(cookieContent)){
+            response.addCookie(cc.deleteCookie("verkeerCookie"));
+            return "redirect:/login";}
         else {
 
             TrajectRepository trajectRepository = new TrajectRepository();
@@ -83,7 +88,9 @@ public class TrajectController {
                                @CookieValue(value = "verkeerCookie", defaultValue = "verkeerCookie") String cookieContent,
                                HttpServletResponse response) {
         //Contole indien het cookie correct is
-        if (!validCookie(model, cookieContent, response)) {
+        cookieController cc = new cookieController();
+        if (!cc.validCookie(cookieContent)) {
+            response.addCookie(cc.deleteCookie("verkeerCookie"));
             return "redirect:/login";
         } else {
             return "traject/new";
@@ -104,70 +111,5 @@ public class TrajectController {
         ModelAndView modelAndView = new ModelAndView("redirect:/");
         modelAndView.addObject("message", "Toevoegen van " + traject.getNaam() + " geslaagd!");
         return modelAndView;
-    }
-
-
-    /**
-     * Controle indien de cookie die aanwezig is op het host-device overeen komt met wat in de database aanwezig is
-     *
-     * @param model
-     * @param cookieContent
-     * @param response
-     * @return
-     */
-
-    public boolean validCookie(ModelMap model,
-                               @CookieValue(value = "verkeerCookie", defaultValue = "verkeerCookie") String cookieContent,
-                               HttpServletResponse response) {
-
-        boolean loginSucces = false;
-        //Cookiecontrole
-        //Cookie moet bestaan
-        if (cookieContent != null) {
-            //Bevat deze substrings
-            if (cookieContent.matches("username=\\w+&sessionID=\\d+")) {
-                LoginRepository lr = new LoginRepository();
-                String[] parts = cookieContent.split("&");
-                String username = parts[0].split("=")[1];
-                User user = new User(username);
-                String cookieSessionID = parts[1].split("=")[1];
-                String databaseSessionID = lr.getUserSessionID(user);
-
-
-                //Controle indien gebruiker bestaat en de sessieID van cookie overeenkomt met deze in de database
-                if (lr.userExists(user) && cookieSessionID.equals(databaseSessionID)) {
-
-                    //De persoon is correct ingelogd
-                    loginSucces = true;
-
-                } else {
-                    //Cookie foutief
-                    response.addCookie(deleteCookie("verkeerCookie"));
-                    loginSucces = false;
-                }
-            } else {
-                //Cookie is foutief aangemaakt / gewijzigd
-                response.addCookie(deleteCookie("verkeerCookie"));
-                loginSucces = false;
-            }
-        }
-
-        return loginSucces;
-    }
-
-
-    /**
-     * Verwijderen van een aangemaakte cookie
-     * Deze maakt een cookie aan met de opgegeven naam die meteen zal verdwijnen bij het inladen door een browser
-     *
-     * @param cookieName
-     * @return
-     */
-
-    private Cookie deleteCookie(String cookieName) {
-        Cookie myCookie = new Cookie(cookieName, null); // Not necessary, but saves bandwidth.
-        myCookie.setPath("/");
-        myCookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
-        return myCookie;
     }
 }

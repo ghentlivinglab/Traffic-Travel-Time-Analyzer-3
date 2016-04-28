@@ -5,6 +5,8 @@ import be.ugent.tiwi.domein.*;
 import java.util.List;
 
 /**
+ * Origineel bedoeld om enkel in te loggen
+ * Uitgebreid met functies om gebruikers weer te geven, toe te voegen en te verwijderen (volledig userbeheer)
  * Created by Jeroen on 19/04/2016.
  */
 public interface ILoginRepository {
@@ -14,6 +16,13 @@ public interface ILoginRepository {
      * @param user
      */
     void addUser(User user) throws UserException;
+
+    /**
+     * Gebruiker verwijderen aan de hand van zijn username
+     * @param user een gebruiker, enkel het veld username is verplicht
+     */
+    void removeUser(User user);
+
 
     /**
      * Controle indien de opgegeven user aanwezig is in de database

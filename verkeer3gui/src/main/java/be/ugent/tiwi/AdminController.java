@@ -1,7 +1,9 @@
 package be.ugent.tiwi;
 
+import be.ugent.tiwi.dal.ITrajectRepository;
 import be.ugent.tiwi.dal.LoginRepository;
 import be.ugent.tiwi.dal.TrajectRepository;
+import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,50 +23,20 @@ public class AdminController {
                         @CookieValue(value = "verkeerCookie", defaultValue = "verkeerCookie") String cookieContent,
                         HttpServletResponse response, HttpServletRequest request) {
 
-        boolean loginSucces = false;
-        //Cookiecontrole
-        //Cookie moet bestaan
-        if (cookieContent != null) {
-            //Bevat deze substrings
-            if (cookieContent.matches("username=\\w+&sessionID=\\d+")) {
-                LoginRepository lr = new LoginRepository();
-                String[] parts = cookieContent.split("&");
-                String username = parts[0].split("=")[1];
-                User user = new User(username);
-                String cookieSessionID = parts[1].split("=")[1];
-                String databaseSessionID = lr.getUserSessionID(user);
+        //Contole indien het cookie correct is
+        cookieController cc = new cookieController();
 
-
-                //Controle indien gebruiker bestaat en de sessieID van cookie overeenkomt met deze in de database
-                if (lr.userExists(user) && cookieSessionID.equals(databaseSessionID)) {
-
-                    //De persoon is correct ingelogd
-                    TrajectRepository trajectRepository = new TrajectRepository();
-                    model.addAttribute("trajecten", trajectRepository.getTrajectenMetWayPoints());
-                    model.addAttribute("users", lr.getUsers());
-
-                    loginSucces = true;
-
-                } else {
-                    //Cookie foutief
-                    response.addCookie(deleteCookie("verkeerCookie"));
-                    loginSucces = false;
-                }
-            } else {
-                //Cookie is foutief aangemaakt / gewijzigd
-                response.addCookie(deleteCookie("verkeerCookie"));
-                loginSucces = false;
-            }
-        }
-
-        if(loginSucces){
+        if (!cc.validCookie(cookieContent)) {
+            response.addCookie(cc.deleteCookie("verkeerCookie"));
+            return "redirect:/login";
+        } else {
+            TrajectRepository trajectRepository = new TrajectRepository();
+            LoginRepository lr = new LoginRepository();
+            model.addAttribute("trajecten", trajectRepository.getTrajectenMetWayPoints());
+            model.addAttribute("users", lr.getUsers());
             return "admin/index";
         }
-        else{
-            //String contextPath = request.getContextPath();
-            //response.sendRedirect(response.encodeRedirectURL(contextPath + "/profile.jsp"));
-            return "redirect:/login";
-        }
+
     }
 
     /**

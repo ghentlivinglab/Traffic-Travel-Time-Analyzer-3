@@ -70,7 +70,7 @@
     </div>
     <ul class="nav navbar">
         <li>
-            <a href="<c:url value="/adduser"/>"><span class="glyphicon glyphicon-plus"></span> Voeg een nieuwe gebruiker toe...</a>
+            <a href="<c:url value="/user/add"/>"><span class="glyphicon glyphicon-plus"></span> Voeg een nieuwe gebruiker toe...</a>
         </li>
     </ul>
     <div id="admin-user-details" class="panel-collapse collapse in">
@@ -93,8 +93,8 @@
                         <td><c:out value="${user.username}"/></td>
                         <td><c:out value="${user.password}"/></td>
                         <td><c:out value="${user.sessionID}"/></td>
-                        <td><a href=<c:url value="/traject/${user.id}/edit"/>><span
-                                class="glyphicon glyphicon-edit"></span></a></td>
+                        <td><a href=<c:url value="/user/remove/${user.username}"/>>
+                            <span class="glyphicon glyphicon-remove"></span></a></td>
 
                     </tr>
                 </c:forEach>

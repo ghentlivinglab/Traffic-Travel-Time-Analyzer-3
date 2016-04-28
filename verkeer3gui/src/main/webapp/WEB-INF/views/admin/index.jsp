@@ -70,7 +70,7 @@
     </div>
     <ul class="nav navbar">
         <li>
-            <a href="<c:url value="/user/add"/>"><span class="glyphicon glyphicon-plus"></span> Voeg een nieuwe gebruiker toe...</a>
+            <a href="<c:url value="/user"/>"><span class="glyphicon glyphicon-plus"></span> Voeg een nieuwe gebruiker toe...</a>
         </li>
     </ul>
     <div id="admin-user-details" class="panel-collapse collapse in">

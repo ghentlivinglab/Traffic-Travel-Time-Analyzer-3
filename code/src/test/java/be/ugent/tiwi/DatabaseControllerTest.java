@@ -111,7 +111,7 @@ public class DatabaseControllerTest{
         Meting meting = new Meting(dbController.haalProviderOp(1), dbController.haalTraject(1), 100, LocalDateTime.now());
         dbController.voegMetingToe(meting);
         int result = dbController.haalMetingenOp(1,1).size();
-        assertEquals(3, result);
+        assertEquals(1, result);
     }
 
     @Test

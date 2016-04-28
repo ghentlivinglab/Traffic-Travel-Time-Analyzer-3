@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class LoginRepository implements ILoginRepository {
@@ -51,6 +53,34 @@ public class LoginRepository implements ILoginRepository {
         }
     }
 
+    /**
+     * Verwijderen van een gebruiker aan de hand van zijn username
+     * Indien de gebruiker niet bestaat wordt er niks gewijzigd
+     * @param user een gebruiker, enkel het veld username is verplicht
+     * @throws UserException
+     */
+    public void removeUser(User user){
+        if(userExists(user)){
+            try {
+                String stringUserdel = "DELETE FROM users WHERE username=?";
+
+                statUser = connector.getConnection().prepareStatement(stringUserdel);
+                statUser.setString(1, user.getUsername());
+                statUser.executeUpdate();
+
+            } catch (SQLException ex) {
+                logger.error("Fout bij het verwijderen van een user", ex);
+            } finally {
+                try {
+                    statUser.close();
+                } catch (Exception e) { /* ignored */ }
+                try {
+                    connector.close();
+                } catch (Exception e) { /* ignored */ }
+            }
+
+        }
+    }
 
     /**
      * Controle indien de opgegeven user aanwezig is in de database
@@ -206,5 +236,44 @@ public class LoginRepository implements ILoginRepository {
         }
 
         return sessionID;
+    }
+
+    /**
+     * Geeft alle users terug die zich in de database bevinden
+     *
+     * @return Lijst van users
+     */
+    @Override
+    public List<User> getUsers() {
+        List<User> users = new ArrayList<User>();
+        ResultSet rs = null;
+        try {
+            String stringUser = "select * from users";
+            statUser = connector.getConnection().prepareStatement(stringUser);
+            rs = statUser.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                int sessionID = rs.getInt("sessionID");
+
+                users.add(new User(id, username,password,sessionID));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                statUser.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                connector.close();
+            } catch (Exception e) { /* ignored */ }
+
+        }
+        return users;
     }
 }

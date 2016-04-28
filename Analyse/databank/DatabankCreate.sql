@@ -1,13 +1,32 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.4.2
+-- http://www.phpmyadmin.net
+--
+-- Machine: localhost
+-- Genereertijd: 28 apr 2016 om 20:28
+-- Serverversie: 5.6.13
+-- PHP-versie: 5.4.17
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+--
+-- Databank: `vop`
+--
 CREATE DATABASE IF NOT EXISTS `vop` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `vop`;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `metingen`
+--
 
 CREATE TABLE IF NOT EXISTS `metingen` (
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -19,6 +38,12 @@ CREATE TABLE IF NOT EXISTS `metingen` (
   KEY `fk_Meting_Traject_idx` (`traject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `optimale_reistijden`
+--
+
 CREATE TABLE IF NOT EXISTS `optimale_reistijden` (
   `traject_id` int(11) NOT NULL,
   `provider_id` int(11) NOT NULL,
@@ -28,12 +53,24 @@ CREATE TABLE IF NOT EXISTS `optimale_reistijden` (
   KEY `fk_OptimaleReistijd_Traject_idx` (`traject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `providers`
+--
+
 CREATE TABLE IF NOT EXISTS `providers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `naam` varchar(100) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `trajecten`
+--
 
 CREATE TABLE IF NOT EXISTS `trajecten` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -48,6 +85,12 @@ CREATE TABLE IF NOT EXISTS `trajecten` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
 
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `trajectsynoniemen`
+--
+
 CREATE TABLE IF NOT EXISTS `trajectsynoniemen` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `naam` varchar(100) NOT NULL,
@@ -57,14 +100,27 @@ CREATE TABLE IF NOT EXISTS `trajectsynoniemen` (
   KEY `traject_id_idx` (`traject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `users`
+--
+
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password` varchar(32) NOT NULL,
   `sessionID` int(8) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  UNIQUE KEY `username` (`username`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `waypoints`
+--
 
 CREATE TABLE IF NOT EXISTS `waypoints` (
   `volgnr` int(11) NOT NULL,
@@ -75,18 +131,33 @@ CREATE TABLE IF NOT EXISTS `waypoints` (
   KEY `fk_waypoints_1_idx` (`traject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Beperkingen voor gedumpte tabellen
+--
 
+--
+-- Beperkingen voor tabel `metingen`
+--
 ALTER TABLE `metingen`
   ADD CONSTRAINT `fk_Meting_Provider1` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_Meting_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Beperkingen voor tabel `optimale_reistijden`
+--
 ALTER TABLE `optimale_reistijden`
   ADD CONSTRAINT `fk_OptimaleReistijd_Provider` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_OptimaleReistijd_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Beperkingen voor tabel `trajectsynoniemen`
+--
 ALTER TABLE `trajectsynoniemen`
   ADD CONSTRAINT `traject_id` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
+--
+-- Beperkingen voor tabel `waypoints`
+--
 ALTER TABLE `waypoints`
   ADD CONSTRAINT `fk_waypoints_1` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 

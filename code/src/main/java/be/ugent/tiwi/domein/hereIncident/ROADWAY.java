@@ -15,7 +15,7 @@ public class ROADWAY {
     private List<be.ugent.tiwi.domein.hereIncident.DESCRIPTION> DESCRIPTION = new ArrayList<be.ugent.tiwi.domein.hereIncident.DESCRIPTION>();
     @SerializedName("ID")
     @Expose
-    private Integer ID;
+    private Long ID;
 
     /**
      * 
@@ -40,7 +40,7 @@ public class ROADWAY {
      * @return
      *     The ID
      */
-    public Integer getID() {
+    public Long getID() {
         return ID;
     }
 
@@ -49,7 +49,7 @@ public class ROADWAY {
      * @param ID
      *     The ID
      */
-    public void setID(Integer ID) {
+    public void setID(Long ID) {
         this.ID = ID;
     }
 

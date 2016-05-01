@@ -15,7 +15,7 @@ public class GEOLOC {
     private ORIGIN__ ORIGIN;
     @SerializedName("TO")
     @Expose
-    private List<TO_> TO = new ArrayList<TO_>();
+    private List<TO__> TO = new ArrayList<TO__>();
 
     /**
      * 
@@ -40,7 +40,7 @@ public class GEOLOC {
      * @return
      *     The TO
      */
-    public List<TO_> getTO() {
+    public List<TO__> getTO() {
         return TO;
     }
 
@@ -49,7 +49,7 @@ public class GEOLOC {
      * @param TO
      *     The TO
      */
-    public void setTO(List<TO_> TO) {
+    public void setTO(List<TO__> TO) {
         this.TO = TO;
     }
 

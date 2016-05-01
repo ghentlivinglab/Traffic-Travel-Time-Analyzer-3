@@ -110,6 +110,11 @@ public class ScheduleController {
      * @see Provider
      */
     private void haalDataVanProvider(String naam, List<Traject> trajects) {
+        //HereIncidentScraper
+        dbController.voegIncidentToe(new HereIncidentScraper().scrape(trajects));
+
+
+        //TrafficScrapers
         switch (naam.toLowerCase()) {
             case "google maps":
                 dbController.voegMetingenToe(new GoogleScraper().scrape(trajects));

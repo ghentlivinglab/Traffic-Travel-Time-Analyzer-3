@@ -13,7 +13,7 @@ public class ORIGIN {
     private String EBUCOUNTRYCODE;
     @SerializedName("TABLEID")
     @Expose
-    private Integer TABLEID;
+    private Long TABLEID;
     @SerializedName("LOCATIONID")
     @Expose
     private String LOCATIONID;
@@ -47,7 +47,7 @@ public class ORIGIN {
      * @return
      *     The TABLEID
      */
-    public Integer getTABLEID() {
+    public Long getTABLEID() {
         return TABLEID;
     }
 
@@ -56,7 +56,7 @@ public class ORIGIN {
      * @param TABLEID
      *     The TABLEID
      */
-    public void setTABLEID(Integer TABLEID) {
+    public void setTABLEID(Long TABLEID) {
         this.TABLEID = TABLEID;
     }
 

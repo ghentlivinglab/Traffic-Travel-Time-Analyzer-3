@@ -10,10 +10,10 @@ public class ALERTC {
 
     @SerializedName("TRAFFICCODE")
     @Expose
-    private Integer TRAFFICCODE;
+    private Long TRAFFICCODE;
     @SerializedName("QUANTIFIERS")
     @Expose
-    private Integer QUANTIFIERS;
+    private Long QUANTIFIERS;
     @SerializedName("DESCRIPTION")
     @Expose
     private String DESCRIPTION;
@@ -22,13 +22,10 @@ public class ALERTC {
     private String ALERTCDURATION;
     @SerializedName("ALERTCDIRECTION")
     @Expose
-    private Integer ALERTCDIRECTION;
-    @SerializedName("URGENCY")
-    @Expose
-    private String URGENCY;
+    private Long ALERTCDIRECTION;
     @SerializedName("UPDATECLASS")
     @Expose
-    private Integer UPDATECLASS;
+    private Long UPDATECLASS;
     @SerializedName("PHRASECODE")
     @Expose
     private String PHRASECODE;
@@ -37,14 +34,14 @@ public class ALERTC {
     private String EXTENT;
     @SerializedName("DURATION")
     @Expose
-    private Integer DURATION;
+    private Long DURATION;
 
     /**
      * 
      * @return
      *     The TRAFFICCODE
      */
-    public Integer getTRAFFICCODE() {
+    public Long getTRAFFICCODE() {
         return TRAFFICCODE;
     }
 
@@ -53,7 +50,7 @@ public class ALERTC {
      * @param TRAFFICCODE
      *     The TRAFFICCODE
      */
-    public void setTRAFFICCODE(Integer TRAFFICCODE) {
+    public void setTRAFFICCODE(Long TRAFFICCODE) {
         this.TRAFFICCODE = TRAFFICCODE;
     }
 
@@ -62,7 +59,7 @@ public class ALERTC {
      * @return
      *     The QUANTIFIERS
      */
-    public Integer getQUANTIFIERS() {
+    public Long getQUANTIFIERS() {
         return QUANTIFIERS;
     }
 
@@ -71,7 +68,7 @@ public class ALERTC {
      * @param QUANTIFIERS
      *     The QUANTIFIERS
      */
-    public void setQUANTIFIERS(Integer QUANTIFIERS) {
+    public void setQUANTIFIERS(Long QUANTIFIERS) {
         this.QUANTIFIERS = QUANTIFIERS;
     }
 
@@ -116,7 +113,7 @@ public class ALERTC {
      * @return
      *     The ALERTCDIRECTION
      */
-    public Integer getALERTCDIRECTION() {
+    public Long getALERTCDIRECTION() {
         return ALERTCDIRECTION;
     }
 
@@ -125,26 +122,8 @@ public class ALERTC {
      * @param ALERTCDIRECTION
      *     The ALERTCDIRECTION
      */
-    public void setALERTCDIRECTION(Integer ALERTCDIRECTION) {
+    public void setALERTCDIRECTION(Long ALERTCDIRECTION) {
         this.ALERTCDIRECTION = ALERTCDIRECTION;
-    }
-
-    /**
-     * 
-     * @return
-     *     The URGENCY
-     */
-    public String getURGENCY() {
-        return URGENCY;
-    }
-
-    /**
-     * 
-     * @param URGENCY
-     *     The URGENCY
-     */
-    public void setURGENCY(String URGENCY) {
-        this.URGENCY = URGENCY;
     }
 
     /**
@@ -152,7 +131,7 @@ public class ALERTC {
      * @return
      *     The UPDATECLASS
      */
-    public Integer getUPDATECLASS() {
+    public Long getUPDATECLASS() {
         return UPDATECLASS;
     }
 
@@ -161,7 +140,7 @@ public class ALERTC {
      * @param UPDATECLASS
      *     The UPDATECLASS
      */
-    public void setUPDATECLASS(Integer UPDATECLASS) {
+    public void setUPDATECLASS(Long UPDATECLASS) {
         this.UPDATECLASS = UPDATECLASS;
     }
 
@@ -206,7 +185,7 @@ public class ALERTC {
      * @return
      *     The DURATION
      */
-    public Integer getDURATION() {
+    public Long getDURATION() {
         return DURATION;
     }
 
@@ -215,7 +194,7 @@ public class ALERTC {
      * @param DURATION
      *     The DURATION
      */
-    public void setDURATION(Integer DURATION) {
+    public void setDURATION(Long DURATION) {
         this.DURATION = DURATION;
     }
 

@@ -11,6 +11,9 @@ public class RDSTMC {
     @SerializedName("ORIGIN")
     @Expose
     private be.ugent.tiwi.domein.hereIncident.ORIGIN ORIGIN;
+    @SerializedName("TO")
+    @Expose
+    private be.ugent.tiwi.domein.hereIncident.TO TO;
     @SerializedName("DIRECTION")
     @Expose
     private String DIRECTION;
@@ -34,6 +37,24 @@ public class RDSTMC {
      */
     public void setORIGIN(be.ugent.tiwi.domein.hereIncident.ORIGIN ORIGIN) {
         this.ORIGIN = ORIGIN;
+    }
+
+    /**
+     * 
+     * @return
+     *     The TO
+     */
+    public be.ugent.tiwi.domein.hereIncident.TO getTO() {
+        return TO;
+    }
+
+    /**
+     * 
+     * @param TO
+     *     The TO
+     */
+    public void setTO(be.ugent.tiwi.domein.hereIncident.TO TO) {
+        this.TO = TO;
     }
 
     /**

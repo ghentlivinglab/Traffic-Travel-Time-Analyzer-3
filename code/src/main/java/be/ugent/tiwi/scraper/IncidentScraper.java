@@ -4,6 +4,8 @@ import be.ugent.tiwi.domein.TrafficIncident;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Waypoint;
 
+import java.util.List;
+
 
 /**
  * Interface waaraan alle scrapers die verkeersproblemen ophalen moeten voldoen
@@ -14,10 +16,34 @@ public abstract class IncidentScraper {
     /**
      * Ophalen van een verkeersprobleem adhv een bepaald traject
      *
-     * @param traject traject waar het probleem zich zou voordoen
+     * @param trajects trajecten waar er zich problemen zouden voordoen
      * @return een verkeersprobleem
      */
-    abstract TrafficIncident scrape(Traject traject);
+    abstract List<TrafficIncident> scrape(List<Traject> trajects);
+
+
+    /**
+     * Converteert geografische coordinaten naar normalized Mercator
+     *
+     * @param wp een waypoint
+     * @return list met 3 doubles: xTile, yTile en z(zoom)
+     */
+    protected double[] geo2NorMercator(Waypoint wp) {
+        double lat = Double.parseDouble(wp.getLatitude()), // Latitude
+                lon = Double.parseDouble(wp.getLongitude()),    // Longitude
+                z = 16,        // Zoom level
+                latRad,
+                n,
+                xTile,
+                yTile;
+
+        latRad = lat * Math.PI / 180;
+        n = Math.pow(2, z);
+        xTile = n * ((lon + 180) / 360);
+        yTile = n * (1 - (Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI)) / 2;
+
+        return new double[]{xTile, yTile, z};
+    }
 
 
     /**
@@ -94,46 +120,47 @@ public abstract class IncidentScraper {
      * @param wp een waypoint
      * @return de quadkey
      */
-    protected int geo2quadkey(Waypoint wp){
-        int quadKey = 0;
-        double [] UTM = geo2UTM(wp);
+    protected String geo2quadkey(Waypoint wp) {
+        String quadKey = "";
+        double[] UTM = geo2UTM(wp);
         //UTM[0] = x;
         //UTM[1] = y;
-        //UTM[2] = z;
+        //UTM[2] = het zoom level, dit wordt manueel ingesteld op 17
+        UTM[2] = 17;
 
         //Bijna alles gebeurt via BITwise operatoren
-        for (int i = (int)UTM[2]; i > 0; i--) {
+        for (int i = (int) UTM[2]; i > 0; i--) {
             int digit = 0, mask = 1 << (i - 1);
-            if (((int)UTM[0] & mask) != 0) {
+            if (((int) UTM[0] & mask) != 0) {
                 digit++;
             }
 
-            if (((int)UTM[1] & mask) != 0) {
+            if (((int) UTM[1] & mask) != 0) {
                 digit = digit + 2;
             }
             quadKey += digit;
         }
 
-        return quadKey;
+        return quadKey + "";
     }
 
 
     /**
      * Bepaalt het geografische midden van een verzameling coordinaten
+     *
      * @param traject
      * @return geografische coördinaten in een waypoint object
      */
     protected Waypoint getCentre(Traject traject) {
-        if(traject.getWaypoints() !=null){
+        if (traject.getWaypoints() != null) {
             // als het traject maar 1 waypoint bevat
-            if(traject.getWaypoints().size() == 1){
+            if (traject.getWaypoints().size() == 1) {
                 return traject.getWaypoints().get(0);
-            }
-            else{
+            } else {
                 double lattitude = 0;
                 double longitude = 0;
 
-                for(int i=0;i<=traject.getWaypoints().size();i++){
+                for (int i = 0; i < traject.getWaypoints().size(); i++) {
                     lattitude += Double.parseDouble(traject.getWaypoints().get(i).getLatitude());
                     longitude += Double.parseDouble(traject.getWaypoints().get(i).getLongitude());
                 }
@@ -141,10 +168,9 @@ public abstract class IncidentScraper {
                 lattitude /= traject.getWaypoints().size();
                 longitude /= traject.getWaypoints().size();
 
-                return new Waypoint(0,lattitude+"",longitude+"");
+                return new Waypoint(0, lattitude + "", longitude + "");
             }
-        }
-        else{
+        } else {
             return null;
         }
     }

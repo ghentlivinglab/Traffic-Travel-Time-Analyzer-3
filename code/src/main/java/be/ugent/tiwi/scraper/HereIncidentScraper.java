@@ -14,6 +14,8 @@ import settings.Settings;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jeroen on 30.04.16.
@@ -37,49 +39,50 @@ public class HereIncidentScraper extends IncidentScraper {
     /**
      * Via de Here API wordt een verkeersprobleem opgevraagd voor een specifiek traject
      *
-     * @param traject Een traject waarvan de meting opgehaald moet worden
-     * @return Een lijst van lijst van metingen
+     * @param trajects Een lijst van trajecten waarvan de meting opgehaald moet worden
+     * @return Een lijst van problemen
      */
     @Override
-    public TrafficIncident scrape(Traject traject) {
+    public List<TrafficIncident> scrape(List<Traject> trajects) {
         //TrafficIncident object aanmaken
+        List<TrafficIncident> trafficIncidents = new ArrayList<>();
+
         TrafficIncident ti = new TrafficIncident();
 
         Injector injector = Guice.createInjector(new RepositoryModule());
         DatabaseController databaseController = injector.getInstance(DatabaseController.class);
         Provider here = databaseController.haalProviderOp("Here");
 
-        //Centrum van het traject berekenen en deze omzetten naar een quadkey
-        int quadkey = this.geo2quadkey(this.getCentre(traject));
+        for (Traject traject : trajects) {
+            //Centrum van het traject berekenen en deze omzetten naar een quadkey
+            double[] normalizedMercator = this.geo2NorMercator(this.getCentre(traject));
 
-        String url = "https://traffic.cit.api.here.com/traffic/6.0/incidents.json" +
-                "?app_id=" + this.appId +
-                "&app_code=" + this.appCode +
-                "&quadkey=" + quadkey +
-                "&maxresults=1";
+            String url = "https://traffic.cit.api.here.com/traffic/6.0/incidents/json/"
+                    + (int)normalizedMercator[2] + "/" + (int)normalizedMercator[0] + "/" + (int)normalizedMercator[1]
+                    + "?app_id=" + this.appId
+                    + "&app_code=" + this.appCode
+                    + "&maxresults=1";
 
-        try {
-            HereIncidents hereIncident_obj = (HereIncidents) jc.getObject(url, HereIncidents.class, RequestType.GET);
-            if(hereIncident_obj.getTRAFFICITEMS() != null){
-                //Er zijn verkeersincidenten gedetecteerd
-                ti.setProvider(here);
-                ti.setTimestamp(LocalDateTime.now());
-                ti.setTraject(traject);
-                ti.setProblem(hereIncident_obj.getTRAFFICITEMS().getTRAFFICITEM().get(0).getTRAFFICITEMDESCRIPTION().get(1).getContent());
-
+            try {
+                HereIncidents hereIncident_obj = (HereIncidents) jc.getObject(url, HereIncidents.class, RequestType.GET);
+                if (hereIncident_obj.getTRAFFICITEMS() != null) {
+                    //Er zijn verkeersincidenten gedetecteerd
+                    ti.setProvider(here);
+                    ti.setTimestamp(LocalDateTime.now());
+                    ti.setTraject(traject);
+                    ti.setProblem(hereIncident_obj.getTRAFFICITEMS().getTRAFFICITEM().get(0).getTRAFFICITEMDESCRIPTION().get(0).getContent());
+                    trafficIncidents.add(ti);
+                } else {
+                    logger.warn("Provider Here: No traffic incidents found for traject " + traject.getId());
+                }
+            } catch (InvalidMethodException e) {
+                logger.error(e);
+            } catch (IOException e) {
+                // Service is offline of er kan geen verbinding gemaakt worden
+                logger.error(e);
+                logger.warn("Could not connect to Here Incidents service");
             }
-            else{
-                logger.warn("Provider Here: No traffic incidents found for traject " + traject.getId());
-                ti = null;
-            }
-        } catch (InvalidMethodException e) {
-            logger.error(e);
-        } catch (IOException e) {
-            // Service is offline of er kan geen verbinding gemaakt worden
-            ti = null;
-            logger.error(e);
-            logger.warn("Could not connect to Here Incidents service");
         }
-        return ti;
+        return trafficIncidents;
     }
 }

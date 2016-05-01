@@ -12,10 +12,10 @@ public class TRAFFICITEM {
 
     @SerializedName("TRAFFICITEMID")
     @Expose
-    private Integer TRAFFICITEMID;
+    private Long TRAFFICITEMID;
     @SerializedName("ORIGINALTRAFFICITEMID")
     @Expose
-    private Integer ORIGINALTRAFFICITEMID;
+    private Long ORIGINALTRAFFICITEMID;
     @SerializedName("TRAFFICITEMSTATUSSHORTDESC")
     @Expose
     private String TRAFFICITEMSTATUSSHORTDESC;
@@ -52,13 +52,16 @@ public class TRAFFICITEM {
     @SerializedName("TRAFFICITEMDESCRIPTION")
     @Expose
     private List<be.ugent.tiwi.domein.hereIncident.TRAFFICITEMDESCRIPTION> TRAFFICITEMDESCRIPTION = new ArrayList<be.ugent.tiwi.domein.hereIncident.TRAFFICITEMDESCRIPTION>();
+    @SerializedName("COMMENTS")
+    @Expose
+    private String COMMENTS;
 
     /**
      * 
      * @return
      *     The TRAFFICITEMID
      */
-    public Integer getTRAFFICITEMID() {
+    public Long getTRAFFICITEMID() {
         return TRAFFICITEMID;
     }
 
@@ -67,7 +70,7 @@ public class TRAFFICITEM {
      * @param TRAFFICITEMID
      *     The TRAFFICITEMID
      */
-    public void setTRAFFICITEMID(Integer TRAFFICITEMID) {
+    public void setTRAFFICITEMID(Long TRAFFICITEMID) {
         this.TRAFFICITEMID = TRAFFICITEMID;
     }
 
@@ -76,7 +79,7 @@ public class TRAFFICITEM {
      * @return
      *     The ORIGINALTRAFFICITEMID
      */
-    public Integer getORIGINALTRAFFICITEMID() {
+    public Long getORIGINALTRAFFICITEMID() {
         return ORIGINALTRAFFICITEMID;
     }
 
@@ -85,7 +88,7 @@ public class TRAFFICITEM {
      * @param ORIGINALTRAFFICITEMID
      *     The ORIGINALTRAFFICITEMID
      */
-    public void setORIGINALTRAFFICITEMID(Integer ORIGINALTRAFFICITEMID) {
+    public void setORIGINALTRAFFICITEMID(Long ORIGINALTRAFFICITEMID) {
         this.ORIGINALTRAFFICITEMID = ORIGINALTRAFFICITEMID;
     }
 
@@ -303,6 +306,24 @@ public class TRAFFICITEM {
      */
     public void setTRAFFICITEMDESCRIPTION(List<be.ugent.tiwi.domein.hereIncident.TRAFFICITEMDESCRIPTION> TRAFFICITEMDESCRIPTION) {
         this.TRAFFICITEMDESCRIPTION = TRAFFICITEMDESCRIPTION;
+    }
+
+    /**
+     * 
+     * @return
+     *     The COMMENTS
+     */
+    public String getCOMMENTS() {
+        return COMMENTS;
+    }
+
+    /**
+     * 
+     * @param COMMENTS
+     *     The COMMENTS
+     */
+    public void setCOMMENTS(String COMMENTS) {
+        this.COMMENTS = COMMENTS;
     }
 
 }

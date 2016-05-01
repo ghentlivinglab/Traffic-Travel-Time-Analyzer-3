@@ -13,7 +13,7 @@ public class DEFINED {
     private ORIGIN_ ORIGIN;
     @SerializedName("TO")
     @Expose
-    private be.ugent.tiwi.domein.hereIncident.TO TO;
+    private TO_ TO;
 
     /**
      * 
@@ -38,7 +38,7 @@ public class DEFINED {
      * @return
      *     The TO
      */
-    public be.ugent.tiwi.domein.hereIncident.TO getTO() {
+    public TO_ getTO() {
         return TO;
     }
 
@@ -47,7 +47,7 @@ public class DEFINED {
      * @param TO
      *     The TO
      */
-    public void setTO(be.ugent.tiwi.domein.hereIncident.TO TO) {
+    public void setTO(TO_ TO) {
         this.TO = TO;
     }
 

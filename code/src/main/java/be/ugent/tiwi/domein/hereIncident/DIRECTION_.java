@@ -15,7 +15,7 @@ public class DIRECTION_ {
     private List<DESCRIPTION_____> DESCRIPTION = new ArrayList<DESCRIPTION_____>();
     @SerializedName("ID")
     @Expose
-    private Integer ID;
+    private Long ID;
 
     /**
      * 
@@ -40,7 +40,7 @@ public class DIRECTION_ {
      * @return
      *     The ID
      */
-    public Integer getID() {
+    public Long getID() {
         return ID;
     }
 
@@ -49,7 +49,7 @@ public class DIRECTION_ {
      * @param ID
      *     The ID
      */
-    public void setID(Integer ID) {
+    public void setID(Long ID) {
         this.ID = ID;
     }
 

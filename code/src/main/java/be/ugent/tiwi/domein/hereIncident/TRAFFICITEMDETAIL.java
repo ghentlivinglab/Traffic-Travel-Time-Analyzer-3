@@ -11,9 +11,9 @@ public class TRAFFICITEMDETAIL {
     @SerializedName("ROADCLOSED")
     @Expose
     private Boolean ROADCLOSED;
-    @SerializedName("EVENT")
+    @SerializedName("INCIDENT")
     @Expose
-    private be.ugent.tiwi.domein.hereIncident.EVENT EVENT;
+    private be.ugent.tiwi.domein.hereIncident.INCIDENT INCIDENT;
 
     /**
      * 
@@ -36,19 +36,19 @@ public class TRAFFICITEMDETAIL {
     /**
      * 
      * @return
-     *     The EVENT
+     *     The INCIDENT
      */
-    public be.ugent.tiwi.domein.hereIncident.EVENT getEVENT() {
-        return EVENT;
+    public be.ugent.tiwi.domein.hereIncident.INCIDENT getINCIDENT() {
+        return INCIDENT;
     }
 
     /**
      * 
-     * @param EVENT
-     *     The EVENT
+     * @param INCIDENT
+     *     The INCIDENT
      */
-    public void setEVENT(be.ugent.tiwi.domein.hereIncident.EVENT EVENT) {
-        this.EVENT = EVENT;
+    public void setINCIDENT(be.ugent.tiwi.domein.hereIncident.INCIDENT INCIDENT) {
+        this.INCIDENT = INCIDENT;
     }
 
 }

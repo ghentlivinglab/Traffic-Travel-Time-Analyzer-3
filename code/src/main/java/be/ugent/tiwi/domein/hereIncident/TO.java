@@ -8,89 +8,110 @@ import com.google.gson.annotations.SerializedName;
 @Generated("org.jsonschema2pojo")
 public class TO {
 
-    @SerializedName("ROADWAY")
+    @SerializedName("EBUCOUNTRYCODE")
     @Expose
-    private ROADWAY_ ROADWAY;
-    @SerializedName("POINT")
+    private String EBUCOUNTRYCODE;
+    @SerializedName("TABLEID")
     @Expose
-    private POINT_ POINT;
-    @SerializedName("DIRECTION")
+    private Long TABLEID;
+    @SerializedName("LOCATIONID")
     @Expose
-    private DIRECTION_ DIRECTION;
-    @SerializedName("PROXIMITY")
+    private String LOCATIONID;
+    @SerializedName("LOCATIONDESC")
     @Expose
-    private PROXIMITY_ PROXIMITY;
+    private String LOCATIONDESC;
+    @SerializedName("RDSDIRECTION")
+    @Expose
+    private String RDSDIRECTION;
 
     /**
      * 
      * @return
-     *     The ROADWAY
+     *     The EBUCOUNTRYCODE
      */
-    public ROADWAY_ getROADWAY() {
-        return ROADWAY;
+    public String getEBUCOUNTRYCODE() {
+        return EBUCOUNTRYCODE;
     }
 
     /**
      * 
-     * @param ROADWAY
-     *     The ROADWAY
+     * @param EBUCOUNTRYCODE
+     *     The EBUCOUNTRYCODE
      */
-    public void setROADWAY(ROADWAY_ ROADWAY) {
-        this.ROADWAY = ROADWAY;
-    }
-
-    /**
-     * 
-     * @return
-     *     The POINT
-     */
-    public POINT_ getPOINT() {
-        return POINT;
-    }
-
-    /**
-     * 
-     * @param POINT
-     *     The POINT
-     */
-    public void setPOINT(POINT_ POINT) {
-        this.POINT = POINT;
+    public void setEBUCOUNTRYCODE(String EBUCOUNTRYCODE) {
+        this.EBUCOUNTRYCODE = EBUCOUNTRYCODE;
     }
 
     /**
      * 
      * @return
-     *     The DIRECTION
+     *     The TABLEID
      */
-    public DIRECTION_ getDIRECTION() {
-        return DIRECTION;
+    public Long getTABLEID() {
+        return TABLEID;
     }
 
     /**
      * 
-     * @param DIRECTION
-     *     The DIRECTION
+     * @param TABLEID
+     *     The TABLEID
      */
-    public void setDIRECTION(DIRECTION_ DIRECTION) {
-        this.DIRECTION = DIRECTION;
+    public void setTABLEID(Long TABLEID) {
+        this.TABLEID = TABLEID;
     }
 
     /**
      * 
      * @return
-     *     The PROXIMITY
+     *     The LOCATIONID
      */
-    public PROXIMITY_ getPROXIMITY() {
-        return PROXIMITY;
+    public String getLOCATIONID() {
+        return LOCATIONID;
     }
 
     /**
      * 
-     * @param PROXIMITY
-     *     The PROXIMITY
+     * @param LOCATIONID
+     *     The LOCATIONID
      */
-    public void setPROXIMITY(PROXIMITY_ PROXIMITY) {
-        this.PROXIMITY = PROXIMITY;
+    public void setLOCATIONID(String LOCATIONID) {
+        this.LOCATIONID = LOCATIONID;
+    }
+
+    /**
+     * 
+     * @return
+     *     The LOCATIONDESC
+     */
+    public String getLOCATIONDESC() {
+        return LOCATIONDESC;
+    }
+
+    /**
+     * 
+     * @param LOCATIONDESC
+     *     The LOCATIONDESC
+     */
+    public void setLOCATIONDESC(String LOCATIONDESC) {
+        this.LOCATIONDESC = LOCATIONDESC;
+    }
+
+    /**
+     * 
+     * @return
+     *     The RDSDIRECTION
+     */
+    public String getRDSDIRECTION() {
+        return RDSDIRECTION;
+    }
+
+    /**
+     * 
+     * @param RDSDIRECTION
+     *     The RDSDIRECTION
+     */
+    public void setRDSDIRECTION(String RDSDIRECTION) {
+        this.RDSDIRECTION = RDSDIRECTION;
     }
 
 }

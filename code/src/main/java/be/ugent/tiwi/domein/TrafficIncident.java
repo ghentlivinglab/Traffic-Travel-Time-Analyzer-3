@@ -6,10 +6,31 @@ import java.time.LocalDateTime;
  * Created by Jeroen on 29/04/2016.
  */
 public class TrafficIncident {
+    private int id;
     private Provider provider;
     private Traject traject;
     private LocalDateTime timestamp;
     private String problem = "";
+
+    public TrafficIncident(){
+
+    }
+
+    public TrafficIncident(int id, Provider provider, Traject traject, LocalDateTime timestamp, String problem) {
+        this.id = id;
+        this.provider = provider;
+        this.traject = traject;
+        this.timestamp = timestamp;
+        this.problem = problem;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     /**
      * Geeft de provider terug vanwaar de data afkomstig is

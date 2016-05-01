@@ -1,9 +1,10 @@
 package be.ugent.tiwi.dal;
 
-import be.ugent.tiwi.controller.exceptions.UserException;
+import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.TrafficIncident;
-import be.ugent.tiwi.domein.User;
+import be.ugent.tiwi.domein.Traject;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -14,58 +15,87 @@ import java.util.List;
 public interface IIncidentRepository {
 
     /**
+     * Geeft een lijst van alle providers terug die trafficincidents gegenereerd hebben
+     *
+     * @return list providers
+     */
+    List<Provider> getProviders();
+
+    /**
+     * Geeft een lijst van alle providers terug die trafficincidents gegenereerd hebben tussen bepaalde data
+     * @param startdate
+     * @param enddate
+     * @return
+     */
+    List<Provider> getProviders(LocalDateTime startdate, LocalDateTime enddate);
+
+
+    /**
+     * Geeft een lijst terug van alle trajecten waar er ooit problemen geweest zijn
+     *
+     * @return
+     */
+    List<Traject> getTrajecten();
+
+
+    /**
+     * Geeft een lijst terug van alle trajecten waar er problemen geweest zijn tussen bepaalde data
+     * @param startdate
+     * @param enddate
+     * @return
+     */
+    List<Traject> getTrajecten(LocalDateTime startdate, LocalDateTime enddate);
+
+    /**
+     * Geeft een lijst terug van alle trafficincidenten
+     *
+     * @return
+     */
+    List<TrafficIncident> getTrafficIncidents();
+
+    /**
+     * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data
+     *
+     * @param startdate
+     * @param enddate
+     * @return
+     */
+    List<TrafficIncident> getTrafficIncidents(LocalDateTime startdate, LocalDateTime enddate);
+
+    /**
+     * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data van een bepaalde provider
+     *
+     * @param startdate
+     * @param enddate
+     * @return
+     */
+    List<TrafficIncident> getTrafficIncidents(Provider provider, LocalDateTime startdate, LocalDateTime enddate);
+
+    /**
+     * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data van een bepaald traject
+     *
+     * @param startdate
+     * @param enddate
+     * @return
+     */
+    List<TrafficIncident> getTrafficIncidents(Traject traject, LocalDateTime startdate, LocalDateTime enddate);
+
+
+    /**
+     * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data van een bepaalde provider van een bepaald traject
+     *
+     * @param startdate
+     * @param enddate
+     * @return
+     */
+    List<TrafficIncident> getTrafficIncidents(Provider provider, Traject traject, LocalDateTime startdate, LocalDateTime enddate);
+
+
+    /**
      * Toevoegen van een nieuw verkeersprobleem
+     *
      * @param trafficIncident
      */
     void addTrafficIncident(TrafficIncident trafficIncident);
 
-
-    /**
-     * User toevoegen aan de database
-     * @param user
-     */
-    void addUser(User user) throws UserException;
-
-    /**
-     * Gebruiker verwijderen aan de hand van zijn username
-     * @param user een gebruiker, enkel het veld username is verplicht
-     */
-    void removeUser(User user);
-
-
-    /**
-     * Controle indien de opgegeven user aanwezig is in de database
-     * @param user
-     * @return
-     */
-    boolean userExists(User user);
-
-    /**
-     * Controle indien de gegeven combinatie van gebruikersnaam en wachtwoord overeen komen met wat in de database zit
-     * @param user
-     * @return
-     */
-    boolean credentialsCorrect(User user);
-
-
-    /**
-     * Gebruiken bij het inloggen om een nieuwe sessionID te genereren
-     * @param user
-     * @return
-     */
-    void generateUserSessionID(User user) throws UserException;
-
-
-    /**
-     * De Session ID teruggeven die in de database zit
-     * @param user
-     * @return
-     */
-    String getUserSessionID(User user);
-
-    /**
-     * Lijst van gebruikers teruggeven
-     * @return List<user>
-     */
-    List<User> getUsers();
 }

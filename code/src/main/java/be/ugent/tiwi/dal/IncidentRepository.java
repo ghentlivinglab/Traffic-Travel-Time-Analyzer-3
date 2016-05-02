@@ -34,12 +34,13 @@ public class IncidentRepository implements IIncidentRepository {
      *
      * @return list providers
      */
+    @Override
     public List<Provider> getProviders() {
         List<Provider> providers = new ArrayList<>();
         ResultSet rs = null;
         try {
-            String stringIncident = "SELECT providers.id, providers.naam, providers.is_active FROM providers" +
-                    "JOIN trafficincidents on providers.id = trafficincidents.provider_id" +
+            String stringIncident = "SELECT providers.id, providers.naam, providers.is_active FROM providers " +
+                    "JOIN trafficincidents on providers.id = trafficincidents.provider_id " +
                     "GROUP by providers.id";
 
 
@@ -77,13 +78,14 @@ public class IncidentRepository implements IIncidentRepository {
      * @param enddate
      * @return
      */
+    @Override
     public List<Provider> getProviders(LocalDateTime startdate, LocalDateTime enddate) {
         List<Provider> providers = new ArrayList<>();
         ResultSet rs = null;
         try {
-            String stringIncident = "SELECT providers.id, providers.naam, providers.is_active FROM providers" +
-                    "JOIN trafficincidents on providers.id = trafficincidents.provider_id" +
-                    "WHERE trafficincidents.timestamp BETWEEN ? and ?" +
+            String stringIncident = "SELECT providers.id, providers.naam, providers.is_active FROM providers " +
+                    "JOIN trafficincidents on providers.id = trafficincidents.provider_id " +
+                    "WHERE trafficincidents.timestamp BETWEEN ? and ? " +
                     "GROUP by providers.id";
 
 
@@ -123,13 +125,14 @@ public class IncidentRepository implements IIncidentRepository {
      *
      * @return
      */
+    @Override
     public List<Traject> getTrajecten() {
         List<Traject> trajecten = new ArrayList<> ();
         ResultSet rs = null;
         try {
             String stringIncident = "SELECT trajecten.id, trajecten.naam, trajecten.lengte, trajecten.optimale_reistijd, trajecten.is_active, trajecten.start_latitude, trajecten.start_longitude, trajecten.end_latitude, trajecten.end_longitude FROM trajecten" +
-                    "JOIN trafficincidents on trajecten.id = trafficincidents.traject_id" +
-                    "GROUP by trajecten.id";
+                    " JOIN trafficincidents on trajecten.id = trafficincidents.traject_id" +
+                    " GROUP by trajecten.id";
 
 
             statIncident = connector.getConnection().prepareStatement(stringIncident);
@@ -175,14 +178,15 @@ public class IncidentRepository implements IIncidentRepository {
      * @param enddate
      * @return
      */
+    @Override
     public List<Traject> getTrajecten(LocalDateTime startdate, LocalDateTime enddate) {
         List<Traject> trajecten = new ArrayList<>();
         ResultSet rs = null;
         try {
             String stringIncident = "SELECT trajecten.id, trajecten.naam, trajecten.lengte, trajecten.optimale_reistijd, trajecten.is_active, trajecten.start_latitude, trajecten.start_longitude, trajecten.end_latitude, trajecten.end_longitude FROM trajecten" +
-                    "JOIN trafficincidents on trajecten.id = trafficincidents.traject_id" +
-                    "WHERE trafficincidents.timestamp BETWEEN ? and ?" +
-                    "GROUP by trajecten.id";
+                    " JOIN trafficincidents on trajecten.id = trafficincidents.traject_id" +
+                    " WHERE trafficincidents.timestamp BETWEEN ? and ?" +
+                    " GROUP by trajecten.id";
 
 
             statIncident = connector.getConnection().prepareStatement(stringIncident);
@@ -227,6 +231,7 @@ public class IncidentRepository implements IIncidentRepository {
      *
      * @return
      */
+    @Override
     public List<TrafficIncident> getTrafficIncidents() {
         List<TrafficIncident> trafficIncidents = new ArrayList<>();
         ResultSet rs = null;
@@ -270,11 +275,12 @@ public class IncidentRepository implements IIncidentRepository {
      * @param enddate
      * @return
      */
+    @Override
     public List<TrafficIncident> getTrafficIncidents(LocalDateTime startdate, LocalDateTime enddate) {
         List<TrafficIncident> trafficIncidents = new ArrayList<>();
         ResultSet rs = null;
         try {
-            String stringIncident = "SELECT * FROM trafficincidents" +
+            String stringIncident = "SELECT * FROM trafficincidents " +
                     "WHERE trafficincidents.timestamp BETWEEN ? and ?";
 
 
@@ -317,12 +323,13 @@ public class IncidentRepository implements IIncidentRepository {
      * @param enddate
      * @return
      */
+    @Override
     public List<TrafficIncident> getTrafficIncidents(Provider provider, LocalDateTime startdate, LocalDateTime enddate) {
         List<TrafficIncident> trafficIncidents = new ArrayList<>();
         ResultSet rs = null;
         try {
-            String stringIncident = "SELECT * FROM trafficincidents" +
-                    "WHERE provider_id = ?" +
+            String stringIncident = "SELECT * FROM trafficincidents " +
+                    "WHERE provider_id = ? " +
                     "AND trafficincidents.timestamp BETWEEN ? and ?";
 
 
@@ -366,12 +373,13 @@ public class IncidentRepository implements IIncidentRepository {
      * @param enddate
      * @return
      */
+    @Override
     public List<TrafficIncident> getTrafficIncidents(Traject traject, LocalDateTime startdate, LocalDateTime enddate) {
         List<TrafficIncident> trafficIncidents = new ArrayList<>();
         ResultSet rs = null;
         try {
-            String stringIncident = "SELECT * FROM trafficincidents" +
-                    "WHERE traject_id = ?" +
+            String stringIncident = "SELECT * FROM trafficincidents " +
+                    "WHERE traject_id = ? " +
                     "AND trafficincidents.timestamp BETWEEN ? and ?";
 
 
@@ -416,13 +424,14 @@ public class IncidentRepository implements IIncidentRepository {
      * @param enddate
      * @return
      */
+    @Override
     public List<TrafficIncident> getTrafficIncidents(Provider provider, Traject traject, LocalDateTime startdate, LocalDateTime enddate) {
         List<TrafficIncident> trafficIncidents = new ArrayList<>();
         ResultSet rs = null;
         try {
-            String stringIncident = "SELECT * FROM trafficincidents" +
-                    "WHERE provider_id = ?" +
-                    "AND traject_id = ?" +
+            String stringIncident = "SELECT * FROM trafficincidents " +
+                    "WHERE provider_id = ? " +
+                    "AND traject_id = ? " +
                     "AND trafficincidents.timestamp BETWEEN ? and ?";
 
 
@@ -460,12 +469,104 @@ public class IncidentRepository implements IIncidentRepository {
 
     }
 
+    /**
+     * Lijst van alle provider teruggeven die problemen over verkeersinfo hebben
+     * @return
+     */
+    @Override
+    public List<Provider> getTrafficIncidentsProviders() {
+        List<Provider> trafficIncidentsProviders = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            String stringIncident = "select p.id, p.naam, p.is_active " +
+                    "from providers p " +
+                    "JOIN trafficincidents t ON p.id = t.provider_id " +
+                    "group by p.id";
+
+
+            statIncident = connector.getConnection().prepareStatement(stringIncident);
+            rs = statIncident.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String naam = rs.getString("naam");
+                boolean is_active = rs.getBoolean("is_active");
+
+                trafficIncidentsProviders.add(new Provider(id, naam, is_active));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                statIncident.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                connector.close();
+            } catch (Exception e) { /* ignored */ }
+
+        }
+        return trafficIncidentsProviders;
+
+    }
+
+    /**
+     * Lijst van alle trajecten teruggeven die problemen hebben
+     * @return
+     */
+    @Override
+    public List<Traject> getTrafficIncidentsTrajecten() {
+        List<Traject> trafficIncidentsTrajecten = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            String stringIncident = "SELECT t.id, t.naam, t.lengte, t.optimale_reistijd, " +
+                    "t.is_active, t.start_latitude, t.start_longitude, t.end_latitude, t.end_longitude " +
+                    "FROM trajecten t JOIN trafficIncidents i " +
+                    "on t.id = i.traject_id group by t.id";
+
+
+            statIncident = connector.getConnection().prepareStatement(stringIncident);
+            rs = statIncident.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String naam = rs.getString("naam");
+                int lengte = rs.getInt("lengte");
+                int optimale_reistijd = rs.getInt("optimale_reistijd");
+                boolean is_active = rs.getBoolean("is_active");
+                String start_latitude = rs.getString("start_latitude");
+                String start_longitude = rs.getString("start_longitude");
+                String end_latitude = rs.getString("end_latitude");
+                String end_longitude = rs.getString("end_longitude");
+
+                trafficIncidentsTrajecten.add(new Traject(id, naam, lengte, optimale_reistijd, null, is_active, start_latitude, start_longitude, end_latitude, end_longitude));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                statIncident.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                connector.close();
+            } catch (Exception e) { /* ignored */ }
+
+        }
+        return trafficIncidentsTrajecten;
+
+    }
 
     /**
      * Controle indien een traject reeds in de database opgeslagen is
      *
      * @param trafficIncident
      */
+    @Override
     public boolean trafficIncidentExists(TrafficIncident trafficIncident) {
         boolean exists = true;
         ResultSet rs = null;
@@ -507,6 +608,7 @@ public class IncidentRepository implements IIncidentRepository {
      *
      * @param trafficIncident
      */
+    @Override
     public void addTrafficIncident(TrafficIncident trafficIncident) {
         try {
             String stringIncident = "INSERT INTO trafficincidents(provider_id, traject_id, timestamp, problem) VALUES(?,?,?,?)";

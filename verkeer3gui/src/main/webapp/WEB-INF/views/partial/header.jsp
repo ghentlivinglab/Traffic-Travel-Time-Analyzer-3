@@ -37,6 +37,7 @@
 
                 <li><a href="<c:url value="/"/>">Home</a></li>
                 <li><a href="<c:url value="/trajecten"/>">Trajecten</a></li>
+                <li><a href="<c:url value="/incidents"/>">Verkeersproblemen</a></li>
                 <li><a href="<c:url value="/admin"/>">Admin</a></li>
                 <li><a href="<c:url value="/login"/>">Login</a></li>
 			</ul>

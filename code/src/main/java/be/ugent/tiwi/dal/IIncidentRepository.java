@@ -92,6 +92,20 @@ public interface IIncidentRepository {
 
 
     /**
+     * Lijst van alle provider teruggeven die problemen over verkeersinfo hebben
+     * @return
+     */
+    public List<Provider> getTrafficIncidentsProviders();
+
+
+    /**
+     * Lijst van alle trajecten teruggeven die problemen hebben
+     * @return
+     */
+    public List<Traject> getTrafficIncidentsTrajecten();
+
+
+    /**
      * Controleert indien een identiek traject reeds in de database aanwezig is
      * @param trafficIncident
      * @return

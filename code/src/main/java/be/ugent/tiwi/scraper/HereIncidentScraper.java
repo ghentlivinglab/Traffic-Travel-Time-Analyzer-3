@@ -14,6 +14,7 @@ import settings.Settings;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +68,10 @@ public class HereIncidentScraper extends IncidentScraper {
                 HereIncidents hereIncident_obj = (HereIncidents) jc.getObject(url, HereIncidents.class, RequestType.GET);
                 if (hereIncident_obj.getTRAFFICITEMS() != null) {
                     //Er zijn verkeersincidenten gedetecteerd
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+
                     ti.setProvider(here);
-                    ti.setTimestamp(LocalDateTime.now());
+                    ti.setTimestamp(LocalDateTime.parse(hereIncident_obj.getTRAFFICITEMS().getTRAFFICITEM().get(0).getENTRYTIME(), formatter));
                     ti.setTraject(traject);
                     ti.setProblem(hereIncident_obj.getTRAFFICITEMS().getTRAFFICITEM().get(0).getTRAFFICITEMDESCRIPTION().get(0).getContent());
                     trafficIncidents.add(ti);

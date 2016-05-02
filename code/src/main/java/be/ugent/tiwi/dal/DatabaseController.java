@@ -123,7 +123,10 @@ public class DatabaseController {
     public void voegIncidentToe(List<TrafficIncident> trafficIncidents) {
         if (trafficIncidents != null) {
             for (TrafficIncident trafficIncident : trafficIncidents) {
-                trafficIncidentRepository.addTrafficIncident(trafficIncident);
+                //Enkel toevoegen indien het nog niet aanwezig is in de database
+                //Voorkomt dat er onnodige duplicaten in de database opgeslagen worden
+                if (!trafficIncidentRepository.trafficIncidentExists(trafficIncident))
+                    trafficIncidentRepository.addTrafficIncident(trafficIncident);
             }
         } else {
             logger.warn("No HereTrafficIncidents found.");

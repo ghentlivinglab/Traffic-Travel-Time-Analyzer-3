@@ -462,6 +462,47 @@ public class IncidentRepository implements IIncidentRepository {
 
 
     /**
+     * Controle indien een traject reeds in de database opgeslagen is
+     *
+     * @param trafficIncident
+     */
+    public boolean trafficIncidentExists(TrafficIncident trafficIncident) {
+        boolean exists = true;
+        ResultSet rs = null;
+        try {
+            String stringIncident = "SELECT * FROM trafficincidents WHERE provider_id = ?" +
+                    " AND traject_id = ?" +
+                    " AND timestamp = ?" +
+                    " AND problem  = ?";
+
+
+            statIncident = connector.getConnection().prepareStatement(stringIncident);
+            statIncident.setInt(1, trafficIncident.getProvider().getId());
+            statIncident.setInt(2, trafficIncident.getTraject().getId());
+            statIncident.setTimestamp(3, Timestamp.valueOf(trafficIncident.getTimestamp()));
+            statIncident.setString(4, trafficIncident.getProblem());
+            rs = statIncident.executeQuery();
+
+            if (!rs.next()) {
+                exists = false;
+            }
+
+        } catch (SQLException e) {
+            logger.error("Toevoegen trafficIncident mislukt", e);
+        } finally {
+            try {
+                statIncident.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                connector.close();
+            } catch (Exception e) { /* ignored */ }
+
+        }
+
+        return exists;
+    }
+
+    /**
      * Toevoegen van een nieuw verkeersprobleem
      *
      * @param trafficIncident

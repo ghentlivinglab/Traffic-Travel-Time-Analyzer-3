@@ -3,11 +3,11 @@
 <h1>Actueel overzicht</h1>
 <h2>Status</h2>
 <ul>
-<c:choose>
-    <c:when test="${vertraging}">
-        <li>Er was de afgelopen dag gemiddeld <c:out value="${totale_vertraging_min}"/>'<c:out value="${totale_vertraging_sec}"/> vertraging in Gent.</li>
-    </c:when>
-</c:choose>
+    <c:choose>
+        <c:when test="${vertraging}">
+            <li>Er was de afgelopen dag gemiddeld <c:out value="${totale_vertraging_min}"/>'<c:out value="${totale_vertraging_sec}"/> vertraging in Gent.</li>
+        </c:when>
+    </c:choose>
     <li>Het is momenteel het meest druk in <c:out value="${drukste_plaats}"/>.</li>
 </ul>
 <h2>Reistijdinformatie</h2>
@@ -39,10 +39,23 @@
         </div>
     </div>
 </div>
-<div id="selecteer-dropdown-traject">
-    <div id="dropdown-select-traject" class="dropdown">
+<div id="selecteer-dropdown-traject-1">
+    <div id="dropdown-select-traject-1" class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" id="traject-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <p id="geselecteerd-traject">Kies traject ...</p>
+            <p id="geselecteerd-traject-1">Kies traject ...</p>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="traject-dropdown">
+            <c:forEach var="traject" items="${trajecten}" >
+                <li class="traject-dropdown-item" data-trajectid="<c:out value="${traject.id}"/>"><c:out value="${traject.naam}"/></li>
+            </c:forEach>
+        </ul>
+    </div>
+</div>
+<div id="selecteer-dropdown-traject-2">
+    <div id="dropdown-select-traject-2" class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="traject-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <p id="geselecteerd-traject-2">Kies traject ...</p>
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="traject-dropdown">

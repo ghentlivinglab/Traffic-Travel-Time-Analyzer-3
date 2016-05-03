@@ -38,8 +38,6 @@
 28/04/16,20:00,23:59,Thuis,Toevoegen+verwijderen van gebruiker volledig afgewerkt & controle of iemand ingelogd is herwerkt,106,
 29/04/16,9:00,12:00,Thuis,HTML&JS pagina aanmaken convertie coordinaten naar mercator + updaten databasestructuur opslag incidenten,107,
 29/04/16,19:00,22:00,Thuis,Mercator&quadkeys script + klasses aanmaken,107,
-<<<<<<< HEAD
-=======
 30/04/16,9:00,13:00,Thuis,IncidentScraper base klasse opmaken,107,
 30/04/16,15:00,19:00,Thuis,Subklasse HereIncidentsScraper die response op JSON queries afhandelt,107,
 30/04/16,20:00,22:00,Thuis,DB connector start,107,
@@ -49,4 +47,4 @@
 02/05/16,00:00,01:00,Thuis,Bugfixing,107,
 02/05/16,19:00,23:59,Thuis,Bugfixing backend klasses + GUI trajecten + filter,107,
 03/05/16,00:00,01:35,Thuis,Filter op trafficincident bijna afgewerkt,107,
->>>>>>> refs/remotes/origin/master
+03/05/16,15:00,19:00,Thuis,Datetime filter op trafficincidents + bugfixing,107,

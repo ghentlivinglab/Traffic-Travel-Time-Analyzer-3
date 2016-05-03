@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.internal.cglib.core.Local;
+import com.sun.org.apache.xml.internal.resolver.readers.ExtendedXMLCatalogReader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -34,7 +35,6 @@ import java.util.regex.Pattern;
 @Controller
 @RequestMapping("/incidents")
 public class IncidentController {
-    final static String DATE_FORMAT = "yyyy-mm-dd hh:mm:ss";
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(ModelMap model, HttpServletResponse response) {
@@ -86,8 +86,6 @@ public class IncidentController {
     }
 
 
-
-
     /**
      * Hier komt de 'filtering-query' toe
      *
@@ -113,17 +111,32 @@ public class IncidentController {
         boolean startFilled = !request.getParameter("startTime").equals("");
         boolean endFilled = !request.getParameter("endTime").equals("");
 
-        if(startFilled)
-            startFilled = isDateValid(request.getParameter("startTime"));
-        if(endFilled)
-            endFilled = isDateValid(request.getParameter("endTime"));
 
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         int provider_id = provFilled ? Integer.parseInt(request.getParameter("providers")) : 0;
         int traject_id = trajFilled ? Integer.parseInt(request.getParameter("trajecten")) : 0;
-        LocalDateTime start = startFilled ? LocalDateTime.parse(request.getParameter("startTime"), formatter) : LocalDateTime.of(2001, 1, 1, 1, 1);
-        LocalDateTime end = endFilled ? LocalDateTime.parse(request.getParameter("endTime"), formatter) : LocalDateTime.now();
+        LocalDateTime start = LocalDateTime.of(2001, 1, 1, 1, 1);
+        LocalDateTime end = LocalDateTime.now();
+
+
+        //LocalDateTime start = startFilled ? LocalDateTime.parse(request.getParameter("startTime"), formatter) : LocalDateTime.of(2001, 1, 1, 1, 1);
+        //LocalDateTime end = endFilled ? LocalDateTime.parse(request.getParameter("endTime"), formatter) : LocalDateTime.now();
+
+        if (startFilled) {
+            try {
+                start = LocalDateTime.parse(request.getParameter("startTime"), formatter);
+            } catch (Exception e) {
+                start = LocalDateTime.of(2001, 1, 1, 1, 1);
+            }
+        }
+
+        if (endFilled) {
+            try {
+                end = LocalDateTime.parse(request.getParameter("endTime"), formatter);
+            } catch (Exception e) {
+                end = LocalDateTime.now();
+            }
+        }
 
 
         //Indien provider of traject ingevuld zijn
@@ -186,16 +199,4 @@ public class IncidentController {
         return "home/incidents";
     }
 
-
-    public static boolean isDateValid(String date)
-    {
-        try {
-            DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-            df.setLenient(false);
-            df.parse(date);
-            return true;
-        } catch (ParseException e) {
-            return false;
-        }
-    }
 }

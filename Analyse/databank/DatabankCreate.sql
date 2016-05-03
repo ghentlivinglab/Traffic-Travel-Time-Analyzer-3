@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 28 apr 2016 om 20:28
+-- Genereertijd: 03 mei 2016 om 16:38
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
@@ -65,6 +65,23 @@ CREATE TABLE IF NOT EXISTS `providers` (
   `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `trafficincidents`
+--
+
+CREATE TABLE IF NOT EXISTS `trafficincidents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `provider_id` int(11) NOT NULL,
+  `traject_id` int(11) NOT NULL,
+  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `problem` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `provider_id` (`provider_id`),
+  KEY `traject_id` (`traject_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 -- --------------------------------------------------------
 
@@ -148,6 +165,13 @@ ALTER TABLE `metingen`
 ALTER TABLE `optimale_reistijden`
   ADD CONSTRAINT `fk_OptimaleReistijd_Provider` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_OptimaleReistijd_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Beperkingen voor tabel `trafficincidents`
+--
+ALTER TABLE `trafficincidents`
+  ADD CONSTRAINT `fk_Incident_Provider` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Incident_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Beperkingen voor tabel `trajectsynoniemen`

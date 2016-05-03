@@ -114,6 +114,8 @@ public class User {
         sb.append(this.username);
         sb.append(", password=");
         sb.append(this.password);
+        sb.append(", sessionID=");
+        sb.append(this.sessionID);
         sb.append("}");
         return sb.toString();
     }

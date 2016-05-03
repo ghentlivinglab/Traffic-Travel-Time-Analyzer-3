@@ -1,9 +1,6 @@
 package be.ugent.tiwi.dal;
 
-import be.ugent.tiwi.domein.Meting;
-import be.ugent.tiwi.domein.Provider;
-import be.ugent.tiwi.domein.Traject;
-import be.ugent.tiwi.domein.Waypoint;
+import be.ugent.tiwi.domein.*;
 import com.google.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,24 +15,27 @@ public class DatabaseController {
     private IProviderRepository providerRepository;
     private ITrajectRepository trajectenRepository;
     private IMetingRepository metingRepository;
+    private IIncidentRepository trafficIncidentRepository = new IncidentRepository();
 
     /**
      * Constructor die de controller aanmaakt met de meegegeven repositories.
+     *
      * @param providerRepo Databron in verband met providers.
-     * @param trajectRepo Databron in verband met trajecten.
-     * @param metingRepo Databron in verband met metingen.
+     * @param trajectRepo  Databron in verband met trajecten.
+     * @param metingRepo   Databron in verband met metingen.
      */
     @Inject
-    public  DatabaseController(IProviderRepository providerRepo, ITrajectRepository trajectRepo, IMetingRepository metingRepo){
+    public DatabaseController(IProviderRepository providerRepo, ITrajectRepository trajectRepo, IMetingRepository metingRepo) {
         providerRepository = providerRepo;
         trajectenRepository = trajectRepo;
         metingRepository = metingRepo;
+        //trafficIncidentRepository = incidentRepo;
     }
 
     /**
      * Constructor die de controller aanmaakt met de standaard repositories. Wordt voornamelijk gebruikt voor de webapp
      */
-    public  DatabaseController(){
+    public DatabaseController() {
         providerRepository = new ProviderRepository();
         trajectenRepository = new TrajectRepository();
         metingRepository = new MetingRepository();
@@ -81,8 +81,9 @@ public class DatabaseController {
 
     /**
      * Haalt alle metingen op van een bepaald traject en provider
+     *
      * @param providerId Id van de provider
-     * @param trajectId Id van het traject
+     * @param trajectId  Id van het traject
      * @return Lijst met alle metingen die voldoen.
      */
     public List<Meting> haalMetingenOp(int providerId, int trajectId) {
@@ -112,6 +113,24 @@ public class DatabaseController {
             logger.warn(b.toString());
         }
 
+    }
+
+    /**
+     * Schrijft een lijst van {@link TrafficIncident}en weg naar de databank.
+     *
+     * @param trafficIncidents Een lijst met de weg te schrijven {@link TrafficIncident}en.
+     */
+    public void voegIncidentToe(List<TrafficIncident> trafficIncidents) {
+        if (trafficIncidents != null) {
+            for (TrafficIncident trafficIncident : trafficIncidents) {
+                //Enkel toevoegen indien het nog niet aanwezig is in de database
+                //Voorkomt dat er onnodige duplicaten in de database opgeslagen worden
+                if (!trafficIncidentRepository.trafficIncidentExists(trafficIncident))
+                    trafficIncidentRepository.addTrafficIncident(trafficIncident);
+            }
+        } else {
+            logger.warn("No HereTrafficIncidents found.");
+        }
     }
 
     /**
@@ -155,12 +174,13 @@ public class DatabaseController {
                 traject.getWaypoints()
         );
     }
+
     /**
      * Voegt een nieuw traject toe {@link Traject} en schrijft deze weg naar de databank.
      *
      * @param traject Het aangepaste {@link Traject} dat moet worden toegevoegd
      */
-    public void voegTrajectToe(Traject traject){
+    public void voegTrajectToe(Traject traject) {
         trajectenRepository.addTraject(
                 traject.getNaam(),
                 traject.getLengte(),
@@ -209,7 +229,7 @@ public class DatabaseController {
         return providerRepository.getProviders();
     }
 
-    public void setOptimaleReistijdenPerProvider(int providerId, Map<Integer, Integer> reistijdenPerProvider){
+    public void setOptimaleReistijdenPerProvider(int providerId, Map<Integer, Integer> reistijdenPerProvider) {
         providerRepository.setOptimaleReistijden(providerId, reistijdenPerProvider);
     }
 

@@ -108,20 +108,22 @@ public class DatabaseControllerTest{
 
     @Test
     public void voegMetingToe_Correct() {
+        int before = dbController.haalMetingenOp(1,1).size();
         Meting meting = new Meting(dbController.haalProviderOp(1), dbController.haalTraject(1), 100, LocalDateTime.now());
         dbController.voegMetingToe(meting);
         int result = dbController.haalMetingenOp(1,1).size();
-        assertEquals(1, result);
+        assertEquals(1, result-before);
     }
 
     @Test
     public void voegMetingenToe_Correct() {
+        int before = dbController.haalMetingenOp(1,1).size();
         List<Meting> metingen = new ArrayList<>();
         metingen.add(new Meting(dbController.haalProviderOp(1), dbController.haalTraject(1), 100, LocalDateTime.now()));
         metingen.add(new Meting(dbController.haalProviderOp(1), dbController.haalTraject(1), 201, LocalDateTime.now()));
 
         dbController.voegMetingenToe(metingen);
         int result = dbController.haalMetingenOp(1,1).size();
-        assertEquals(2, result);
+        assertEquals(2, result-before);
     }
 }

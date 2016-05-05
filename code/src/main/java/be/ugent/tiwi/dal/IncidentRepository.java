@@ -531,7 +531,7 @@ public class IncidentRepository implements IIncidentRepository {
             rs = statIncident.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("ID");
+                int id = rs.getInt("id");
                 String naam = rs.getString("naam");
                 int lengte = rs.getInt("lengte");
                 int optimale_reistijd = rs.getInt("optimale_reistijd");

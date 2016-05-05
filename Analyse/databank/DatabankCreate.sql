@@ -1,95 +1,95 @@
-CREATE DATABASE  IF NOT EXISTS `vop` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `vop`;
--- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 4.0.4.2
+-- http://www.phpmyadmin.net
 --
--- Host: 10.20.0.2    Database: vop
--- ------------------------------------------------------
--- Server version	5.5.5-10.0.15-MariaDB
+-- Machine: localhost
+-- Genereertijd: 03 mei 2016 om 16:38
+-- Serverversie: 5.6.13
+-- PHP-versie: 5.4.17
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `metingen`
+-- Databank: `vop`
+--
+CREATE DATABASE IF NOT EXISTS `vop` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `vop`;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `metingen`
 --
 
-DROP TABLE IF EXISTS `metingen`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `metingen` (
-  `timestamp` datetime DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE IF NOT EXISTS `metingen` (
+  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `reistijd` int(11) DEFAULT NULL,
-  `traject_id` int(11) DEFAULT NULL,
+  `traject_id` int(11) NOT NULL DEFAULT '0',
   `provider_id` int(11) NOT NULL,
   PRIMARY KEY (`timestamp`,`traject_id`,`provider_id`),
   KEY `fk_Meting_Provider1_idx` (`provider_id`),
-  KEY `fk_Meting_Traject_idx` (`traject_id`),
-  CONSTRAINT `fk_Meting_Provider1` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Meting_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_Meting_Traject_idx` (`traject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `optimale_reistijden`
+-- Tabelstructuur voor tabel `optimale_reistijden`
 --
 
-DROP TABLE IF EXISTS `optimale_reistijden`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `optimale_reistijden` (
+CREATE TABLE IF NOT EXISTS `optimale_reistijden` (
   `traject_id` int(11) NOT NULL,
   `provider_id` int(11) NOT NULL,
   `reistijd` int(11) DEFAULT NULL,
   PRIMARY KEY (`traject_id`,`provider_id`),
   KEY `fk_OptimaleReistijd_Provider_idx` (`provider_id`),
-  KEY `fk_OptimaleReistijd_Traject_idx` (`traject_id`),
-  CONSTRAINT `fk_OptimaleReistijd_Provider` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_OptimaleReistijd_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_OptimaleReistijd_Traject_idx` (`traject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
+-- --------------------------------------------------------
 
 --
--- Table structure for table `providers`
+-- Tabelstructuur voor tabel `providers`
 --
 
-DROP TABLE IF EXISTS `providers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `providers` (
+CREATE TABLE IF NOT EXISTS `providers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `naam` varchar(100) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `providers`
+-- Tabelstructuur voor tabel `trafficincidents`
 --
 
-LOCK TABLES `providers` WRITE;
-/*!40000 ALTER TABLE `providers` DISABLE KEYS */;
-INSERT INTO `providers` VALUES (1,'Waze',0),(2,'TomTom',0),(3,'Here',0),(4,'Coyote',0),(5,'Google Maps',0),(6,'Bing Maps',0);
-/*!40000 ALTER TABLE `providers` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE IF NOT EXISTS `trafficincidents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `provider_id` int(11) NOT NULL,
+  `traject_id` int(11) NOT NULL,
+  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `problem` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `provider_id` (`provider_id`),
+  KEY `traject_id` (`traject_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `trajecten`
+-- Tabelstructuur voor tabel `trajecten`
 --
 
-DROP TABLE IF EXISTS `trajecten`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `trajecten` (
+CREATE TABLE IF NOT EXISTS `trajecten` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `naam` varchar(100) DEFAULT NULL,
   `lengte` int(11) DEFAULT NULL,
@@ -100,59 +100,91 @@ CREATE TABLE `trajecten` (
   `end_latitude` varchar(45) DEFAULT NULL,
   `end_longitude` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
 
+-- --------------------------------------------------------
 
 --
--- Table structure for table `trajectsynoniemen`
+-- Tabelstructuur voor tabel `trajectsynoniemen`
 --
 
-DROP TABLE IF EXISTS `trajectsynoniemen`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `trajectsynoniemen` (
+CREATE TABLE IF NOT EXISTS `trajectsynoniemen` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `naam` varchar(100) NOT NULL,
   `traject_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `traject_id_idx` (`traject_id`),
-  CONSTRAINT `traject_id` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `traject_id_idx` (`traject_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
 
 --
--- Table structure for table `waypoints`
+-- Tabelstructuur voor tabel `users`
 --
 
-DROP TABLE IF EXISTS `waypoints`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `waypoints` (
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(32) NOT NULL,
+  `sessionID` int(8) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `waypoints`
+--
+
+CREATE TABLE IF NOT EXISTS `waypoints` (
   `volgnr` int(11) NOT NULL,
   `traject_id` int(11) NOT NULL,
   `latitude` varchar(45) DEFAULT NULL,
   `longitude` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`volgnr`,`traject_id`),
-  KEY `fk_waypoints_1_idx` (`traject_id`),
-  CONSTRAINT `fk_waypoints_1` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_waypoints_1_idx` (`traject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `waypoints`
+-- Beperkingen voor gedumpte tabellen
 --
 
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+--
+-- Beperkingen voor tabel `metingen`
+--
+ALTER TABLE `metingen`
+  ADD CONSTRAINT `fk_Meting_Provider1` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Meting_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Beperkingen voor tabel `optimale_reistijden`
+--
+ALTER TABLE `optimale_reistijden`
+  ADD CONSTRAINT `fk_OptimaleReistijd_Provider` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_OptimaleReistijd_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Beperkingen voor tabel `trafficincidents`
+--
+ALTER TABLE `trafficincidents`
+  ADD CONSTRAINT `fk_Incident_Provider` FOREIGN KEY (`provider_id`) REFERENCES `providers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Incident_Traject` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Beperkingen voor tabel `trajectsynoniemen`
+--
+ALTER TABLE `trajectsynoniemen`
+  ADD CONSTRAINT `traject_id` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Beperkingen voor tabel `waypoints`
+--
+ALTER TABLE `waypoints`
+  ADD CONSTRAINT `fk_waypoints_1` FOREIGN KEY (`traject_id`) REFERENCES `trajecten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2016-03-12 19:21:24

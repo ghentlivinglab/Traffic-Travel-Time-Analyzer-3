@@ -105,9 +105,7 @@ function wijzigFormulier()
 }
 
 function deleteWaypoint(id){
-    alert(resultArray.length);
     resultArray.splice(id,1);
-    alert(resultArray.length);
     var plan = route.getPlan();
     updateWaypointsNamen(resultArray);
     plan.setWaypoints(resultArray);

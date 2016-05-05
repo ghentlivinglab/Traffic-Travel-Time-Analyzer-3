@@ -9,6 +9,25 @@ img.banner-fullscreen
     display: inline;
     left: 0px;
 }
+
+.uitlogdiv{
+    position:absolute;;
+    top:0;
+    right:0;
+    padding: 5px;
+}
+
+#welcome{
+    pointer-events: none;
+    cursor: default;
+}
+
+.form-signin, .form-create{
+    margin: 0 auto;
+    max-width: 330px;
+    padding: 15px;
+}
+
 .header-text
 {
     margin: 0px 0px 10px;
@@ -79,13 +98,16 @@ nav.navbar
     height:500px;
 }
 #wijzig-traject-form,
-#wijzig-traject-map
+#wijzig-traject-map,
+#nieuw-traject-form,
+#nieuw-traject-map
 {
     margin: 5px
 ;
     padding: 0;
 }
-#wijzig-traject-form form
+#wijzig-traject-form form,
+#nieuw-traject-form form
 {
     padding: 15px;
 }
@@ -341,4 +363,8 @@ td.thtd{
 td.rotatedtd{
     width: 30px;
     text-align:right;
+}
+
+div#selecteer-dropdown-traject-2 {
+    margin: 15px 0;
 }

@@ -1,6 +1,8 @@
 //Global props
-var selected_traject_id;
-var selected_traject;
+var selected_traject_id_1;
+var selected_traject_1;
+var selected_traject_id_2;
+var selected_traject_2;
 var chart;
 var x = new Date();
 var offset = x.getTimezoneOffset();
@@ -58,7 +60,9 @@ $(document).ready(function(){
 
         },
         legend: {
-            enabled: true
+            enabled: true,
+            itemWidth:150,
+            width: 750
         },
         plotOptions: {
             series: {
@@ -80,30 +84,61 @@ function clearChart() {
     chart.redraw(true);
 }
 
-$("#dropdown-select-traject ul li.traject-dropdown-item").click(function()
+$("#dropdown-select-traject-1 ul li.traject-dropdown-item").click(function()
 {
-    selected_traject_id = $(this).data("trajectid");
-    selected_traject = $(this).text();
+    selected_traject_id_1 = $(this).data("trajectid");
+    selected_traject_1 = $(this).text();
 
-    updateDropdownChoice();
+    updateDropdownChoice1();
 
     //Change chart
-    if(selected_traject && selected_traject_id)
+    if(selected_traject_1 && selected_traject_id_1)
     {
         clearChart();
-        getTraveltimes(selected_traject_id);
+        getTraveltimes(selected_traject_id_1, 1);
+        if(selected_traject_2 && selected_traject_id_2)
+        {
+            getTraveltimes(selected_traject_id_2, 2);
+            chart = $("#container").highcharts();
+            chart.legend.legendWitdh = (chart.series.length / 2) * 150;
+        }
+    }
+});
+
+$("#dropdown-select-traject-2 ul li.traject-dropdown-item").click(function()
+{
+    selected_traject_id_2 = $(this).data("trajectid");
+    selected_traject_2 = $(this).text();
+
+    updateDropdownChoice2();
+
+    //Change chart
+    if(selected_traject_2 && selected_traject_id_2)
+    {
+        clearChart();
+        getTraveltimes(selected_traject_id_2, 2);
+        if(selected_traject_1 && selected_traject_id_1)
+        {
+            getTraveltimes(selected_traject_id_1, 1);
+            chart = $("#container").highcharts();
+            chart.legend.legendWitdh = (chart.series.length / 2) * 150;
+        }
     }
 });
 
 
-function updateDropdownChoice() {
-    $("p#geselecteerd-traject").text(selected_traject);
-    $("p#geselecteerd-traject").data("trajectid",selected_traject_id);
+function updateDropdownChoice1() {
+    $("p#geselecteerd-traject-1").text(selected_traject_1);
+    $("p#geselecteerd-traject-1").data("trajectid",selected_traject_id_1);
+}
+function updateDropdownChoice2() {
+    $("p#geselecteerd-traject-2").text(selected_traject_2);
+    $("p#geselecteerd-traject-2").data("trajectid",selected_traject_id_2);
 }
 
 
 //Helper function which makes the JSON call
-function getTraveltimes(selected_traject_id) {
+function getTraveltimes(selected_traject_id, route_id) {
     toggleLoader();
     chart = $("#container").highcharts();
     var startdatum = $("#startdate input[type='text']").val();
@@ -113,14 +148,14 @@ function getTraveltimes(selected_traject_id) {
 
     $.getJSON( "json/metingen/"+selected_traject_id+"/"+startdatum+"/"+einddatum, function( data ) {
         $.each( data, function( key, val ) {
-            addMeting(val["provider"]["naam"],val["timestamp"],val["reistijd"]);
+            addMeting(val["provider"]["naam"],val["timestamp"],val["reistijd"], route_id);
         });
         chart.redraw();
         toggleLoader();
     });
 }
 
-function addMeting(provider, datetime, traveltime)
+function addMeting(provider, datetime, traveltime, route_id)
 {
     chart = $("#container").highcharts();
     var formatted_date = Date.UTC(
@@ -132,14 +167,14 @@ function addMeting(provider, datetime, traveltime)
         datetime["time"]["second"],
         0
     );//args: year, month, day, hours, minutes, seconds, milliseconds
-
-    if(chart.get(provider)){
-        chart.get(provider).addPoint([formatted_date, traveltime],false);
+    var provider_trajectid = provider + "-" + route_id;
+    if(chart.get(provider_trajectid)){
+        chart.get(provider_trajectid).addPoint([formatted_date, traveltime],false);
     }
     else
     {
         chart.addSeries({
-            id: provider,
+            id: provider_trajectid,
             name: provider,
             data: [[formatted_date, traveltime]]
         },false,false);
@@ -158,4 +193,3 @@ function toggleLoader()
         $(".cs-loader").css('display','none');
     }
 }
-

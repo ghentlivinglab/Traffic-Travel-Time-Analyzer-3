@@ -14,6 +14,11 @@
             Beheer trajecten
         </a>
     </div>
+    <ul class="nav navbar">
+        <li>
+            <a href="<c:url value="/traject/new"/>"><span class="glyphicon glyphicon-plus"></span> Voeg nieuw traject toe...</a>
+        </li>
+    </ul>
     <div id="admin-traject-details" class="panel-collapse collapse in">
         <div class="panel-body">
             <table class="table table-hover">
@@ -54,5 +59,53 @@
             </table>
         </div>
     </div>
+
+
+
+    <div class="panel-heading">
+        <a data-toggle="collapse" data-target="#admin-user-details"
+           href="#admin-user-details">
+            Beheer gebruikers
+        </a>
+    </div>
+    <ul class="nav navbar">
+        <li>
+            <a href="<c:url value="/user"/>"><span class="glyphicon glyphicon-plus"></span> Voeg een nieuwe gebruiker toe...</a>
+        </li>
+    </ul>
+    <div id="admin-user-details" class="panel-collapse collapse in">
+        <div class="panel-body">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>SessionID</th>
+                    <th>Verwijder</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="user" items="${users}">
+
+                    <tr>
+                    <td><c:out value="${user.id}"/></td>
+                        <td><c:out value="${user.username}"/></td>
+                        <td><c:out value="${user.password}"/></td>
+                        <td><c:out value="${user.sessionID}"/></td>
+                        <td><a href=<c:url value="/user/remove/${user.username}"/>>
+                            <span class="glyphicon glyphicon-remove"></span></a></td>
+
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
 </div>
+
+
 <jsp:include page="/WEB-INF/views/partial/footer.jsp"/>

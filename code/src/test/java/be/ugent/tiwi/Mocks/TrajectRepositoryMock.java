@@ -118,4 +118,7 @@ public class TrajectRepositoryMock implements ITrajectRepository {
     public List<Traject> getTrajectenMetCoordinaten() {
         return getTrajectenMetWayPoints();
     }
+
+    @Override
+    public void addTraject(String naam, int lengte, int optimale_reistijd, Map<Integer, Integer> optimaleReistijden, boolean is_active, String start_latitude, String start_longitude, String end_latitude, String end_longitude, List<Waypoint> waypoints) {}
 }

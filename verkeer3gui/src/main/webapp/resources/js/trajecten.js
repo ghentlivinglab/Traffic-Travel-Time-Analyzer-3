@@ -1,9 +1,9 @@
 $( document ).ready(function() {
 
-    var trajecten = {};
+    var traject = {};
     var wpts = {};
     var opts = {
-        //TODO: Aanpassen van de opties per traject
+        //TODO: Aanpassen van de opties per traject/
         color: 'blue',
         weight: 10,
         opacity: 1
@@ -32,20 +32,20 @@ $( document ).ready(function() {
 
     function removeAllTrajects() {
         wpts = {};
+        trajects = {};
     }
 
-    function removeTraject(id) {
-        delete wpts[id];
-        updateLeaflet();
+    function addTraject(id, traj){
+        traject = traj;
+        $.each(traj['traject']['waypoints'], function (key, val) {
+            addPointToArray(id, val["latitude"], val["longitude"]);
+        });
     }
 
     function getTraject(id) {
         $("#mapModal .modal-title").html($("#traject-" + id + " td .view-traject-onmap").html());
-        $.getJSON("json/trajecten/" + id, function (data) {
-            $.each(data, function (key, val) {
-                addPointToArray(id, val["latitude"], val["longitude"]);
-            });
-            console.dir(wpts);
+        $.getJSON("json/trajectenattributes/" + id, function (data) {
+            addTraject(id, data);
             updateLeaflet();
         });
     }
@@ -53,8 +53,69 @@ $( document ).ready(function() {
 
     function updateLeaflet() {
         clearMap();
+
+        var popupHtml = "<h2 class='tooltip-title'><b>Lengte:</b> "+traject['traject']['lengte']+"m</h2>" +
+            "<hr>" +
+            "<table id='maptable'>" +
+            "<thead><tr><th>Reistijd</th><th>Optimaal</th><th>Huidig</th></tr></thead><tbody>";
+
+        $.each(traject.providers, function(key, val){
+            popupHtml += "<tr><td>"+val['naam']+"</td>";
+            //Optimale Reistijden
+            var optimale_reistijd = null;
+            $.each(traject.traject.providerOptimaleReistijden, function(providerId, _optimale_reistijd){
+                if(providerId == val['id']){
+                    optimale_reistijd = _optimale_reistijd;
+                    return;
+                }
+            });
+            popupHtml += "<td>";
+            if(optimale_reistijd != null) {
+                if(optimale_reistijd >= 60)
+                    popupHtml += Math.floor(optimale_reistijd / 60) + 'm';
+                if(optimale_reistijd %60 != 0)
+                    popupHtml += " " + optimale_reistijd % 60 + 's';
+            }else
+                popupHtml += '-';
+
+            popupHtml += "</td>";
+
+            //Vertragingen
+            var vertraging = null;
+            $.each(traject.huidigeVertragingen, function(providerId, _vertraging){
+                if(providerId == val['id']){
+                    vertraging = _vertraging;
+                    return;
+                }
+            });
+
+            popupHtml += "<td>";
+            if(optimale_reistijd != null && vertraging != null){
+                if(optimale_reistijd + vertraging >= 60)
+                    popupHtml += Math.floor((optimale_reistijd + vertraging) / 60) + 'm';
+                if((optimale_reistijd + vertraging) %60 != 0)
+                    popupHtml += " " + (optimale_reistijd + vertraging) % 60 + 's';
+            }else
+                popupHtml += '-';
+
+            popupHtml += "</td>";
+            popupHtml += "</tr>";
+        });
+
+        popupHtml += "</tbody></table>";
+
+
+        var popup = new L.popup({className: "trajectenPopup"}).setContent(popupHtml);
         $.each(wpts, function (key, value) {
-            trajecten[key] = new L.polyline(value, opts).addTo(map);
+            var polyline = new L.polyline(value, opts);
+            polyline.bindPopup(popup);
+            polyline.on('mouseover',function(e){
+                this.openPopup();
+            });
+            polyline.on('mouseout',function(e){
+                this.closePopup();
+            });
+            polyline.addTo(map);
         });
     }
 

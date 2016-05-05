@@ -4,6 +4,10 @@ import be.ugent.tiwi.controller.ScheduleController;
 import be.ugent.tiwi.dal.MetingRepository;
 import be.ugent.tiwi.dal.ProviderRepository;
 import be.ugent.tiwi.dal.TrajectRepository;
+import be.ugent.tiwi.domein.Provider;
+import be.ugent.tiwi.domein.Traject;
+import be.ugent.tiwi.domein.Vertraging;
+import be.ugent.tiwi.domein.json.TrajectenAttributes;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletContext;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/json")
@@ -31,8 +38,31 @@ public class JsonController {
     String getJsonTrajecten(@PathVariable("id") int id, ModelMap model)
     {
         TrajectRepository tr = new TrajectRepository();
+        return new Gson().toJson(tr.getTrajectMetWaypoints(id));
+    }
 
-        return new Gson().toJson(tr.getWaypoints(id));
+    @RequestMapping(value = "/trajectenattributes/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    String getJsonTrajectenAttributes(@PathVariable("id") int id, ModelMap model)
+    {
+        //Traject
+        TrajectRepository tr = new TrajectRepository();
+        Traject t = tr.getTrajectMetWaypoints(id);
+
+        //Providers
+        ProviderRepository pr = new ProviderRepository();
+        List<Provider> providers = pr.getActieveProviders();
+
+        //Vertragingen
+        MetingRepository mr = new MetingRepository();
+        Map<Integer, Integer> globaleVertragingen = new HashMap<>();
+        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+        if(vList != null)
+            for(Vertraging v : vList)
+                globaleVertragingen.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
+
+        TrajectenAttributes attribs = new TrajectenAttributes(t, providers, globaleVertragingen);
+        return new Gson().toJson(attribs);
     }
 
     @RequestMapping(value = "/metingen/{id}", method = RequestMethod.GET)

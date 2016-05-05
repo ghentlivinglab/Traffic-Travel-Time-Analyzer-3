@@ -247,6 +247,19 @@ body {
     font-size: medium;
 }
 
+#maptable{
+    font-size:small;
+    min-width:250px;
+}
+
+#maptable tr > td, #maptable tr > th{
+    text-align: right;
+}
+
+#maptable tr > td:first-of-type, #maptable tr > th:first-of-type{
+    text-align: left;
+}
+
 #header-fixed {
     position: fixed;
     top: 0px;

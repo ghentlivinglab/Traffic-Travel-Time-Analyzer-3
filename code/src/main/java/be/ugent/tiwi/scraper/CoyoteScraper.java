@@ -150,29 +150,34 @@ public class CoyoteScraper extends TrafficScraper {
 
         JsonObject jsonObject = gson.fromJson(JsonString, JsonObject.class);
         JsonObject e = jsonObject.getAsJsonObject("Gand");
-        Set<Map.Entry<String, JsonElement>> trajecten = e.entrySet();
+        if (e != null){
+            Set<Map.Entry<String, JsonElement>> trajecten = e.entrySet();
 
-        Injector injector = Guice.createInjector(new RepositoryModule());
-        DatabaseController dbController = injector.getInstance(DatabaseController.class);
+            Injector injector = Guice.createInjector(new RepositoryModule());
+            DatabaseController dbController = injector.getInstance(DatabaseController.class);
 
-        Provider coyote = dbController.haalProviderOp("Coyote");
-        for (Map.Entry<String, JsonElement> traject : trajecten) {
-            Traject trajectObj = dbController.haalTrajectOp(traject.getKey());
-            Meting metingObj = new Meting();
-            metingObj.setProvider(coyote);
-            metingObj.setTimestamp(LocalDateTime.now());
-            metingObj.setTraject(trajectObj);
+            Provider coyote = dbController.haalProviderOp("Coyote");
+            for (Map.Entry<String, JsonElement> traject : trajecten) {
+                Traject trajectObj = dbController.haalTrajectOp(traject.getKey());
+                Meting metingObj = new Meting();
+                metingObj.setProvider(coyote);
+                metingObj.setTimestamp(LocalDateTime.now());
+                metingObj.setTraject(trajectObj);
 
-            Set<Map.Entry<String, JsonElement>> trajectData = traject.getValue().getAsJsonObject().entrySet();
-            for (Map.Entry<String, JsonElement> data : trajectData) {
-                switch (data.getKey()) {
-                    case "real_time":
-                        metingObj.setReistijd(data.getValue().getAsInt());
-                        break;
+                Set<Map.Entry<String, JsonElement>> trajectData = traject.getValue().getAsJsonObject().entrySet();
+                for (Map.Entry<String, JsonElement> data : trajectData) {
+                    switch (data.getKey()) {
+                        case "real_time":
+                            metingObj.setReistijd(data.getValue().getAsInt());
+                            break;
+                    }
                 }
-            }
 
-            metingen.add(metingObj);
+                metingen.add(metingObj);
+            }
+        }else{
+            logger.error("Could not find element 'Gand' in Coyote JSON: ");
+            logger.error(JsonString);
         }
 
 

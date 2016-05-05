@@ -9,6 +9,13 @@ import java.util.Map;
  */
 public class GegevensGenerator {
 
+
+    /**
+     * De bedoeling van deze klasse is om optimale reistijden te genereren per provider zonder dat de effectieve
+     * reistijden gekend zijn. Hiermee kunnen procentuele optimale reistijden aangemaakt worden die rekening houden met
+     * het huidige uur. (vb: vertraging om 17u > vertraging om 4u)
+     * @param args
+     */
     public static void main(String[] args){
         GegevensGenerator g = new GegevensGenerator();
         g.generate();
@@ -16,6 +23,7 @@ public class GegevensGenerator {
 
 
     public void generate(){
+        // Vertragingsratio's
         Map<LocalTime, Double> vertragingen = new HashMap<>();
         vertragingen.put(LocalTime.MIDNIGHT, 1.0);
         vertragingen.put(LocalTime.MIDNIGHT.plusHours(1), 1.00);

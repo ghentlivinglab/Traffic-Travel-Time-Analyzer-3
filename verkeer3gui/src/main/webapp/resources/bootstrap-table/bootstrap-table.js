@@ -967,6 +967,50 @@
                     bb = '';
                 }
 
+                //-----------VERKEER3GUI CHANGES-------------//
+
+                var extractContent = function(s) {
+                    var span= document.createElement('span');
+                    span.innerHTML= s;
+                    return span.textContent || span.innerText;
+                };
+
+                aa = extractContent(aa).trim();
+                bb = extractContent(bb).trim();
+
+                // Check if the values are times (#'#")
+                var patt = /-?\d+'\d+"/;
+                if(patt.test(aa) && patt.test(bb)){
+                    var splitTimes = function(str){
+                        var splitSingleQuote = str.split('\'');
+                        var order = str.substr(0,1) == '-' ? -1 : 1;
+                        var min = parseInt(splitSingleQuote[0]);
+                        var sec = parseInt(splitSingleQuote[1])*order;
+                        return min * 60 + sec;
+                    };
+
+                    aa = splitTimes(aa);
+                    bb = splitTimes(bb);
+                }else{
+                    // Check for lengths (#,#km)
+                    patt = /\d+,\d+[\w\s]*/;
+                    if(patt.test(aa) && patt.test(bb)){
+                        var fixInput = function(str){
+                            var splitted = str.split(',');
+                            var joined = splitted.join('.');
+                            var position = joined.search(/(\D|^\.)+/);
+                            return joined.substring(0, position || joined.length);
+                        };
+
+                        aa = fixInput(aa);
+                        bb = fixInput(bb);
+                    }
+                }
+
+                //-----------END VERKEER3GUI CHANGES-------------//
+
+
+
                 // IF both values are numeric, do a numeric comparison
                 if ($.isNumeric(aa) && $.isNumeric(bb)) {
                     // Convert numerical values form string to float.

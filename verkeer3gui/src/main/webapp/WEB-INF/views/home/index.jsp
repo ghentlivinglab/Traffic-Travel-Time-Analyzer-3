@@ -30,7 +30,7 @@
                         </div>
                         <a href="<c:url value="/status"/>">
                             <div class="panel-footer">
-                                <span class="pull-left">Uitgebreide details</span>
+                                <span class="pull-left">Details per traject</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>

@@ -23,23 +23,22 @@
     <img src="<c:url value="/resources/img/banner.jpg"/>" class="banner-fullscreen">
     <div class="col-md-4" id="div-logo"><img src="<c:url value="/resources/img/logo.png"/>" class="logo"></div>
     <div class="col-md-8" id="div-bannertext"><p class="header-text">MOBILITEIT STAD GENT</p></div>
-
-    <div class="uitlogdiv">
-        <button id="logout" style="display: none;" class="fa fa-user btn btn-default">Uitloggen</button>
-    </div>
 </header>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a id="welcome" class="navbar-brand fa fa-user" href="#" style="display:none;font-size: 20px;color:black;">Project name</a></li>
+                <li id="welcome">
+                    <a href="#" class="user"><span class="glyphicon glyphicon-user"></span> </a>
+                    <a href="#" class="logout"><span class="glyphicon glyphicon-remove"></span> Uitloggen</a>
+                </li>
 
                 <li><a href="<c:url value="/"/>">Home</a></li>
                 <li><a href="<c:url value="/trajecten"/>">Trajecten</a></li>
                 <li><a href="<c:url value="/incidents"/>">Verkeersproblemen</a></li>
                 <li><a href="<c:url value="/admin"/>">Admin</a></li>
-                <li><a href="<c:url value="/login"/>">Login</a></li>
+                <li id="login"><a href="<c:url value="/login"/>">Login</a></li>
 			</ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<c:url value="/about"/>">Over</a></li>

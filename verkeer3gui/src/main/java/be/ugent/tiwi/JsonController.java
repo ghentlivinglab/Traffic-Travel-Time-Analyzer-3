@@ -14,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import settings.Settings;
 
 import javax.servlet.ServletContext;
 import java.sql.SQLException;
@@ -56,7 +57,7 @@ public class JsonController {
         //Vertragingen
         MetingRepository mr = new MetingRepository();
         Map<Integer, Integer> globaleVertragingen = new HashMap<>();
-        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(Long.parseLong(Settings.getSetting("stat_minutes"))), LocalDateTime.now());
         if(vList != null)
             for(Vertraging v : vList)
                 globaleVertragingen.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));

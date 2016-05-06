@@ -728,7 +728,8 @@ public class MetingRepository implements IMetingRepository {
                 "from metingen m1 " +
                 "join optimale_reistijden o on o.traject_id = m1.traject_id and o.provider_id = m1.provider_id " +
                 "where m1.timestamp between ? and ? and m1.reistijd is not null " +
-                "group by m1.traject_id";
+                "group by m1.traject_id " +
+                "order by avg_vertraging desc";
 
         try {
             statMetingen = connector.getConnection().prepareStatement(trajecten_vertraging);
@@ -769,7 +770,8 @@ public class MetingRepository implements IMetingRepository {
                 "from metingen m1 " +
                 "join optimale_reistijden o on o.traject_id = m1.traject_id and o.provider_id = m1.provider_id " +
                 "where m1.timestamp between ? and ? and m1.provider_id = ? and m1.reistijd is not null " +
-                "group by m1.traject_id";
+                "group by m1.traject_id " +
+                "order by avg_vertraging desc";
 
         ;
 

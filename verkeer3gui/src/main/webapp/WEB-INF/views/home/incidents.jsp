@@ -94,7 +94,6 @@
 
         <link rel="stylesheet" type="text/css"
               href="<c:url value="/resources/datetimepicker-master/jquery.datetimepicker.css"/>"/>
-        <script src="<c:url value="/resources/datetimepicker-master/jquery.js"/>"></script>
         <script src="<c:url value="/resources/datetimepicker-master/build/jquery.datetimepicker.full.min.js"/>"></script>
 
         <link href="<c:url value="/resources/leaflet/leaflet.css"/>" rel="stylesheet" type="text/css"/>

@@ -13,7 +13,7 @@
             <th class="rotate optimaleReistijd thh">
                 <div><span>Optimale reistijd</span></div>
             </th>
-            <th class="rotate">
+            <th class="rotate" data-sortable="true">
                 <div><span>Globaal</span></div>
             </th>
             <c:forEach var="provider" items="${providers}">
@@ -25,7 +25,7 @@
             <th class="rotate vertraging thh">
                 <div><span>Vertraging</span></div>
             </th>
-            <th class="rotate">
+            <th class="rotate" data-sortable="true">
                 <div><span>Globaal</span></div>
             </th>
             <c:forEach var="provider" items="${providers}">
@@ -37,7 +37,7 @@
             <th class="rotate reistijd thh">
                 <div><span>Huidige reistijd</span></div>
             </th>
-            <th class="rotate">
+            <th class="rotate" data-sortable="true">
                 <div><span>Globaal</span></div>
             </th>
             <c:forEach var="provider" items="${providers}">
@@ -68,22 +68,22 @@
                 <c:set var="optTotal" value="${optTotal + traject.optimale_reistijd}"/>
                 <td class="rotatedtd"><fmt:formatNumber value="${traject.optimale_reistijd/60}"
                                                         maxFractionDigits="0" pattern="####"/>'<fmt:formatNumber
-                        value="${traject.optimale_reistijd%60}"
-                        maxFractionDigits="0" pattern="##"/>"
+                        value="${traject.optimale_reistijd > 0 ? traject.optimale_reistijd % 60 : (-traject.optimale_reistijd) % 60}"
+                        maxFractionDigits="0" minIntegerDigits="2" pattern="##"/>"
                 </td>
                 <c:forEach var="provider" items="${providers}">
                     <td class="rotatedtd"><fmt:formatNumber value="${traject.optimaleReistijden[provider.id]/60}"
                                                             maxFractionDigits="0" pattern="####"/>'<fmt:formatNumber
-                            value="${traject.optimaleReistijden[provider.id]%60}"
-                            maxFractionDigits="0" pattern="##"/>"
+                            value="${traject.optimaleReistijden[provider.id] > 0 ? traject.optimaleReistijden[provider.id]%60 : (-traject.optimaleReistijden[provider.id])%60}"
+                            maxFractionDigits="0" minIntegerDigits="2" pattern="##"/>"
                     </td>
                 </c:forEach>
 
                 <td class="thtd"></td>
                 <td class="rotatedtd"><fmt:formatNumber value="${globaleVertragingen[traject.id]/60}"
                                                         maxFractionDigits="0" pattern="####"/>'<fmt:formatNumber
-                        value="${globaleVertragingen[traject.id]%60}"
-                        maxFractionDigits="0" pattern="##"/>"
+                        value="${globaleVertragingen[traject.id] > 0 ? globaleVertragingen[traject.id]%60 : (-globaleVertragingen[traject.id])%60}"
+                        maxFractionDigits="0" minIntegerDigits="2" pattern="##"/>"
                 </td>
                 <c:forEach var="provider" items="${providers}">
                     <c:choose>
@@ -91,8 +91,8 @@
                             <td class="rotatedtd">
                                 <fmt:formatNumber value="${vertragingen[provider.id][traject.id]/60}"
                                                   maxFractionDigits="0" pattern="####"/>'<fmt:formatNumber
-                                    value="${vertragingen[provider.id][traject.id]%60}"
-                                    maxFractionDigits="0" pattern="##"/>"
+                                    value="${vertragingen[provider.id][traject.id] > 0 ? vertragingen[provider.id][traject.id] % 60 : (-vertragingen[provider.id][traject.id]) % 60}"
+                                    maxFractionDigits="0" minIntegerDigits="2" pattern="##"/>"
                             </td>
                         </c:when>
                         <c:otherwise>
@@ -105,8 +105,8 @@
                 <td class="rotatedtd">
                     <fmt:formatNumber value="${(globaleVertragingen[traject.id] + traject.optimale_reistijd)/60}"
                                       maxFractionDigits="0" pattern="####"/>'<fmt:formatNumber
-                        value="${(globaleVertragingen[traject.id] + traject.optimale_reistijd)%60}"
-                        maxFractionDigits="0" pattern="##"/>"
+                        value="${(globaleVertragingen[traject.id] + traject.optimale_reistijd) > 0 ? (globaleVertragingen[traject.id] + traject.optimale_reistijd)%60 : (-(globaleVertragingen[traject.id] + traject.optimale_reistijd))%60}"
+                        maxFractionDigits="0" minIntegerDigits="2" pattern="##"/>"
                 </td>
                 <c:forEach var="provider" items="${providers}">
                     <c:choose>
@@ -115,8 +115,8 @@
                                 <fmt:formatNumber
                                         value="${(vertragingen[provider.id][traject.id] + traject.optimaleReistijden[provider.id])/60}"
                                         maxFractionDigits="0" pattern="####"/>'<fmt:formatNumber
-                                    value="${(vertragingen[provider.id][traject.id] + traject.optimaleReistijden[provider.id])%60}"
-                                    maxFractionDigits="0" pattern="##"/>"
+                                    value="${(vertragingen[provider.id][traject.id] + traject.optimaleReistijden[provider.id]) > 0 ? (vertragingen[provider.id][traject.id] + traject.optimaleReistijden[provider.id])%60 : (-(vertragingen[provider.id][traject.id] + traject.optimaleReistijden[provider.id]))%60}"
+                                    maxFractionDigits="0" minIntegerDigits="2" pattern="##"/>"
                             </td>
                         </c:when>
                         <c:otherwise>
@@ -153,8 +153,8 @@
     </div>
     <link href="<c:url value="/resources/leaflet/leaflet.css"/>" rel="stylesheet" type="text/css"/>
     <script src="<c:url value="/resources/leaflet/leaflet.js"/>"></script>
-    <!--<script src="<c:url value="/resources/bootstrap-table/bootstrap-table.js"/>"></script>
+    <script src="<c:url value="/resources/bootstrap-table/bootstrap-table.js"/>"></script>
     <link href="<c:url value="/resources/bootstrap-table/bootstrap-table.css"/>" rel="stylesheet" type="text/css"/>
-    --><script src="<c:url value="/resources/js/jquery.floatThead.js"/>"></script>
+    <script src="<c:url value="/resources/js/jquery.floatThead.js"/>"></script>
     <script src="<c:url value="/resources/js/trajecten.js"/>"></script>
     <jsp:include page="/WEB-INF/views/partial/footer.jsp"/>

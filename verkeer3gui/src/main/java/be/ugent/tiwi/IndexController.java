@@ -32,16 +32,16 @@ public class IndexController {
             MetingRepository mcrud = new MetingRepository();
             List<Provider> providers = new ProviderRepository().getActieveProviders();
             LocalDateTime now = LocalDateTime.now();
-            LocalDateTime oneHourAgo = LocalDateTime.now().minusMinutes(Long.parseLong(Settings.getSetting("stat_minutes")));
+            LocalDateTime startTime = LocalDateTime.now().minusMinutes(Long.parseLong(Settings.getSetting("stat_minutes")));
             Provider providerobj = new ProviderRepository().getProvider(provider);
             double vertraging;
             Traject drukste_traject;
             if(provider!=-1) {
-                vertraging = mcrud.gemiddeldeVertraging(providerobj, oneHourAgo, now);
-                drukste_traject = mcrud.getDrukstePunt(providerobj, oneHourAgo, now).getTraject();
+                vertraging = mcrud.gemiddeldeVertraging(providerobj, startTime, now);
+                drukste_traject = mcrud.getDrukstePunt(providerobj, startTime, now).getTraject();
             } else {
-                vertraging = mcrud.gemiddeldeVertraging(oneHourAgo, now);
-                drukste_traject = mcrud.getDrukstePunt(oneHourAgo, now).getTraject();
+                vertraging = mcrud.gemiddeldeVertraging(startTime, now);
+                drukste_traject = mcrud.getDrukstePunt(startTime, now).getTraject();
             }
             String drukste_punt = drukste_traject.getNaam();
             int minuten = (int) vertraging / 60;
@@ -71,14 +71,9 @@ public class IndexController {
         List<Provider> providers = pr.getActieveProviders();
         MetingRepository mr = new MetingRepository();
 
-        //%%%%
-        LocalDateTime start = LocalDateTime.now().minusMinutes(5);
-        LocalDateTime end = LocalDateTime.now();
-
         //traject.id -> vertraging
         Map<Integer, Integer> globaleVertragingen = new HashMap<>();
-        //%%%%
-        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(Long.parseLong(Settings.getSetting("stat_minutes"))), LocalDateTime.now());
         if(vList != null)
             for(Vertraging v : vList)
                 globaleVertragingen.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
@@ -86,8 +81,7 @@ public class IndexController {
         Map<Integer, Map<Integer, Integer>> vertragingen = new HashMap<>();
         for(Provider p : providers) {
             Map<Integer, Integer> temp = new HashMap<>();
-            //%%%%
-            vList = mr.getVertragingen(p, LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+            vList = mr.getVertragingen(p, LocalDateTime.now().minusMinutes(Long.parseLong(Settings.getSetting("stat_minutes"))), LocalDateTime.now());
             if(vList != null)
                 for(Vertraging v : vList)
                     temp.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
@@ -110,14 +104,9 @@ public class IndexController {
         List<Provider> providers = pr.getActieveProviders();
         MetingRepository mr = new MetingRepository();
 
-        //%%%%
-        LocalDateTime start = LocalDateTime.now().minusMinutes(5);
-        LocalDateTime end = LocalDateTime.now();
-
         //traject.id -> vertraging
         Map<Integer, Integer> globaleVertragingen = new HashMap<>();
-        //%%%%
-        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+        List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(Long.parseLong(Settings.getSetting("stat_minutes"))), LocalDateTime.now());
         if(vList != null)
             for(Vertraging v : vList)
                 globaleVertragingen.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));
@@ -125,8 +114,7 @@ public class IndexController {
         Map<Integer, Map<Integer, Integer>> vertragingen = new HashMap<>();
         for(Provider p : providers) {
             Map<Integer, Integer> temp = new HashMap<>();
-            //%%%%
-            vList = mr.getVertragingen(p, LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
+            vList = mr.getVertragingen(p, LocalDateTime.now().minusMinutes(Long.parseLong(Settings.getSetting("stat_minutes"))), LocalDateTime.now());
             if(vList != null)
                 for(Vertraging v : vList)
                     temp.put(v.getTraject().getId(), (int) Math.round(v.getAverageVertraging()));

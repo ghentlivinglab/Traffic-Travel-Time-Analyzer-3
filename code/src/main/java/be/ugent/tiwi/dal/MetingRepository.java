@@ -147,7 +147,7 @@ public class MetingRepository implements IMetingRepository {
     @Override
     public List<Meting> getMetingenFromTraject(int traject_id, LocalDateTime start, LocalDateTime end) {
         String query = "select * from metingen where traject_id ='" + traject_id + "' and timestamp between '" +
-                Timestamp.valueOf(start) + "' and '" + Timestamp.valueOf(end) + "'";
+                Timestamp.valueOf(start) + "' and '" + Timestamp.valueOf(end) + "' and reistijd is not null";
 
         return getMetingenFromQuery(query, traject_id);
     }

@@ -30,8 +30,15 @@
     </div>
 </div>
 <div id="selecteer-dropdown-traject-1">
-    <div id="dropdown-select-traject-1" class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="traject-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <select id="traject-dropdown1" class="form-control">
+        <option selected disabled>Kies een traject</option>
+        <c:forEach var="traject" items="${trajecten}" >
+            <option value="<c:out value="${traject.id}"/>"><c:out value="${traject.naam}"/></option>
+        </c:forEach>
+    </select>
+
+    <!--<div id="dropdown-select-traject-1" class="dropdown">
+        <button class="btn btn-default dropdown-toggle traject-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <p id="geselecteerd-traject-1">Kies traject ...</p>
             <span class="caret"></span>
         </button>
@@ -40,11 +47,17 @@
                 <li class="traject-dropdown-item" data-trajectid="<c:out value="${traject.id}"/>"><c:out value="${traject.naam}"/></li>
             </c:forEach>
         </ul>
-    </div>
+    </div>-->
 </div>
 <div id="selecteer-dropdown-traject-2">
-    <div id="dropdown-select-traject-2" class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="traject-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <select id="traject-dropdown2" class="form-control">
+        <option selected disabled>(Kies een tweede traject)</option>
+        <c:forEach var="traject" items="${trajecten}" >
+            <option value="<c:out value="${traject.id}"/>"><c:out value="${traject.naam}"/></option>
+        </c:forEach>
+    </select>
+    <!--<div id="dropdown-select-traject-2" class="dropdown">
+        <button class="btn btn-default dropdown-toggle traject-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <p id="geselecteerd-traject-2">Kies traject ...</p>
             <span class="caret"></span>
         </button>
@@ -53,7 +66,7 @@
                 <li class="traject-dropdown-item" data-trajectid="<c:out value="${traject.id}"/>"><c:out value="${traject.naam}"/></li>
             </c:forEach>
         </ul>
-    </div>
+    </div>-->
 </div>
 <div id="chart-area">
     <div class="cs-loader" style="display: none">

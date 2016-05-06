@@ -123,17 +123,17 @@ li.traject-dropdown-item
 {
     cursor: hand;
 }
-#traject-dropdown
+.traject-dropdown
 {
     display: inline;
     width: 100%;
 }
-#traject-dropdown p
+.traject-dropdown p
 {
     display: inline;
     float: left;
 }
-#traject-dropdown span
+.traject-dropdown span
 {
     display: inline;
     float: right;

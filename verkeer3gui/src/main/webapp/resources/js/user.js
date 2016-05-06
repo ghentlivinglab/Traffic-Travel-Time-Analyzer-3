@@ -5,8 +5,6 @@ $( document ).ready(function() {
     var cookieName = "verkeerCookie";
     var userName = "";
 
-    //Indien geklikt wordt op de knop om uit te loggen
-    $("#logout").on("click", deleteCookie);
 
     //Cookie ophalen
     if (document.cookie.indexOf(cookieName) >= 0) {
@@ -19,9 +17,12 @@ $( document ).ready(function() {
             userName = cookieValue.split("&")[0].split("=")[1];
 
             //Knoppen + welkomsttekst zichtbaar maken
-            document.getElementById("logout").setAttribute("style", "display: inline-block;");
-            document.getElementById("welcome").setAttribute("style", "display: inline-block;font-size: 20px;color:black;");
-            document.getElementById("welcome").innerHTML = "  " + userName;
+            $("#welcome").addClass("visible");
+            $("#welcome .user").append(userName);
+            $("#login").remove();
+
+            //Indien geklikt wordt op de knop om uit te loggen
+            $("#welcome").on("click", deleteCookie);
         }
     }
 
@@ -44,9 +45,7 @@ $( document ).ready(function() {
     function deleteCookie() {
         //document.cookie = cookieName + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         $.removeCookie(cookieName, { path: '/' });
-        document.getElementById("logout").setAttribute("style", "display: none;");
-        document.getElementById("welcome").setAttribute("style", "display: none;font-size: 20px;color:black;");
         //Redirect naar de home pagina
-        window.location.href = '/verkeer3gui';
+        window.location = '/verkeer3gui#';
     }
 });

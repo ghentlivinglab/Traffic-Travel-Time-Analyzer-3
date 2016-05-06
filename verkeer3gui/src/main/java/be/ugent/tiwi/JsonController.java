@@ -56,6 +56,7 @@ public class JsonController {
         //Vertragingen
         MetingRepository mr = new MetingRepository();
         Map<Integer, Integer> globaleVertragingen = new HashMap<>();
+        //%%%%
         List<Vertraging> vList = mr.getVertragingen(LocalDateTime.now().minusMinutes(60), LocalDateTime.now());
         if(vList != null)
             for(Vertraging v : vList)

@@ -17,11 +17,6 @@ img.banner-fullscreen
     padding: 5px;
 }
 
-#welcome{
-    pointer-events: none;
-    cursor: default;
-}
-
 .form-signin, .form-create{
     margin: 0 auto;
     max-width: 330px;
@@ -367,4 +362,38 @@ td.rotatedtd{
 
 div#selecteer-dropdown-traject-2 {
     margin: 15px 0;
+}
+
+#welcome{
+    display:none;
+    font-size:16px;
+}
+
+#welcome .glyficon{
+    margin-right:5px;
+}
+
+#welcome.visible{
+    display:inline-block;
+    min-width: 130px;
+    text-align: center;
+}
+
+#welcome.visible .logout{
+    display:none;
+}
+
+#welcome:hover .logout{
+    cursor:hand;
+    background: #DD4444;
+    color:#FFF;
+    border-radius:3px;
+ }
+
+#welcome:hover .user{
+    display:none;
+}
+
+#welcome:hover .logout{
+    display:inline-block;
 }

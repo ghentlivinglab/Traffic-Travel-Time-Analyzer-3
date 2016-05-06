@@ -3,8 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <h1>Verkeersproblemen</h1>
-</div>
-<div class="content-container">
     <div class="form-filter" method="post">
 
         <form class="form-filter" method="post">
@@ -103,5 +101,6 @@
         <script src="<c:url value="/resources/leaflet/leaflet.js"/>"></script>
         <script src="<c:url value="/resources/bootstrap-table/bootstrap-table.js"/>"></script>
         <link href="<c:url value="/resources/bootstrap-table/bootstrap-table.css"/>" rel="stylesheet" type="text/css"/>
-        <script src="<c:url value="/resources/js/trajecten.js"/>"></script>
+        <script src="<c:url value="/resources/js/jquery.floatThead.js"/>"></script>
+        <script src="<c:url value="/resources/js/incidents.js"/>"></script>
         <jsp:include page="/WEB-INF/views/partial/footer.jsp"/>

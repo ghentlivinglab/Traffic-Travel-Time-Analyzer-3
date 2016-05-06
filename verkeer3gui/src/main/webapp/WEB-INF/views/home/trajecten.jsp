@@ -57,7 +57,7 @@
             <tr id="traject-<c:out value="${traject.id}"/>"
                 class="map-not-showing<c:if test="${traject.id eq currentTrajectId}"><c:out value=" current-traject"/></c:if>">
                 <td><c:out value="${traject.id}"/></td>
-                <td><a class="view-traject-onmap" data-toggle="modal" data-target="#mapModal"><c:out
+                <td><a class="view-traject-onmap" data-toggle="modal" data-target="#mapModal" data-id="<c:out value="${traject.id}"/>"><c:out
                         value="${traject.naam}"/></a></td>
                 <td>
                     <fmt:formatNumber value="${traject.lengte/1000}"
@@ -153,7 +153,8 @@
     </div>
     <link href="<c:url value="/resources/leaflet/leaflet.css"/>" rel="stylesheet" type="text/css"/>
     <script src="<c:url value="/resources/leaflet/leaflet.js"/>"></script>
-    <script src="<c:url value="/resources/bootstrap-table/bootstrap-table.js"/>"></script>
+    <!--<script src="<c:url value="/resources/bootstrap-table/bootstrap-table.js"/>"></script>
     <link href="<c:url value="/resources/bootstrap-table/bootstrap-table.css"/>" rel="stylesheet" type="text/css"/>
+    --><script src="<c:url value="/resources/js/jquery.floatThead.js"/>"></script>
     <script src="<c:url value="/resources/js/trajecten.js"/>"></script>
     <jsp:include page="/WEB-INF/views/partial/footer.jsp"/>

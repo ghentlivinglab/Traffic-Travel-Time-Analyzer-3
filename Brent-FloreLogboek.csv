@@ -47,3 +47,7 @@ Datum,Start,Einde,Plaats,Omschrijving,Issue #,Opmerkingen
 26/04/2016,09:15,10:00,School, bug foutief sorteren op naam oplossen,102,
 26/04/2016,10:00,12:15,School, bespreken verdere aanpassingen en weergave afstanden,,
 03/05/2016,19:00,20:00,Thuis, nakijken en verbeteren project voor deployment; databank en war deployen en testen,,
+05/05/2016,20:00,21:30,Thuis, proberen deployen naar server vanop locale maschine met asadmin,,Mogelijke fout in Grizzly die dit niet toelaat
+06/05/2016,12:30,14:00,Thuis, proberen updaten grizzly prutsen met ssh en deployment vanuit git,,
+06/05/2016,14:00,14:30,Thuis, debuggen fout in incidentendropdown,,
+06/05/2016,14:30,19:00,Thuis, proberen schrijven deploymentscript,,individuele commando's uitgezocht en proberen bundelen in script

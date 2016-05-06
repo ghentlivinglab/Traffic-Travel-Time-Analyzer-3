@@ -523,7 +523,7 @@ public class IncidentRepository implements IIncidentRepository {
         try {
             String stringIncident = "SELECT t.id, t.naam, t.lengte, t.optimale_reistijd, " +
                     "t.is_active, t.start_latitude, t.start_longitude, t.end_latitude, t.end_longitude " +
-                    "FROM trajecten t JOIN trafficIncidents i " +
+                    "FROM trajecten t JOIN trafficincidents i " +
                     "on t.id = i.traject_id group by t.id";
 
 

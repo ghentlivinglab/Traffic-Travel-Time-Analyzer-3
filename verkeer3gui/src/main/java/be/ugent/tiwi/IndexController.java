@@ -146,4 +146,24 @@ public class IndexController {
         return "home/about";
     }
 
+    @RequestMapping(value = "/compare", method = RequestMethod.GET)
+    public String compare(ModelMap model) {
+        TrajectRepository tr = new TrajectRepository();
+        List<Traject> trajecten = tr.getTrajecten();
+
+        MetingRepository mcrud = new MetingRepository();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneDayAgo = LocalDateTime.now().minusDays(1L);
+        double vertraging = mcrud.gemiddeldeVertraging(oneDayAgo, now);
+        String drukste_punt = mcrud.getDrukstePunt(oneDayAgo,now).getTraject().getNaam();
+        int minuten = (int)vertraging/60;
+
+        model.addAttribute("vertraging",vertraging>0?true:false);
+        model.addAttribute("trajecten",trajecten);
+        model.addAttribute("totale_vertraging_min",minuten);
+        model.addAttribute("totale_vertraging_sec",(int)(vertraging-(minuten*60)));
+        model.addAttribute("drukste_plaats",drukste_punt);
+
+        return "home/compare";
+    }
 }

@@ -397,3 +397,13 @@ div#selecteer-dropdown-traject-2 {
 #welcome:hover .logout{
     display:inline-block;
 }
+
+div#timepickers.left {
+    float: left;
+    width: 50%;
+}
+
+div#timepickers.right {
+    float: right;
+    width: 50%;
+}

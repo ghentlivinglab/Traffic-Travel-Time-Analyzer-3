@@ -407,3 +407,7 @@ div#timepickers.right {
     float: right;
     width: 50%;
 }
+
+table.table > thead th:first-child, table.table > thead th:last-child {
+    width: 100px;
+}

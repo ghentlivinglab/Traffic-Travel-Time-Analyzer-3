@@ -80,8 +80,6 @@
                 <tr>
                     <th>ID</th>
                     <th>Username</th>
-                    <th>Password</th>
-                    <th>SessionID</th>
                     <th>Verwijder</th>
                 </tr>
                 </thead>
@@ -91,8 +89,6 @@
                     <tr>
                     <td><c:out value="${user.id}"/></td>
                         <td><c:out value="${user.username}"/></td>
-                        <td><c:out value="${user.password}"/></td>
-                        <td><c:out value="${user.sessionID}"/></td>
                         <td><a href=<c:url value="/user/remove/${user.username}"/>>
                             <span class="glyphicon glyphicon-remove"></span></a></td>
 

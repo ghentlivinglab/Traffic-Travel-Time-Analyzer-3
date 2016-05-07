@@ -19,7 +19,6 @@ $( document ).ready(function() {
             //Knoppen + welkomsttekst zichtbaar maken
             $("#welcome").addClass("visible");
             $("#welcome .user").append(userName);
-            $("#login").remove();
 
             //Indien geklikt wordt op de knop om uit te loggen
             $("#welcome").on("click", deleteCookie);

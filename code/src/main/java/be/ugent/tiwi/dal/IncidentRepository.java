@@ -6,10 +6,7 @@ import be.ugent.tiwi.domein.Traject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -246,10 +243,11 @@ public class IncidentRepository implements IIncidentRepository {
                 int id = rs.getInt("id");
                 int provider_id = rs.getInt("provider_id");
                 int traject_id = rs.getInt("traject_id");
-                LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
+                LocalDateTime startTime = rs.getTimestamp("starttime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("starttime").toLocalDateTime();
                 String problem = rs.getString("problem");
 
-                trafficIncidents.add(new TrafficIncident(id, new Provider(provider_id, null, true), new Traject(traject_id, null, 0, 0, null, true, null, null, null, null), timestamp, problem));
+                trafficIncidents.add(new TrafficIncident(id, new ProviderRepository().getProvider(provider_id), new TrajectRepository().getTraject(traject_id), startTime, endTime, problem));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -293,10 +291,11 @@ public class IncidentRepository implements IIncidentRepository {
                 int id = rs.getInt("id");
                 int provider_id = rs.getInt("provider_id");
                 int traject_id = rs.getInt("traject_id");
-                LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
+                LocalDateTime startTime = rs.getTimestamp("startime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
                 String problem = rs.getString("problem");
 
-                trafficIncidents.add(new TrafficIncident(id, new Provider(provider_id, null, true), new Traject(traject_id, null, 0, 0, null, true, null, null, null, null), timestamp, problem));
+                trafficIncidents.add(new TrafficIncident(id, new ProviderRepository().getProvider(provider_id), new TrajectRepository().getTraject(traject_id), startTime, endTime, problem));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -343,10 +342,11 @@ public class IncidentRepository implements IIncidentRepository {
                 int id = rs.getInt("id");
                 int provider_id = rs.getInt("provider_id");
                 int traject_id = rs.getInt("traject_id");
-                LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
+                LocalDateTime startTime = rs.getTimestamp("startime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
                 String problem = rs.getString("problem");
 
-                trafficIncidents.add(new TrafficIncident(id, new Provider(provider_id, null, true), new Traject(traject_id, null, 0, 0, null, true, null, null, null, null), timestamp, problem));
+                trafficIncidents.add(new TrafficIncident(id, new ProviderRepository().getProvider(provider_id), new TrajectRepository().getTraject(traject_id), startTime, endTime, problem));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -393,10 +393,11 @@ public class IncidentRepository implements IIncidentRepository {
                 int id = rs.getInt("id");
                 int provider_id = rs.getInt("provider_id");
                 int traject_id = rs.getInt("traject_id");
-                LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
+                LocalDateTime startTime = rs.getTimestamp("startime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
                 String problem = rs.getString("problem");
 
-                trafficIncidents.add(new TrafficIncident(id, new Provider(provider_id, null, true), new Traject(traject_id, null, 0, 0, null, true, null, null, null, null), timestamp, problem));
+                trafficIncidents.add(new TrafficIncident(id, new ProviderRepository().getProvider(provider_id), new TrajectRepository().getTraject(traject_id), startTime, endTime, problem));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -446,10 +447,11 @@ public class IncidentRepository implements IIncidentRepository {
                 int id = rs.getInt("id");
                 int provider_id = rs.getInt("provider_id");
                 int traject_id = rs.getInt("traject_id");
-                LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
+                LocalDateTime startTime = rs.getTimestamp("startime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
                 String problem = rs.getString("problem");
 
-                trafficIncidents.add(new TrafficIncident(id, new Provider(provider_id, null, true), new Traject(traject_id, null, 0, 0, null, true, null, null, null, null), timestamp, problem));
+                trafficIncidents.add(new TrafficIncident(id, new ProviderRepository().getProvider(provider_id), new TrajectRepository().getTraject(traject_id), startTime, endTime, problem));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -567,25 +569,32 @@ public class IncidentRepository implements IIncidentRepository {
      * @param trafficIncident
      */
     @Override
-    public boolean trafficIncidentExists(TrafficIncident trafficIncident) {
-        boolean exists = true;
+    public TrafficIncident getTrafficIncident(TrafficIncident trafficIncident) {
+        TrafficIncident ti = null;
         ResultSet rs = null;
         try {
             String stringIncident = "SELECT * FROM trafficincidents WHERE provider_id = ?" +
                     " AND traject_id = ?" +
-                    " AND timestamp = ?" +
-                    " AND problem  = ?";
+                    " AND starttime = ?" +
+                    " AND problem = ?";
 
 
             statIncident = connector.getConnection().prepareStatement(stringIncident);
             statIncident.setInt(1, trafficIncident.getProvider().getId());
             statIncident.setInt(2, trafficIncident.getTraject().getId());
-            statIncident.setTimestamp(3, Timestamp.valueOf(trafficIncident.getTimestamp()));
+            statIncident.setTimestamp(3, Timestamp.valueOf(trafficIncident.getStartTime()));
             statIncident.setString(4, trafficIncident.getProblem());
             rs = statIncident.executeQuery();
 
-            if (!rs.next()) {
-                exists = false;
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                Provider p = trafficIncident.getProvider();
+                Traject t = trafficIncident.getTraject();
+                LocalDateTime startTime = trafficIncident.getStartTime();
+                LocalDateTime endTime = trafficIncident.getEndTime();
+                String problem = trafficIncident.getProblem();
+
+                ti = new TrafficIncident(id, p, t, startTime, endTime, problem);
             }
 
         } catch (SQLException e) {
@@ -600,7 +609,7 @@ public class IncidentRepository implements IIncidentRepository {
 
         }
 
-        return exists;
+        return ti;
     }
 
     /**
@@ -611,14 +620,48 @@ public class IncidentRepository implements IIncidentRepository {
     @Override
     public void addTrafficIncident(TrafficIncident trafficIncident) {
         try {
-            String stringIncident = "INSERT INTO trafficincidents(provider_id, traject_id, timestamp, problem) VALUES(?,?,?,?)";
+            String stringIncident = "INSERT INTO trafficincidents(provider_id, traject_id, starttime, endtime, problem) VALUES(?,?,?,?,?)";
 
 
             statIncident = connector.getConnection().prepareStatement(stringIncident);
             statIncident.setInt(1, trafficIncident.getProvider().getId());
             statIncident.setInt(2, trafficIncident.getTraject().getId());
-            statIncident.setTimestamp(3, Timestamp.valueOf(trafficIncident.getTimestamp()));
-            statIncident.setString(4, trafficIncident.getProblem());
+            statIncident.setTimestamp(3, Timestamp.valueOf(trafficIncident.getStartTime()));
+            statIncident.setTimestamp(4, Timestamp.valueOf(trafficIncident.getEndTime()));
+            statIncident.setString(5, trafficIncident.getProblem());
+            statIncident.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error("Toevoegen trafficIncident mislukt", e);
+        } finally {
+            try {
+                statIncident.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                connector.close();
+            } catch (Exception e) { /* ignored */ }
+
+        }
+    }
+
+    /**
+     * Aanpassen van een verkeersprobleem
+     *
+     * @param trafficIncident
+     */
+    @Override
+    public void updateTrafficIncident(TrafficIncident trafficIncident) {
+        try {
+            String stringIncident = "UPDATE trafficincidents set provider_id = ?, traject_id = ?, starttime = ?, endtime = ?, problem = ? where id = ?";
+
+
+            statIncident = connector.getConnection().prepareStatement(stringIncident);
+            statIncident.setInt(1, trafficIncident.getProvider().getId());
+            statIncident.setInt(2, trafficIncident.getTraject().getId());
+            statIncident.setTimestamp(3, Timestamp.valueOf(trafficIncident.getStartTime()));
+            statIncident.setTimestamp(4, Timestamp.valueOf(trafficIncident.getEndTime()));
+            statIncident.setString(5, trafficIncident.getProblem());
+            statIncident.setInt(6, trafficIncident.getId());
             statIncident.executeUpdate();
 
         } catch (SQLException e) {

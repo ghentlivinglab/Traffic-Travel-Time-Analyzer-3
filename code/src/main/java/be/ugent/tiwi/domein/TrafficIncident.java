@@ -9,18 +9,20 @@ public class TrafficIncident {
     private int id;
     private Provider provider;
     private Traject traject;
-    private LocalDateTime timestamp;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String problem = "";
 
     public TrafficIncident(){
 
     }
 
-    public TrafficIncident(int id, Provider provider, Traject traject, LocalDateTime timestamp, String problem) {
+    public TrafficIncident(int id, Provider provider, Traject traject, LocalDateTime startTime, LocalDateTime endTime, String problem) {
         this.id = id;
         this.provider = provider;
         this.traject = traject;
-        this.timestamp = timestamp;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.problem = problem;
     }
 
@@ -68,16 +70,32 @@ public class TrafficIncident {
      * Het detectie tijdstip van het probleem opvragen
      * @return
      */
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
     /**
      * Het detectie tijdstip van het probleem instellen
-     * @param timestamp
+     * @param startTime
      */
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    /**
+     * Het laatste detectie tijdstip van het probleem opvragen
+     * @return
+     */
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    /**
+     * Het laatste detectie tijdstip van het probleem instellen
+     * @param endTime
+     */
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     /**
@@ -101,7 +119,8 @@ public class TrafficIncident {
         return "TrafficIncident{" +
                 "provider=" + provider +
                 ", traject=" + traject +
-                ", timestamp=" + timestamp +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 ", problem='" + problem + '\'' +
                 '}';
     }

@@ -121,7 +121,7 @@ public class LoginController {
         }
 
         if (loginSucces) {
-            return "redirect:/";
+            return "redirect:/admin";
         } else {
             return "login/index";
         }

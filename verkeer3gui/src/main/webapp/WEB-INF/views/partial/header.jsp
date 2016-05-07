@@ -38,7 +38,6 @@
                 <li><a href="<c:url value="/trajecten"/>">Trajecten</a></li>
                 <li><a href="<c:url value="/incidents"/>">Verkeersproblemen</a></li>
                 <li><a href="<c:url value="/admin"/>">Admin</a></li>
-                <li id="login"><a href="<c:url value="/login"/>">Login</a></li>
 			</ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<c:url value="/about"/>">Over</a></li>

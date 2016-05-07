@@ -71,7 +71,8 @@ public class HereIncidentScraper extends IncidentScraper {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
 
                     ti.setProvider(here);
-                    ti.setTimestamp(LocalDateTime.parse(hereIncident_obj.getTRAFFICITEMS().getTRAFFICITEM().get(0).getENTRYTIME(), formatter));
+                    ti.setStartTime(LocalDateTime.parse(hereIncident_obj.getTRAFFICITEMS().getTRAFFICITEM().get(0).getENTRYTIME(), formatter));
+                    ti.setEndTime(LocalDateTime.now());
                     ti.setTraject(traject);
                     ti.setProblem(hereIncident_obj.getTRAFFICITEMS().getTRAFFICITEM().get(0).getTRAFFICITEMDESCRIPTION().get(0).getContent());
                     trafficIncidents.add(ti);

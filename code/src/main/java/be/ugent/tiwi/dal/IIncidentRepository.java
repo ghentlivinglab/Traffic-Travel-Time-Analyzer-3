@@ -106,17 +106,19 @@ public interface IIncidentRepository {
 
 
     /**
-     * Controleert indien een identiek traject reeds in de database aanwezig is
-     * @param trafficIncident
-     * @return
-     */
-    public boolean trafficIncidentExists(TrafficIncident trafficIncident);
-
-    /**
      * Toevoegen van een nieuw verkeersprobleem
      *
      * @param trafficIncident
      */
     void addTrafficIncident(TrafficIncident trafficIncident);
 
+
+    /**
+     * Een bestaand verkeersprobleem ophalen
+     * @param trafficIncident
+     * @return
+     */
+    public TrafficIncident getTrafficIncident(TrafficIncident trafficIncident);
+
+    void updateTrafficIncident(TrafficIncident trafficIncident);
 }

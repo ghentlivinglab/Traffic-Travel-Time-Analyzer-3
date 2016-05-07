@@ -2,6 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<jsp:useBean id="now" class="java.util.Date" />
+
 <h1>Verkeersproblemen</h1>
     <div class="form-filter" method="post">
 
@@ -43,7 +45,8 @@
                 <th class="th-head" data-sortable="true">Id</th>
                 <th class="th-head" data-sortable="true">Provider</th>
                 <th class="th-head" data-sortable="true">Traject</th>
-                <th class="th-head" data-sortable="true">Timestamp</th>
+                <th class="th-head" data-sortable="true">Start</th>
+                <th class="th-head" data-sortable="true">End</th>
                 <th class="th-head" data-sortable="true">Problem</th>
             </tr>
             </thead>
@@ -60,8 +63,19 @@
                         </a>
                     </td>
                     <td>
-                        <fmt:parseDate value="${trafficIncident.timestamp}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both"/>
+                        <fmt:parseDate value="${trafficIncident.startTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both"/>
                         <fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy HH:mm"/>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${trafficIncident.endTime lt LocalDateTime.now().minusMinutes(10)}">
+                                <fmt:parseDate value="${trafficIncident.endTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both"/>
+                                <fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy HH:mm"/>
+                            </c:when>
+                            <c:otherwise>
+                                <fmt:formatDate value="${now}" pattern="dd/MM/yyyy HH:mm"/>
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                     <td><c:out value="${trafficIncident.problem}"/></td>
                 </tr>

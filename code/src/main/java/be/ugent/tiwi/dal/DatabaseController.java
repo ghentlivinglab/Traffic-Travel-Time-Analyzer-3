@@ -125,8 +125,11 @@ public class DatabaseController {
             for (TrafficIncident trafficIncident : trafficIncidents) {
                 //Enkel toevoegen indien het nog niet aanwezig is in de database
                 //Voorkomt dat er onnodige duplicaten in de database opgeslagen worden
-                if (!trafficIncidentRepository.trafficIncidentExists(trafficIncident))
+                TrafficIncident ti2 = trafficIncidentRepository.getTrafficIncident(trafficIncident);
+                if (ti2 == null)
                     trafficIncidentRepository.addTrafficIncident(trafficIncident);
+                else
+                    trafficIncidentRepository.updateTrafficIncident(ti2);
             }
         } else {
             logger.warn("No HereTrafficIncidents found.");

@@ -14,9 +14,7 @@ import settings.DependencyModules.RepositoryModule;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.*;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -26,7 +24,13 @@ public class ScheduleController {
     private DatabaseController dbController;
     private boolean started = false;
 
+    private BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
+
     ScheduledExecutorService scheduler;
+
+    public ScheduleController(){
+        tasksConsumer.start();
+    }
 
     public boolean start() throws SQLException {
         if (!started){
@@ -36,6 +40,28 @@ public class ScheduleController {
         }
         return false;
     }
+
+    public void addTask(Runnable r){
+        try {
+            tasks.put(r);
+            logger.info("Task added");
+        } catch (InterruptedException e) {
+            logger.error("Could not add task!");
+        }
+    }
+
+    Thread tasksConsumer = new Thread(() -> {
+        while(true) {
+            try {
+                Runnable r = tasks.take();
+                logger.info("Running task:");
+                r.run();
+                logger.info("Done running task; # remaining: " + tasks.size());
+            } catch (InterruptedException e) {
+                logger.error("'Waiting for task' was interrupted");
+            }
+        }
+    });
 
     public boolean stop(){
         if(started) {
@@ -50,25 +76,23 @@ public class ScheduleController {
         return started;
     }
 
-
     /**
      * Deze functie begint een cyclus die iedere 5 minuten alle actieve {@link Provider}s overloopt en de beschikbare
      * data opslaat.
      */
     private void startSchedule() throws SQLException {
-
-        scheduler =
-                Executors.newScheduledThreadPool(1);
+        scheduler = Executors.newScheduledThreadPool(1);
 
         DBConnector db = new DBConnector();
         try {
             if(db.getConnection() != null) {
-                final Runnable schema = new Runnable() {
-                    public void run() {
+                final Runnable schema = () -> {
+                    logger.info("Tasks: Added task 'haalDataOp'");
+                    tasks.add(() -> {
                         logger.info("Schedule STARTING - Trying to scrape data");
                         haalDataOp();
-                        logger.info("Schedule DONE     - Waiting for next call");
-                    }
+                        logger.info("Schedule DONE");
+                    });
                 };
                 final ScheduledFuture<?> schemaHandle = scheduler.scheduleAtFixedRate(schema, 0, 5, MINUTES);
             }

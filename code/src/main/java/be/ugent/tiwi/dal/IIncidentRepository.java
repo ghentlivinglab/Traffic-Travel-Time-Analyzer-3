@@ -23,11 +23,10 @@ public interface IIncidentRepository {
 
     /**
      * Geeft een lijst van alle providers terug die trafficincidents gegenereerd hebben tussen bepaalde data
-     * @param startdate
-     * @param enddate
+     * @param timestamp
      * @return
      */
-    List<Provider> getProviders(LocalDateTime startdate, LocalDateTime enddate);
+    List<Provider> getProviders(LocalDateTime timestamp);
 
 
     /**
@@ -40,11 +39,10 @@ public interface IIncidentRepository {
 
     /**
      * Geeft een lijst terug van alle trajecten waar er problemen geweest zijn tussen bepaalde data
-     * @param startdate
-     * @param enddate
+     * @param timestamp
      * @return
      */
-    List<Traject> getTrajecten(LocalDateTime startdate, LocalDateTime enddate);
+    List<Traject> getTrajecten(LocalDateTime timestamp);
 
     /**
      * Geeft een lijst terug van alle trafficincidenten
@@ -56,39 +54,62 @@ public interface IIncidentRepository {
     /**
      * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data
      *
-     * @param startdate
-     * @param enddate
+     * @param timestamp
      * @return
      */
-    List<TrafficIncident> getTrafficIncidents(LocalDateTime startdate, LocalDateTime enddate);
+    List<TrafficIncident> getTrafficIncidents(LocalDateTime timestamp);
 
     /**
      * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data van een bepaalde provider
      *
-     * @param startdate
-     * @param enddate
+     * @param timestamp
      * @return
      */
-    List<TrafficIncident> getTrafficIncidents(Provider provider, LocalDateTime startdate, LocalDateTime enddate);
+    List<TrafficIncident> getTrafficIncidents(Provider provider, LocalDateTime timestamp);
 
     /**
      * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data van een bepaald traject
      *
-     * @param startdate
-     * @param enddate
+     * @param traject
      * @return
      */
-    List<TrafficIncident> getTrafficIncidents(Traject traject, LocalDateTime startdate, LocalDateTime enddate);
+    List<TrafficIncident> getTrafficIncidents(Traject traject);
+
+
+    /**
+     * Geeft een lijst terug van alle trafficincidenten van een bepaalde provider van een bepaald traject
+     *
+     * @param provider
+     * @param traject
+     * @return
+     */
+    List<TrafficIncident> getTrafficIncidents(Provider provider, Traject traject);
+
+
+    /**
+     * Geeft een lijst terug van alle trafficincidenten van een bepaalde provider
+     *
+     * @param provider
+     * @return
+     */
+    List<TrafficIncident> getTrafficIncidents(Provider provider);
+
+    /**
+     * Geeft een lijst terug van alle trafficincidenten van een bepaald traject
+     *
+     * @param traject
+     * @return
+     */
+    List<TrafficIncident> getTrafficIncidents(Traject traject, LocalDateTime timestamp);
 
 
     /**
      * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data van een bepaalde provider van een bepaald traject
      *
-     * @param startdate
-     * @param enddate
+     * @param timestamp
      * @return
      */
-    List<TrafficIncident> getTrafficIncidents(Provider provider, Traject traject, LocalDateTime startdate, LocalDateTime enddate);
+    List<TrafficIncident> getTrafficIncidents(Provider provider, Traject traject, LocalDateTime timestamp);
 
 
     /**
@@ -114,11 +135,11 @@ public interface IIncidentRepository {
 
 
     /**
-     * Een bestaand verkeersprobleem ophalen
+     * Een bestaand verkeersprobleem volledig ophalen
      * @param trafficIncident
      * @return
      */
-    public TrafficIncident getTrafficIncident(TrafficIncident trafficIncident);
+    TrafficIncident getTrafficIncident(TrafficIncident trafficIncident);
 
     void updateTrafficIncident(TrafficIncident trafficIncident);
 }

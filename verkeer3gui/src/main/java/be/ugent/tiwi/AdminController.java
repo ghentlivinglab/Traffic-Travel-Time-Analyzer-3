@@ -1,10 +1,7 @@
 package be.ugent.tiwi;
 
-import be.ugent.tiwi.dal.ITrajectRepository;
 import be.ugent.tiwi.dal.LoginRepository;
 import be.ugent.tiwi.dal.TrajectRepository;
-import be.ugent.tiwi.domein.Traject;
-import be.ugent.tiwi.domein.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -18,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(ModelMap model,
                         @CookieValue(value = "verkeerCookie", defaultValue = "verkeerCookie") String cookieContent,
@@ -30,11 +28,46 @@ public class AdminController {
             response.addCookie(cc.deleteCookie("verkeerCookie"));
             return "redirect:/login";
         } else {
-            TrajectRepository trajectRepository = new TrajectRepository();
-            LoginRepository lr = new LoginRepository();
-            model.addAttribute("trajecten", trajectRepository.getTrajectenMetWayPoints());
-            model.addAttribute("users", lr.getUsers());
+
             return "admin/index";
+        }
+
+    }
+
+    @RequestMapping(value = "/trajects", method = RequestMethod.GET)
+    public String trajects(ModelMap model,
+                        @CookieValue(value = "verkeerCookie", defaultValue = "verkeerCookie") String cookieContent,
+                        HttpServletResponse response, HttpServletRequest request) {
+
+        //Contole indien het cookie correct is
+        cookieController cc = new cookieController();
+
+        if (!cc.validCookie(cookieContent)) {
+            response.addCookie(cc.deleteCookie("verkeerCookie"));
+            return "redirect:/login";
+        } else {
+            TrajectRepository trajectRepository = new TrajectRepository();
+            model.addAttribute("trajecten", trajectRepository.getTrajectenMetWayPoints());
+            return "admin/trajecten";
+        }
+
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public String users(ModelMap model,
+                        @CookieValue(value = "verkeerCookie", defaultValue = "verkeerCookie") String cookieContent,
+                        HttpServletResponse response, HttpServletRequest request) {
+
+        //Contole indien het cookie correct is
+        cookieController cc = new cookieController();
+
+        if (!cc.validCookie(cookieContent)) {
+            response.addCookie(cc.deleteCookie("verkeerCookie"));
+            return "redirect:/login";
+        } else {
+            LoginRepository lr = new LoginRepository();
+            model.addAttribute("users", lr.getUsers());
+            return "admin/users";
         }
 
     }

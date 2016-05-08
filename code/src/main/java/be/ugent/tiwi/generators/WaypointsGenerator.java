@@ -207,13 +207,13 @@ public class WaypointsGenerator extends CoyoteScraper {
     }
 
     /**
-     * Schrijft een lijst van {@link Traject}en en hun {@link Waypoint}s naar "verkeer-3\code\tempsql.txt"}.
+     * Schrijft een lijst van {@link Traject}en en hun {@link Waypoint}s naar "verkeer-3\code\tempsql.sql"}.
      *
      * @param trajecten De lijst van weg te schrijven {@link Traject}en
      */
     private void writeToTempSql(List<Traject> trajecten) {
 
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("tempsql.txt"), "utf-8"))) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("trajects.sql"), "utf-8"))) {
             for (Traject traject : trajecten) {
                 //Ieder individueel traject
                 writer.write("insert into vop.trajecten(naam,lengte,optimale_reistijd,is_active,start_latitude,start_longitude,end_latitude,end_longitude) values(\"");

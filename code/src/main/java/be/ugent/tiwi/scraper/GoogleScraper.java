@@ -177,7 +177,7 @@ public class GoogleScraper extends TrafficScraper {
                     Meting meting = new Meting(google, traject, null, LocalDateTime.now());
                     metingen.add(meting);
                 }
-                if (percent > 0.02) {
+                /*if (percent > 0.02) {
                     logger.warn(traject.getId() + " - " + traject.getLengte() + " | " + distance + " | " + percent);
                     logger.debug(urlStaticMaps);
                     logger.debug(url);
@@ -202,7 +202,7 @@ public class GoogleScraper extends TrafficScraper {
                     }
                     urlStaticMaps += "&key=AIzaSyAUdGuaEwMa-gnMK1NbjgnChdwwdMv4WsQ";
                     logger.debug(urlStaticMaps);
-                }
+                }*/
             } catch (InvalidMethodException e) {
                 logger.error(e);
             } catch (IOException e) {

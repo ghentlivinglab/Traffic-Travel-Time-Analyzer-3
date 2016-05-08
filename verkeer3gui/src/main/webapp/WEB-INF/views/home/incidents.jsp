@@ -8,34 +8,40 @@
     <div class="form-filter" method="post">
 
         <form class="form-filter" method="post">
-            <label for="providers">Provider:</label>
-            <select id="providers" name="providers">
-                <option value=""></option>
-                <c:forEach var="trafficIncidentProv" items="${trafficIncidentsProv}">
-                    <option value="<c:out value="${trafficIncidentProv.id}"/>"><c:out
-                            value="${trafficIncidentProv.naam}"/></option>
-                </c:forEach>
-            </select>
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="providers">Provider:</label>
+                    <select id="providers" class="form-control" name="providers">
+                        <option value=""></option>
+                        <c:forEach var="trafficIncidentProv" items="${trafficIncidentsProv}">
+                            <option value="<c:out value="${trafficIncidentProv.id}"/>"><c:out
+                                    value="${trafficIncidentProv.naam}"/></option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="trajecten">Traject:</label>
+                    <select id="trajecten" class="form-control" name="trajecten">
+                        <option value=""></option>
+                        <c:forEach var="trafficIncidentTraj" items="${trafficIncidentsTraj}">
+                            <option value="<c:out value="${trafficIncidentTraj.id}"/>"><c:out
+                                    value="${trafficIncidentTraj.naam}"/></option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="timestamp">Tijdstip tussen start- en eindtijd:</label>
+                    <input type="text" class="form-control" id="timestamp" name="timestamp" value="" placeholder="dd/mm/yyyy hh:mm"/>
+                </div>
 
 
-            <label for="trajecten">Traject:</label>
-            <select id="trajecten" name="trajecten">
-                <option value=""></option>
-                <c:forEach var="trafficIncidentTraj" items="${trafficIncidentsTraj}">
-                    <option value="<c:out value="${trafficIncidentTraj.id}"/>"><c:out
-                            value="${trafficIncidentTraj.naam}"/></option>
-                </c:forEach>
-            </select>
-
-            <label for="startTime">Starttijd:</label>
-            <input type="text" id="startTime" name="startTime" value="" placeholder="dd/mm/yyyy hh:mm"/>
-
-
-            <label for="endTime">Eindtijd:</label>
-            <input type="text" id="endTime" name="endTime" value="" placeholder="dd/mm/yyyy hh:mm"/>
-
-
-            <button type="submit">Filter</button>
+                <div class="col-md-3">
+                    <label for="btnFilter" class="empty">-</label>
+                    <button class="btn btn-primary" id="btnFilter" type="submit">Filter</button>
+                </div>
+            </div>
         </form>
 
 

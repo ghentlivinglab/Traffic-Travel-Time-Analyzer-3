@@ -71,24 +71,22 @@ public class IncidentRepository implements IIncidentRepository {
     /**
      * Geeft een lijst van alle providers terug die trafficincidents gegenereerd hebben tussen bepaalde data
      *
-     * @param startdate
-     * @param enddate
+     * @param timestamp
      * @return
      */
     @Override
-    public List<Provider> getProviders(LocalDateTime startdate, LocalDateTime enddate) {
+    public List<Provider> getProviders(LocalDateTime timestamp) {
         List<Provider> providers = new ArrayList<>();
         ResultSet rs = null;
         try {
             String stringIncident = "SELECT providers.id, providers.naam, providers.is_active FROM providers " +
                     "JOIN trafficincidents on providers.id = trafficincidents.provider_id " +
-                    "WHERE trafficincidents.timestamp BETWEEN ? and ? " +
+                    "WHERE ? BETWEEN trafficincidents.starttime and trafficincidents.endtime " +
                     "GROUP by providers.id";
 
 
             statIncident = connector.getConnection().prepareStatement(stringIncident);
-            statIncident.setTimestamp(1, Timestamp.valueOf(startdate));
-            statIncident.setTimestamp(2, Timestamp.valueOf(enddate));
+            statIncident.setTimestamp(1, Timestamp.valueOf(timestamp));
 
             rs = statIncident.executeQuery();
 
@@ -171,24 +169,22 @@ public class IncidentRepository implements IIncidentRepository {
     /**
      * Geeft een lijst terug van alle trajecten waar er problemen geweest zijn tussen bepaalde data
      *
-     * @param startdate
-     * @param enddate
+     * @param timestamp
      * @return
      */
     @Override
-    public List<Traject> getTrajecten(LocalDateTime startdate, LocalDateTime enddate) {
+    public List<Traject> getTrajecten(LocalDateTime timestamp) {
         List<Traject> trajecten = new ArrayList<>();
         ResultSet rs = null;
         try {
             String stringIncident = "SELECT trajecten.id, trajecten.naam, trajecten.lengte, trajecten.optimale_reistijd, trajecten.is_active, trajecten.start_latitude, trajecten.start_longitude, trajecten.end_latitude, trajecten.end_longitude FROM trajecten" +
                     " JOIN trafficincidents on trajecten.id = trafficincidents.traject_id" +
-                    " WHERE trafficincidents.timestamp BETWEEN ? and ?" +
+                    " WHERE ? BETWEEN trafficincidents.starttime and trafficincidents.starttime" +
                     " GROUP by trajecten.id";
 
 
             statIncident = connector.getConnection().prepareStatement(stringIncident);
-            statIncident.setTimestamp(1, Timestamp.valueOf(startdate));
-            statIncident.setTimestamp(2, Timestamp.valueOf(enddate));
+            statIncident.setTimestamp(1, Timestamp.valueOf(timestamp));
             rs = statIncident.executeQuery();
 
             while (rs.next()) {
@@ -244,7 +240,7 @@ public class IncidentRepository implements IIncidentRepository {
                 int provider_id = rs.getInt("provider_id");
                 int traject_id = rs.getInt("traject_id");
                 LocalDateTime startTime = rs.getTimestamp("starttime").toLocalDateTime();
-                LocalDateTime endTime = rs.getTimestamp("starttime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
                 String problem = rs.getString("problem");
 
                 trafficIncidents.add(new TrafficIncident(id, new ProviderRepository().getProvider(provider_id), new TrajectRepository().getTraject(traject_id), startTime, endTime, problem));
@@ -269,29 +265,27 @@ public class IncidentRepository implements IIncidentRepository {
     /**
      * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data
      *
-     * @param startdate
-     * @param enddate
+     * @param timestamp
      * @return
      */
     @Override
-    public List<TrafficIncident> getTrafficIncidents(LocalDateTime startdate, LocalDateTime enddate) {
+    public List<TrafficIncident> getTrafficIncidents(LocalDateTime timestamp) {
         List<TrafficIncident> trafficIncidents = new ArrayList<>();
         ResultSet rs = null;
         try {
             String stringIncident = "SELECT * FROM trafficincidents " +
-                    "WHERE trafficincidents.timestamp BETWEEN ? and ?";
+                    "WHERE ? BETWEEN starttime and endtime";
 
 
             statIncident = connector.getConnection().prepareStatement(stringIncident);
-            statIncident.setTimestamp(1, Timestamp.valueOf(startdate));
-            statIncident.setTimestamp(2, Timestamp.valueOf(enddate));
+            statIncident.setTimestamp(1, Timestamp.valueOf(timestamp));
             rs = statIncident.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int provider_id = rs.getInt("provider_id");
                 int traject_id = rs.getInt("traject_id");
-                LocalDateTime startTime = rs.getTimestamp("startime").toLocalDateTime();
+                LocalDateTime startTime = rs.getTimestamp("starttime").toLocalDateTime();
                 LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
                 String problem = rs.getString("problem");
 
@@ -318,31 +312,29 @@ public class IncidentRepository implements IIncidentRepository {
     /**
      * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data van een bepaalde provider
      *
-     * @param startdate
-     * @param enddate
+     * @param timestamp
      * @return
      */
     @Override
-    public List<TrafficIncident> getTrafficIncidents(Provider provider, LocalDateTime startdate, LocalDateTime enddate) {
+    public List<TrafficIncident> getTrafficIncidents(Provider provider, LocalDateTime timestamp) {
         List<TrafficIncident> trafficIncidents = new ArrayList<>();
         ResultSet rs = null;
         try {
             String stringIncident = "SELECT * FROM trafficincidents " +
                     "WHERE provider_id = ? " +
-                    "AND trafficincidents.timestamp BETWEEN ? and ?";
+                    "AND ? BETWEEN starttime and endtime";
 
 
             statIncident = connector.getConnection().prepareStatement(stringIncident);
             statIncident.setInt(1, provider.getId());
-            statIncident.setTimestamp(2, Timestamp.valueOf(startdate));
-            statIncident.setTimestamp(3, Timestamp.valueOf(enddate));
+            statIncident.setTimestamp(2, Timestamp.valueOf(timestamp));
             rs = statIncident.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int provider_id = rs.getInt("provider_id");
                 int traject_id = rs.getInt("traject_id");
-                LocalDateTime startTime = rs.getTimestamp("startime").toLocalDateTime();
+                LocalDateTime startTime = rs.getTimestamp("starttime").toLocalDateTime();
                 LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
                 String problem = rs.getString("problem");
 
@@ -366,34 +358,154 @@ public class IncidentRepository implements IIncidentRepository {
 
     }
 
-    /**
-     * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data van een bepaald traject
-     *
-     * @param startdate
-     * @param enddate
-     * @return
-     */
     @Override
-    public List<TrafficIncident> getTrafficIncidents(Traject traject, LocalDateTime startdate, LocalDateTime enddate) {
+    public List<TrafficIncident> getTrafficIncidents(Traject traject) {
         List<TrafficIncident> trafficIncidents = new ArrayList<>();
         ResultSet rs = null;
         try {
             String stringIncident = "SELECT * FROM trafficincidents " +
-                    "WHERE traject_id = ? " +
-                    "AND trafficincidents.timestamp BETWEEN ? and ?";
+                    "WHERE traject_id = ?";
 
 
             statIncident = connector.getConnection().prepareStatement(stringIncident);
             statIncident.setInt(1, traject.getId());
-            statIncident.setTimestamp(2, Timestamp.valueOf(startdate));
-            statIncident.setTimestamp(3, Timestamp.valueOf(enddate));
             rs = statIncident.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int provider_id = rs.getInt("provider_id");
                 int traject_id = rs.getInt("traject_id");
-                LocalDateTime startTime = rs.getTimestamp("startime").toLocalDateTime();
+                LocalDateTime startTime = rs.getTimestamp("starttime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
+                String problem = rs.getString("problem");
+
+                trafficIncidents.add(new TrafficIncident(id, new ProviderRepository().getProvider(provider_id), new TrajectRepository().getTraject(traject_id), startTime, endTime, problem));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                statIncident.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                connector.close();
+            } catch (Exception e) { /* ignored */ }
+
+        }
+        return trafficIncidents;
+    }
+
+    @Override
+    public List<TrafficIncident> getTrafficIncidents(Provider provider, Traject traject) {
+        List<TrafficIncident> trafficIncidents = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            String stringIncident = "SELECT * FROM trafficincidents " +
+                    "WHERE provider_id = ? " +
+                    "AND traject_id = ?";
+
+
+            statIncident = connector.getConnection().prepareStatement(stringIncident);
+            statIncident.setInt(1, provider.getId());
+            statIncident.setInt(2, traject.getId());
+            rs = statIncident.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int provider_id = rs.getInt("provider_id");
+                int traject_id = rs.getInt("traject_id");
+                LocalDateTime startTime = rs.getTimestamp("starttime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
+                String problem = rs.getString("problem");
+
+                trafficIncidents.add(new TrafficIncident(id, new ProviderRepository().getProvider(provider_id), new TrajectRepository().getTraject(traject_id), startTime, endTime, problem));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                statIncident.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                connector.close();
+            } catch (Exception e) { /* ignored */ }
+
+        }
+        return trafficIncidents;
+    }
+
+    @Override
+    public List<TrafficIncident> getTrafficIncidents(Provider provider) {
+        List<TrafficIncident> trafficIncidents = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            String stringIncident = "SELECT * FROM trafficincidents " +
+                    "WHERE provider_id = ?";
+
+
+            statIncident = connector.getConnection().prepareStatement(stringIncident);
+            statIncident.setInt(1, provider.getId());
+            rs = statIncident.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int provider_id = rs.getInt("provider_id");
+                int traject_id = rs.getInt("traject_id");
+                LocalDateTime startTime = rs.getTimestamp("starttime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
+                String problem = rs.getString("problem");
+
+                trafficIncidents.add(new TrafficIncident(id, new ProviderRepository().getProvider(provider_id), new TrajectRepository().getTraject(traject_id), startTime, endTime, problem));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                statIncident.close();
+            } catch (Exception e) { /* ignored */ }
+            try {
+                connector.close();
+            } catch (Exception e) { /* ignored */ }
+
+        }
+        return trafficIncidents;
+    }
+
+    /**
+     * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data van een bepaald traject
+     *
+     * @param timestamp
+     * @return
+     */
+    @Override
+    public List<TrafficIncident> getTrafficIncidents(Traject traject, LocalDateTime timestamp) {
+        List<TrafficIncident> trafficIncidents = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            String stringIncident = "SELECT * FROM trafficincidents " +
+                    "WHERE traject_id = ? " +
+                    "AND ? BETWEEN starttime and endtime";
+
+
+            statIncident = connector.getConnection().prepareStatement(stringIncident);
+            statIncident.setInt(1, traject.getId());
+            statIncident.setTimestamp(2, Timestamp.valueOf(timestamp));
+            rs = statIncident.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int provider_id = rs.getInt("provider_id");
+                int traject_id = rs.getInt("traject_id");
+                LocalDateTime startTime = rs.getTimestamp("starttime").toLocalDateTime();
                 LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
                 String problem = rs.getString("problem");
 
@@ -421,33 +533,31 @@ public class IncidentRepository implements IIncidentRepository {
     /**
      * Geeft een lijst terug van alle trafficincidenten tussen bepaalde data van een bepaalde provider van een bepaald traject
      *
-     * @param startdate
-     * @param enddate
+     * @param timestamp
      * @return
      */
     @Override
-    public List<TrafficIncident> getTrafficIncidents(Provider provider, Traject traject, LocalDateTime startdate, LocalDateTime enddate) {
+    public List<TrafficIncident> getTrafficIncidents(Provider provider, Traject traject, LocalDateTime timestamp) {
         List<TrafficIncident> trafficIncidents = new ArrayList<>();
         ResultSet rs = null;
         try {
             String stringIncident = "SELECT * FROM trafficincidents " +
                     "WHERE provider_id = ? " +
                     "AND traject_id = ? " +
-                    "AND trafficincidents.timestamp BETWEEN ? and ?";
+                    "AND ? BETWEEN starttime and endtime";
 
 
             statIncident = connector.getConnection().prepareStatement(stringIncident);
             statIncident.setInt(1, provider.getId());
             statIncident.setInt(2, traject.getId());
-            statIncident.setTimestamp(3, Timestamp.valueOf(startdate));
-            statIncident.setTimestamp(4, Timestamp.valueOf(enddate));
+            statIncident.setTimestamp(3, Timestamp.valueOf(timestamp));
             rs = statIncident.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int provider_id = rs.getInt("provider_id");
                 int traject_id = rs.getInt("traject_id");
-                LocalDateTime startTime = rs.getTimestamp("startime").toLocalDateTime();
+                LocalDateTime startTime = rs.getTimestamp("starttime").toLocalDateTime();
                 LocalDateTime endTime = rs.getTimestamp("endtime").toLocalDateTime();
                 String problem = rs.getString("problem");
 

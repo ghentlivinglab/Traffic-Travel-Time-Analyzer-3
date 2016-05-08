@@ -20,7 +20,7 @@ public class JsonControllerContextListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         ServletContext context = servletContextEvent.getServletContext();
         ScheduleController controller = (ScheduleController) context.getContext("scraperScheduler");
-        if(controller != null && controller.isStarted())
+        if(controller != null)
             controller.stop();
     }
 }

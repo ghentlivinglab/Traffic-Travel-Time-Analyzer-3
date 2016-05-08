@@ -4,7 +4,10 @@ import be.ugent.tiwi.dal.DatabaseController;
 import be.ugent.tiwi.domein.Meting;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
-import be.ugent.tiwi.scraper.*;
+import be.ugent.tiwi.scraper.BingScraper;
+import be.ugent.tiwi.scraper.GoogleScraper;
+import be.ugent.tiwi.scraper.HereScraper;
+import be.ugent.tiwi.scraper.TomTomScraper;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.logging.log4j.LogManager;
@@ -22,10 +25,10 @@ import java.util.Map;
 public class OptimaleReistijdGenerator {
     private static final Logger logger = LogManager.getLogger(OptimaleReistijdGenerator.class);
 
-    public static void main(String args[]){
+
+    public void updateOptimaleReistijden(boolean replaceValues){
         logger.info("We halen voor ieder traject, per provider, een meting op.");
         logger.info("We zullen de tabel optimale_reistijden opvullen met deze metingen.");
-        logger.info("Draai dit programma dus enkel wanneer er vrijwel geen verkeer op de autoweg is.");
 
         Injector injector = Guice.createInjector(new RepositoryModule());
         DatabaseController dbController = injector.getInstance(DatabaseController.class);
@@ -67,10 +70,15 @@ public class OptimaleReistijdGenerator {
                 for(Meting meting : m) {
                     Integer i = meting.getReistijd();
                     if (i != null) {
-                        reistijdenPerTraject.put(meting.getTraject().getId(), i);
-                        ++count;
+                        if(replaceValues || meting.getTraject().getOptimaleReistijden().get(provider.getId()) > i) {
+                            reistijdenPerTraject.put(meting.getTraject().getId(), i);
+                            ++count;
+                        }else
+                            logger.warn("Provider " + provider.getId() + ", traject " + meting.getTraject().getId() + ":" +
+                                    " oude reistijd (" + meting.getTraject().getOptimaleReistijden().get(provider.getId()) + ")" +
+                                    " < nieuwe reistijd (" + i + ")");
                     } else
-                        logger.warn("Provider " + provider.getId() + ", traject " + meting.getTraject().getId() + ": optimale_reistijd = null");
+                        logger.warn("Provider " + provider.getId() + ", traject " + meting.getTraject().getId() + ": reistijd kon niet gescraped worden");
                 }
                 dbController.setOptimaleReistijdenPerProvider(provider.getId(), reistijdenPerTraject);
 

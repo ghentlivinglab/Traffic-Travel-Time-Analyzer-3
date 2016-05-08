@@ -411,3 +411,39 @@ div#timepickers.right {
 table.table > thead th:first-child, table.table > thead th:last-child {
     width: 100px;
 }
+
+.server-input-group{
+    margin: 5px;
+}
+
+.server-input-group > *{
+    margin: 10px;
+}
+.switch-label{
+    margin-top: 20px;
+}
+
+.server-input-group > .right, .server-input-group > div {
+    float: right;
+}
+
+.admin-nav-tabs{
+    margin-bottom: 10px !important;
+}
+
+#scraperAlert{
+    position:fixed;
+    top: -150px;
+    left: 50%;
+    margin-left: -400px;
+    width: 800px;
+    text-align:center;
+}
+
+#btnFilter{
+    display:block;
+}
+
+.empty{
+    visibility:hidden;
+}

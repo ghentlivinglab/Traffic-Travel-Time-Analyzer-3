@@ -8,6 +8,8 @@ import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Vertraging;
 import be.ugent.tiwi.domein.json.TrajectenAttributes;
+import be.ugent.tiwi.generators.OptimaleReistijdGenerator;
+import be.ugent.tiwi.generators.WaypointsGenerator;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -121,6 +123,37 @@ public class JsonController {
             }
         else
             scheduler.stop();
+        return new Gson().toJson(scheduler.isStarted());
+    }
+    @RequestMapping(value = "/admin/updateoptimaltraveltimes", method = RequestMethod.GET)
+    public @ResponseBody
+    String updateOptimalTravelTimes(@RequestParam(value="replace") boolean replace, ModelMap model)
+    {
+        ScheduleController scheduler = (ScheduleController) context.getAttribute("scraperScheduler");
+        scheduler.addTask(new Runnable(){
+
+            @Override
+            public void run() {
+                OptimaleReistijdGenerator g = new OptimaleReistijdGenerator();
+                g.updateOptimaleReistijden(replace);
+            }
+        });
+        return new Gson().toJson(scheduler.isStarted());
+    }
+
+    @RequestMapping(value = "/admin/gettrajects", method = RequestMethod.GET)
+    public @ResponseBody
+    String getTrajectsAndWaypoints(ModelMap model)
+    {
+        ScheduleController scheduler = (ScheduleController) context.getAttribute("scraperScheduler");
+        scheduler.addTask(new Runnable(){
+
+            @Override
+            public void run() {
+                WaypointsGenerator g = new WaypointsGenerator();
+                g.generate();
+            }
+        });
         return new Gson().toJson(scheduler.isStarted());
     }
 }

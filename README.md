@@ -9,12 +9,16 @@ wachtwoord: dKkvn0DuP5
 ###Installatie project op geconfigureerde omgeving
 Het project vereis een linux distributie met daarop glassfish en mariadb of MySQL geconfigureerd. Voor detail omtrend het opzetten hiervan wordt verwezen naar de uitgebreidde installatiehandleiding in het projectdossier. Hier wordt enkel de installatie en configuratie van het verkeersplatform zelf behandeld.
 
-1. Configuratie van de databank
-    1. In deployment staat een querry di
-    2. test 2
-2. Installatie van de webapplicatie
-3. 
+Alle bestanden die nodig zijn voor configuratie zitten in de map deployment. Het script dat in deze map aanwezig is kan ook gebruikt worden om deze bestanden op de server binnen te halen.
 
+1. Configuratie van de databank
+    1. Het bestand *"Volledige database.sql"* bevat de querry om de databank op te bouwen en aan te vullen. Er is een versie die compatibel is met MySQL en een versie voor MariaDB. Deze querry kan op de geprefereerde manier uitgevoerd worden (terminal of gui zoals  MySQL workbench.
+2. Installatie van de webapplicatie
+    1. De webapp kan geïnstalleerd worden door middel van het *"deployment.sh"* script. Op de server kan het commando *"bash deploymentsh [GIT\_USERNAME] [GIT\_WACHTWOORD]"* uitgevoerd worden op de laatste versie op te halen in te deployen om glassfish.
+    2. Het script zal vervolgens om de gebruikersnaam en wachtwoord van de glassfish admin in te geven.
+    2. Bij de eerste installatie kan het script *"eerste deployment.sh"* analoog gebruikt worden.
+    3. Handmatig kan het bestand *"verkeer3gui.war"* ook op een persoonlijk geprefereerde manier geïnstalleerd worden.
+    4. 
 ###Groepsleden
 
 - De Bock Jelle

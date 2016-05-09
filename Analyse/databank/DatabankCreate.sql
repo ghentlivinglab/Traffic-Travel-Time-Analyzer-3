@@ -8,7 +8,7 @@ SET time_zone = "+00:00";
 
 
 CREATE TABLE IF NOT EXISTS `metingen` (
-  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `reistijd` int(11) DEFAULT NULL,
   `traject_id` int(11) NOT NULL DEFAULT '0',
   `provider_id` int(11) NOT NULL
@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS `trafficincidents` (
 `id` int(11) NOT NULL,
   `provider_id` int(11) NOT NULL,
   `traject_id` int(11) NOT NULL,
-  `starttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `endtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `starttime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `endtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `problem` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 

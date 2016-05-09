@@ -1,12 +1,30 @@
-#Projectgroep 3 VOP : verkeer project repository
-###Productieomgeving
+# Projectgroep 3 VOP : verkeer project repository
+## Productieomgeving
+
+
 http://verkeer-3.vop.tiwi.be/verkeer3gui/
 
-username: root
+- User: root
+- Pass: dKkvn0DuP5
+- Om het admin-paneel te gebruiken:
+ - User: simon
+ - Pass: simon
 
-wachtwoord: dKkvn0DuP5
+---
 
-###Installatie project op geconfigureerde omgeving
+MySQL (MariaDB):
+
+- User: root
+- Pass: root
+
+---
+
+Glassfish Admin panel:
+
+- User: admin
+- Pass: admin
+
+##Installatie project op geconfigureerde omgeving
 Het project vereist een linux distributie met daarop glassfish en mariadb of MySQL geconfigureerd. Voor detail omtrend het opzetten hiervan wordt verwezen naar de uitgebreidde installatiehandleiding in het projectdossier. Hier wordt enkel de installatie en configuratie van het verkeersplatform zelf behandeld.
 
 Alle bestanden die nodig zijn voor configuratie zitten in de map deployment. Het script dat in deze map aanwezig is kan ook gebruikt worden om deze bestanden op de server binnen te halen. Alternatief kan het commando *"svn export https://github.ugent.be/iii-vop2016/verkeer-3/trunk/deployment --force --username [GIT\_USERNAME] --password [GIT\_WACHTWOORD]"* gebruikt worden om op de huidige locatie de folder deployment met de nodige bestanden te downloaden. Hiervoor is subversion nodig. 
@@ -30,7 +48,7 @@ Alle bestanden die nodig zijn voor configuratie zitten in de map deployment. Het
 - Vandemoortele Simon 
 - Vervenne Jan
 
-### Wegwijs in deze repository
+## Wegwijs in deze repository
 Deze repository bestaat uit 3 grote delen:
 * **Analyse** 
 In dit gedeelte vindt u alle analyse gerelateerde informatie. De map bevat steeds de laatste versie van het projectdossier. Een ander belangrijk onderdeel van dit gedeelte vindt u onder de submap databank. Hierin worden immers de laatste versies van de databankstructuur en de initiële populatiescripts bewaard. In deze map vindt u ook een Mysql Workbench File (.mwb). In dit programma werd namelijk het ontwerp van de databank uitgetekend. 
@@ -42,10 +60,10 @@ In dit gedeelte vindt u de source code van wat men nog het best als de "backend"
 
 Ook nog interessant: het project is een Maven Java project. Dit wil vooral zeggen dat dependencies (externe klasses waarop onze code beroep doet) automatisch opgehaald en toegevoegd aan het project worden. Tot slot worden applicatie instellingen bewaard in een apart .config bestand, zodat ook de backend zeer draagbaar wordt.
 
-* **De webapplicatie** (TODO)
+* **De webapplicatie**
 Je bent helemaal nergens met een backend als je geen frontend hebt. De webapplicatie is waarschijnlijk een opstap naar meer geavanceerde toepassingen. De webapplicatie dient vooral om te tonen wat er mogelijk is met de huidige backend. Het bied (voorlopig) de basisfunctionaliteit. Het geeft een visueel inzicht in de data die op dat moment in onze databank bevindt. Het project zelf is een Spring project waarin dependencies ook door Maven beheerd worden. Doordat voor Spring gekozen werd is de webapplicatie dus ook nog vlot uitbreidbaar of wijzigbaar.
 
 
-###Opdrachtomschrijving
+##Opdrachtomschrijving
 Het Mobiliteitsbedrijf van de stad gent is sinds 2014 bezig met het opzetten van een regionaal verkeerscentrum. Het is de bedoeling dat op termijn het verkeer in de regio constant gemonitord wordt, op semi-automatische basis op normale werkdagen en bemand tijdens piekmomenten en evenementen. Tijdens de week is het de bedoeling dat onverwachte incidenten, calamiteiten of significante verhogingen van de reistijden automatisch gesignaleerd worden aan de verantwoordelijke, die dan de nodige acties kan ondernemen. De gegevens zouden ook constant beschikbaar zijn voor het publiek via een website, sociale media en open data. Op die manier kunnen mensen de beste route en het beste moment kiezen om hun verplaatsingen te maken in de regio.
 Momenteel loopt al een proefproject via het platform van de Gentse Start-up Waylay. Gegevens worden automatisch verwerkt, tweets en sms’en worden uitgestuurd als er relevante informatie beschikbaar is voor de weggebruiker in en rond Gent. Het proefproject kan geraadpleegd worden op https://twitter.com/VerkeerGentB en www.verkeer.gent 

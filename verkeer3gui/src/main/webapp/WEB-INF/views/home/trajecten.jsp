@@ -96,7 +96,7 @@
                             </td>
                         </c:when>
                         <c:otherwise>
-                            <td class="rotatedtd empty"></td>
+                            <td class="rotatedtd tdempty"></td>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
@@ -120,7 +120,7 @@
                             </td>
                         </c:when>
                         <c:otherwise>
-                            <td class="rotatedtd empty"></td>
+                            <td class="rotatedtd tdempty"></td>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>

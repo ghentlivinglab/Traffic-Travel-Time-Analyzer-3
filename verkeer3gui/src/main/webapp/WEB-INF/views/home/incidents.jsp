@@ -64,7 +64,7 @@
                     <td><c:out value="${trafficIncident.id}"/></td>
                     <td><c:out value="${trafficIncident.provider.naam}"/></td>
                     <td>
-                        <a class="view-traject-onmap" data-toggle="modal" data-target="#mapModal"><c:out
+                        <a class="view-traject-onmap" data-toggle="modal" data-target="#mapModal" data-id="<c:out value="${trafficIncident.traject.id}"/>"><c:out
                                 value="${trafficIncident.traject.naam}"/>
                         </a>
                     </td>
@@ -73,15 +73,8 @@
                         <fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy HH:mm"/>
                     </td>
                     <td>
-                        <c:choose>
-                            <c:when test="${trafficIncident.endTime lt LocalDateTime.now().minusMinutes(10)}">
-                                <fmt:parseDate value="${trafficIncident.endTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both"/>
-                                <fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy HH:mm"/>
-                            </c:when>
-                            <c:otherwise>
-                                <fmt:formatDate value="${now}" pattern="dd/MM/yyyy HH:mm"/>
-                            </c:otherwise>
-                        </c:choose>
+                        <fmt:parseDate value="${trafficIncident.endTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both"/>
+                        <fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy HH:mm"/>
                     </td>
                     <td><c:out value="${trafficIncident.problem}"/></td>
                 </tr>
@@ -122,4 +115,5 @@
         <link href="<c:url value="/resources/bootstrap-table/bootstrap-table.css"/>" rel="stylesheet" type="text/css"/>
         <script src="<c:url value="/resources/js/jquery.floatThead.js"/>"></script>
         <script src="<c:url value="/resources/js/incidents.js"/>"></script>
+        <script src="<c:url value="/resources/js/trajecten.js"/>"></script>
         <jsp:include page="/WEB-INF/views/partial/footer.jsp"/>

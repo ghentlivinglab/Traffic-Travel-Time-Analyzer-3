@@ -5,15 +5,15 @@
 
     <h1>Welkom op de Mobiliteitspagina van de stad Gent</h1>
 
+    <ul class="nav nav-tabs">
+        <li role="presentation" <c:if test="${provider==-1}"><c:out value="class=active"/></c:if>><a href="<c:url value="/"/>">Alle providers</a></li>
+        <c:forEach items="${providers}" var="providerobj">
+            <li role="presentation" <c:if test="${providerobj.id == provider}"><c:out value="class=active"/></c:if>><a href="?provider=<c:out value="${providerobj.id}"/>"><c:out value="${providerobj.naam}"/></a></li>
+        </c:forEach>
+    </ul>
+    <h2>Actueel overzicht (de laatste <c:out value="${stat_min}"/> minuten)</h2>
     <c:choose>
         <c:when test="${exceptie == null || exceptie.length()==0}">
-            <ul class="nav nav-tabs">
-                <li role="presentation" <c:if test="${provider==-1}"><c:out value="class=active"/></c:if>><a href="<c:url value="/"/>">Alle providers</a></li>
-                <c:forEach items="${providers}" var="providerobj">
-                    <li role="presentation" <c:if test="${providerobj.id == provider}"><c:out value="class=active"/></c:if>><a href="?provider=<c:out value="${providerobj.id}"/>"><c:out value="${providerobj.naam}"/></a></li>
-                </c:forEach>
-            </ul>
-            <h2>Actueel overzicht (het afgelopen uur)</h2>
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-<c:out value="${vertraging_min*60 + vertraging_sec < 30 ? 'green': vertraging_min*60 + vertraging_sec < 120 ? 'red' : 'red'}"/>">
@@ -70,11 +70,12 @@
         <c:otherwise>
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Oeps...</h3>
+                    <h3 class="panel-title">Er is een fout opgetreden</h3>
                 </div>
                 <div class="panel-body">
-                    Er ging iets fout bij het ophalen van de data... Contacteer de beheerders van deze website voor meer info.
-                    <div class="well"><c:out value="${exceptie}"/></div>
+                    Er ging iets fout bij het ophalen van de data van deze provider: <hr>
+                    <c:out value="${exceptie}" escapeXml="false"/>
+                    <hr>
                 </div>
             </div>
         </c:otherwise>

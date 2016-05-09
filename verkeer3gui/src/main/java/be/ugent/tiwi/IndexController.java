@@ -6,6 +6,8 @@ import be.ugent.tiwi.dal.TrajectRepository;
 import be.ugent.tiwi.domein.Provider;
 import be.ugent.tiwi.domein.Traject;
 import be.ugent.tiwi.domein.Vertraging;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,14 +25,15 @@ import java.util.Map;
 public class IndexController {
     private static int counter = 0;
     private static final String VIEW_INDEX = "home/index";
+    private static final Logger logger = LogManager.getLogger(IndexController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
 
     public String index(ModelMap model,@RequestParam(value = "provider", defaultValue = "-1") int provider) {
         //Config.properties file in jetty home zetten voor testing...
+        List<Provider> providers = new ProviderRepository().getActieveProviders();
         try {
             MetingRepository mcrud = new MetingRepository();
-            List<Provider> providers = new ProviderRepository().getActieveProviders();
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime startTime = LocalDateTime.now().minusMinutes(Long.parseLong(Settings.getSetting("stat_minutes")));
             Provider providerobj = new ProviderRepository().getProvider(provider);
@@ -46,15 +49,16 @@ public class IndexController {
             String drukste_punt = drukste_traject.getNaam();
             int minuten = (int) vertraging / 60;
             model.addAttribute("vertraging", vertraging > 0 ? true : false);
-            model.addAttribute("providers",providers);
             model.addAttribute("provider",provider);
             model.addAttribute("vertraging_min", minuten);
             model.addAttribute("vertraging_sec", (int) (vertraging - (minuten * 60)));
             model.addAttribute("drukste_punt", drukste_punt);
             model.addAttribute("drukste_punt_id", drukste_traject.getId());
         }catch(Exception e){
-          model.addAttribute("exceptie","Fout bij het ophalen van de gemiddeldes.");
+          model.addAttribute("exceptie","Fout bij het ophalen van de gemiddeldes. <ul><li>Staat de scraper server wel aan?</li><li>Zijn de API-keys nog allemaal geldig?</li></ul>");
         }
+        model.addAttribute("providers",providers);
+        model.addAttribute("stat_min", Settings.getSetting("stat_minutes"));
 
 
         // Spring uses InternalResourceViewResolver and return back index.jsp

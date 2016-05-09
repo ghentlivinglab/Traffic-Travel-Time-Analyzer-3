@@ -9,7 +9,7 @@ wachtwoord: dKkvn0DuP5
 ###Installatie project op geconfigureerde omgeving
 Het project vereis een linux distributie met daarop glassfish en mariadb of MySQL geconfigureerd. Voor detail omtrend het opzetten hiervan wordt verwezen naar de uitgebreidde installatiehandleiding in het projectdossier. Hier wordt enkel de installatie en configuratie van het verkeersplatform zelf behandeld.
 
-Alle bestanden die nodig zijn voor configuratie zitten in de map deployment. Het script dat in deze map aanwezig is kan ook gebruikt worden om deze bestanden op de server binnen te halen.
+Alle bestanden die nodig zijn voor configuratie zitten in de map deployment. Het script dat in deze map aanwezig is kan ook gebruikt worden om deze bestanden op de server binnen te halen. Alternatief kan het commando *"svn export https://github.ugent.be/iii-vop2016/verkeer-3/trunk/deployment --force --username [GIT\_USERNAME] --password [GIT\_WACHTWOORD]"* gebruikt worden om op de huidige locatie de folder deployment met de nodige bestanden te downloaden. Hiervoor is subversion nodig. 
 
 1. Configuratie van de databank
     1. Het bestand *"Volledige database.sql"* bevat de querry om de databank op te bouwen en aan te vullen. Er is een versie die compatibel is met MySQL en een versie voor MariaDB. Deze querry kan op de geprefereerde manier uitgevoerd worden (terminal of gui zoals  MySQL workbench.

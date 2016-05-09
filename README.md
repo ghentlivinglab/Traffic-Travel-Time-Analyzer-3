@@ -14,7 +14,7 @@ Alle bestanden die nodig zijn voor configuratie zitten in de map deployment. Het
 1. Configuratie van de databank
     1. Het bestand *"Volledige database.sql"* bevat de querry om de databank op te bouwen en aan te vullen. Er is een versie die compatibel is met MySQL en een versie voor MariaDB. Deze querry kan op de geprefereerde manier uitgevoerd worden (terminal of gui zoals  MySQL workbench.
 2. Installatie van de webapplicatie
-    1. De webapp kan geïnstalleerd worden door middel van het *"deployment.sh"* script. Op de server kan het commando *"bash deploymentsh [GIT\_USERNAME] [GIT\_WACHTWOORD]"* uitgevoerd worden op de laatste versie op te halen en te deployen op glassfish.
+    1. De webapp kan geïnstalleerd worden door middel van het *"deployment.sh"* script. Op de server kan het commando *"bash deployment.sh [GIT\_USERNAME] [GIT\_WACHTWOORD]"* uitgevoerd worden op de laatste versie op te halen en te deployen op glassfish. (op de productieomgeving is dit script te vinden onder de root home directory  /verkeerscentrum/repo/deployment/)
     2. Het script zal vervolgens om de gebruikersnaam en wachtwoord van de glassfish admin in te geven.
     2. Bij de eerste installatie kan het script *"eerste deployment.sh"* analoog gebruikt worden.
     3. Handmatig kan het bestand *"verkeer3gui.war"* ook op een persoonlijk geprefereerde manier geïnstalleerd worden.

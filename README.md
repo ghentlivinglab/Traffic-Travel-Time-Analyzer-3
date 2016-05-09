@@ -7,8 +7,8 @@ http://verkeer-3.vop.tiwi.be/verkeer3gui/
 - User: root
 - Pass: dKkvn0DuP5
 - Om het admin-paneel te gebruiken:
- - User: simon
- - Pass: simon
+ - User: root
+ - Pass: root
 
 ---
 

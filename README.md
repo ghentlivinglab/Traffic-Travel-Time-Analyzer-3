@@ -18,6 +18,8 @@ Alle bestanden die nodig zijn voor configuratie zitten in de map deployment. Het
     2. Het script zal vervolgens om de gebruikersnaam en wachtwoord van de glassfish admin in te geven.
     2. Bij de eerste installatie kan het script *"eerste deployment.sh"* analoog gebruikt worden.
     3. Handmatig kan het bestand *"verkeer3gui.war"* ook op een persoonlijk geprefereerde manier geïnstalleerd worden.
+3. Configuratie van de properties
+    1. Het script haalt een config.properties file op van de remote repository en kopieert deze naar een locatie om gebruikt te worden binnen glassfish *"/opt/glassfish4/glassfish/domains/domain1/config/config.properties "*. In dit bestand kunnen gegevens zoals de url van de databank, wachtwoord en gebruikernaam en API keys aangepast worden indien nodig.
 
 
 ###Groepsleden

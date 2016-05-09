@@ -5,6 +5,16 @@ http://verkeer-3.vop.tiwi.be/verkeer3gui/
 username: root
 
 wachtwoord: dKkvn0DuP5
+
+###Installatie project op geconfigureerde omgeving
+Het project vereis een linux distributie met daarop glassfish en mariadb of MySQL geconfigureerd. Voor detail omtrend het opzetten hiervan wordt verwezen naar de uitgebreidde installatiehandleiding in het projectdossier. Hier wordt enkel de installatie en configuratie van het verkeersplatform zelf behandeld.
+
+1. Configuratie van de databank
+    1. In deployment staat een querry di
+    2. test 2
+2. Installatie van de webapplicatie
+3. 
+
 ###Groepsleden
 
 - De Bock Jelle

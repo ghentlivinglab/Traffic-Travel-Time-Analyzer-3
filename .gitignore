@@ -6,5 +6,6 @@ target/
 *.class
 code/classes/
 verkeer3gui/module_verkeer3gui.xml
+!deployment/
 *.properties
 verkeer3gui/verkeer3gui.xml

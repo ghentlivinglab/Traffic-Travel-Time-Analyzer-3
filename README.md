@@ -18,7 +18,8 @@ Alle bestanden die nodig zijn voor configuratie zitten in de map deployment. Het
     2. Het script zal vervolgens om de gebruikersnaam en wachtwoord van de glassfish admin in te geven.
     2. Bij de eerste installatie kan het script *"eerste deployment.sh"* analoog gebruikt worden.
     3. Handmatig kan het bestand *"verkeer3gui.war"* ook op een persoonlijk geprefereerde manier geïnstalleerd worden.
-    4. 
+
+
 ###Groepsleden
 
 - De Bock Jelle

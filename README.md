@@ -22,7 +22,7 @@ MySQL (MariaDB):
 Glassfish Admin panel:
 
 - User: admin
-- Pass: admin
+- Pass: dKkvn0DuP5
 
 ##Installatie project op geconfigureerde omgeving
 Het project vereist een linux distributie met daarop glassfish en mariadb of MySQL geconfigureerd. Voor detail omtrend het opzetten hiervan wordt verwezen naar de uitgebreidde installatiehandleiding in het projectdossier. Hier wordt enkel de installatie en configuratie van het verkeersplatform zelf behandeld.
